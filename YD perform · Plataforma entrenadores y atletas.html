@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>YD perform</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--panel:#1a1718;--line:#2c2729;--cream:#f5f1ea;--paper:#ece7df;--ink:#161214;--gold:#dcc8a4;--wine:#8b1f31;--wine-d:#6e1625;--muted:#9a9189;--ok:#7fcf9a;--warn:#f0b86b;
+--serif:"Instrument Serif","Times New Roman",serif;--sans:"Inter Tight",system-ui,-apple-system,sans-serif;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--cream);font:400 16px/1.5 var(--sans)}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px 60px}.hide{display:none!important}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:24px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:26px;letter-spacing:-.02em}.logo i{font:italic 400 32px var(--serif);color:var(--gold);margin-left:4px}
+.nav{display:flex;gap:8px;align-items:center}.steps{display:flex;gap:6px;font-size:13px;color:var(--muted)}.steps span{padding:4px 10px;border:1px solid var(--line);border-radius:99px}.steps .on{color:var(--ink);background:var(--gold);border-color:var(--gold);font-weight:700}
+h1{margin:0 0 6px;font-weight:800;font-size:clamp(34px,8vw,58px);line-height:1;letter-spacing:-.03em;text-transform:uppercase}
+h1 em{display:block;font:italic 400 .85em/1.05 var(--serif);color:var(--gold);text-transform:none;letter-spacing:0}
+.lead{color:#cfc7bd;max-width:52ch;margin:12px 0 24px}.sub{font-size:14px;color:var(--muted)}
+.card{background:var(--paper);color:var(--ink);border-top:4px solid var(--wine);border-radius:16px;padding:22px 20px;margin-bottom:18px}
+.card h2,.bar h2,dialog h2{font:italic 400 30px/1.1 var(--serif);margin:0 0 4px}.hint{margin:0 0 16px;color:#6b635c;font-size:14px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr 1fr}.full{grid-column:1/-1}
+label{display:block;font-weight:700;font-size:14px;margin-bottom:5px}
+input,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid #cfc8bf;border-radius:10px;padding:12px 13px;min-height:48px}
+:focus-visible{outline:3px solid var(--wine);outline-offset:2px}
+input[aria-invalid=true]{border-color:#b3261e;background:#fff6f5}.err{display:none;color:#b3261e;font-size:13px;margin-top:4px}input[aria-invalid=true]+.err,.err.on{display:block}
+.btn{min-height:50px;border:0;border-radius:12px;background:var(--wine);color:#fff;font:700 16px var(--sans);padding:0 22px;cursor:pointer}.btn:hover{background:var(--wine-d)}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--line);min-height:38px;font-size:14px;padding:0 14px}.btn.ghost:hover{background:var(--panel)}
+.card .btn.ghost,dialog .btn.ghost{color:var(--wine);border-color:#cfc8bf}.btn.block{width:100%}.row{display:flex;gap:10px;margin-top:18px}.row .btn:last-child{flex:1}
+.roles{display:grid;gap:14px;grid-template-columns:1fr 1fr}.role{text-align:left;background:var(--panel);color:var(--cream);border:1px solid var(--line);border-top:4px solid var(--wine);border-radius:16px;padding:24px 20px;cursor:pointer;font:inherit}
+.role:hover{border-color:var(--gold)}.role b{display:block;font:italic 400 34px/1.1 var(--serif);color:var(--gold);margin-bottom:6px}.role span{color:#cfc7bd;font-size:15px}
+.note{background:#fff;border:1.5px dashed #cfc8bf;border-radius:10px;padding:12px 14px;margin:14px 0 0;font-size:14px}.note b{color:var(--wine)}
+.stats{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin:20px 0 8px}
+.stat{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--wine);border-radius:12px;padding:14px}.stat b{display:block;font:400 34px/1 var(--serif);color:var(--gold)}.stat span{font-size:13px;color:var(--muted)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:22px 0 12px}.bar h2{margin:0;color:var(--cream)}
+.list{display:grid;gap:10px;margin-bottom:26px}.ath{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;flex-wrap:wrap}
+.av{flex:none;width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-weight:800}
+.ath .i{flex:1;min-width:140px}.ath .n{font-weight:700}.ath .s{font-size:14px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;border:1px solid}.tag.ok{color:var(--ok)}.tag.warn{color:var(--warn)}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:26px;text-align:center;color:var(--muted)}
+.hero{background:linear-gradient(90deg,#1a1718,#0d0d0d);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:16px;padding:26px 22px;margin-bottom:16px}
+.hero small{letter-spacing:.3em;color:var(--gold);font-size:12px}.cal{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:16px;padding:18px;margin-bottom:16px}
+.cal h3{margin:0 0 10px;font-size:15px;letter-spacing:.04em;text-transform:uppercase}.days{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:4px 0}
+.days .h{color:var(--gold);font-size:13px;font-weight:700}.d{padding:6px 0;border-radius:10px;font-size:15px;min-height:46px}.d.t{background:var(--gold);color:var(--ink)}
+.dot{display:block;width:7px;height:7px;border:1.5px solid currentColor;border-radius:50%;margin:3px auto 0}.dot.f{background:currentColor}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.tabs button{min-height:48px;border:0;border-top:3px solid var(--wine);border-radius:10px;background:var(--paper);color:var(--ink);font:800 13px var(--sans);letter-spacing:.03em;cursor:pointer;text-transform:uppercase}
+.tabs button[aria-pressed=true]{background:var(--gold)}
+.chat{max-height:260px;overflow:auto;margin-bottom:10px}.m{max-width:80%;padding:8px 12px;border-radius:12px;margin:6px 0;background:#fff;font-size:15px}.m.me{margin-left:auto;background:var(--wine);color:#fff}
+.en{display:flex;gap:6px}.en button{flex:1;min-height:48px;border:1.5px solid #cfc8bf;border-radius:10px;background:#fff;font:700 16px var(--sans);cursor:pointer}.en button[aria-pressed=true]{background:var(--wine);color:#fff;border-color:var(--wine)}
+dialog{background:var(--paper);color:var(--ink);border:0;border-top:4px solid var(--wine);border-radius:16px;padding:22px;width:min(560px,92vw)}dialog::backdrop{background:#000a}
+@media(max-width:600px){.grid,.roles{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.steps{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><span class="logo">YD<i>perform</i></span>
+ <div class="steps hide" id="steps"><span data-s="registro">1 Tus datos</span><span data-s="empresa">2 Empresa y cobros</span><span data-s="panel">3 Panel</span></div>
+ <div class="nav"><button class="btn ghost hide" id="sw">Cambiar perfil</button><button class="btn ghost hide" id="out">Cerrar sesión</button></div></header>
+
+<section id="elegir" class="hide">
+ <h1>Bienvenido<em>¿cómo entras?</em></h1>
+ <p class="lead">Elige tu perfil. Lo recordaremos: la próxima vez irás directo a iniciar sesión.</p>
+ <div class="roles"><button class="role" data-r="coach"><b>Soy entrenador</b><span>Gestiona a tus atletas y cobra por tu coaching.</span></button>
+ <button class="role" data-r="atleta"><b>Soy atleta</b><span>Entrena, revisa tu estado y habla con tu entrenador.</span></button></div>
+ <p class="sub" style="margin-top:26px"><button class="btn ghost" id="wipe">Borrar datos de la demo</button></p>
+</section>
+
+<section id="login" class="hide">
+ <h1 id="lt">Inicia sesión<em id="ls"></em></h1><p class="lead" id="ll"></p>
+ <form class="card" id="fl" novalidate>
+  <div class="grid"><div class="full"><label for="lemail">Correo electrónico</label><input id="lemail" type="email" autocomplete="email"><div class="err">Escribe un correo válido.</div></div>
+  <div class="full"><label for="lpass">Contraseña</label><input id="lpass" type="password" autocomplete="current-password"><div class="err">Escribe tu contraseña.</div></div></div>
+  <div class="err" id="lerr" style="margin-top:10px"></div><p class="hint" id="lhint" style="margin:12px 0 0"></p>
+  <div class="row"><button class="btn block" type="submit">Entrar</button></div>
+ </form>
+</section>
+
+<section id="registro" class="hide">
+ <h1>Crea tu cuenta<em>de entrenador</em></h1><p class="lead">Cuéntanos quién eres. En el siguiente paso añades tu empresa y tus datos de cobro.</p>
+ <form class="card" id="f1" novalidate><h2>Datos del entrenador</h2><p class="hint">Con estos datos entrarás a tu panel.</p>
+  <div class="grid">
+   <div><label for="nombre">Nombre</label><input id="nombre" autocomplete="given-name"><div class="err">Escribe tu nombre.</div></div>
+   <div><label for="apellidos">Apellidos</label><input id="apellidos" autocomplete="family-name"><div class="err">Escribe tus apellidos.</div></div>
+   <div><label for="localidad">Localidad</label><input id="localidad" autocomplete="address-level2"><div class="err">Escribe tu localidad.</div></div>
+   <div><label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email"><div class="err">Escribe un correo válido.</div></div>
+   <div class="full"><label for="pass">Contraseña</label><input id="pass" type="password" autocomplete="new-password"><div class="err">Usa al menos 8 caracteres.</div></div></div>
+  <div class="row"><button class="btn block" type="submit">Continuar</button></div></form>
+</section>
+
+<section id="empresa" class="hide">
+ <h1>Empresa<em>y cobros</em></h1><p class="lead">Fijas lo que cobras a cada atleta. YD perform se queda con el 20 % de cada cobro y el resto va a tu cuenta.</p>
+ <form class="card" id="f2" novalidate><h2>Tu tarifa</h2><p class="hint">Precio mensual que paga cada atleta.</p>
+  <div class="grid"><div class="full"><label for="precio">Precio mensual por atleta (€)</label><input id="precio" type="number" inputmode="decimal" min="1" step="1" placeholder="60"><div class="err">Escribe un precio mayor que 0.</div></div></div>
+  <div class="note" id="calc"></div>
+  <h2 style="margin-top:24px">Datos de la empresa</h2><p class="hint">Los usaremos para pagarte y facturar la comisión.</p>
+  <label style="display:flex;gap:10px;font-weight:500;margin-bottom:14px"><input type="checkbox" id="same" style="width:22px;min-height:22px;accent-color:#8b1f31"> Soy autónomo: usar mis datos de entrenador</label>
+  <div class="grid">
+   <div class="full"><label for="enombre">Nombre de la empresa</label><input id="enombre" autocomplete="organization"><div class="err">Escribe el nombre de tu empresa o marca.</div></div>
+   <div><label for="eloc">Localidad</label><input id="eloc"><div class="err">Escribe la localidad.</div></div>
+   <div><label for="eemail">Correo electrónico</label><input id="eemail" type="email"><div class="err">Escribe un correo válido.</div></div>
+   <div><label for="nif">NIF</label><input id="nif" autocapitalize="characters" autocomplete="off" placeholder="12345678Z o B12345678"><div class="err">El NIF no es válido. Revisa dígitos y letra.</div></div>
+   <div><label for="iban">Cuenta bancaria (IBAN)</label><input id="iban" autocapitalize="characters" autocomplete="off" placeholder="ES00 0000 0000 0000 0000 0000"><div class="err">El IBAN no es válido. Debe tener 24 caracteres.</div></div></div>
+  <div class="row"><button class="btn block" type="submit">Guardar y entrar al panel</button></div></form>
+</section>
+
+<section id="panel" class="hide">
+ <h1 id="hi">Hola<em>tus atletas</em></h1><p class="sub" id="pinfo"></p>
+ <div class="stats"><div class="stat"><b id="s1">0</b><span>Atletas</span></div><div class="stat"><b id="s2">0</b><span>Necesitan atención</span></div><div class="stat"><b id="s3">0</b><span>Facturación al mes</span></div><div class="stat"><b id="s4">0</b><span>Recibes (80 %)</span></div></div>
+ <p class="sub" id="com"></p>
+ <div class="bar"><h2>Atletas</h2><button class="btn ghost" id="edit">Datos de cobro</button></div>
+ <div class="list" id="list"></div>
+ <form class="card" id="f3" novalidate><h2>Añadir atleta</h2><p class="hint">El atleta entra con este correo desde “Soy atleta”. En su primer acceso crea su contraseña.</p>
+  <div class="grid"><div><label for="anombre">Nombre y apellidos</label><input id="anombre"><div class="err">Escribe el nombre del atleta.</div></div>
+   <div><label for="aemail">Correo electrónico</label><input id="aemail" type="email"><div class="err">Escribe un correo válido.</div></div>
+   <div class="full"><label for="aobj">Objetivo</label><select id="aobj"><option>Fuerza</option><option>Rendimiento híbrido</option><option>Pérdida de grasa</option><option>Ganancia muscular</option><option>Salud</option></select></div></div>
+  <div class="row"><button class="btn block" type="submit">Añadir atleta</button></div></form>
+</section>
+
+<section id="atleta" class="hide">
+ <div class="hero"><small>PERFIL DEL ATLETA</small><h1 id="an" style="margin-top:8px;font-size:clamp(34px,9vw,64px)"></h1><div style="font:italic 400 clamp(28px,7vw,48px)/1.1 var(--serif);color:var(--gold)">Salud - Rendimiento</div></div>
+ <div class="cal"><h3 id="cm"></h3><div class="days" id="days"></div></div>
+ <div class="tabs" id="tabs"><button>Entrenar</button><button>Nutrición</button><button>Estado</button><button>Chat</button></div>
+ <div class="card" id="tab"></div>
+ <div class="card"><h2>Mi perfil</h2><p class="hint" id="prof" style="margin:0"></p></div>
+</section>
+</div>
+<dialog id="dlg"></dialog>
+
+<script>
+const $=id=>document.getElementById(id),COM=0.2,KEY="ydp_v2";
+let S={role:null,coach:null,empresa:null,price:0,athletes:[],session:null},T="Entrenar";
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+// Demo: la contraseña se guarda como hash SHA-256. Un backend real debe usar bcrypt/argon2 en el servidor.
+const hash=async(p,s)=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s+":"+p)))].map(x=>x.toString(16).padStart(2,"0")).join("");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const eur=n=>n.toLocaleString("es-ES",{style:"currency",currency:"EUR"});
+const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const mail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v),len=v=>v.trim().length>1;
+function nif(v){v=v.toUpperCase().replace(/[\s-]/g,"");const L="TRWAGMYFPDXBNJZSQVHLCKE";
+ if(/^\d{8}[A-Z]$/.test(v))return L[+v.slice(0,8)%23]===v[8];
+ if(/^[XYZ]\d{7}[A-Z]$/.test(v))return L[+("XYZ".indexOf(v[0])+v.slice(1,8))%23]===v[8];
+ if(/^[ABCDEFGHJNPQRSUVW]\d{7}[0-9A-J]$/.test(v)){let s=0;for(let i=0;i<7;i++){let n=+v[i+1];if(i%2===0){n*=2;if(n>9)n-=9}s+=n}const c=(10-s%10)%10;return v[8]===String(c)||v[8]==="JABCDEFGHI"[c]}return false}
+function iban(v){v=v.toUpperCase().replace(/\s/g,"");if(!/^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/.test(v)||(v.startsWith("ES")&&v.length!==24))return false;
+ let r=0;for(const ch of v.slice(4)+v.slice(0,4)){const d=/\d/.test(ch);r=(r*(d?10:100)+(d?+ch:ch.charCodeAt(0)-55))%97}return r===1}
+const R={nombre:len,apellidos:len,localidad:len,email:mail,pass:v=>v.length>=8,lemail:mail,lpass:v=>v.length>0,precio:v=>+v>0,enombre:len,eloc:len,eemail:mail,nif,iban,anombre:len,aemail:mail};
+function check(ids){let f=null;ids.forEach(id=>{const el=$(id),ok=R[id](el.value);el.setAttribute("aria-invalid",!ok);if(!ok&&!f)f=el});if(f)f.focus();return!f}
+Object.keys(R).forEach(id=>{const el=$(id);el.addEventListener("blur",()=>el.value&&el.setAttribute("aria-invalid",!R[id](el.value)));
+ el.addEventListener("input",()=>{if(el.getAttribute("aria-invalid")==="true")el.setAttribute("aria-invalid",!R[id](el.value))})});
+$("iban").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^a-z0-9]/gi,"").toUpperCase().replace(/(.{4})/g,"$1 ").trim());
+$("precio").addEventListener("input",()=>{const p=+$("precio").value;$("calc").innerHTML=p>0?`Si cobras <b>${eur(p)}</b> a un atleta: comisión YD perform (20 %) <b>${eur(p*COM)}</b> · tú recibes <b>${eur(p*(1-COM))}</b>.`:"Introduce un precio para ver cuánto recibirías."});
+
+// ---- Navegación ----
+const ok=()=>S.session&&S.session.role===S.role;
+const nav=()=>{if(location.hash)location.hash="";else route()};
+function allowed(){if(!S.role)return["elegir"];
+ if(S.role==="coach")return ok()?(S.empresa?["panel","empresa"]:["empresa"]):S.coach?["login"]:["registro"];
+ return ok()?["atleta"]:["login"]}
+function route(){const A=allowed();let p=location.hash.slice(1);if(!A.includes(p))p=A[0];
+ ["elegir","login","registro","empresa","panel","atleta"].forEach(id=>$(id).classList.toggle("hide",id!==p));
+ const coachFlow=S.role==="coach"&&["registro","empresa","panel"].includes(p);
+ $("steps").classList.toggle("hide",!coachFlow);document.querySelectorAll("#steps span").forEach(s=>s.classList.toggle("on",s.dataset.s===p));
+ $("sw").classList.toggle("hide",!S.role);$("out").classList.toggle("hide",!ok());
+ if(p==="login"){const c=S.role==="coach";$("ls").textContent=c?"entrenador":"atleta";$("ll").textContent=c?"Accede a tu panel.":"Accede con el correo que tu entrenador ha dado de alta.";
+  $("lhint").textContent=c?"":"Si es tu primer acceso, la contraseña que escribas será la tuya.";$("lerr").classList.remove("on")}
+ if(p==="empresa"&&S.empresa){$("precio").value=S.price;$("enombre").value=S.empresa.nombre;$("eloc").value=S.empresa.localidad;$("eemail").value=S.empresa.email;$("nif").value=S.empresa.nif;$("precio").dispatchEvent(new Event("input"))}
+ if(p==="panel")renderPanel();if(p==="atleta")renderAtleta();window.scrollTo(0,0)}
+addEventListener("hashchange",route);
+
+$("elegir").addEventListener("click",e=>{const b=e.target.closest(".role");if(b){S.role=b.dataset.r;S.session=null;save();nav()}});
+$("sw").onclick=()=>{S.role=null;S.session=null;save();nav()};
+$("out").onclick=()=>{S.session=null;save();nav()};
+$("wipe").onclick=()=>{if(confirm("¿Borrar todos los datos guardados de la demo en este navegador?")){S={role:null,coach:null,empresa:null,price:0,athletes:[],session:null};try{localStorage.removeItem(KEY)}catch(e){}document.querySelectorAll("form").forEach(f=>f.reset());nav()}};
+
+// ---- Login ----
+const fail=m=>{$("lerr").textContent=m;$("lerr").classList.add("on")};
+$("fl").addEventListener("submit",async e=>{e.preventDefault();if(!check(["lemail","lpass"]))return;
+ const em=$("lemail").value.trim().toLowerCase(),h=await hash($("lpass").value,em);
+ if(S.role==="coach"){if(!S.coach||S.coach.email!==em||S.coach.pass!==h)return fail("Correo o contraseña incorrectos.")}
+ else{const a=S.athletes.find(x=>x.email===em);if(!a)return fail("No encontramos ese correo. Pide a tu entrenador que te añada.");if(!a.pass)a.pass=h;else if(a.pass!==h)return fail("Correo o contraseña incorrectos.")}
+ S.session={role:S.role,email:em};save();$("fl").reset();nav()});
+
+// ---- Entrenador ----
+$("f1").addEventListener("submit",async e=>{e.preventDefault();if(!check(["nombre","apellidos","localidad","email","pass"]))return;
+ const em=$("email").value.trim().toLowerCase();
+ S.coach={nombre:$("nombre").value.trim(),apellidos:$("apellidos").value.trim(),localidad:$("localidad").value.trim(),email:em,pass:await hash($("pass").value,em)};
+ S.session={role:"coach",email:em};save();$("f1").reset();nav()});
+$("same").addEventListener("change",()=>{if($("same").checked&&S.coach){$("enombre").value=S.coach.nombre+" "+S.coach.apellidos;$("eloc").value=S.coach.localidad;$("eemail").value=S.coach.email}});
+$("f2").addEventListener("submit",e=>{e.preventDefault();if(!check(["precio","enombre","eloc","eemail","nif","iban"]))return;
+ S.price=+$("precio").value;S.empresa={nombre:$("enombre").value.trim(),localidad:$("eloc").value.trim(),email:$("eemail").value.trim(),nif:$("nif").value.toUpperCase().replace(/[\s-]/g,""),ibanFin:$("iban").value.replace(/\s/g,"").slice(-4)};
+ save();$("f2").reset();nav()});
+$("edit").onclick=()=>location.hash="empresa";
+
+function renderPanel(){const A=S.athletes,low=A.filter(a=>a.estado==="atencion").length,tot=A.length*S.price;
+ $("hi").innerHTML="Hola, "+esc(S.coach.nombre)+"<em>tus atletas</em>";$("pinfo").textContent=S.empresa.nombre+" · tarifa "+eur(S.price)+" por atleta y mes · cuenta terminada en "+S.empresa.ibanFin;
+ $("s1").textContent=A.length;$("s2").textContent=low;$("s3").textContent=eur(tot);$("s4").textContent=eur(tot*(1-COM));
+ $("com").textContent="Comisión YD perform (20 %): "+eur(tot*COM)+" al mes.";
+ $("list").innerHTML=A.length?A.map(a=>`<div class="ath"><div class="av">${esc(a.nombre.trim()[0].toUpperCase())}</div><div class="i"><div class="n">${esc(a.nombre)}</div><div class="s">${esc(a.objetivo)} · ${esc(a.email)}</div></div><span class="tag ${a.estado==="atencion"?"warn":"ok"}">${a.estado==="atencion"?"Necesita atención":"Al día"}</span><button class="btn ghost" data-o="${a.id}">Abrir</button><button class="btn ghost" data-d="${a.id}" aria-label="Quitar a ${esc(a.nombre)}">Quitar</button></div>`).join(""):`<div class="empty">Aún no tienes atletas. Añade el primero abajo.</div>`}
+$("list").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.d){const a=S.athletes.find(x=>x.id===b.dataset.d);if(confirm("¿Quitar a "+a.nombre+"? Esta acción no se puede deshacer.")){S.athletes=S.athletes.filter(x=>x!==a);save();renderPanel()}}
+ if(b.dataset.o)openAth(b.dataset.o)});
+$("f3").addEventListener("submit",e=>{e.preventDefault();if(!check(["anombre","aemail"]))return;
+ const em=$("aemail").value.trim().toLowerCase();if(S.athletes.some(a=>a.email===em)){alert("Ya tienes un atleta con ese correo.");return}
+ S.athletes.push({id:Date.now().toString(36),nombre:$("anombre").value.trim(),email:em,objetivo:$("aobj").value,estado:"ok",done:[],chat:[],pass:null,energia:null});
+ save();$("anombre").value=$("aemail").value="";renderPanel()});
+
+// ---- Chat compartido y ficha del atleta (vista entrenador) ----
+const chatHTML=(a,yo)=>a.chat.length?a.chat.map(m=>`<div class="m ${m.de===yo?"me":""}">${esc(m.t)}</div>`).join(""):`<p class="sub">Aún no hay mensajes.</p>`;
+const chatForm=id=>`<form data-chat="${id}" style="display:flex;gap:8px"><input name="t" placeholder="Escribe un mensaje…" aria-label="Mensaje" required><button class="btn" style="min-height:48px;padding:0 18px">Enviar</button></form>`;
+function openAth(id){const a=S.athletes.find(x=>x.id===id),mes=ymd(new Date()).slice(0,7),n=a.done.filter(d=>d.startsWith(mes)).length;
+ $("dlg").innerHTML=`<h2>${esc(a.nombre)}</h2><p class="hint">${esc(a.objetivo)} · ${esc(a.email)}</p><p>Energía de hoy: <b>${a.energia&&a.energia.f===ymd(new Date())?a.energia.v+"/5":"sin registrar"}</b> · Entrenos este mes: <b>${n}</b></p>
+ <div class="chat" id="dchat">${chatHTML(a,"coach")}</div>${chatForm(id)}<div class="row"><button class="btn ghost" data-t="${id}">${a.estado==="atencion"?"Marcar al día":"Marcar atención"}</button><button class="btn" data-x>Cerrar</button></div>`;$("dlg").showModal()}
+$("dlg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if("x" in b.dataset)$("dlg").close();
+ if(b.dataset.t){const a=S.athletes.find(x=>x.id===b.dataset.t);a.estado=a.estado==="atencion"?"ok":"atencion";save();renderPanel();openAth(a.id)}});
+document.addEventListener("submit",e=>{const f=e.target;if(!f.dataset.chat)return;e.preventDefault();
+ const a=S.athletes.find(x=>x.id===f.dataset.chat),t=f.t.value.trim();if(!t)return;const yo=S.role==="coach"?"coach":"atleta";
+ a.chat.push({de:yo,t});save();f.t.value="";
+ if(yo==="coach"){$("dchat").innerHTML=chatHTML(a,yo)}else renderTab()});
+
+// ---- Atleta ----
+const me=()=>S.athletes.find(x=>x.email===S.session.email);
+function renderAtleta(){const a=me(),n=new Date(),y=n.getFullYear(),m=n.getMonth(),dias=new Date(y,m+1,0).getDate(),off=(new Date(y,m,1).getDay()+6)%7;
+ $("an").textContent=a.nombre;$("cm").textContent=n.toLocaleDateString("es-ES",{month:"long",year:"numeric"});
+ let h="LMXJVSD".split("").map(l=>`<div class="h">${l}</div>`).join("")+"<div></div>".repeat(off);
+ for(let d=1;d<=dias;d++){const dt=new Date(y,m,d),k=ymd(dt),dow=(dt.getDay()+6)%7,f=a.done.includes(k),pr=[0,2,4].includes(dow);
+  h+=`<div class="d ${d===n.getDate()?"t":""}">${d}${f?'<i class="dot f"></i>':pr?'<i class="dot"></i>':""}</div>`}
+ $("days").innerHTML=h;
+ $("prof").innerHTML=`${esc(a.nombre)}<br>${esc(a.email)}<br>Objetivo: ${esc(a.objetivo)}<br>Entrenador: ${esc(S.coach.nombre+" "+S.coach.apellidos)}`;renderTab()}
+function renderTab(){const a=me(),hoy=ymd(new Date()),dow=(new Date().getDay()+6)%7,prog=[0,2,4].includes(dow),hecho=a.done.includes(hoy);
+ document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-pressed",b.textContent===T));let h="";
+ if(T==="Entrenar")h=`<h2>Hoy</h2><p class="hint">${prog?"Tienes entrenamiento programado. Tu entrenador te dará los detalles por el chat.":"Hoy es día de descanso."}</p><button class="btn block" data-done>${hecho?"Desmarcar entrenamiento de hoy":"Marcar entrenamiento de hoy como hecho"}</button>`;
+ if(T==="Nutrición")h=`<h2>Nutrición</h2><p class="hint" style="margin:0">Tu plan de nutrición aparecerá aquí cuando tu entrenador lo publique.</p>`;
+ if(T==="Estado"){const v=a.energia&&a.energia.f===hoy?a.energia.v:0;h=`<h2>¿Cómo te encuentras hoy?</h2><p class="hint">Energía del 1 (agotado) al 5 (a tope).</p><div class="en">${[1,2,3,4,5].map(i=>`<button data-e="${i}" aria-pressed="${v===i}">${i}</button>`).join("")}</div>`}
+ if(T==="Chat")h=`<h2>Chat con tu entrenador</h2><div class="chat" style="margin-top:10px">${chatHTML(a,"atleta")}</div>${chatForm(a.id)}`;
+ $("tab").innerHTML=h}
+$("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){T=b.textContent;renderTab()}});
+$("tab").addEventListener("click",e=>{const b=e.target.closest("button"),a=me();if(!b)return;
+ if("done" in b.dataset){const k=ymd(new Date());a.done=a.done.includes(k)?a.done.filter(x=>x!==k):[...a.done,k];save();renderAtleta()}
+ if(b.dataset.e){a.energia={f:ymd(new Date()),v:+b.dataset.e};a.estado=a.energia.v<=2?"atencion":"ok";save();renderTab()}});
+route();
+</script>
+</body>
+</html>
