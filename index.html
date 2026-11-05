@@ -292,7 +292,7 @@ details.card summary{cursor:pointer;margin-bottom:6px}
 .gtr{display:flex;gap:2px;overflow-x:auto;border-bottom:.5px solid rgba(220,199,161,.35);scrollbar-width:none}.gtr::-webkit-scrollbar{display:none}
 .gtp{flex:none;background:transparent;border:0;border-bottom:2px solid transparent;border-radius:0;color:#8d877d;padding:10px 12px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .gtp.on{color:var(--white);border-bottom-color:var(--ember)}.gtp:active{transform:none}
-.wvv{width:100%;border-radius:10px;background:#000;max-height:60vh;display:block}
+#nxyt{width:100%;aspect-ratio:16/9;border-radius:10px;background:#000}#nxyt iframe{width:100%;height:100%;border-radius:10px}.wvv{width:100%;border-radius:10px;background:#000;max-height:60vh;display:block}
 h1{align-items:center;gap:10px}h1 .nx{height:36px;width:auto;display:block}
 
 /* ===== Nexum: intro, login premium y bloqueo ===== */
@@ -531,7 +531,7 @@ $("app").innerHTML=`<div class="lg"><div class="lgc"><img class="lgl" src="${LOG
 <div class="lgf"><input id="lp" type="password" placeholder=" " autocomplete="current-password" onkeydown="if(event.key==='Enter')document.querySelector('[data-act=cLogin]').click()"><label for="lp">Contraseña</label><button type="button" class="lgeye" aria-label="Mostrar u ocultar contraseña" onclick="var i=document.getElementById('lp');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'Ver':'Ocultar'">Ver</button></div>
 ${msg?`<p class="lgerr" role="alert">${esc(msg)}</p>`:""}
 <button class="lgb" data-act="cLogin">Entrar</button>${c?'<button class="lgt" data-act="cReg">Crear cuenta de entrenador</button>':""}<button class="lgt" data-act="cRole">‹ Cambiar perfil</button></div></div>`}
-const accH=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?"":`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}<button data-act="logout">Salir</button></div></div>`;
+const accH=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?(GATE&&GATE.suscrito?`<button data-act="stPortal">Mi suscripción</button>`:""):`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}<button data-act="logout">Salir</button></div></div>`;
 const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","del grupo"],pro:["Progreso","de cargas"],acc:["Mi","cuenta"],ent:["Entrenos","tus sesiones"],cal:["Calendario","planificación"],car:["Carga","análisis"],rec:["Recovery","recuperación"],tst:["Tests","rendimiento"]};
 const TABS=[["ini","Inicio"],["ent","Entrenos"],["cal","Calendario"],["car","Carga"],["rec","Recovery"],["tst","Tests"]];
 const mt=(a,v,n,t,x,w)=>`<button class="mt${w?" wide":""}" data-act="${a}" data-v="${v}"><i>${n}</i><span><b>${t}</b><small>${x}</small></span></button>`;
@@ -593,11 +593,12 @@ let PRF="",CS=0,COACH=null,RV={};try{PRF=localStorage.getItem("ydp_role")||""}ca
 const COM=0.2,EUR=n=>(+n||0).toLocaleString("es-ES",{style:"currency",currency:"EUR"}),vMail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 const vNIF=v=>{v=v.toUpperCase().replace(/[\s-]/g,"");const L="TRWAGMYFPDXBNJZSQVHLCKE";if(/^\d{8}[A-Z]$/.test(v))return L[+v.slice(0,8)%23]===v[8];if(/^[XYZ]\d{7}[A-Z]$/.test(v))return L[+("XYZ".indexOf(v[0])+v.slice(1,8))%23]===v[8];if(/^[ABCDEFGHJNPQRSUVW]\d{7}[0-9A-J]$/.test(v)){let s=0;for(let i=0;i<7;i++){let n=+v[i+1];if(i%2===0){n*=2;if(n>9)n-=9}s+=n}const c=(10-s%10)%10;return v[8]===String(c)||v[8]==="JABCDEFGHI"[c]}return false};
 const vIBAN=v=>{v=v.toUpperCase().replace(/\s/g,"");if(!/^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/.test(v)||(v.startsWith("ES")&&v.length!==24))return false;let r=0;for(const ch of v.slice(4)+v.slice(0,4)){const d=/\d/.test(ch);r=(r*(d?10:100)+(d?+ch:ch.charCodeAt(0)-55))%97}return r===1};
-async function loadCoach(){try{const {data}=await SB.from("coaches").select("*").maybeSingle();COACH=data||null}catch(e){COACH=null}}
+async function loadCoach(){try{const {data}=await SB.from("coaches").select("*").maybeSingle();COACH=data||null;qsApply(COACH&&COACH.cuestionario)}catch(e){COACH=null}}
 function roleH(){$("app").innerHTML=`<div class="lg"><div class="lgc"><img class="lgl" src="${LOGO()}" alt=""><div class="lgk">BIENVENIDO</div><h2 class="lgh">¿Cómo <em>entras?</em></h2><p class="lgs">Recordaremos tu elección en este dispositivo.</p><div class="lgroles"><button class="lgrole" data-act="pRole" data-v="coach"><b>Soy entrenador</b><span>Gestiona a tus atletas y cobra por tu coaching.</span></button><button class="lgrole" data-act="pRole" data-v="client"><b>Soy atleta</b><span>Entrena y habla con tu entrenador.</span></button></div></div></div>`}
 const rfld=(id,l,t,ph)=>`<label>${l}</label><input id="${id}" type="${t||"text"}" value="${esc(RV[id]||"")}"${ph?` placeholder="${ph}"`:""} autocapitalize="off">`;
 function regH(){const e=CS===1;$("app").innerHTML=`<div class="hero"><small style="color:#ccc;letter-spacing:.25em">PASO ${e?1:2} DE 2</small><div class="hh">${e?"Tus datos":"Empresa y cobros"}</div><div class="script">${e?"entrenador":"20 % de comisión"}</div></div><div class="card">`+(e?rfld("rn","Nombre")+rfld("ra","Apellidos")+rfld("rl","Localidad")+rfld("re","Correo electrónico","email")+rfld("rp","Contraseña (mínimo 8)","password"):rfld("rc","Precio mensual por atleta (€)","number","60")+`<small>Nexum retiene el 20 % de cada cobro y tú recibes el 80 %.</small>`+rfld("en","Nombre de la empresa")+rfld("el","Localidad de la empresa")+rfld("em","Correo de la empresa","email")+rfld("nf","NIF")+rfld("ib","Cuenta bancaria (IBAN)","text","ES00 0000 0000 0000 0000 0000")+rfld("pu","Enlace de pago para tus atletas (opcional)","text","https://buy.stripe.com/…"))+`<button class="on" data-act="${e?"cReg1":"cReg2"}" style="width:100%;margin-top:10px;padding:12px">${e?"Continuar":"Guardar"}</button>${msg?`<p style="color:#86222f;margin:8px 0"><b>${esc(msg)}</b></p>`:""}<button data-act="cRegBack" style="margin-top:10px">‹ Volver</button></div>`}
-function sumH(){if(!coachOk())return`<div class="card"><b>Configura tus cobros</b><br><small>Hasta que completes el precio, la empresa, el NIF y el IBAN no podrás añadir clientes ni ellos podrán empezar su seguimiento.</small><button class="on" data-act="cEdit" style="width:100%;margin-top:10px;padding:12px">Datos de cobro</button></div>`;const t=CLS.length*(+COACH.precio||0);return`<div class="card"><b>${CLS.length} atletas · ${EUR(t)} al mes</b><br><small>Comisión Nexum (20 %): ${EUR(t*COM)} · Recibes ${EUR(t*(1-COM))}</small><button data-act="cEdit" style="margin-top:8px">Datos de cobro</button></div>`}
+const stripeCard=()=>COACH&&COACH.stripe_charges_enabled?`<div class="card"><b>Cobros con Stripe activos</b><br><small>Tus atletas pagan online cada mes y recibes el 80 % automáticamente.</small><button data-act="stDash" style="margin-top:8px">Ver mis cobros en Stripe</button></div>`:`<div class="card"><b>Activa el cobro automático</b><br><small>Conecta tu cuenta de Stripe: tus atletas pagarán con tarjeta cada mes, tú recibes el 80 % y Nexum el 20 %.</small>${msg&&/^Stripe/.test(msg)?`<p style="color:#86222f;margin:8px 0"><b>${esc(msg)}</b></p>`:""}<button class="on" data-act="stConnect" style="width:100%;margin-top:10px;padding:12px">${COACH&&COACH.stripe_account_id?"Continuar con Stripe":"Conectar con Stripe"}</button></div>`;
+function sumH(){if(!coachOk())return stripeCard()+`<div class="card"><b>Configura tus cobros</b><br><small>Hasta que completes el precio, la empresa, el NIF y el IBAN no podrás añadir clientes ni ellos podrán empezar su seguimiento.</small><button class="on" data-act="cEdit" style="width:100%;margin-top:10px;padding:12px">Datos de cobro</button></div>`;const t=CLS.length*(+COACH.precio||0);return stripeCard()+cqCard()+`<div class="card"><b>${CLS.length} atletas · ${EUR(t)} al mes</b><br><small>Comisión Nexum (20 %): ${EUR(t*COM)} · Recibes ${EUR(t*(1-COM))}</small><button data-act="cEdit" style="margin-top:8px">Datos de cobro</button></div>`}
 async function xact(a,v){if(GA.includes(a))return gact(a,v);try{
 if(a==="pRole"){PRF=v;try{localStorage.setItem("ydp_role",v)}catch(e){}msg="";render();return}
 if(a==="cRole"){PRF="";CS=0;try{localStorage.removeItem("ydp_role")}catch(e){}msg="";render();return}
@@ -618,28 +619,33 @@ if(msg){render();return}
 const u=(await SB.auth.getUser()).data.user,md=u.user_metadata||{};
 const row={id:u.id,nombre:md.nombre||"",apellidos:md.apellidos||"",localidad:md.localidad||"",email:u.email,empresa_nombre:RV.en,empresa_localidad:RV.el,empresa_email:RV.em.toLowerCase(),nif:RV.nf.toUpperCase().replace(/[\s-]/g,""),iban_fin:ib.replace(/\s/g,"").slice(-4),precio:+RV.rc,pay_url:RV.pu||null};
 const {error}=await SB.from("coaches").upsert(row);if(error)throw error;
-COACH=row;CS=0;RV={};await listCl();tab="cli";render()}
+COACH=row;if(lsG("nx_vc_"+USER)==="1")SB.from("coaches").update({video_visto:true}).eq("id",u.id).then(()=>{});CS=0;RV={};await listCl();tab="cli";render()}
 }catch(e){msg="Error: "+(e.message||e);render()}}
 
 /* ===== Acceso del cliente: formulario del entrenador completo + pago ===== */
-let GATE=null;const GA=["gRetry","gPay","setPaid"];
+let GATE=null;const GA=["gRetry","gPay","setPaid","stConnect","stDash","stPortal","cqOpen","cqClose","cqTog","cqDel","cqAdd","cqSave"];
 const coachOk=()=>!!(COACH&&COACH.empresa_nombre&&COACH.nif&&COACH.iban_fin&&+COACH.precio>0);
 const paidNow=c=>!!(c&&c.pago_estado==="pagado"&&c.pagado_hasta&&new Date(c.pagado_hasta)>new Date());
 async function loadGate(){GATE=null;try{const {data,error}=await SB.rpc("client_gate",{p_u:CL.usr,p_p:CL.pwd});
 if(error){if(/42883|PGRST202|could not find|does not exist/i.test((error.code||"")+" "+(error.message||"")))return;throw error}
-GATE=data||{ok:false,reason:"noacct"}}catch(e){GATE={ok:false,reason:"error"}}}
+GATE=data||{ok:false,reason:"noacct"};qsApply(GATE.cuest)}catch(e){GATE={ok:false,reason:"error"}}}
 function payGateH(){const g=GATE||{},c=g.coach?esc(g.coach):"tu entrenador";let i="•",t="",d="",b="";
 if(g.reason==="error"||g.reason==="noacct"){i="!";t="No hemos podido <em>comprobarlo</em>";d="Revisa tu conexión e inténtalo de nuevo.";b=`<button class="lgb" data-act="gRetry">Reintentar</button>`}
 else if(!g.coach_ready){i="…";t="Casi <em>listo</em>";d=`${c} todavía está terminando de configurar su cuenta. En cuanto lo haga podrás empezar tu seguimiento.`;b=`<button class="lgb" data-act="gRetry">Comprobar de nuevo</button>`}
 else{i="✦";const v=g.hasta&&new Date(g.hasta)<new Date();t=v?"Tu suscripción <em>ha vencido</em>":"Activa tu <em>seguimiento</em>";d=`El seguimiento con ${c} se activa en cuanto se confirma tu pago.`;
-b=`<div class="lgp">${EUR(g.precio)}<small> / mes</small></div><button class="lgb" data-act="gPay">Pagar y activar</button><button class="lgt" data-act="gRetry">Ya he pagado · comprobar</button>`}
+b=`<div class="lgp">${EUR(g.precio)}<small> / mes</small></div><button class="lgb" data-act="gPay">Pagar y activar</button><button class="lgt" data-act="gRetry">Ya he pagado · comprobar</button>${g.suscrito?`<button class="lgt" data-act="stPortal">Gestionar mi suscripción</button>`:""}`}
 $("app").innerHTML=`<div class="lg"><div class="lgc"><div class="lgi">${i}</div><div class="lgk">ACCESO PENDIENTE</div><h2 class="lgh">${t}</h2><p class="lgs">${d}</p>${msg?`<p class="lgerr" role="alert">${esc(msg)}</p>`:""}${b}<button class="lgt" data-act="logout">Salir</button></div></div>`}
 const payCard=()=>ROLE==="coach"&&CL?`<div class="card"><b>Pago y acceso</b><br><small>${paidNow(CL)?"Pagado hasta "+new Date(CL.pagado_hasta).toLocaleDateString("es-ES")+". El cliente tiene acceso al seguimiento.":"Sin pago activo: el cliente no puede acceder al seguimiento hasta que pague."}</small><div class="bar" style="margin:10px 0 0"><button class="on" data-act="setPaid" data-v="${paidNow(CL)?"0":"1"}">${paidNow(CL)?"Suspender acceso":"Marcar como pagado (30 días)"}</button></div></div>`:"";
-async function gact(a,v){try{msg="";
+async function gact(a,v){try{msg="";if(a.slice(0,2)==="cq")return await cqAct(a,v);
 if(a==="gRetry"){await loadGate();if(GATE&&!GATE.ok){if(GATE.coach_ready&&!GATE.paid&&GATE.reason!=="error")msg="Todavía no consta el pago.";render();return}if(!await loadRemote()){msg="Sin conexión.";render();return}tab="menu";render();return}
-if(a==="gPay"){const u=GATE&&GATE.pay_url;if(u){window.open(u,"_blank","noopener");return}
-try{const {data,error}=await SB.functions.invoke("create-checkout",{body:{usr:CL.usr,pwd:CL.pwd}});if(error||!data||!data.url)throw error||new Error("sin url");location.href=data.url}
-catch(e){msg="El pago online aún no está activado. Pídele a tu entrenador el enlace de pago.";render()}return}
+if(a==="gPay"){if(GATE&&GATE.stripe){try{const {data,error}=await SB.functions.invoke("create-checkout",{body:{usr:CL.usr,pwd:CL.pwd}});if(error||!data||!data.url)throw error||new Error("sin url");location.href=data.url}
+catch(e){msg="No se pudo abrir el pago. Inténtalo de nuevo en unos minutos.";render()}return}
+const u=GATE&&GATE.pay_url;if(u){window.open(u,"_blank","noopener");return}
+msg="Tu entrenador aún no ha activado los cobros online.";render();return}
+if(a==="stConnect"||a==="stDash"){try{const {data,error}=await SB.functions.invoke("stripe-connect",{body:{action:a==="stConnect"?"onboard":"dashboard"}});if(error||!data||!data.url)throw error||new Error(data&&data.error||"sin url");location.href=data.url}
+catch(e){msg="Stripe: "+(e.message||e);render()}return}
+if(a==="stPortal"){try{const {data,error}=await SB.functions.invoke("create-checkout",{body:{action:"portal",usr:CL.usr,pwd:CL.pwd}});if(error||!data||!data.url)throw error||new Error("sin url");location.href=data.url}
+catch(e){msg="No se pudo abrir la gestión de suscripción.";render()}return}
 if(a==="setPaid"){const {error}=await SB.rpc("coach_set_paid",{p_id:CL.id,p_paid:v==="1"});if(error)throw error;const id=CL.id;await listCl();CL=CLS.find(c=>c.id===id)||CL;render()}
 }catch(e){msg="Error: "+(e.message||e);render()}}
 
@@ -710,8 +716,12 @@ else if(a==="quit"){if(!confirm("¿Salir sin guardar? Se perderá este entrenami
 else if(a==="save"){plSaveRun();return}
 plSave();plRender(true)});
 document.addEventListener("input",ev=>{const t=ev.target;if(!t.dataset||t.dataset.pli===undefined||!PW)return;ev.stopPropagation();const s=S.sessions.find(x=>x.id===PW.sid);if(!s)return;const st=plSteps(s),c=st[Math.min(PW.i,st.length-1)];if(!c)return;plDef(s.ex[c.ei],c.k)[t.dataset.pli]=t.value;plSave()},true);
+async function stripeBack(){try{const q=new URLSearchParams(location.search);
+if(q.get("stripe")&&ROLE==="coach"){history.replaceState(null,"",location.pathname);await SB.functions.invoke("stripe-connect",{body:{action:"status"}});await loadCoach();render()}
+else if(q.get("pago")){PAGO=q.get("pago");history.replaceState(null,"",location.pathname);if(PAGO==="ok")msg="Pago recibido. Inicia sesión: se activa en unos segundos.";render()}}catch(e){}}
+let PAGO="";
 async function boot(){try{if(!cfgBad()){SB=supabase.createClient(SUPA_URL,SUPA_KEY);const {data}=await SB.auth.getSession();if(data.session){ROLE="coach";USER=data.session.user.email;await listCl();await loadCoach();tab="cli"}}}catch(e){msg="No se pudo conectar."}
-ready=true;render()}
+ready=true;render();stripeBack()}
 async function cact(a,v){try{if(a==="cList"||a==="cOpen"||a==="logout"){clearTimeout(pt);await doPush()}
 if(a==="cLogin"){const e=(($("lu")||{}).value||"").trim(),p=($("lp")||{}).value||"";lv=e;if(!e||!p){msg="Introduce usuario y contraseña.";render();return}
 if(e.includes("@")){const {data,error}=await SB.auth.signInWithPassword({email:e,password:p});if(error){msg=/invalid login/i.test(error.message)?"Usuario o contraseña incorrectos.":"Error de conexión: "+error.message;render();return}ROLE="coach";USER=data.user.email;msg="";await listCl();await loadCoach();tab="cli";render()}
@@ -928,6 +938,55 @@ const QS=[
 {i:"ok",k:"c",q:"Acepto que mi entrenador use estas respuestas para personalizar mi plan",o:["Acepto"],r:1}]}
 ];
 const QI={};QS.forEach(t=>t.q.forEach(q=>QI[q.i]=q));
+/* ===== Nexum: vídeos de bienvenida obligatorios y cuestionario personalizable ===== */
+const NX_VID={coach:"",client:"",need:0.9}; /* PEGA AQUÍ los enlaces: coach = vídeo para entrenadores · client = vídeo para atletas (MP4 directo o enlace de YouTube) */
+const lsG=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lsS=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const ytId=u=>{const m=String(u||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([\w-]{11})/);return m?m[1]:""};
+const vidSeenCoach=()=>!!(COACH&&COACH.video_visto)||lsG("nx_vc_"+USER)==="1";
+const vidNeed=k=>!!NX_VID[k]&&(k==="coach"?!vidSeenCoach():!!(S&&!(S.prof||{}).vt));
+let VP={k:"",max:0,dur:0,t:0,pl:null,key:""};
+function vidScreen(k){if($("nxv")||$("nxyt"))return;const u=NX_VID[k],y=ytId(u);$("who").innerHTML="";
+$("app").innerHTML=`<div class="hero"><small>BIENVENIDO</small><div class="hh">Antes de empezar</div><div class="script">${k==="coach"?"cómo funciona Nexum":"cómo funciona tu app"}</div></div><div class="card">${y?`<div id="nxyt"></div>`:`<video id="nxv" class="wvv" src="${esc(u)}" controls controlsList="nodownload noplaybackrate" disablePictureInPicture playsinline preload="metadata"></video>`}<div class="pb" style="margin:12px 0 6px"><i id="nxpb" style="width:0"></i></div><p id="nxmsg" class="qmsg" style="color:#6f685e;font-weight:500">Mira al menos el ${Math.round(NX_VID.need*100)} % del vídeo para continuar. No se puede adelantar.</p><button class="w" id="nxgo" data-vid="go" disabled style="width:100%;padding:14px;opacity:.5">Continuar</button></div><div class="bar"><button data-act="logout">Salir</button></div>`;
+vidInit(k,y)}
+function vidInit(k,y){clearInterval(VP.t);const key="nx_vp_"+k+"_"+USER;VP={k,max:+lsG(key)||0,dur:0,t:0,pl:null,key};
+const ui=()=>{const p=VP.dur?Math.min(1,VP.max/VP.dur):0,ok=p>=NX_VID.need,b=$("nxgo"),m=$("nxmsg"),f=$("nxpb");if(f)f.style.width=Math.round(p*100)+"%";if(b){b.disabled=!ok;b.style.opacity=ok?1:.5}if(m)m.textContent=ok?"¡Listo! Ya puedes continuar.":"Visto: "+Math.round(p*100)+" % · necesitas llegar al "+Math.round(NX_VID.need*100)+" %. No se puede adelantar.";if(VP.dur)lsS(VP.key,String(Math.floor(VP.max)))};
+if(y){const mk=()=>{VP.pl=new YT.Player("nxyt",{videoId:y,playerVars:{rel:0,modestbranding:1,playsinline:1,disablekb:1},events:{onReady:()=>{VP.t=setInterval(()=>{if(!$("nxyt")){clearInterval(VP.t);return}const p=VP.pl;if(!p||!p.getCurrentTime)return;const c=p.getCurrentTime(),d=p.getDuration();if(d)VP.dur=d;if(c>VP.max+2.5)p.seekTo(VP.max,true);else VP.max=Math.max(VP.max,c);ui()},500)}}})};
+if(window.YT&&YT.Player)mk();else{window.onYouTubeIframeAPIReady=mk;if(!document.getElementById("nxytapi")){const s=document.createElement("script");s.id="nxytapi";s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s)}}}
+else{const v=$("nxv");v.addEventListener("loadedmetadata",()=>{VP.dur=v.duration;if(VP.max>1&&VP.max<v.duration-1)v.currentTime=VP.max;ui()});
+v.addEventListener("timeupdate",()=>{if(!v.duration)return;VP.dur=v.duration;if(v.currentTime>VP.max+1.5&&!v.seeking)v.currentTime=VP.max;else VP.max=Math.max(VP.max,v.currentTime);ui()});
+v.addEventListener("seeking",()=>{if(v.currentTime>VP.max+1)v.currentTime=VP.max});
+v.addEventListener("ended",()=>{VP.max=v.duration;ui()})}
+ui()}
+document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-vid]");if(!b||b.disabled)return;clearInterval(VP.t);const k=VP.k;
+if(k==="coach"){lsS("nx_vc_"+USER,"1");if(COACH)COACH.video_visto=true;try{const u=(await SB.auth.getUser()).data.user;if(u)await SB.from("coaches").update({video_visto:true}).eq("id",u.id)}catch(e){}}
+else if(S){S.prof=S.prof||{};S.prof.vt=Date.now();save()}
+render();window.scrollTo(0,0)});
+/* cuestionario: secciones estándar (QS_ALL) + preguntas propias de cada entrenador */
+const QS_ALL=QS.slice(),QS_LOCK="salud";let CQCFG={off:[],extra:[]},CQE=false;
+function qsApply(c){c=isO(c)?c:{};const off=Array.isArray(c.off)?c.off:[],ex=(Array.isArray(c.extra)?c.extra:[]).filter(x=>x&&x.i&&x.q);CQCFG={off:off.slice(),extra:ex.map(x=>({...x}))};
+const L=QS_ALL.filter((t,i)=>t.s===QS_LOCK||!off.includes(i));
+if(ex.length){const st={e:"📝",t:"Preguntas de tu",s:"entrenador",d:"Tu entrenador quiere conocerte un poco mejor.",q:ex.map(x=>{const q={i:x.i,k:x.k,q:x.q,r:x.r?1:0};if(x.k==="c"||x.k==="m")q.o=x.o||[];if(x.k==="x")q.p="Tu respuesta";return q})};
+st.q.forEach(q=>{QI[q.i]=q});const at=L.findIndex(t=>t.s==="paso");if(at<0)L.push(st);else L.splice(at,0,st)}
+QS.length=0;L.forEach(t=>QS.push(t))}
+const cqNeed=()=>!!(CLI()&&S&&QS.length&&!(S.q&&S.q.done));
+function cqGate(){$("who").innerHTML="";$("app").innerHTML=cueH0()+'<div class="bar"><button data-act="logout">Salir</button></div>'}
+const CQK=[["x","Texto libre"],["c","Una opción"],["m","Varias opciones"],["n","Número"],["yn","Sí / No"]];
+const cqCard=()=>`<div class="card"><b>Cuestionario inicial</b><br><small>Tus atletas lo rellenan al entrar. Elige qué secciones ven y añade tus propias preguntas.</small><button data-act="cqOpen" style="margin-top:8px">Personalizar cuestionario</button></div>`;
+function cqeH(){$("who").innerHTML="";const std=QS_ALL.map((t,i)=>{const lock=t.s===QS_LOCK,on=lock||!CQCFG.off.includes(i);return`<div class="qa"><span style="text-align:left">${t.e} ${esc(t.t+" "+t.s)}</span>${lock?`<small>Obligatoria</small>`:`<button class="${on?"on":""}" data-act="cqTog" data-v="${i}">${on?"Incluida":"Quitada"}</button>`}</div>`}).join("");
+const ex=CQCFG.extra.map((x,i)=>`<div class="qa"><span style="text-align:left">${esc(x.q)}${x.r?" *":""}<br><small>${esc((CQK.find(k=>k[0]===(x.yn?"yn":x.k))||["",x.k])[1])}${x.o&&!x.yn?" · "+esc(x.o.join(", ")):""}</small></span><button data-act="cqDel" data-v="${i}">✕</button></div>`).join("")||'<small>Aún no has añadido preguntas propias.</small>';
+$("app").innerHTML=`<div class="hero"><small style="color:#ccc;letter-spacing:.25em">TUS ATLETAS</small><div class="hh">Cuestionario inicial</div><div class="script">hazlo a tu medida</div></div><div class="card"><b>Secciones</b><br><small>La de salud es obligatoria por seguridad.</small>${std}</div><div class="card"><b>Tus preguntas</b>${ex}</div><div class="card" id="cqf"><b>Añadir pregunta</b><label>Pregunta</label><input id="cqt" maxlength="140" placeholder="Ej.: ¿Tienes algún torneo próximo?"><label>Tipo</label><select id="cqk">${CQK.map(k=>`<option value="${k[0]}">${k[1]}</option>`).join("")}</select><label>Opciones (una por línea, solo para «opción» y «varias»)</label><textarea id="cqo" rows="3"></textarea><label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input id="cqr" type="checkbox" style="width:auto"> Respuesta obligatoria</label>${msg?`<p style="color:${/✓/.test(msg)?"#2f6b3a":"#86222f"};margin:8px 0"><b>${esc(msg)}</b></p>`:""}<button data-act="cqAdd" style="margin-top:8px">Añadir pregunta</button></div><div class="bar"><button class="on" data-act="cqSave">Guardar cuestionario</button><button data-act="cqClose">‹ Volver</button></div>`}
+async function cqAct(a,v){const f=id=>(($(id)||{}).value||"");
+if(a==="cqOpen"){CQE=true;msg="";render();window.scrollTo(0,0);return}
+if(a==="cqClose"){CQE=false;msg="";render();return}
+if(a==="cqTog"){const i=+v,k=CQCFG.off.indexOf(i);if(k<0)CQCFG.off.push(i);else CQCFG.off.splice(k,1)}
+else if(a==="cqDel")CQCFG.extra.splice(+v,1);
+else if(a==="cqAdd"){const q=f("cqt").trim(),k=f("cqk")||"x",o=f("cqo").split("\n").map(x=>x.trim()).filter(Boolean),r=($("cqr")||{}).checked;
+if(q.length<3)msg="Escribe la pregunta.";else if((k==="c"||k==="m")&&o.length<2)msg="Escribe al menos 2 opciones, una por línea.";else if(CQCFG.extra.length>=15)msg="Máximo 15 preguntas propias.";
+else{msg="";const x={i:"cx"+Date.now().toString(36),q,r:r?1:0,k:k==="yn"?"c":k};if(k==="yn"){x.o=["Sí","No"];x.yn=1}else if(k==="c"||k==="m")x.o=o;CQCFG.extra.push(x)}}
+else if(a==="cqSave"){const cfg={off:CQCFG.off,extra:CQCFG.extra},u=(await SB.auth.getUser()).data.user;const {error}=await SB.from("coaches").update({cuestionario:cfg}).eq("id",u.id);
+if(error)msg="No se pudo guardar ("+error.message+"). Ejecuta migracion-onboarding.sql en Supabase.";else{if(COACH)COACH.cuestionario=cfg;qsApply(cfg);msg="Guardado ✓"}}
+if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();render()}
+
 let qmsg="",qT=0;
 const qvis=(st,a)=>st.q.filter(q=>!q.w||q.w(a)),qEmpty=v=>Array.isArray(v)?!v.length:v==null||v==="";
 const qMiss=(st,a)=>qvis(st,a).filter(q=>q.r&&qEmpty(a[q.i]));
@@ -1368,7 +1427,7 @@ function render(){if(ROLE==="client"&&$("wvv")&&!$("wvv").paused&&!$("wvv").ende
 $("who").innerHTML=!USER||!ready?"":m?(ROLE==="coach"&&CL?'<button data-act="cList">‹ Clientes</button>':""):tab==="cli"?"":'<button data-act="tab" data-v="menu">‹ Menú</button>';
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
-if(CS&&ROLE==="coach"){regH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
+if(ROLE==="coach"&&USER&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();return}if(CS&&ROLE==="coach"){regH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
 $("app").innerHTML=tab==="cli"?cliH():m?menuH():gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,ana:anaH,crt:crtH,hlp:hlpH}[tab]()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
