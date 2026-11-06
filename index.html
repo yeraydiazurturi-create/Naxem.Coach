@@ -561,7 +561,7 @@ return`<div class="mcal" data-mc=""><div class="row"><b>${d0.toLocaleDateString(
 const qk=(v,t,b)=>`<button class="qk" data-act="tab" data-v="${v}"><b>${t}</b>${b?`<em>${b}</em>`:""}</button>`;
 return `<div class="hero"><small style="color:#ccc;letter-spacing:.25em">PERFIL DEL ATLETA</small><div class="hh">${esc(P.n||"Tu nombre")}</div><div class="script">${esc(P.o||"rendimiento atlético")}</div></div>${cal}${todayH()}<div class="qrow">${qk("ent","Entrenar")}${qk("nut","Nutrición")}${qk("rec","Estado")}${qk("chat","Chat",nn||"")}</div>${trialBanner()}${ntfH()}${shareH()}${wvSt()}<div class="menu">`+mt("tab","tst","","Rendimiento","Tests · "+(S.hyOn||co?"Hybrid test · ":"")+"Progreso · Revisión semanal",1)+mt("tab","fcz","","Zonas cardíacas","Karvonen · FC en reposo",1)+mt("tab","ini","","Mi perfil","Perfil · Cuestionario · Cuenta",1)+"</div>"}
 function recH2(){const p=recH().split("<!--S-->");
-if(!rs)return '<div class="menu">'+mt("rsub","hab","01","Hábitos","Racha y diario")+mt("rsub","ci","02","Check-in","Sueño, fatiga, ánimo")+mt("rsub","mov","03","Movilidad","Rutinas y estiramientos")+mt("rsub","spa","04","Circuito termal","Sauna, frío, turco, natación")+mt("rsub","gr","05","Gráficos","Evolución",1)+"</div>";
+if(!rs)return '<div class="menu">'+mt("rsub","hab","01","Hábitos","Racha y diario")+mt("rsub","ci","02","Check-in","Sueño, fatiga, ánimo")+mt("rsub","spa","03","Circuito termal","Sauna, frío, turco, natación")+mt("rsub","gr","04","Gráficos","Evolución",1)+"</div>";
 return '<div class="bar"><button data-act="rsub" data-v="">‹ Recovery</button></div>'+(rs==="hab"?p[0]+p[1]+p[2]:rs==="ci"?p[1]+p[3]:rs==="mov"?p[1]+movH():rs==="spa"?p[1]+spaH():p[4])}
 function tstH2(){const all=allT();
 if(!tp)return '<div class="menu">'+TP.map((p,i)=>{const ts=all.filter(t=>t.p===p);return mt("tpil",p,"0"+(i+1),p,ts.filter(t=>((S.tests||{})[t.id]||[]).length).length+"/"+ts.length+" registrados")}).join("")+"</div>";
@@ -1400,7 +1400,7 @@ const wvSt=()=>{if(ROLE!=="coach")return"";if(!libOk&&!libBusy&&!libErr)libLoad(
 let rvK="";
 const RVZ=["Cuello","Hombro","Codo","Muñeca / mano","Espalda alta","Espalda baja","Cadera","Rodilla","Tobillo / pie","Muslo","Gemelo","Otra"];
 const rvDays=k=>[...Array(7)].map((_,i)=>{const d=new Date(k+"T00:00");d.setDate(d.getDate()+i);return ymd(d)});
-function rvSum(k){const pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},D=rvDays(k),ss=S.sessions.filter(x=>!x.rec&&D.includes(x.date)).concat(D.filter(k=>k<today).flatMap(virt)),dn=ss.filter(x=>x.done),R=[],st=(v,a,b)=>v>=a?0:v>=b?1:2,add=(n,o,r,s,q)=>R.push({n,o,r,s,q:q==null?null:q});
+function rvSum(k){S.rev=S.rev||{};const pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},D=rvDays(k),ss=S.sessions.filter(x=>!x.rec&&D.includes(x.date)).concat(D.filter(k=>k<today).flatMap(virt)),dn=ss.filter(x=>x.done),R=[],st=(v,a,b)=>v>=a?0:v>=b?1:2,add=(n,o,r,s,q)=>R.push({n,o,r,s,q:q==null?null:q});
 const sets=x=>x.ex.reduce((a,e)=>a+pn(e.series),0),real=x=>x.ex.reduce((a,e)=>a+((e.log||[]).filter(l=>pn(l.r)>0).length||pn(e.series)),0);
 const ratios=[];
 if(ss.length){const q=dn.length/ss.length;ratios.push(q);add("Sesiones de entreno",ss.length,dn.length,st(q,.9,.7),q)}
@@ -1414,8 +1414,8 @@ if(w1>0&&w0>0){const c=(w1-w0)/w0*100,lo=/grasa/i.test(ob)?[-1,0]:/músculo|fuer
 const g=ratios.length?ratios.reduce((x,y)=>x+y)/ratios.length:null;
 const lowest=R.filter(x=>x.q!=null).sort((a,b)=>a.q-b.q)[0];
 return{R,g,sent:g==null?"Aún no hay datos suficientes de esta semana.":"Has cumplido el "+Math.round(g*100)+" % del plan"+(lowest&&lowest.q<.9?"; lo que más te ha faltado: "+lowest.n.toLowerCase()+".":". ¡Muy bien!")}}
-function revH(){const co=ROLE==="coach",cur=wkK(),O=S.rev||{},pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0};
-const ks=[...new Set([cur,...Object.keys(O).filter(x=>O[x].saved)])].sort().reverse().slice(0,8),un=ks.find(x=>(O[x].rs||{}).d&&!(O[x].rs||{}).seen),k=ks.includes(rvK)?rvK:co?(ks.find(x=>O[x].saved)||cur):(un||cur),r=O[k]||{},edit=!co&&k===cur,dis=edit?"":"disabled";
+function revH(){S.rev=S.rev||{};const co=ROLE==="coach",cur=wkK(),O=S.rev||{},pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0};
+const ks=[...new Set([cur,...Object.keys(O).filter(x=>O[x].saved)])].sort().reverse().slice(0,8),un=ks.find(x=>((O[x]||{}).rs||{}).d&&!((O[x]||{}).rs||{}).seen),k=ks.includes(rvK)?rvK:co?(ks.find(x=>(O[x]||{}).saved)||cur):(un||cur),r=O[k]||{},edit=!co&&k===cur,dis=edit?"":"disabled";
 if(!co&&r.rs&&!r.rs.seen){r.rs.seen=today;setTimeout(save,0)}
 const fn=(l,x,ph)=>`<div><label>${l}</label><input type="number" step="any" inputmode="decimal" ${dis} data-rv="${x}" value="${esc(r[x])}" placeholder="${ph}"></div>`,
 yn=(l,x)=>`<label>${l}</label><div class="qch">${["si","no"].map(v=>`<button class="qc${r[x]===v?" on":""}" ${edit?"":"disabled"} data-rvb="${x}|${v}">${v==="si"?"Sí":"No"}</button>`).join("")}</div>`,
