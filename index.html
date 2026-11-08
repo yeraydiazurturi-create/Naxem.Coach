@@ -8,6 +8,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Nexum"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="theme-color" content="#101011">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>(function(){try{var m=localStorage.getItem("nx_theme")||"auto",l=m==="light"||(m==="auto"&&window.matchMedia&&matchMedia("(prefers-color-scheme: light)").matches);document.documentElement.setAttribute("data-theme",l?"light":"dark")}catch(e){}})()</script>
 <style>
 :root{--red:#86222f;--wine:#86222f;--ember:#dcc7a1;--champ:#b79f78;--rosa:#c4414e;--bone:#ece7de;--graphite:#1a1a1c;--white:#f4f0e8;--black:#101011;--soft:#f7f4ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
@@ -442,7 +443,7 @@ const esc=v=>String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").r
 const DH=[["s1","Sueño","Sin pantallas antes de dormir","Sin dispositivos 1 h antes de acostarse","yn","",1],["s2","Sueño","Habitación oscura y fresca","Temperatura < 19 °C, sin luz","yn"],["s3","Sueño","Sin cafeína por la tarde","Nada de cafeína después de las 16:00","yn"],["r1","Recuperación","Estiramientos / movilidad","Sesión de flexibilidad y movilidad","num","min"],["h1","Hidratación & Nutrición","Hidratación diaria","Litros de agua consumidos","num","L"],["h2","Hidratación & Nutrición","Vaso de agua al despertar","Rehidratación tras la noche","yn"],["u1","Suplementación","Creatina","Monohidrato de creatina","num","g"],["u2","Suplementación","Magnesio","Glicinato, malato u otra forma","num","mg"],["m1","Mis hábitos","Sin lácteos","","yn"]].map(a=>({id:a[0],cat:a[1],name:a[2],desc:a[3],type:a[4],unit:a[5]||"",time:!!a[6]}));
 let S={sessions:[],cur:null,rec:{},habits:null};
 let USER="";
-if(!S.habits)S.habits=DH;
+if(!S.habits)S.habits=[];
 S.sessions.forEach(s=>{if(s.rpe==null)s.rpe="";if(s.done==null)s.done=false});
 if(!S.cur&&S.sessions[0])S.cur=S.sessions[0].id;
 let et="",tp="",rs="",pg="",rt={},openEx=new Set();let entV="home",rng=30,tab="menu",cm=new Date(),selDay=today,rd=today,metric="load",per="d";
@@ -516,7 +517,7 @@ const done=S.habits.filter(h=>hdone(h,r)).length,cats=[...new Set(S.habits.map(h
 return `<div class="card"><div class="row"><div><b>RACHA SEMANAL</b><br><small>Días con diario completado</small></div><div><span class="big">${n}</span> <small>días</small></div></div><div class="dots">${strip}</div></div><!--S-->
 <div class="card row"><button data-act="rPrev">‹</button><div style="text-align:center"><small>${rd===today?"HOY":""}</small><br><b>${new Date(rd+"T00:00").toLocaleDateString("es-ES",{weekday:"short",day:"2-digit",month:"2-digit",year:"2-digit"})}</b></div><button data-act="rNext">›</button><input type="date" id="rdate" value="${rd}" style="width:auto"></div><!--S-->
 <div class="card"><div class="row"><b>DIARIO DE HÁBITOS</b><button class="w" style="background:var(--red);color:#fff" data-act="addH">+ Añadir hábito</button></div><div class="row"><small>Completados</small><b>${done}/${S.habits.length}</b></div><div class="pb"><i style="width:${S.habits.length?100*done/S.habits.length:0}%"></i></div>
-${cats.map(ct=>`<div class="cat">${esc(ct)}</div>`+S.habits.filter(h=>h.cat===ct).map(h=>habH(h,r)).join("")).join("")}</div><!--S-->
+${S.habits.length?"":`<div class="empty"><b>Aún no tienes hábitos</b><br><small>Crea los tuyos: el nombre y si se responde con Sí/No o con un número (minutos, litros…). Empieza con 3 o 4 que quieras cumplir cada día.</small></div>`}${cats.map(ct=>`<div class="cat">${esc(ct)}</div>`+S.habits.filter(h=>h.cat===ct).map(h=>habH(h,r)).join("")).join("")}</div><!--S-->
 <div class="card"><div class="row"><div><b>CHECK-IN DIARIO</b><br><small>${rd}</small></div><div id="scbox" style="text-align:right">${scoreBox()}</div></div>
 <div class="cat">Sueño</div><div class="row"><b>Horas de sueño</b><b style="color:var(--red)"><span id="slv">${c.h}</span> h</b></div><small>Cuántas horas dormiste anoche</small><input type="range" min="4" max="12" step="0.5" value="${c.h}" data-sl="1" style="padding:0">
 ${CI.map(q=>`<div class="row" style="margin-top:12px"><div><b style="color:var(--red)">${q[1]}</b><br><small>${q[2]}</small></div><b style="font-size:22px">${c[q[0]]}</b></div><div class="ten">${[1,2,3,4,5,6,7,8,9,10].map(i=>`<button class="${i<=c[q[0]]?"on":""}" data-act="ci" data-k="${q[0]}" data-v="${i}">${i}</button>`).join("")}</div><div class="row"><small>${q[3]}</small><small>${q[4]}</small></div>`).join("")}
@@ -589,7 +590,7 @@ function tsc(t){return idx(t)}
 function bmH(t){if(t.p==="Antropometría")return"";const b=bmOf(t),i=idx(t);if(!b)return `<small>Sin referencia · </small>${CLI()?"":`<button class="x" data-act="bm" data-v="${t.id}">Definir referencia</button>`}`;
 const w=t.k==="w",f=n=>t.u==="mm:ss"?fmtT(n):r1(n),u=w?"× peso corporal":t.u;
 return `<div class="row"><small>Base ${f(b[0])} → Élite ${f(b[1])} ${u}</small>${CLI()?"":`<button class="x" data-act="bm" data-v="${t.id}">Ajustar</button>`}</div>`+(i==null?`<small>${w&&!lastT("pes")?"Registra tu peso (Antropometría) para puntuar.":"Registra un valor para puntuar."}</small>`:`<div class="row"><b style="font-family:Anton,Impact,sans-serif;font-size:22px;font-weight:400">${Math.round(i)} / 100</b><small>${lvl(i)}</small></div><div class="pb"><i style="width:${i}%"></i></div>`)}
-function loadS(){S={sessions:[],cur:null,rec:{},habits:null};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}if(!S.habits)S.habits=DH;S.sessions.forEach(s=>{if(s.rpe==null)s.rpe="";if(s.done==null)s.done=false});if(!S.cur&&S.sessions[0])S.cur=S.sessions[0].id;tab="menu";entV="home";rd=today;selDay=today}
+function loadS(){S={sessions:[],cur:null,rec:{},habits:null};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}if(!S.habits)S.habits=[];S.sessions.forEach(s=>{if(s.rpe==null)s.rpe="";if(s.done==null)s.done=false});if(!S.cur&&S.sessions[0])S.cur=S.sessions[0].id;tab="menu";entV="home";rd=today;selDay=today}
 function loginOld(){let us=[];try{us=JSON.parse(localStorage.getItem("ydp_users")||"[]")}catch(e){}
 $("app").innerHTML=`<div class="hero"><small style="color:#ccc;letter-spacing:.25em">ACCESO GRATUITO</small><div class="hh">Bienvenido</div><div class="script">entra con tu usuario</div></div><div class="card"><label>Usuario</label><input id="lu" maxlength="30" autocapitalize="off" autocomplete="off" placeholder="tu nombre de usuario" onkeydown="if(event.key==='Enter')this.nextElementSibling.click()"><button class="on" data-act="login" style="width:100%;margin-top:10px;padding:12px">Entrar</button><small>Gratis y sin contraseña. Tus datos se guardan en este dispositivo, separados por usuario.</small>${us.length?`<label>Usuarios en este dispositivo</label><div class="bar">${us.map(u=>`<button data-act="login" data-v="${esc(u)}">${esc(u)}</button>`).join("")}</div>`:""}</div>`}
 let lm="in",msg="",lv="";
@@ -638,7 +639,7 @@ b.disabled=true;m("Guardando…");try{if(CLI()){const {data,error}=await SB.rpc(
 ["pw0","pw1","pw2"].forEach(i=>{if($(i))$(i).value=""});m("✓ Contraseña cambiada.")}catch(e){m("No se pudo cambiar: "+(e.message||e))}b.disabled=false});
 const accH=()=>(ROLE==="coach"&&!CL?coachAccH():(CLI()?avCard():"")+(CLI()?nameCard()+subCard()+invCardCl():"")+accH0()+pwCard())+(window.pushCard?window.pushCard():"");
 const accH0=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?(GATE&&GATE.suscrito?`<button data-act="stPortal">Mi suscripción</button>`:""):`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}${ROLE==="coach"&&CL?"":`<button data-sw="1">${ROLE==="client"?"Cambiar a modo entrenador":"Cambiar a modo atleta"}</button>`}<button data-act="logout">Salir</button></div></div>`;
-const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","del grupo"],pro:["Progreso","de cargas"],acc:["Mi","cuenta"],ent:["Entrenos","tus sesiones"],cal:["Calendario","planificación"],car:["Carga","análisis"],rec:["Recovery","recuperación"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"]};
+const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Mi","cuenta"],ent:["Entrenos","tus sesiones"],cal:["Calendario","planificación"],car:["Carga","análisis"],rec:["Recovery","recuperación"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"]};
 const TABS=[["ini","Inicio"],["ent","Entrenos"],["cal","Calendario"],["car","Carga"],["rec","Recovery"],["tst","Tests"]];
 const mt=(a,v,n,t,x,w)=>`<button class="mt${w?" wide":""}" data-act="${a}" data-v="${v}"><i>${/^\d+$/.test(String(n))?"":n}</i><span><b>${t}</b><small>${x}</small></span></button>`;
 function ydi(){const at=allT(),v=["Velocidad","Fuerza","Resistencia","Soporte"].map(p=>{const x=at.filter(t=>t.p===p).map(tsc).filter(y=>y!=null);return x.length?x.reduce((a,b)=>a+b)/x.length:null}).filter(y=>y!=null);return v.length?Math.round(v.reduce((a,b)=>a+b)/v.length):null}
@@ -649,7 +650,7 @@ return`<div class="mcal" data-mc=""><div class="row"><b>${d0.toLocaleDateString(
 const qk=(v,t,b)=>`<button class="qk" data-act="tab" data-v="${v}"><b>${t}</b>${b?`<em>${b}</em>`:""}</button>`;
 return `<div class="hero"><small style="color:#ccc;letter-spacing:.25em">PERFIL DEL ATLETA</small><div class="hh">${esc(P.n||"Tu nombre")}</div><div class="script">${esc(P.o||"rendimiento atlético")}</div></div>${cal}${todayH()}<div class="qrow">${qk("ent","Entrenar")}${qk("nut","Nutrición")}${qk("rec","Estado")}${qk("chat","Chat",nn||"")}</div>${trialBanner()}${ntfH()}${shareH()}${wvSt()}<div class="menu">`+mt("tab","tst","","Rendimiento","Tests · "+(S.hyOn||co?"Hybrid test · ":"")+"Progreso · Revisión semanal",1)+mt("tab","fcz","","Zonas cardíacas","Karvonen · FC en reposo",1)+mt("tab","ini","","Mi perfil","Perfil · Cuestionario · Cuenta",1)+"</div>"}
 function recH2(){const p=recH().split("<!--S-->");
-if(!rs)return '<div class="menu">'+mt("rsub","hab","01","Hábitos","Racha y diario")+mt("rsub","ci","02","Check-in","Sueño, fatiga, ánimo")+mt("rsub","spa","03","Circuito termal","Sauna, frío, turco, natación")+mt("rsub","gr","04","Gráficos","Evolución",1)+"</div>";
+if(!rs)return '<div class="menu">'+mt("rsub","hab","01","Hábitos",S.habits.length?"Racha y diario":"Crea tus hábitos")+mt("rsub","ci","02","Check-in","Sueño, fatiga, ánimo")+mt("rsub","gr","03","Gráficos","Evolución",1)+"</div>";
 return '<div class="bar"><button data-act="rsub" data-v="">‹ Recovery</button></div>'+(rs==="hab"?p[0]+p[1]+p[2]:rs==="ci"?p[1]+p[3]:rs==="mov"?p[1]+movH():rs==="spa"?p[1]+spaH():p[4])}
 function tstH2(){const all=allT();
 if(!tp)return '<div class="menu">'+TP.map((p,i)=>{const ts=all.filter(t=>t.p===p);return mt("tpil",p,"0"+(i+1),p,ts.filter(t=>((S.tests||{})[t.id]||[]).length).length+"/"+ts.length+" registrados")}).join("")+"</div>";
@@ -675,7 +676,7 @@ const setStat=t=>{const e=$("st");if(e)e.textContent=t};
 const typing=()=>/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||"");
 const ckey=()=>"ydp_c_"+(CL.id||CL.usr);
 const cacheW=()=>{if(ROLE!=="coach")return;try{localStorage.setItem(ckey(),J({d:strip(S),rv:rv,n:CL.name}))}catch(e){}};
-function setS(d){S=Object.assign({sessions:[],cur:null,rec:{},habits:null},d||{});if(!S.habits)S.habits=DH;S.sessions.forEach(x=>{if(x.rpe==null)x.rpe="";if(x.done==null)x.done=false});if(!S.cur&&S.sessions[0])S.cur=S.sessions[0].id;if(CL&&CL.name&&!(S.prof&&S.prof.n))(S.prof=S.prof||{}).n=CL.name}
+function setS(d){S=Object.assign({sessions:[],cur:null,rec:{},habits:null},d||{});if(!S.habits)S.habits=[];S.sessions.forEach(x=>{if(x.rpe==null)x.rpe="";if(x.done==null)x.done=false});if(!S.cur&&S.sessions[0])S.cur=S.sessions[0].id;if(CL&&CL.name&&!(S.prof&&S.prof.n))(S.prof=S.prof||{}).n=CL.name}
 function m3(b,l,r){if(J(l)===J(r))return l;if(J(l)===J(b))return r;if(J(r)===J(b))return l;
 if(Array.isArray(l)&&Array.isArray(r)&&[].concat(l,r).every(x=>isO(x)&&x.id)){const B=Array.isArray(b)?b:[],f=(a,i)=>a.find(x=>x.id===i),o=[];[...new Set([...r,...l].map(x=>x.id))].forEach(i=>{const bi=f(B,i),li=f(l,i),ri=f(r,i);if(li&&ri)o.push(m3(bi,li,ri));else if(li){if(!bi||J(li)!==J(bi))o.push(li)}else if(ri){if(!bi||J(ri)!==J(bi))o.push(ri)}});return o}
 if(isO(l)&&isO(r)){const B=isO(b)?b:{},o={};[...new Set([...Object.keys(l),...Object.keys(r)])].forEach(k=>{const v=m3(B[k],l[k],r[k]);if(v!==undefined)o[k]=v});return o}
@@ -1432,7 +1433,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no tienes rutinas de este tipo. Crea una en Biblioteca → Rutinas.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-07.25";
+const APP_V="2026-11-08.28";
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -1703,7 +1704,7 @@ else if(a==="saveCI"){const r=R();r.saved=true;r.ci.score=score(r.ci)}
 else if(a==="addH"){const n=prompt("Nombre del hábito");if(!n)return;const u=prompt("Unidad si es numérico (min, g, L…). Vacío = Sí/No")||"";S.habits.push({id:uid(),cat:"Mis hábitos",name:n,desc:"",type:u?"num":"yn",unit:u})}
 else if(a==="delH"){if(!confirm("¿Quitar este hábito?"))return;S.habits=S.habits.filter(h=>h.id!==t.dataset.id)}
 else if(a==="exp"){const w=window.open("","_blank");if(w)w.document.write("<pre style='white-space:pre-wrap;word-break:break-all'>"+esc(JSON.stringify(S))+"</pre>");return}
-else if(a==="imp"){const x=prompt("Pega aquí tus datos exportados:");if(!x)return;try{Object.assign(S,JSON.parse(x));if(!S.habits)S.habits=DH}catch(e){alert("Datos no válidos");return}}
+else if(a==="imp"){const x=prompt("Pega aquí tus datos exportados:");if(!x)return;try{Object.assign(S,JSON.parse(x));if(!S.habits)S.habits=[]}catch(e){alert("Datos no válidos");return}}
 if(ROLE==="coach"&&["newS","delS","addEx","delEx","dup","planS","genA","cpW"].includes(a))S.pu=Date.now();
 save();render()});
 document.addEventListener("input",ev=>{const t=ev.target,s=cur(),d=t.dataset;
@@ -1742,7 +1743,7 @@ return L.length?L.map(c=>`<div class="card"><div class="row"><b>${esc(c.name||"S
 function adCl(){const F=[["all","Todos"],["solo","Sin entrenador"],["prueba","En prueba"],["pago","Pagando"],["susp","Suspendidos"]],cn=adF.startsWith("c:")?(AD.co.find(c=>c.id===adF.slice(2))||{}).nombre:"";
 return`<input id="adq" data-adq="1" placeholder="Buscar atleta, usuario o entrenador…" value="${esc(adQ)}"><div class="qch" style="margin:8px 0">${F.map(x=>`<button class="qc${adF===x[0]?" on":""}" data-ad="flt" data-v="${x[0]}">${x[1]}</button>`).join("")}${cn?`<button class="qc on" data-ad="flt" data-v="all">${esc(cn)} ✕</button>`:""}</div><div id="adlist">${adClList()}</div>`}
 function adCt(){const v=(k,l,h)=>`<label>${l}</label><input id="cfg_${k}" value="${esc(CFG[k]||"")}" placeholder="${h}">`;
-return`<div class="card"><b>Vídeos de bienvenida</b><br><small>MP4 directo o enlace de YouTube. Si lo dejas vacío, ese paso se salta. Cada persona tiene que ver al menos el 90 % la primera vez que entra.</small>${v("video_coach","Vídeo para entrenadores","https://youtu.be/…")}${v("video_atleta","Vídeo para atletas (por defecto, si un plan no tiene el suyo)","https://youtu.be/…")}${v("video_plan_3","Vídeo del plan de 3 meses","https://youtu.be/…")}${v("video_plan_6","Vídeo del plan de 6 meses","https://youtu.be/…")}${v("video_plan_9","Vídeo del plan de 9 meses","https://youtu.be/…")}<div class="bar" style="margin:10px 0 0"><button class="on" data-ad="cfgv">Guardar vídeos</button></div></div>
+return`<div class="card"><b>Vídeos de bienvenida</b><br><small>MP4 directo o enlace de YouTube. Si lo dejas vacío, ese paso se salta. Cada persona tiene que ver al menos el 90 % la primera vez que entra.</small>${v("video_coach","Vídeo para entrenadores","https://youtu.be/…")}${v("video_atleta","Vídeo para atletas (por defecto, si un plan no tiene el suyo)","https://youtu.be/…")}${v("video_plan_3","Vídeo del plan de 3 meses","https://youtu.be/…")}${v("video_plan_6","Vídeo del plan de 6 meses","https://youtu.be/…")}${v("video_plan_9","Vídeo del plan de 9 meses","https://youtu.be/…")}${v("coach_cuota_6","Entrenadores · cuota mensual contrato 6 meses (€, vacío = sin cuota)","0")}${v("coach_cuota_12","Entrenadores · cuota mensual contrato 12 meses (€)","0")}${v("coach_cuota_24","Entrenadores · cuota mensual contrato 24 meses (€)","0")}<div class="bar" style="margin:10px 0 0"><button class="on" data-ad="cfgv">Guardar</button></div></div>
 <div class="card"><b>Ejercicios de Nexum</b><br><small>Los ven todos los atletas sin entrenador, y los entrenadores pueden copiarlos y adaptarlos.</small><div class="bar" style="margin:10px 0 0"><button class="w" data-ad="newx">+ Nuevo ejercicio</button></div></div>`+((AD.ct||[]).length?AD.ct.map(x=>`<div class="card ex-s"><div class="row"><b>${esc(x.name)}</b><span><button class="x" data-ad="edx" data-id="${x.id}">Editar</button><button class="x" data-ad="delx" data-id="${x.id}">Eliminar</button></span></div><small>${esc((x.data||{}).cat||"")} · ${exSum(x.data||{})}</small></div>`).join(""):'<div class="empty">Aún no hay ejercicios de Nexum.</div>')}
 function adAj(){return`<div class="card"><b>Pruebas gratuitas</b><br><small>Días de prueba para los nuevos entrenadores y atletas.</small><label>Días de prueba</label><input id="cfg_trial_dias" type="number" min="0" max="90" value="${esc(CFG.trial_dias!=null?CFG.trial_dias:7)}"><div class="bar" style="margin:10px 0 0"><button class="on" data-ad="cfg" data-k="trial_dias">Guardar</button></div></div>
 <div class="card"><b>Pagos en la app</b><br><small>Clave publicable de Stripe (empieza por pk_live_). Es pública y sirve para mostrar el pago con tarjeta y Apple Pay dentro de la app.</small><label>Clave publicable</label><input id="cfg_stripe_pk" value="${esc(CFG.stripe_pk||"")}" placeholder="pk_live_…" autocapitalize="off" autocomplete="off"><div class="bar" style="margin:10px 0 0"><button class="on" data-ad="cfg" data-k="stripe_pk">Guardar</button></div></div>
@@ -1768,7 +1769,7 @@ else if(a==="del"){const nm=((k==="coach"?AD.co:AD.cl).find(x=>x.id===id)||{}).n
 else if(a==="reas"){const c=AD.cl.find(x=>x.id===id),L=AD.co||[],n=prompt("Nuevo entrenador para "+(c?c.name:"")+" (escribe el número; 0 = sin entrenador):\n"+L.map((x,i)=>(i+1)+". "+(x.nombre||x.email)).join("\n"),"0");if(n===null)return;const i=+n;if(!isFinite(i)||i<0||i>L.length){alert("Número no válido.");return}adDo("reassign","client",id,{coach:i?L[i-1].id:""})}
 else if(a==="pwd"){const c=AD.cl.find(x=>x.id===id),p=prompt("Nueva contraseña para "+(c?c.name:"")+" (mínimo 6 caracteres)");if(!p)return;adDo("resetpwd","client",id,{pwd:p}).then(ok=>{if(ok)alert("Contraseña cambiada. Díselo al atleta.")})}
 else if(a==="cfg"){let v=V("cfg_"+k);if(k==="trial_dias"||k==="comision"){const n=+v;if(!isFinite(n)||n<0||n>(k==="comision"?50:90)){alert("Valor no válido.");return}v=n}adDo("config",null,null,{key:k,value:v})}
-else if(a==="cfgv"){await adDo("config",null,null,{key:"video_coach",value:V("cfg_video_coach")});await adDo("config",null,null,{key:"video_atleta",value:V("cfg_video_atleta")});for(const n of [3,6,9])await adDo("config",null,null,{key:"video_plan_"+n,value:V("cfg_video_plan_"+n)})}
+else if(a==="cfgv"){await adDo("config",null,null,{key:"video_coach",value:V("cfg_video_coach")});await adDo("config",null,null,{key:"video_atleta",value:V("cfg_video_atleta")});for(const n of [3,6,9])await adDo("config",null,null,{key:"video_plan_"+n,value:V("cfg_video_plan_"+n)});for(const n of [6,12,24])await adDo("config",null,null,{key:"coach_cuota_"+n,value:V("cfg_coach_cuota_"+n)})}
 else if(a==="newx"){NXPUB=true;xfOpen({},"")}
 else if(a==="edx"){const x=AD.ct.find(y=>y.id===id);if(x){NXPUB=true;xfOpen(Object.assign({name:x.name},x.data),x.id)}}
 else if(a==="delx"){const x=AD.ct.find(y=>y.id===id);if(!x||!confirm("¿Eliminar «"+x.name+"» de la biblioteca de Nexum?"))return;const r=await SB.from("library").delete().eq("id",id);if(r.error)alert("No se pudo eliminar: "+r.error.message);else adLoad()}
@@ -1995,6 +1996,11 @@ im.onload=function(){(im.decode?im.decode():Promise.resolve()).then(run,run)};im
 .v21h{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin:12px 0 2px}.v21a{padding:10px 12px;border-radius:10px;margin-top:8px;border-left:3px solid #c4414e;background:rgba(134,34,47,.07)}.v21a.i{border-left-color:#b79f78;background:rgba(183,159,120,.12)}.v21a b{display:block;font-size:14px}
 .v21t{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--hair);font-size:14px}.v21t input{width:20px;height:20px;accent-color:#86222f}
 .v21u{position:fixed;left:12px;right:12px;bottom:84px;z-index:99;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#efeae0;color:#1a1a1c;border-radius:12px;padding:10px 12px;font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.5)}.v21u button{background:#86222f;color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer}
+.v21hd{display:flex;justify-content:space-between;align-items:center;margin:4px 0 8px}.v21hd b{font-size:22px;letter-spacing:-.01em}.v21hd button{background:transparent;border:1px solid var(--hairl);color:var(--ember);border-radius:999px;font-size:13px;padding:8px 14px}
+.v21cl{display:block}.v21cr{display:flex;height:auto;min-height:0;flex:none;align-items:center;gap:14px;width:100%;text-align:left;background:transparent!important;border:0;border-radius:12px;padding:10px 6px;color:inherit;cursor:pointer;font:inherit;text-transform:none;letter-spacing:0}.v21cr:active{background:rgba(128,128,128,.14)!important}
+.v21cm{flex:1;min-width:0}.v21cm b{display:block;font-size:16px;font-weight:600;color:var(--white);text-transform:none}.v21cm small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13.5px;margin-top:2px;color:#8d877d}.v21cm small.un{color:var(--white);font-weight:600}
+.v21cx{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}.v21cx small{font-size:12px;color:#8d877d}.v21cx em{background:var(--rosa);color:#fff;border-radius:999px;font-style:normal;font-size:12px;font-weight:700;min-width:22px;text-align:center;padding:2px 7px}
+.v21av.a54{width:54px;height:54px;font-size:20px;cursor:default}.v21av.sq{background:linear-gradient(135deg,#86222f,#2a1519);color:var(--ember);font-size:17px;letter-spacing:.05em}.v21av.co{background:#86222f}.v21av.nu{background:#5f8f4e}.v21tg{font-style:normal;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--champ);border:1px solid var(--hairl);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:middle;font-weight:600}
 .v21av{width:32px;height:32px;border-radius:50%;background:#0d0d0d center/cover no-repeat;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex:none;cursor:pointer}.v21av.xl{width:104px;height:104px;font-size:42px}.v21av.md{width:40px;height:40px;font-size:16px}
 .v21br{display:flex;gap:6px;align-items:flex-end;align-self:flex-start;max-width:90%}.v21br .v21b{align-self:auto;max-width:none}
 .v21bio{text-align:center;font-size:15px;line-height:1.5;margin:14px 0 4px;font-style:italic}.v21lv{margin-top:16px}.v21lv b{display:block;font-size:24px;margin:2px 0 6px}.v21pl{display:grid;gap:8px;margin-top:14px}.v21pl>div{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center;font-size:13px}.v21pl .pb{margin:0}
@@ -2002,6 +2008,54 @@ im.onload=function(){(im.decode?im.decode():Promise.resolve()).then(run,run)};im
 .lgkp{display:flex;align-items:center;gap:8px;margin:2px 0 12px;font-size:13px;color:#b8b1a4;cursor:pointer}.lgkp input{width:18px;height:18px;accent-color:#86222f}
 .v21dl{max-height:50vh;overflow:auto;margin:8px 0;display:flex;flex-direction:column;gap:6px}.v21b{max-width:82%;align-self:flex-start;background:rgba(26,26,28,.08);border-radius:14px 14px 14px 4px;padding:8px 12px;font-size:14px}.v21b.me{align-self:flex-end;background:#86222f;color:#fff;border-radius:14px 14px 4px 14px}.v21b.me a{color:#fff!important}.v21b small{display:block;font-size:10px;opacity:.65;margin-top:2px}
 .v21p{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--hair);padding:12px 2px;color:inherit;cursor:pointer;font:inherit}.v21p i{width:36px;height:36px;border-radius:50%;background:#0d0d0d;color:#fff;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:600;flex:none}.v21p span{flex:1;min-width:0}.v21p b{display:block;font-size:15px}.v21p small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.v21p em{background:#86222f;color:#fff;border-radius:999px;font-style:normal;font-size:12px;font-weight:600;padding:2px 8px}
+/* ===== v21i · tema claro/oscuro ===== */
+html{color-scheme:dark}html[data-theme=light]{color-scheme:light}
+.v21th{display:flex;gap:4px;padding:4px;border-radius:12px;border:1px solid var(--hair);margin:8px 0 2px}.v21th button{flex:1;background:transparent;color:inherit;border:0;border-radius:9px;padding:10px 4px;font-size:13.5px}.v21th button.on{background:#86222f;color:#fff}
+.v21av,.v21p i{border:1px solid rgba(255,255,255,.14)}.v21av{background-color:#26262a}.v21p i{background:#26262a}
+html[data-theme=light]{--white:#1a1a1c;--bone:#fffdf9;--ember:#8a6d3b;--champ:#8a6d3b;--soft:#f4f0e8;--hair:rgba(26,26,28,.11);--hairl:rgba(26,26,28,.13)}
+html[data-theme=light],html[data-theme=light] body{background:#f5f1ea}
+html[data-theme=light] body{background:radial-gradient(120% 70% at 12% -10%,#efe4da 0,#f5f1ea 50%,#f1ece3 100%) fixed;color:#1a1a1c}
+html[data-theme=light] header{background:rgba(245,241,234,.94);border-bottom:1px solid var(--hairl)}
+html[data-theme=light] header img.nx,html[data-theme=light] .lgl{filter:brightness(.18) sepia(.25)}
+html[data-theme=light] #tabs button,html[data-theme=light] .gtp{color:#6f685e}
+html[data-theme=light] #tabs button.w,html[data-theme=light] .gtp.on{color:#1a1a1c;border-bottom-color:#86222f}
+html[data-theme=light] #who button{background:#fffdf9;border-color:var(--hairl);color:#1a1a1c}
+html[data-theme=light] #bnav{background:rgba(250,247,242,.97);border-top:1px solid var(--hairl)}
+html[data-theme=light] #bnav button{color:#6f685e}html[data-theme=light] #bnav button.on{color:#86222f}
+html[data-theme=light] .card,html[data-theme=light] .mt,html[data-theme=light] .tile,html[data-theme=light] .rcc,html[data-theme=light] .lbc,html[data-theme=light] .hoy,html[data-theme=light] .mcal{background:#fffdf9;color:#1a1a1c;border:1px solid var(--hair);box-shadow:0 1px 2px rgba(60,40,20,.06),0 14px 30px -22px rgba(60,40,20,.35)}
+html[data-theme=light] .mt,html[data-theme=light] .rcc,html[data-theme=light] .lbc,html[data-theme=light] .hoy,html[data-theme=light] .mcal{border-top:3px solid #86222f}
+html[data-theme=light] .hero{border-bottom-color:var(--hairl)}
+html[data-theme=light] .hoyt,html[data-theme=light] .mcd,html[data-theme=light] .mcal .row b{color:#1a1a1c}
+html[data-theme=light] .hoys,html[data-theme=light] .empty,html[data-theme=light] .lgs,html[data-theme=light] .lgt,html[data-theme=light] .lgkp{color:#6f685e}
+html[data-theme=light] .qc,html[data-theme=light] .qdc,html[data-theme=light] .crw,html[data-theme=light] .tmr,html[data-theme=light] .lbs,html[data-theme=light] .pv,html[data-theme=light] .day{background:#f4f0e8;border-color:rgba(26,26,28,.14)}
+html[data-theme=light] .qc.on,html[data-theme=light] .qdc.on,html[data-theme=light] .crw.on{background:#86222f;color:#fff}
+html[data-theme=light] input,html[data-theme=light] textarea,html[data-theme=light] select{background:#f7f3ec;color:#1a1a1c;border-color:#d4ccbd}
+html[data-theme=light] .yf{border-top-color:var(--hairl)}
+html[data-theme=light] .yfl a{background:#fffdf9;color:#3a352e;border-color:var(--hairl)}
+html[data-theme=light] .lgc{background:#fffdf9;border-color:rgba(138,109,59,.35);box-shadow:0 30px 70px -36px rgba(60,40,20,.4);color:#1a1a1c}
+html[data-theme=light] .lg input{background:#f7f3ec;color:#1a1a1c;border-color:#d4ccbd}
+html[data-theme=light] .lgrole{background:#f7f3ec;border-color:rgba(138,109,59,.3);color:#1a1a1c}
+html[data-theme=light] .lgerr{background:rgba(134,34,47,.1);border-color:rgba(134,34,47,.3);color:#86222f}
+html[data-theme=light] .lgp,html[data-theme=light] .lgp small,html[data-theme=light] .lgrole span{color:#1a1a1c}
+html[data-theme=light] .lgrole span{color:#6f685e}
+html[data-theme=light] #splash{background:#f5f1ea}
+html[data-theme=light] .plp,html[data-theme=light] .lgb::after{background:rgba(26,26,28,.12)}
+html[data-theme=light] .plc{color:#1a1a1c}
+html[data-theme=light] .lhy{border-color:rgba(138,109,59,.5)}
+html[data-theme=light] .v21hd button{color:#86222f;border-color:rgba(134,34,47,.35)}
+html[data-theme=light] .v21cm b,html[data-theme=light] .v21cm small.un{color:#1a1a1c}
+html[data-theme=light] .v21cm small,html[data-theme=light] .v21cx small{color:#6f685e}
+html[data-theme=light] .v21b{background:rgba(26,26,28,.07)}
+html[data-theme=light] .v21u{background:#fffdf9;border:1px solid var(--hair)}
+html[data-theme=light] .v21av,html[data-theme=light] .v21p i{border-color:rgba(26,26,28,.12)}
+html[data-theme=light] .v21av.sq{color:#f1dcb4}
+html:where([data-theme=light]) button{color:#f4f0e8}
+html[data-theme=light] body{background:#f5f1ea}
+html[data-theme=light] button.on,html[data-theme=light] .ten button.on,html[data-theme=light] .rcb.on i,html[data-theme=light] .qdc.on span,html[data-theme=light] .crw.on .crn,html[data-theme=light] .day i.dn,html[data-theme=light] .tmb,html[data-theme=light] .avb,html[data-theme=light] .plgo,html[data-theme=light] .mt:active b,html[data-theme=light] .mt:active small{color:#f4f0e8}
+html[data-theme=light] .v21th button{color:#1a1a1c}html[data-theme=light] .v21th button.on{color:#fff}
+html[data-theme=light] .v21s button{color:#1a1a1c}html[data-theme=light] .v21s button.on{color:#fff}
+html[data-theme=light] #tabs button.w,html[data-theme=light] .gtp.on{color:#fff}
+.v21cts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.v21ct{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 4px;text-align:center;background:#f3efe7;color:#1a1a1c;border:1px solid #d6cfc2;border-radius:12px;text-transform:none;letter-spacing:0}.v21ct b{font-size:28px;line-height:1}.v21ct span{font-size:12px}.v21ct em{font-style:normal;font-weight:600;font-size:12.5px;margin-top:6px}.v21ct small{font-size:11px;color:#6f685e}.v21ct.on{background:#86222f;color:#fff;border-color:#86222f}.v21ct.on small{color:#f0d9dc}.v21ctx p{font-size:13.5px;line-height:1.5;margin:8px 0}
 </style>
 <script>
 (function(){
@@ -2442,6 +2496,64 @@ else if(a==="msg"){fichaClose();tab="chat";chn="";dmOn=true;DM.view="thread";DM.
 document.addEventListener("change",ev=>{const t=ev.target.closest('[data-v21f="fh"]');if(!t)return;ev.stopPropagation();S.prof=S.prof||{};S.prof.fh=!t.checked;save()},true);
 const _chL=chatL;chatL=function(){let h=_chL.apply(this,arguments);if(ROLE!=="client"||chn!=="squad")return h;if(!DM.list&&Date.now()-DM.t>3000)dmLoadList(true);if(!DM.list)return h;
 return h.replace(/<div class="av" style="([^"]*)">([^<]*)<\/div>(<div style="flex:1;min-width:0"><div class="row"><span>)<b>([^<]*)<\/b>/g,(m,st,chr,mid,nm)=>{const n=unE(nm),c=DM.list.find(x=>x.nombre===n);if(!c)return m;const p=PHO[c.id]&&PHO[c.id].photo;return`<div class="av" data-v21f="open" data-id="${esc(c.id)}" data-n="${nm}" style="${st};cursor:pointer${p?`;background-image:url('${esc(p)}');background-size:cover;background-position:center;font-size:0`:""}">${chr}</div>${mid}<b data-v21f="open" data-id="${esc(c.id)}" data-n="${nm}" style="cursor:pointer">${nm}</b>`})};
+
+
+/* ===== v21 · Lista de chats estilo mensajería ===== */
+let CS={};
+async function csLoad(){if(ROLE!=="client"||!CL)return;try{const r=await SB.rpc("chat_summary",DMA());if(r.error)return;const m={};(r.data||[]).forEach(x=>{m[x.ch]=x});if(J21(m)!==J21(CS)){CS=m;if(tab==="chat"&&!chn&&!dmOn)render()}}catch(e){}}
+function cTime(iso){if(!iso)return"";const d=new Date(iso),n=new Date(),dd=Math.round((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/864e5);
+if(dd<=0)return d.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"});if(dd===1)return"Ayer";if(dd<7)return["dom","lun","mar","mié","jue","vie","sáb"][d.getDay()];return d.toLocaleDateString("es-ES",{day:"2-digit",month:"2-digit"})}
+const cPrev=(m,me)=>{if(!m)return"";const k=m.kind,b=k==="image"?"📷 Foto":k==="audio"?"🎤 Nota de voz":k==="video"?"🎬 Vídeo":(m.body||"");return(m.author&&m.author!==me?m.author.split(" ")[0]+": ":m.author?"Tú: ":"")+b};
+function cRow(o){return`<button class="v21cr" ${o.attrs}>${o.av}<span class="v21cm"><b>${o.name}</b><small${o.n?' class="un"':""}>${o.sub}</small></span><span class="v21cx"><small>${o.at?cTime(o.at):""}</small>${o.n?`<em>${o.n}</em>`:""}</span></button>`}
+const cAv=(t,cls)=>`<span class="v21av a54 ${cls||""}">${t}</span>`;
+function chatListH(){const me=(S.prof&&S.prof.n)||CL.name||"",it=[];
+const add=(at,html)=>it.push({at:at?+new Date(at):0,html});
+const sq=CS.squad,pv=CS.priv,nu=CS.nutri;
+add(sq&&sq.at,cRow({attrs:'data-act="chn" data-v="squad"',av:cAv("HS","sq"),name:"Hybrid Squad",sub:sq?esc(cPrev(sq,me)):"Comunidad de tu entrenador",at:sq&&sq.at,n:NT.squad||0}));
+add(pv&&pv.at,cRow({attrs:'data-act="chn" data-v="priv"',av:cAv(esc((coachNm()||"E").charAt(0).toUpperCase()),"co"),name:esc(coachNm())+' <i class="v21tg">Entrenador</i>',sub:pv?esc(cPrev(pv,me)):"Habla con tu entrenador",at:pv&&pv.at,n:NT.priv||0}));
+if(GATE&&GATE.nutri)add(nu&&nu.at,cRow({attrs:'data-act="chn" data-v="nutri"',av:cAv(esc(String(GATE.nutri).charAt(0).toUpperCase()),"nu"),name:esc(GATE.nutri)+' <i class="v21tg">Nutrición</i>',sub:nu?esc(cPrev(nu,me)):"Tu nutricionista",at:nu&&nu.at,n:NT.nutri||0}));
+(DM.list||[]).filter(c=>c.last_at).forEach(c=>add(c.last_at,cRow({attrs:`data-v21d="open" data-id="${esc(c.id)}" data-n="${esc(c.nombre)}"`,av:avH(c.id,c.nombre,"a54",false),name:esc(c.nombre),sub:esc(c.last_body||""),at:c.last_at,n:+c.unread||0})));
+it.sort((a,b)=>b.at-a.at);
+return`<div class="v21hd"><span></span><button data-act="v21dm">✎ Nuevo mensaje</button></div><div class="v21cl">${it.map(x=>x.html).join("")}</div>`}
+function chatListCoach(){const rows=[];rows.push({n:NT.squad||0,html:cRow({attrs:'data-act="chn" data-v="squad"',av:cAv("HS","sq"),name:"Hybrid Squad",sub:"Comunidad",n:NT.squad||0})});
+if(!CL)rows.push({n:NT.staff||0,html:cRow({attrs:'data-act="chn" data-v="staff"',av:cAv("EQ","co"),name:"Equipo",sub:"Entrenadores, nutricionistas y administración",n:NT.staff||0})});
+const ath=(CLS||[]).map(c=>({n:NT["p_"+c.id]||0,html:cRow({attrs:`data-v21c="priv" data-id="${esc(c.id)}"`,av:cAv(esc((c.name||"?").charAt(0).toUpperCase())),name:esc(c.name),sub:"Chat privado",n:NT["p_"+c.id]||0})}));
+ath.sort((a,b)=>b.n-a.n);return`<div class="v21cl">${rows.concat(ath).map(x=>x.html).join("")}</div>`}
+const _chH2=chatH;chatH=function(){if(ROLE==="client"&&CL&&!(GATE&&GATE.sin_coach)&&!dmOn&&!chn){if(!DM.list||Date.now()-DM.t>20000)setTimeout(()=>dmLoadList(true),0);setTimeout(csLoad,0);return chatListH()}
+if(ROLE==="coach"&&!CL&&!chn)return chatListCoach();return _chH2.apply(this,arguments)};
+document.addEventListener("click",ev=>{const t=ev.target.closest("[data-v21c]");if(!t)return;ev.stopPropagation();chn="priv";chp=t.dataset.id;cf=1;CH=[];setTimeout(chatFetch,50);render()},true);
+setInterval(()=>{if(!document.hidden&&tab==="chat"&&!chn&&!dmOn)csLoad()},9000);
+
+/* ===== v21i · apariencia ===== */
+const THM=()=>{try{return localStorage.getItem("nx_theme")||"auto"}catch(e){return"auto"}};
+const thRes=m=>m==="light"||m==="dark"?m:(window.matchMedia&&matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");
+function thApply(){const r=thRes(THM());document.documentElement.setAttribute("data-theme",r);
+ let mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.setAttribute("content",r==="light"?"#f5f1ea":"#101011");
+ const sb=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(sb)sb.setAttribute("content",r==="light"?"default":"black")}
+window.nxTheme=function(m){try{if(m==="auto")localStorage.removeItem("nx_theme");else localStorage.setItem("nx_theme",m)}catch(e){}thApply();if(typeof render==="function")render()};
+try{matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{if(THM()==="auto"){thApply();render()}})}catch(e){}
+thApply();
+function themeCard(){const m=THM(),b=[["auto","Automático"],["light","Claro"],["dark","Oscuro"]];
+ return`<div class="card">${ih("Apariencia","<p>Automático sigue el modo claro u oscuro de tu móvil o de tu ordenador. También puedes fijar uno.</p>")}<div class="v21th">${b.map(x=>`<button class="${m===x[0]?"on":""}" onclick="nxTheme('${x[0]}')">${x[1]}</button>`).join("")}</div></div>`}
+const _pc2=window.pushCard;window.pushCard=()=>themeCard()+_pc2();
+
+/* ===== v21j · contrato de entrenadores 6/12/24 meses ===== */
+const CTM=[6,12,24];let CTSEL=0,CTOK=false,CTBZ=false;
+const ctFee=n=>{const v=CFG&&CFG["coach_cuota_"+n];return isFinite(+v)&&+v>0?+v:0};
+const ctDate=d=>d.toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"});
+function ctEnd(){const i=new Date(COACH.contrato_inicio+"T00:00");return new Date(i.getFullYear(),i.getMonth()+COACH.contrato_meses,i.getDate())}
+function ctCard(full){if(ROLE!=="coach"||!COACH)return"";const m=COACH.contrato_meses;
+ if(m&&COACH.contrato_inicio){if(!full)return"";const f=ctFee(m);
+  return`<div class="card">${ih("Contrato con Nexum","<p>Tu compromiso de permanencia con Nexum. Para cambiar de plan o cancelar antes de tiempo, habla con el administrador.</p>")}<div class="v21r"><span>Plan</span><b>${m} meses</b></div><div class="v21r"><span>Desde</span><b>${ctDate(new Date(COACH.contrato_inicio+"T00:00"))}</b></div><div class="v21r"><span>Hasta</span><b>${ctDate(ctEnd())}</b></div><div class="v21r"><span>Cuota mensual</span><b>${f?EUR(f):"Sin cuota fija"}</b></div><div class="v21r"><span>Comisión por atleta</span><b>${Math.round(COM*100)} %</b></div></div>`}
+ const tl=CTM.map(n=>{const f=ctFee(n),on=CTSEL===n;return`<button class="v21ct${on?" on":""}" onclick="nxCt.pick(${n})"><b>${n}</b><span>meses</span><em>${f?EUR(f)+" / mes":"Sin cuota fija"}</em><small>${f?EUR(f*n)+" en total":"Compromiso de "+n+" meses"}</small></button>`}).join("");
+ const f=ctFee(CTSEL);
+ return`<div class="card">${ih("Firma tu contrato","<p>Elige durante cuántos meses te comprometes a usar Nexum. Cuanto más largo el compromiso, más estable es tu servicio. La comisión por atleta se mantiene durante todo el contrato.</p>")}<div class="v21cts">${tl}</div>${CTSEL?`<div class="v21ctx"><p><b>Resumen.</b> Contrato de <b>${CTSEL} meses</b> a partir de hoy. ${f?`Cuota mensual de ${EUR(f)} (${EUR(f*CTSEL)} en total). `:"Sin cuota fija. "}Además, Nexum cobra un ${Math.round(COM*100)} % de lo que pague cada atleta tuyo. Al firmar te comprometes a mantener tu cuenta activa durante todo el periodo; la baja anticipada se acuerda con el administrador.</p><label class="v21t"><span>He leído y acepto las condiciones del contrato</span><input type="checkbox" ${CTOK?"checked":""} onchange="nxCt.ok(this.checked)"></label><div class="bar" style="margin:10px 0 0"><button class="on" ${CTOK&&!CTBZ?"":"disabled"} onclick="nxCt.sign()">${CTBZ?"Firmando…":"Firmar contrato"}</button></div></div>`:""}</div>`}
+window.nxCt={pick:n=>{CTSEL=n;render()},ok:v=>{CTOK=!!v;render()},
+ sign:async()=>{if(!CTSEL||!CTOK||CTBZ)return;CTBZ=true;render();const row={contrato_meses:CTSEL,contrato_inicio:today,contrato_firma:new Date().toISOString()};
+  try{const r=await SB.from("coaches").update(row).eq("id",COACH.id);if(r&&r.error)throw r.error;COACH=Object.assign({},COACH,row)}catch(e){alert("No se pudo firmar el contrato. Inténtalo de nuevo.")}
+  CTBZ=false;CTOK=false;CTSEL=0;render()}};
+{const _pc3=window.pushCard;window.pushCard=()=>ctCard(true)+_pc3()}
+{const _ch=coachHomeH;coachHomeH=function(){return ctCard(false)+_ch.apply(this,arguments)}}
 
 render();
 })();
