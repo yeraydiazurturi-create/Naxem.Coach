@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-07.20">
+<meta name="app-version" content="2026-11-09.40">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -562,9 +562,9 @@ ${L.length>1?lc(L.map((e,i)=>({l:e.d.slice(2),v:ms[i]}))):""}
 <div class="grid" style="${(window.vbField&&window.vbField(t))?"grid-template-columns:1fr 1fr 1fr;align-items:end":"grid-template-columns:1fr "+(t.k==="w"?"1fr ":"")+"1fr auto;align-items:end"}"><div><label>${t.k==="t"?"Tiempo (mm:ss)":"Valor"}</label><input data-tv="${t.id}" ${t.k==="t"?'placeholder="22:30"':'type="number" step="any"'}></div>${t.k==="w"?`<div><label>Reps</label><input data-tr="${t.id}" type="number" value="1"></div>`:""}${window.vbField?window.vbField(t):""}<div><label>Fecha</label><input data-td="${t.id}" type="date" value="${today}"></div><button class="on" data-act="addT" data-v="${t.id}"${(window.vbField&&window.vbField(t))?' style="grid-column:1/-1"':""}>Guardar</button></div>
 ${tiH(t)}${tmH(t,L,ms)}
 ${L.length&&!CLI()?`<button class="x" data-act="undoT" data-v="${t.id}">Borrar último registro</button>`:""}</div>`}
-function tstH(){const nt='<div class="card"><small>Índice YD = (tu valor − base) ÷ (élite − base) × 100, limitado a 0-100. Las referencias de base y élite son criterios orientativos de rendimiento (hombres entrenados), no valores normativos, y se pueden ajustar en cada test. En fuerza se usa tu 1RM estimado ÷ peso corporal.</small><details class="tmd"><summary>Cómo hacer la batería de tests</summary><p><b>Orden recomendado.</b> Antropometría, movilidad, saltos, sprints y cambio de dirección, fuerza y, al final, resistencia. Así la fatiga de unas pruebas no falsea las siguientes.</p><p><b>Condiciones.</b> Mismo calentamiento, misma hora, misma superficie y calzado, y 48 h sin entrenamientos duros antes. Cada test indica cuántos intentos hacer y qué valor registrar.</p><p><b>Frecuencia.</b> Repite la batería cada 4-8 semanas, siempre con el mismo protocolo: sin protocolo estandarizado no se pueden comparar resultados.</p></details></div>';const all=TC.concat((S.ct||[]).map(c=>({id:c.id,p:c.p,n:c.n,u:c.u,dir:"max",k:"n"})));
+function tstH(){const nt='<div class="card"><small>Índice YD = (tu valor − base) ÷ (élite − base) × 100, limitado a 0-100. Las referencias de base y élite son criterios orientativos de rendimiento (hombres entrenados), no valores normativos, y se pueden ajustar en cada test. En fuerza se usa tu 1RM estimado ÷ peso corporal.</small><details class="tmd"><summary>Cómo hacer la batería de tests</summary><p><b>Orden recomendado.</b> Antropometría, movilidad, saltos, sprints y cambio de dirección, fuerza y, al final, resistencia. Así la fatiga de unas pruebas no falsea las siguientes.</p><p><b>Condiciones.</b> Mismo calentamiento, misma hora, misma superficie y calzado, y 48 h sin entrenamientos duros antes. Cada test indica cuántos intentos hacer y qué valor registrar.</p><p><b>Frecuencia.</b> Repite la batería cada 4-8 semanas, siempre con el mismo protocolo: sin protocolo estandarizado no se pueden comparar resultados.</p></details></div>';const all=TC.concat((S.ct||[]).map(c=>({id:c.id,p:c.p,n:c.n,u:c.u,dir:c.dir||"max",k:"n"})));
 return nt+TP.map(p=>`<div class="sec">${p}</div>`+all.filter(t=>t.p===p).map(tstCard).join("")+`<button data-act="addCT" data-v="${p}" style="margin-bottom:6px">+ Añadir test a ${p}</button>`).join("")+trefsH()}
-const allT=()=>TC.concat((S.ct||[]).map(c=>({id:c.id,p:c.p,n:c.n,u:c.u,dir:"max",k:"n"})));
+const allT=()=>TC.concat((S.ct||[]).map(c=>({id:c.id,p:c.p,n:c.n,u:c.u,dir:c.dir||"max",k:"n"})));
 const lastT=id=>{const L=S.tests&&S.tests[id];return L&&L.length?L[L.length-1].v:null};
 function tscOld(t){const L=(S.tests&&S.tests[t.id])||[];if(!L.length)return null;const ms=L.map(e=>met(t,e)),l=ms[ms.length-1],b=t.dir==="min"?Math.min(...ms):Math.max(...ms);return l>0&&b>0?100*(t.dir==="min"?b/l:l/b):null}
 function rad(lb,vs){const n=lb.length,pt=(i,r)=>{const a=-Math.PI/2+2*Math.PI*i/n;return[150+r*Math.cos(a),150+r*Math.sin(a)]};
@@ -639,7 +639,7 @@ b.disabled=true;m("Guardando…");try{if(CLI()){const {data,error}=await SB.rpc(
 ["pw0","pw1","pw2"].forEach(i=>{if($(i))$(i).value=""});m("✓ Contraseña cambiada.")}catch(e){m("No se pudo cambiar: "+(e.message||e))}b.disabled=false});
 const accH=()=>(ROLE==="coach"&&!CL?coachAccH():(CLI()?avCard():"")+(CLI()?nameCard()+subCard()+invCardCl():"")+accH0()+pwCard())+(window.pushCard?window.pushCard():"");
 const accH0=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?(GATE&&GATE.suscrito?`<button data-act="stPortal">Mi suscripción</button>`:""):`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}${ROLE==="coach"&&CL?"":`<button data-sw="1">${ROLE==="client"?"Cambiar a modo entrenador":"Cambiar a modo atleta"}</button>`}<button data-act="logout">Salir</button></div></div>`;
-const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Mi","cuenta"],ent:["Entrenos","tus sesiones"],cal:["Calendario","planificación"],car:["Carga","análisis"],rec:["Recovery","recuperación"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"]};
+const TT={lab:["Lab","medición por vídeo"],lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Mi","cuenta"],ent:["Entrenos","tus sesiones"],cal:["Calendario","planificación"],car:["Carga","análisis"],rec:["Recovery","recuperación"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"]};
 const TABS=[["ini","Inicio"],["ent","Entrenos"],["cal","Calendario"],["car","Carga"],["rec","Recovery"],["tst","Tests"]];
 const mt=(a,v,n,t,x,w)=>`<button class="mt${w?" wide":""}" data-act="${a}" data-v="${v}"><i>${/^\d+$/.test(String(n))?"":n}</i><span><b>${t}</b><small>${x}</small></span></button>`;
 function ydi(){const at=allT(),v=["Velocidad","Fuerza","Resistencia","Soporte"].map(p=>{const x=at.filter(t=>t.p===p).map(tsc).filter(y=>y!=null);return x.length?x.reduce((a,b)=>a+b)/x.length:null}).filter(y=>y!=null);return v.length?Math.round(v.reduce((a,b)=>a+b)/v.length):null}
@@ -1131,7 +1131,7 @@ var NAVOK=false;
 const SVG=d=>`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const IC={ent:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',nut:'<path d="M12 7c-2-2-6-1.5-7 2s1 8 4 10c1.2.8 2.2.2 3 0 .8.2 1.8.8 3 0 3-2 5-6.5 4-10s-5-4-7-2z"/><path d="M12 7c0-2 1-3.5 3-4"/>',rec:'<path d="M20.8 5.6a5 5 0 0 0-7.3 0L12 7.1l-1.5-1.5a5 5 0 0 0-7.3 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1z"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',tst:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',cli:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16.5 5a3.2 3.2 0 0 1 0 6M18 14.3c2 .8 3.5 2.8 3.5 5.7"/>',lib:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',cq:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/>',cob:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',sw:'<path d="M4 8h14l-3-3M20 16H6l3 3"/>'};
 const NAV_C=[["menu","Perfil"],["cli","Clientes"],["chat","Chat"],["lib","Biblioteca"],["cq","Cuestionario"],["cob","Cobros"]],NAV_A=[["menu","Perfil"],["ent","Entrenar"],["nut","Nutrición"],["rec","Estado"],["chat","Chat"],["tst","Progreso"]];
-const NAV_G={adm:"menu",menu:"menu",ini:"menu",lib:"ent",ent:"ent",cal:"ent",car:"ent",crt:"ent",nut:"nut",rec:"rec",fcz:"rec",cue:"rec",chat:"chat",tst:"tst",apx:"tst",pro:"tst",rnk:"tst",cpo:"tst",rev:"tst"};
+const NAV_G={lab:"tst",adm:"menu",menu:"menu",ini:"menu",lib:"ent",ent:"ent",cal:"ent",car:"ent",crt:"ent",nut:"nut",rec:"rec",fcz:"rec",cue:"rec",chat:"chat",tst:"tst",apx:"tst",pro:"tst",rnk:"tst",cpo:"tst",rev:"tst"};
 function render(){render0();navSync()}
 const coachName=()=>NUTRI?(NUN||""):COACH?`${COACH.nombre||""} ${COACH.apellidos||""}`.trim():"";
 const avGet=()=>ROLE==="client"?((S&&S.prof)||{}).photo||"":(lsG("nx_av_"+USER)||"");
@@ -1433,7 +1433,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no tienes rutinas de este tipo. Crea una en Biblioteca → Rutinas.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-09.39";
+const APP_V="2026-11-09.40";
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -1519,8 +1519,8 @@ return`<details class="tmd"><summary>Protocolo y base científica</summary><p><b
 function trefsH(){return`<div class="card"><b>Referencias de los tests</b><ol class="refs">${TREFS.map(r=>`<li>${esc(r[0])}${r[2]?" †":""}${r[1]?` <a href="https://doi.org/${r[1]}" target="_blank" rel="noopener">doi:${r[1]}</a>`:""}</li>`).join("")}</ol><small>† Cita escrita de memoria, sin comprobar en esta sesión: verifica el DOI antes de difundirla. Las referencias de base y élite del índice son criterios orientativos de rendimiento; no proceden de una tabla normativa publicada.</small></div>`}
 const verCard=()=>`<div class="card"><b>Versión de la web</b><br><small>Esta pantalla usa la versión <b>${APP_V}</b>.</small><p id="vermsg" class="qmsg" style="color:#1a1a1c"></p><button class="on" data-ver="1">Buscar actualización</button></div>`;
 document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-ver]");if(!b)return;const m=$("vermsg");if(m)m.textContent="Comprobando…";try{const r=await fetch(location.pathname+"?v="+Date.now(),{cache:"reload"}),t=await r.text(),x=(t.match(/name="app-version" content="([^"]+)"/)||[])[1];if(!m)return;if(!x){m.textContent="No he podido leer la versión del servidor.";return}if(x!==APP_V){m.textContent="Hay una versión nueva ("+x+"). Recargando…";setTimeout(()=>location.replace(location.pathname+"?v="+x),900)}else m.textContent="Ya tienes la última versión publicada en el servidor ("+x+")."}catch(e){if(m)m.textContent="No hay conexión con el servidor."}});
-const GRP=[["Entrenar",["ent","cal","car","lib"]],["Estado",["rec","fcz","cue"]],["Rendimiento",["tst","apx","pro","rnk","cpo","rev"]],["Ajustes",["acc","hlp"]]],GLB={lib:"Biblioteca",ent:"Entrenos",cal:"Calendario",car:"Carga",rec:"Recovery",fcz:"Zonas FC",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Perfil",cue:"Cuestionario",acc:"Cuenta",hlp:"Ayuda"};
-function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";if(t==="lib"&&ROLE==="coach"&&!CL)return"";const L=g[1].filter(k=>(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&(k!=="lib"||ROLE==="client"||(ROLE==="coach"&&CL)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${GLB[k]}</button>`).join("")}</div></div>`}
+const GRP=[["Entrenar",["ent","cal","car","lib"]],["Estado",["rec","fcz","cue"]],["Rendimiento",["tst","lab","apx","pro","rnk","cpo","rev"]],["Ajustes",["acc","hlp"]]],GLB={lab:"Lab",lib:"Biblioteca",ent:"Entrenos",cal:"Calendario",car:"Carga",rec:"Recovery",fcz:"Zonas FC",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Perfil",cue:"Cuestionario",acc:"Cuenta",hlp:"Ayuda"};
+function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";if(t==="lib"&&ROLE==="coach"&&!CL)return"";const L=g[1].filter(k=>(k!=="lab"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&(k!=="lib"||ROLE==="client"||(ROLE==="coach"&&CL)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${GLB[k]}</button>`).join("")}</div></div>`}
 let WV=null,wvOk=false,wvBusy=false,wvErr="",wvLast=0,wvW=0;
 async function wvLoad(){if(wvBusy)return;wvBusy=true;try{if(ROLE==="client"&&CL){const r=await SB.rpc("welcome_video",{p_u:CL.usr,p_p:CL.pwd});if(r.error)throw r.error;WV=r.data||null}wvOk=true;wvErr=""}catch(e){wvErr=e.message||String(e)}wvBusy=false;render()}
 const wvCur=()=>ROLE==="coach"?((LIB.find(x=>x.kind==="welcome")||{}).data||null):WV,wvFmt=t=>Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0"),wvDate=d=>new Date(d).toLocaleDateString("es-ES");
@@ -1679,7 +1679,7 @@ $("who").innerHTML=!USER||!ready?"":(ROLE==="coach"&&CL?(NUTRI?'<button data-nu=
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
 if(NUTRI&&!CL){nutriShell();return}if(ROLE==="coach"&&USER&&COACH&&COACH.suspendido&&!ISADM){susH();return}if(ROLE==="coach"&&USER&&!ISADM&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();NAVOK=true;return}if(CS&&ROLE==="coach"){regH();return}if(ROLE==="coach"&&USER&&!NUTRI&&!CL&&COACH&&(presEdit||(!ISADM&&!COACH.presentacion))){presH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
-NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH()}[tab]()}
+NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),lab:()=>window.labH()}[tab]()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
 if(CLI()&&!(a==="newS"&&LG.includes(et))&&!(a==="delS"&&(d=>d&&canDel(d))(S.sessions.find(x=>x.id===(t.dataset.v||S.cur))))&&["addMob","delMob","newS","delS","addEx","delEx","dup","planS","addCT","undoT","bm","imp"].includes(a))return;
@@ -2062,6 +2062,69 @@ html[data-theme=light] svg use[fill="#ffffff"]{fill:#000}
 html #bnav button.on{background:rgba(220,199,161,.13);color:#f3dfb8;font-weight:700;box-shadow:inset 0 0 0 1px rgba(220,199,161,.22)}
 html #bnav button.on svg{stroke-width:2.1}
 html[data-theme=light] #bnav button.on{background:rgba(134,34,47,.1);color:#86222f;box-shadow:inset 0 0 0 1px rgba(134,34,47,.2)}
+/* ===== Lab: medición con vídeo ===== */
+.labov{position:fixed;inset:0;z-index:20000;background:#0d0d0e;color:#f1ece3;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);font-size:15px;line-height:1.4;-webkit-text-size-adjust:100%}
+.labov *{box-sizing:border-box}
+.labov button{font:inherit;border:0;border-radius:12px;padding:11px 14px;min-height:44px;background:#232326;color:#f1ece3;cursor:pointer;touch-action:manipulation;text-transform:none;letter-spacing:0;font-weight:500}
+.labov button.pr{background:#86222f;color:#fff;font-weight:700}
+.labov button:disabled{opacity:.45;cursor:default}
+.labov button.on:not(.labchip){background:#3a2226;color:#f3dfb8}
+.labov label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b79f78;margin:16px 0 6px;font-weight:700}
+.labov input[type=text]{width:100%;background:#1a1a1c;border:1px solid #333;border-radius:12px;color:#f1ece3;padding:12px;font-size:16px}
+.labov small{color:#8d877d;font-size:12.5px}
+.labov p{margin:8px 0}
+.lbscr{flex:1;min-height:0;display:flex;flex-direction:column}
+.lbscr[hidden]{display:none}
+#labs0{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.labfi{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:0;top:0}
+.labh{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #26262a;flex:none}
+.labh b{flex:1;text-align:center;font-size:16px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.labh button{min-height:40px;padding:8px 14px}
+.labin{width:100%;max-width:640px;margin:0 auto;padding:4px 16px 32px}
+.labch{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.labov button.labchip{border-radius:999px;padding:9px 15px;min-height:42px;font-size:14px;border:1px solid #333;background:#1a1a1c}
+.labov button.labchip.on{background:#86222f;border-color:#86222f;color:#fff}
+.labov input.labfpi{width:84px;padding:9px 12px;border-radius:999px;font-size:14px}
+.labd{color:#a8a195;font-size:14px}
+.labw{color:#e9b96e;font-size:13.5px;margin:8px 0}
+.labtip{margin-top:16px;border:1px solid #2a2a2e;border-radius:12px;padding:10px 14px;background:#131315}
+.labtip summary{cursor:pointer;font-weight:600;font-size:14px}
+.labtip ul{margin:8px 0 2px;padding-left:18px;color:#cfc8bb;font-size:14px}.labtip li{margin:4px 0}
+.labvs{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.labov button.labbig2{width:100%;min-height:54px;font-size:16px;margin-top:8px}
+.labfile{background:#1a1a1c;border:1px solid #2a2a2e;border-radius:12px;padding:12px 14px}.labfile b{display:block;font-size:14px;word-break:break-all}
+.labvw{position:relative;flex:none;height:clamp(170px,37vh,430px);background:#000;overflow:hidden;touch-action:none}
+.labz{position:absolute;inset:0;transform-origin:50% 50%}
+.labz video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.labgl{position:absolute;z-index:3;touch-action:none}
+.labgl i{position:absolute;background:#ffd23f;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.labgl.v{top:0;bottom:0;width:40px;margin-left:-20px;cursor:ew-resize}.labgl.v i{left:19px;top:0;bottom:0;width:2px}
+.labgl.h{left:0;right:0;height:40px;margin-top:-20px;cursor:ns-resize}.labgl.h i{top:19px;left:0;right:0;height:2px}
+.labgl[hidden]{display:none}
+.labbd{position:absolute;left:8px;bottom:6px;z-index:4;background:rgba(0,0,0,.65);padding:2px 9px;border-radius:7px;font-size:12px;font-variant-numeric:tabular-nums;pointer-events:none}
+.labtoast{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:5;background:rgba(0,0,0,.78);padding:5px 14px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap}.labtoast.on{opacity:1}
+.labdk{flex:none;padding:6px max(14px,calc((100% - 640px)/2)) 8px;border-top:1px solid #26262a;background:#101012}
+.labsl{position:relative}.labsl input[type=range]{width:100%;accent-color:#c4414e;margin:8px 0 6px;height:24px}
+.labtk{position:absolute;left:10px;right:10px;bottom:-1px;height:6px;pointer-events:none}.labtk i{position:absolute;top:0;width:3px;height:7px;background:#ffd23f;border-radius:2px;margin-left:-1px}
+.labtr{display:flex;gap:6px}.labtr button{flex:1;padding:12px 2px;font-variant-numeric:tabular-nums;font-size:15px}
+.labov button.labmk{width:100%;margin-top:8px;min-height:54px;font-size:16px}
+.labhint{display:block;text-align:center;margin-top:5px;min-height:17px;line-height:1.3}
+.labsc{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px max(14px,calc((100% - 640px)/2)) 36px}
+.labtls{display:flex;gap:8px;margin-top:4px}.labtls button{flex:1;min-height:42px;font-size:14px}
+.labst{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.labsr{display:flex;gap:6px;align-items:stretch}
+.labov button.labsb{flex:1;display:flex;gap:12px;align-items:center;text-align:left;background:#17171a;border:1px solid #26262a;padding:10px 12px;min-height:54px}
+.labsr.on button.labsb{border-color:#c4414e;background:#221518}
+.labsb i{font-style:normal;flex:none;width:26px;height:26px;border-radius:50%;background:#2a2a2e;color:#f1ece3;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.labsr.ok .labsb i{background:#5f8f4e;color:#fff}
+.labsb span{display:block;min-width:0}.labsb b{display:block;font-size:15px;font-weight:600}.labsb em{font-style:normal;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#b79f78;margin-left:6px;font-weight:700}.labsb small{display:block;line-height:1.3;margin-top:1px}
+.labov button.labcl{flex:none;padding:6px 12px;min-height:0;font-size:13px;background:#1a1a1c;border:1px solid #2a2a2e}
+.labbig{background:#17171a;border:1px solid #2a2a2e;border-radius:16px;padding:14px 16px;margin:16px 0 6px}
+.labbig small{display:block;letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:#b79f78;font-weight:700}
+.labbig b{font-size:44px;line-height:1.15;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}.labbig u{text-decoration:none;font-size:18px;margin-left:6px;color:#b79f78;font-weight:500}
+.labit{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid #26262a;font-size:14px}.labit span{color:#8d877d}.labit b{font-weight:600;text-align:right}
+.labov table.labtb{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;font-variant-numeric:tabular-nums}
+.labov .labtb th,.labov .labtb td{padding:7px 6px;border-bottom:1px solid #26262a;text-align:left;color:#f1ece3}.labov .labtb th{color:#b79f78;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 </style>
 <script>
 (function(){
@@ -2330,7 +2393,7 @@ const q=D.s7.cuadriceps,i=D.s7.isquios;if(q>=8&&q/Math.max(i,.1)>2)A.push(["Isqu
 const fg=MUS.filter(m=>D.s28[m[0]]===0&&m[0]!=="tibial").map(m=>m[1]);if(fg.length&&fg.length<MUS.length-1)A.push(["Sin estímulo en 28 días",fg.join(", ")+".","i"]);
 return A}
 function cpoH(){const D=cpoD(),mode=cpM,sel=cpS,tot=MUS.reduce((a,m)=>a+D.s28[m[0]],0),fill={};MUS.forEach(m=>{fill[m[0]]=cpoCol(cpoVal(D,m[0],mode))});
-const TT21={est:"Estímulo · últimos 7 días",fue:"Fuerza relativa por músculo",rec:"Recuperación muscular"},INF={est:"<p>Series efectivas de los últimos 7 días en cada músculo: los principales suman 1 por serie y los secundarios 0,4. 100 puntos equivalen a 16 series a la semana; el rango óptimo suele estar entre 10 y 20.</p><p>Sale de tus entrenos marcados como hechos.</p>",fue:"<p>Se toma tu mejor 1RM estimado (peso × (1 + repeticiones ÷ 30)) dividido entre tu peso corporal y se compara con la referencia de Hybrid Test, igual que en Tests. Cada músculo coge el mejor resultado entre sus pruebas y los ejercicios que has registrado.</p><p>Gris = aún sin marca. Hace falta tu peso en Antropometría.</p>",rec:"<p>Tiempo desde el último entreno de cada músculo: 0 si fue hoy y 100 a partir de 4 días. Úsalo como semáforo de fatiga junto al Analizador.</p>"},LG={est:["Sin estímulo","16+ series"],fue:["Iniciación","Élite"],rec:["Fatigado","Recuperado"]};
+const TT21={est:"Estímulo · últimos 7 días",fue:"Fuerza relativa por músculo",rec:"Recuperación muscular"},INF={est:"<p>Series efectivas de los últimos 7 días en cada músculo: los principales suman 1 por serie y los secundarios 0,4. 100 puntos equivalen a 16 series a la semana; el rango óptimo suele estar entre 10 y 20.</p><p>Sale de tus entrenos marcados como hechos.</p>",fue:"<p>Se toma tu mejor 1RM estimado (peso × (1 + repeticiones ÷ 30)) dividido entre tu peso corporal y se compara con la referencia de Hybrid Test, igual que en Tests. Cada músculo coge el mejor resultado entre sus pruebas y los ejercicios que has registrado.</p><p>Gris = aún sin marca. Hace falta tu peso en Antropometría.</p>",rec:"<p>Tiempo desde el último entreno de cada músculo: 0 si fue hoy y 100 a partir de 4 días. Úsalo como semáforo de fatiga junto a Recovery.</p>"},LG={est:["Sin estímulo","16+ series"],fue:["Iniciación","Élite"],rec:["Fatigado","Recuperado"]};
 const seg=[["est","Estímulo"],["fue","Fuerza"],["rec","Recuperación"]].map(x=>`<button class="${mode===x[0]?"on":""}" data-cp="m" data-v="${x[0]}">${x[1]}</button>`).join("");
 let h=`<div class="v21s">${seg}</div>`;
 if(!tot){h+=`<div class="card">${ih("Todavía sin datos","<p>El mapa se rellena con las series de tus entrenos marcados como hechos en los últimos 28 días. Cada ejercicio se asigna a sus músculos por el nombre.</p>")}<small>${CLI()?"Marca un entreno como hecho para ver tu mapa muscular.":"Este atleta aún no tiene entrenos hechos en los últimos 28 días."}</small></div>`}
@@ -2755,6 +2818,294 @@ document.addEventListener("click",ev=>{const t=ev.target.closest("[data-v21d]");
  return h}}
 {const _nc=nutChat;nutChat=function(){const h=_nc.apply(this,arguments);if(chn)return h;sdLoad();const L=SDR.l||[];if(!L.length)return h;const k=h.indexOf("</button></div>");if(k<0)return h;const e=k+15;return h.slice(0,e)+'<div class="sec" style="margin-top:12px">Equipo · mensajes privados</div><div class="menu">'+L.map((x,i)=>`<button class="mt" data-v21d="${esc(x.id)}"><i>${String(i+1).padStart(2,"0")}</i><span><b>${esc(x.nombre||"Equipo")}</b><small>${NT["d_"+x.id]?NT["d_"+x.id]+" nuevos":sdRol(x.rol)+" · mensaje privado"}</small></span></button>`).join("")+"</div>"+h.slice(e)}}
 Object.assign(window,{cbOne,velOn,velT,velEd,velSum,velN,phOk,cphLoad,sdLoad,cpAv,sdAv,cdmRows,msgAv});
+
+
+/* ===== v40 · Lab: medición con vídeo (saltos, velocidad, cambios de dirección, lanzamientos) ===== */
+const LAB_G=9.81;
+const lbn=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isFinite(n)?n:NaN};
+const lt1=n=>(Math.round(n*10)/10).toFixed(1).replace(".",","),lt2=n=>(Math.round(n*100)/100).toFixed(2).replace(".",","),lt3=n=>(Math.round(n*1000)/1000).toFixed(3).replace(".",","),lm=n=>vf2(n);
+const lf3=n=>(Math.round(n*1000)/1000).toString().replace(".",","),lr1=n=>Math.round(n*10)/10,lr2=n=>Math.round(n*100)/100;
+const lbSlug=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"").slice(0,24);
+const lbS=(k,l,h,o,d)=>({k,l,h:h||"",o:!!o,d});
+const lbDef=(id,n,u,dir)=>({id,p:"Velocidad",n,u,dir:dir||"max"});
+const LBH={off:"Primer fotograma con los dos pies ya en el aire",land:"Primer fotograma con los pies otra vez en el suelo"};
+const lbJ=(id,n,d,ini)=>({id,n,d,ty:"jmp",tid:id,st:[lbS("ini",ini,"Primer fotograma en que empiezas a moverte. Es opcional y sirve para calcular el RSImod.",1),lbS("off","Despegue",LBH.off),lbS("land","Aterrizaje",LBH.land)]});
+const lbD=(id,n,d)=>({id,n,d,ty:"dj",tid:id,st:[lbS("c1","Primer contacto","Primer fotograma con los pies en el suelo al caer del cajón"),lbS("off","Despegue",LBH.off),lbS("land","Aterrizaje",LBH.land)]});
+const lbSp=n=>{const g=[];for(let d=10;d<=n;d+=10)g.push(lbS("g"+d,d+" m","Primer fotograma en que el torso pasa la línea de "+d+" m",d<n,d));const s={id:"s"+n,n:n+" m",d:"Sprint de "+n+" m"+(n>10?", con tiempos cada 10 m":"")+".",ty:"spr",st:[lbS("st","Salida","Primer fotograma en que el cuerpo empieza a moverse")].concat(g)};if(n===10||n===40)s.tid="s"+n;else s.def=lbDef("lab_s"+n,"Sprint "+n+" m","s","min");return s};
+const lbG=n=>lbS("g"+n,"Giro "+n,"Primer fotograma con el pie apoyado para cambiar de dirección. Es opcional.",1);
+const lbC=(id,n,d,st,x)=>Object.assign({id,n,d,ty:"cod",st},x);
+const LBS0=lbS("st","Salida","Primer fotograma en que el cuerpo empieza a moverse"),LBS1=lbS("en","Llegada","Primer fotograma en que el torso cruza la línea de llegada");
+const lbT=(id,n,m,h,o)=>({id,n,d:"Calcula la velocidad de salida con el tiempo de vuelo y la distancia.",ty:"thr",f:(o?[{k:"nm",l:"Nombre del objeto",v:"",ph:"Ej.: Kettlebell"}]:[]).concat([{k:"mass",l:"Peso del objeto (kg)",v:m},{k:"dist",l:"Distancia del lanzamiento (m)",v:"",ph:"Desde donde sueltas hasta donde cae"},{k:"h0",l:"Altura de la mano al soltar (m)",v:h}]),st:[lbS("rel","Suelta","Primer fotograma en que el objeto ya no toca la mano"),lbS("hit","Impacto","Primer fotograma en que el objeto toca el suelo")],def:c=>lbDef("lab_thr_"+id+(o?"_"+lbSlug(c.nm):"")+"_"+String(lr2(lbn(c.mass)||0)).replace(".","_"),"Lanzamiento · "+(o&&c.nm?c.nm:n)+" "+vf1(lbn(c.mass)||0)+" kg (velocidad)","m/s")});
+const LABM={
+ jump:{n:"Saltos",s:"CMJ, SJ, drop jump, vallas",
+  tip:["Apoya el móvil quieto (o en un trípode), de lado y a la altura de la cadera.","Que se vea el cuerpo entero y el suelo durante todo el salto.","Cuantos más fotogramas por segundo, más exacto: 60 es lo mínimo recomendable y la cámara lenta (120 o 240) es lo ideal."],
+  kinds:[lbJ("cmj","CMJ","Salto vertical con contramovimiento.","Inicio del movimiento"),lbJ("cmja","CMJ con brazos","Salto vertical con contramovimiento ayudándote de los brazos.","Inicio del movimiento"),lbJ("sj","Squat jump","Salto desde sentadilla parada, sin contramovimiento.","Inicio del empuje"),lbD("dj","Drop jump","Caes de un cajón y rebotas lo más rápido posible."),lbD("depj","Depth jump","Caes de un cajón y saltas lo más alto posible."),
+   {id:"rep",n:"Saltos seguidos",d:"Vallas, rebotes o saltos continuos: mide cada apoyo y calcula el RSI de cada uno.",ty:"rep",f:[{k:"n",l:"Número de apoyos que vas a marcar",v:5}],
+    st:c=>{const n=Math.max(2,Math.min(12,Math.round(lbn(c.n))||5)),a=[];for(let i=1;i<=n;i++)a.push(lbS("c"+i,"Contacto "+i,"Primer fotograma con el pie en el suelo"),lbS("o"+i,"Despegue "+i,"Primer fotograma ya en el aire"));a.push(lbS("z","Aterrizaje final","Primer fotograma en el suelo tras el último salto. Es opcional.",1));return a},def:lbDef("lab_rsi","Saltos seguidos · RSI medio","RSI")}]},
+ speed:{n:"Velocidad",s:"10, 20, 30, 40 m o entre dos puntos",
+  tip:["Cámara quieta, de lado, a mitad del recorrido y a la altura de la cadera.","Pon un cono en cada línea (salida, 10 m, 20 m…) y que se vean todos en el vídeo.","Marca cuando el torso pasa por la línea del cono. Usa «Guía» para dibujar una línea sobre el cono.","Con fotocélulas el tiempo sale entre 0,1 y 0,2 s más corto que con el vídeo: compara siempre con el mismo método."],
+  kinds:[lbSp(10),lbSp(20),lbSp(30),lbSp(40),{id:"two",n:"Entre dos puntos",d:"Tiempo entre dos líneas: sprint lanzado o cualquier tramo.",ty:"two",f:[{k:"dist",l:"Distancia entre las dos líneas (m)",v:10}],st:[lbS("a","Primera línea","Primer fotograma en que el torso pasa por la primera línea"),lbS("b","Segunda línea","Primer fotograma en que el torso pasa por la segunda línea")],def:c=>lbDef("lab_fly_"+String(lr2(lbn(c.dist)||0)).replace(".","_"),"Entre dos puntos · "+vf2(lbn(c.dist)||0)+" m","s","min")}]},
+ cod:{n:"Cambio de dirección",s:"5-10-5, 505, T-test…",
+  tip:["Cámara quieta y lo bastante lejos para ver todo el recorrido (o pon la cámara en alto).","Marca el fotograma en que el pie se apoya para girar y cuando el torso cruza la línea de llegada.","Los giros son opcionales: solo hacen falta la salida y la llegada."],
+  kinds:[lbC("t5105","5-10-5","Pro agility: 5 yd a un lado, 10 yd al otro y 5 yd de vuelta por la salida.",[LBS0,lbS("g1","Giro 1","Pie apoyado en la línea de 5 yd (4,57 m). Opcional.",1),lbS("g2","Giro 2","Pie apoyado en la línea del otro lado (9,14 m). Opcional.",1),LBS1],{tid:"t5105"}),
+   lbC("c505","505","Carrera de 10 m, giro de 180° en la línea de 15 m y vuelta por la línea de 10 m.",[lbS("st","Entrada","Primer fotograma en que el torso cruza la línea de 10 m. Aquí empieza el tiempo."),lbS("g1","Giro","Pie apoyado en la línea de 15 m. Opcional.",1),lbS("en","Salida","Primer fotograma en que el torso vuelve a cruzar la línea de 10 m")],{def:lbDef("lab_505","Test 505 (giro de 180°)","s","min")}),
+   lbC("tte","T-test","Cuatro conos en T: de frente, desplazamientos laterales y vuelta hacia atrás.",[LBS0,lbS("g1","Cono B","Primer toque del cono central. Opcional.",1),lbS("g2","Cono C","Toque del cono lateral. Opcional.",1),lbS("g3","Cono D","Toque del cono del otro lado. Opcional.",1),lbS("g4","Cono B (vuelta)","Segundo toque del cono central. Opcional.",1),LBS1],{def:lbDef("lab_ttest","T-test","s","min")}),
+   lbC("ill","Illinois","Recorrido con giros y zigzag entre cuatro conos.",[LBS0,lbG(1),lbG(2),lbG(3),lbG(4),LBS1],{def:lbDef("lab_illinois","Test de Illinois","s","min")}),
+   lbC("free","Otro recorrido","Cualquier recorrido con cambios de dirección.",[LBS0,lbG(1),lbG(2),lbG(3),LBS1],{f:[{k:"nm",l:"Nombre del recorrido",v:"",ph:"Ej.: Zigzag 4 conos"}],def:c=>lbDef("lab_cod_"+(lbSlug(c.nm)||"libre"),"COD · "+(c.nm||"Recorrido libre"),"s","min")})]},
+ throw:{n:"Lanzamientos",s:"balón medicinal, peso, jabalina…",
+  tip:["Cámara quieta y de lado, con el lanzador y la zona de caída a la vista.","Mide con una cinta la distancia desde donde sueltas el objeto hasta donde cae.","La altura de la mano al soltar es aproximada. Si no la sabes, deja la que aparece.","Con jabalina y disco el aire influye: úsalo para comparar tus intentos entre sí."],
+  kinds:[lbT("med","Balón medicinal",3,1.6),lbT("shot","Bola de peso",6,1.9),lbT("jav","Jabalina",.8,1.9),lbT("disc","Disco",1,1.7),lbT("ham","Martillo",6,1.4),lbT("oth","Otro objeto",2,1.6,true)]}
+};
+let LB=null,LBFL=null;const LBT={};
+const lbNew=()=>({mode:"",kind:"",cfg:{},name:"",url:"",dur:0,t0:0,p:1/30,mfps:0,det:false,N:0,fi:0,fps:30,marks:{},skip:{},act:null,ready:false,msg:"",zoom:1,tx:0,ty:0,guide:0,gx:50,gy:50,ref:"",gd:0,dg:null});
+const lbKind=()=>LABM[LB.mode].kinds.find(k=>k.id===LB.kind)||LABM[LB.mode].kinds[0];
+const lbSteps=()=>{const K=lbKind();return typeof K.st==="function"?K.st(LB.cfg):K.st};
+const lbCfgInit=()=>{const c={};(lbKind().f||[]).forEach(f=>{c[f.k]=f.v});LB.cfg=c};
+const labDisp=f=>{const q=[23.976,24,25,29.97,30,48,50,59.94,60,90,100,119.88,120,200,239.76,240,480,960].find(x=>Math.abs(f/x-1)<.012);return vf1(q?Math.round(q):f)};
+const lbFmtF=f=>"Fotograma "+(f+1)+" · "+lf3(f/LB.fps)+" s";
+
+/* ---- cálculo ---- */
+function labCalc(){
+ const K=lbKind(),st=lbSteps(),M=LB.marks,F=LB.fps,o={ok:false,it:[],tb:null,w:[],sv:[],big:null,sum:"",tn:""};
+ if(!LB.ready||!(F>0))return o;
+ const m=k=>M[k]==null?null:M[k],T=(a,b)=>(b-a)/F,ms=t=>Math.round(t*1000)+" ms";
+ let prev=-1;for(const s of st){const x=m(s.k);if(x==null)continue;if(x<=prev){o.w.push("Las marcas no están en orden: cada paso tiene que ir después del anterior.");return o}prev=x}
+ const dest=(tid,def)=>{const t=allT().find(x=>x.id===tid);return "Tests › "+(t?t.n:def?def.n:"")};
+ const dfn=K.def?(typeof K.def==="function"?K.def(LB.cfg):K.def):null;
+ if(K.ty==="jmp"){
+  const off=m("off"),ld=m("land"),ini=m("ini");if(off==null||ld==null)return o;
+  const t=T(off,ld),h=LAB_G*t*t/8*100;o.big=[lt1(h),"cm","Altura del salto"];o.it.push(["Tiempo de vuelo",ms(t)]);
+  let c=null;if(ini!=null){const to=T(ini,off);c=Math.round(to*1000);o.it.push(["Hasta el despegue",ms(to)],["RSImod",lt2(h/100/to)])}
+  if(t<.15||t>1.1)o.w.push("Un tiempo de vuelo de "+ms(t)+" es raro en un salto. Revisa las marcas y los fotogramas por segundo.");else if(h<4||h>90)o.w.push("La altura sale fuera de lo normal. Revisa las marcas y los fotogramas por segundo.");
+  const en={v:lr1(h),f:Math.round(t*1000)};if(c!=null)en.c=c;o.sv=[{tid:K.tid,en}];o.sum=lt1(h)+" cm";o.tn=dest(K.tid);o.ok=true;return o}
+ if(K.ty==="dj"){
+  const c1=m("c1"),off=m("off"),ld=m("land");if(c1==null||off==null)return o;
+  const ct=T(c1,off);o.it.push(["Tiempo de contacto",ms(ct)]);if(ld==null){o.w.push("Marca también el aterrizaje para calcular la altura y el RSI.");return o}
+  const t=T(off,ld),h=LAB_G*t*t/8*100;o.big=[lt1(h),"cm","Altura del salto"];o.it.push(["Tiempo de vuelo",ms(t)],["RSI",lt2(h/100/ct)]);
+  if(ct<.06||ct>.8)o.w.push("Un contacto de "+ms(ct)+" es raro. Revisa las marcas y los fotogramas por segundo.");if(t<.15||t>1.1)o.w.push("Un tiempo de vuelo de "+ms(t)+" es raro. Revisa las marcas y los fotogramas por segundo.");
+  o.sv=[{tid:K.tid,en:{v:lr1(h),f:Math.round(t*1000),c:Math.round(ct*1000)}}];o.sum=lt1(h)+" cm · RSI "+lt2(h/100/ct);o.tn=dest(K.tid);o.ok=true;return o}
+ if(K.ty==="rep"){
+  const n=st.filter(s=>s.k[0]==="c").length,hp=[];
+  for(let i=1;i<=n;i++){const c=m("c"+i),a=m("o"+i);if(c==null||a==null)continue;const nx=i<n?m("c"+(i+1)):m("z"),h={i,ct:T(c,a)};if(nx!=null){h.t=T(a,nx);h.h=LAB_G*h.t*h.t/8*100;h.r=h.h/100/h.ct}hp.push(h)}
+  const fu=hp.filter(x=>x.r!=null);if(!fu.length){o.w.push("Marca al menos un contacto, su despegue y el siguiente contacto.");return o}
+  const av=a=>a.reduce((x,y)=>x+y,0)/a.length,rsi=av(fu.map(x=>x.r));
+  o.big=[lt2(rsi),"","RSI medio"];o.it.push(["Mejor RSI",lt2(Math.max(...fu.map(x=>x.r)))],["Contacto medio",ms(av(fu.map(x=>x.ct)))],["Altura media",lt1(av(fu.map(x=>x.h)))+" cm"],["Apoyos con RSI",String(fu.length)]);
+  o.tb=[["#","Contacto","Vuelo","Altura","RSI"]].concat(hp.map(x=>[x.i,ms(x.ct),x.t!=null?ms(x.t):"–",x.h!=null?lt1(x.h)+" cm":"–",x.r!=null?lt2(x.r):"–"]));
+  if(hp.some(x=>x.ct<.05||x.ct>1)||fu.some(x=>x.t<.1||x.t>1.1))o.w.push("Algún apoyo o vuelo sale fuera de lo normal. Revisa las marcas y los fotogramas por segundo.");
+  o.sv=[{tid:dfn.id,def:dfn,en:{v:lr2(rsi),c:Math.round(av(fu.map(x=>x.ct))*1000),f:Math.round(av(fu.map(x=>x.t))*1000)}}];o.sum="RSI medio "+lt2(rsi);o.tn=dest(dfn.id,dfn);o.ok=true;return o}
+ if(K.ty==="spr"||K.ty==="two"){
+  const s0=m(st[0].k);if(s0==null)return o;
+  const two=K.ty==="two",D=lbn(LB.cfg.dist),pts=[];
+  st.slice(1).forEach(s=>{const x=m(s.k);if(x!=null)pts.push({k:s.k,d:two?D:s.d,t:T(s0,x)})});
+  if(!pts.length)return o;if(two&&!(D>0)){o.w.push("Vuelve a «Ajustes» e indica la distancia entre las dos líneas.");return o}
+  let pd=0,pt=0,vmax=0;const rows=[["Tramo","Tiempo","Parcial","Velocidad"]];
+  pts.forEach(p=>{const dt=p.t-pt,v=(p.d-pd)/dt;vmax=Math.max(vmax,v);rows.push([lm(pd)+"–"+lm(p.d)+" m",lt2(p.t)+" s",lt2(dt)+" s",lt2(v)+" m/s"]);if(v<2||v>12.5)o.w.push("El tramo "+lm(pd)+"–"+lm(p.d)+" m sale a "+lt2(v)+" m/s, que no es realista. Revisa las marcas y los fotogramas por segundo.");pd=p.d;pt=p.t});
+  const fin=pts[pts.length-1],last=st[st.length-1];
+  o.big=[lt2(fin.t),"s",two?"Tiempo entre las dos líneas":"Tiempo a "+lm(fin.d)+" m"];o.tb=rows;
+  if(pts.length>1)o.it.push(["Velocidad máxima (tramo)",lt2(vmax)+" m/s · "+lt1(vmax*3.6)+" km/h"]);
+  o.it.push(["Velocidad media",lt2(fin.d/fin.t)+" m/s"]);
+  if(fin.k!==last.k){o.w.push("Marca también «"+last.l+"» para poder guardar el resultado.");return o}
+  const tid=two?dfn.id:(K.tid||K.def.id),df=two?dfn:K.def;
+  o.sv=[{tid,def:df,en:{v:lr2(fin.t)}}];
+  if(!two&&K.id!=="s10"&&m("g10")!=null)o.sv.push({tid:"s10",en:{v:lr2(T(s0,m("g10")))}});
+  o.sum=lt2(fin.t)+" s";o.tn=dest(tid,df)+(o.sv.length>1?" y Tests › Sprint 10 m":"");o.ok=true;return o}
+ if(K.ty==="cod"){
+  const s0=m(st[0].k),e=m(st[st.length-1].k);if(s0==null)return o;
+  const mk=st.filter(s=>m(s.k)!=null);if(mk.length<2){return o}
+  const rows=[["Tramo","Tiempo","Parcial"]];for(let i=1;i<mk.length;i++)rows.push([mk[i-1].l+" → "+mk[i].l,lt2(T(s0,m(mk[i].k)))+" s",lt2(T(m(mk[i-1].k),m(mk[i].k)))+" s"]);
+  o.tb=rows;if(e==null){o.w.push("Marca también «"+st[st.length-1].l+"» para calcular el tiempo total.");return o}
+  const t=T(s0,e);o.big=[lt2(t),"s","Tiempo total"];if(t<1.2||t>90)o.w.push("Un tiempo de "+lt2(t)+" s es raro. Revisa las marcas y los fotogramas por segundo.");
+  const tid=K.tid||dfn.id;o.sv=[{tid,def:dfn,en:{v:lr2(t)}}];o.sum=lt2(t)+" s";o.tn=dest(tid,dfn);o.ok=true;return o}
+ if(K.ty==="thr"){
+  const rel=m("rel"),hit=m("hit");if(rel==null||hit==null)return o;
+  const t=T(rel,hit),R=lbn(LB.cfg.dist),h0=isFinite(lbn(LB.cfg.h0))?lbn(LB.cfg.h0):0,mass=lbn(LB.cfg.mass);
+  o.it.push(["Tiempo de vuelo",lt3(t)+" s"]);
+  if(!(R>0)){o.w.push("Vuelve a «Ajustes» e indica la distancia del lanzamiento.");return o}
+  const vx=R/t,vy=(LAB_G*t*t/2-h0)/t,v0=Math.hypot(vx,vy),an=Math.atan2(vy,vx)*180/Math.PI;
+  o.big=[lt1(v0),"m/s","Velocidad de salida"];o.it.unshift(["En km/h",lt1(v0*3.6)+" km/h"]);o.it.push(["Ángulo de salida",Math.round(an)+"°"],["Distancia",lm(R)+" m"]);
+  if(mass>0)o.it.push(["Energía cinética",Math.round(.5*mass*v0*v0)+" J"]);
+  if(t<.2||t>8)o.w.push("Un tiempo de vuelo de "+lt3(t)+" s es raro para este lanzamiento. Revisa las marcas y los fotogramas por segundo.");
+  if(an<-5||an>80||v0>50)o.w.push("El ángulo o la velocidad salen fuera de lo normal. Revisa la distancia, la altura de la mano y las marcas.");
+  o.sv=[{tid:dfn.id,def:dfn,en:{v:lr1(v0)}}];o.sum=lt1(v0)+" m/s";o.tn=dest(dfn.id,dfn);o.ok=true;return o}
+ return o}
+
+/* ---- guardado ---- */
+function labEnsure(def){if(!def||TC.some(t=>t.id===def.id))return;S.ct=S.ct||[];if(!S.ct.some(t=>t.id===def.id))S.ct.push({id:def.id,p:def.p,n:def.n,u:def.u,dir:def.dir})}
+function labSave(){
+ if(!LB||!S)return;const r=labCalc(),K=lbKind();if(!r.ok||!r.sv.length)return;
+ S.tests=S.tests||{};
+ r.sv.forEach(x=>{if(x.def)labEnsure(x.def);const L=(S.tests[x.tid]=S.tests[x.tid]||[]);L.push(Object.assign({d:today},x.en,{lab:1}));L.sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0)});
+ const dfn=K.def?(typeof K.def==="function"?K.def(LB.cfg):K.def):null,nm=K.ty==="thr"&&LB.cfg.nm?LB.cfg.nm:K.ty==="cod"&&K.id==="free"&&LB.cfg.nm?LB.cfg.nm:K.n;
+ S.lab=S.lab||[];S.lab.push({id:uid(),d:today,m:LB.mode,k:K.id,nm:LABM[LB.mode].n+" · "+nm,s:r.sum,fps:LB.fps,ex:LB.ref||""});if(S.lab.length>120)S.lab=S.lab.slice(-120);
+ LBFL={m:"Guardado: "+LABM[LB.mode].n+" · "+nm+" · "+r.sum,t:Date.now()};
+ save();labClose(true)}
+
+/* ---- pantalla del apartado ---- */
+function labH(){
+ if(NUTRI)return'<div class="card"><small>Lab no está disponible en este modo.</small></div>';
+ let h="";
+ if(LBFL&&Date.now()-LBFL.t<60000)h+=`<div class="card" style="border-left:4px solid #5f8f4e"><b>✓ ${esc(LBFL.m)}</b><br><small>Ya puedes verlo en Tests.</small></div>`;
+ h+=`<div class="card"><b>Mide con el vídeo del móvil</b><p><small>Graba o sube un vídeo, avanza fotograma a fotograma y marca dos o tres momentos (despegue, aterrizaje, línea de meta…). Lab calcula el resultado y lo guarda en tus Tests.</small></p>${ih("Cómo grabar para que sea fiable","<ul><li>Móvil quieto, apoyado o en un trípode. Nada de grabar a pulso.</li><li>De lado y a la altura de la cadera, con el cuerpo entero a la vista.</li><li>60 fotogramas por segundo o más. La cámara lenta (120 o 240) da el resultado más exacto.</li><li>Cada marca tiene un margen de ±1 fotograma: a 30 fps son ±33 ms, a 240 fps solo ±4 ms.</li></ul>")}</div>`;
+ h+='<div class="menu">'+Object.keys(LABM).map((k,i)=>`<button class="mt" data-lab="open" data-v="${k}"><i>0${i+1}</i><span><b>${esc(LABM[k].n)}</b><small>${esc(LABM[k].s)}</small></span></button>`).join("")+"</div>";
+ const L=(S.lab||[]).slice(-10).reverse();
+ if(L.length)h+=`<div class="card" style="margin-top:12px"><b>Últimas mediciones</b>${L.map(x=>`<div class="qa"><span>${esc(String(x.d).slice(5).split("-").reverse().join("/"))} · ${esc(x.nm)}${x.ex?" · "+esc(x.ex):""}</span><span>${esc(x.s)}</span></div>`).join("")}<small>Los resultados guardados también aparecen en Tests.</small></div>`;
+ return h}
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-lab]");if(!b)return;ev.stopPropagation();if(b.dataset.lab==="open")labOpen(b.dataset.v,b.dataset.k,b.dataset.x)},true);
+
+/* ---- espacio de trabajo (capa propia, fuera de #app para no perder el vídeo al repintar) ---- */
+const labSkel=()=>`<div id="labs0" class="lbscr"></div>
+<div id="labs1" class="lbscr" hidden>
+ <div class="labh"><button data-lbx="setup">‹ Ajustes</button><b id="labttl"></b><button data-lbx="close" aria-label="Cerrar">✕</button></div>
+ <div class="labvw" id="labvw"><div class="labz" id="labz"><video id="labvid" playsinline muted preload="auto" disablepictureinpicture></video><div id="labgl" class="labgl v" hidden><i></i></div></div><span id="labbd" class="labbd"></span><span id="labtoast" class="labtoast"></span></div>
+ <div class="labdk">
+  <div class="labsl"><input type="range" id="labsl" min="0" max="1" step="1" value="0" data-lbx-sl="1" aria-label="Fotograma"><div id="labtk" class="labtk"></div></div>
+  <div class="labtr"><button data-lbs="-10" aria-label="Retroceder 10 fotogramas">« 10</button><button data-lbs="-1" aria-label="Fotograma anterior">‹ 1</button><button id="labpl" data-lbx="play" aria-label="Reproducir despacio">▶︎</button><button data-lbs="1" aria-label="Fotograma siguiente">1 ›</button><button data-lbs="10" aria-label="Avanzar 10 fotogramas">10 »</button></div>
+  <button id="labmk" class="pr labmk" data-lbx="mark"></button><small id="labhint" class="labhint"></small>
+ </div>
+ <div class="labsc"><div id="labtl" class="labtls"></div><div id="labfp"></div><div id="labst" class="labst"></div><div id="labrs"></div></div>
+</div>
+<input id="labf1" class="labfi" type="file" accept="video/*" capture="environment"><input id="labf2" class="labfi" type="file" accept="video/*">`;
+function labOpen(mode,kind,ref){
+ if(!LABM[mode])return;if(typeof RO!=="undefined"&&RO&&!NUTRI){alert("Estás en modo lectura: no se pueden guardar mediciones.");return}
+ labClose(false);LB=lbNew();LB.mode=mode;LB.kind=kind&&LABM[mode].kinds.some(k=>k.id===kind)?kind:LABM[mode].kinds[0].id;LB.ref=ref||"";lbCfgInit();
+ const o=document.createElement("div");o.id="labov";o.className="labov";o.innerHTML=labSkel();document.body.appendChild(o);document.body.style.overflow="hidden";
+ o.addEventListener("click",labClick);
+ o.addEventListener("input",ev=>{ev.stopPropagation();const t=ev.target,d=t.dataset;if(!LB)return;if(d.lbxF!==undefined)LB.cfg[d.lbxF]=t.value;else if(d.lbxSl!==undefined)labSeek(+t.value)});
+ o.addEventListener("change",ev=>{ev.stopPropagation();const t=ev.target,d=t.dataset;if(!LB)return;
+  if(t.type==="file"){const f=t.files&&t.files[0];t.value="";if(f)labLoad(f);return}
+  if(d.lbxFps!==undefined){const n=lbn(t.value);if(n>=5&&n<=2000){LB.fps=n;labPanels();labUi()}return}
+  if(d.lbxMfps!==undefined){const n=lbn(t.value);if(n>=5&&n<=2000){LB.mfps=n;LB.p=1/n;const v=$("labvid");LB.N=Math.max(2,Math.round((((v&&v.duration)||LB.dur)-LB.t0)/LB.p));labSeek(0);labPanels()}}});
+ const vw=o.querySelector("#labvw");
+ vw.addEventListener("pointerdown",ev=>{if(!LB)return;if(ev.target.closest("#labgl")){LB.gd=1;try{vw.setPointerCapture(ev.pointerId)}catch(e){}ev.preventDefault();return}if(LB.zoom>1){LB.dg={x:ev.clientX,y:ev.clientY,tx:LB.tx,ty:LB.ty};try{vw.setPointerCapture(ev.pointerId)}catch(e){}}});
+ vw.addEventListener("pointermove",ev=>{if(!LB)return;if(LB.gd){const r=$("labz").getBoundingClientRect();if(LB.guide===1)LB.gx=Math.max(0,Math.min(100,100*(ev.clientX-r.left)/r.width));else LB.gy=Math.max(0,Math.min(100,100*(ev.clientY-r.top)/r.height));labGuide();return}
+  if(LB.dg){const W=vw.clientWidth,H=vw.clientHeight,mx=(LB.zoom-1)*W/2,my=(LB.zoom-1)*H/2;LB.tx=Math.max(-mx,Math.min(mx,LB.dg.tx+ev.clientX-LB.dg.x));LB.ty=Math.max(-my,Math.min(my,LB.dg.ty+ev.clientY-LB.dg.y));labXf()}});
+ ["pointerup","pointercancel"].forEach(e=>vw.addEventListener(e,()=>{if(LB){LB.gd=0;LB.dg=null}}));
+ const v=o.querySelector("#labvid");v.addEventListener("pause",()=>{if(LB&&LB.ready&&!v.seeking){const n=Math.max(0,Math.min(LB.N-1,Math.round((v.currentTime-LB.t0)/LB.p-.5)));labSeek(n)}});v.addEventListener("ended",()=>labUi());
+ labGo("setup")}
+function labClose(sv){
+ clearTimeout(LBT.a);clearInterval(LBT.b);clearTimeout(LBT.t);
+ const o=$("labov");if(LB){const v=$("labvid");if(v){try{v.pause();v.removeAttribute("src");v.load()}catch(e){}}if(LB.url){try{URL.revokeObjectURL(LB.url)}catch(e){}}}
+ if(o)o.remove();if(LB)document.body.style.overflow="";LB=null;if(sv)render()}
+function labGo(s){
+ if(!LB)return;const a=$("labs0"),b=$("labs1");if(!a||!b)return;
+ if(s==="an"&&!LB.ready)s="setup";
+ a.hidden=s!=="setup";b.hidden=s!=="an";
+ if(s==="setup")a.innerHTML=labSetupH();
+ else{if(LB.act==null&&!Object.keys(LB.marks).length&&!Object.keys(LB.skip).length)LB.act=labNext(-1);$("labttl").textContent=LABM[LB.mode].n+" · "+labKName();labGuide();labXf();labPanels();labUi()}}
+const labKName=()=>{const K=lbKind();return (K.ty==="thr"&&K.id==="oth"&&LB.cfg.nm)||(K.id==="free"&&LB.cfg.nm)||K.n};
+function labSetupH(){
+ const M=LABM[LB.mode],K=lbKind();
+ const ch=M.kinds.map(k=>`<button class="labchip${k.id===K.id?" on":""}" data-lbx="kind" data-v="${k.id}">${esc(k.n)}</button>`).join("");
+ const fl=(K.f||[]).map(f=>`<label>${esc(f.l)}</label><input type="text" inputmode="${f.k==="nm"?"text":"decimal"}" autocomplete="off" data-lbx-f="${f.k}" value="${esc(LB.cfg[f.k])}" placeholder="${esc(f.ph||"")}">`).join("");
+ const vid=LB.name&&!LB.ready?`<div class="labfile"><b>🎞 ${esc(LB.name)}</b></div>`:LB.name?`<div class="labfile"><b>🎞 ${esc(LB.name)}</b><small>${lf3(LB.dur)} s · ${LB.det?labDisp(LB.mfps)+" fotogramas/s":"ritmo de fotogramas sin detectar"}</small></div><button class="pr labbig2" data-lbx="go">Continuar con este vídeo</button><button class="labbig2" data-lbx="pick">Elegir otro vídeo</button>`:`<button class="pr labbig2" data-lbx="rec">🎥 Grabar un vídeo</button><button class="labbig2" data-lbx="pick">Elegir de la galería</button>`;
+ return`<div class="labh"><span style="width:44px"></span><b>${esc(M.n)}</b><button data-lbx="close" aria-label="Cerrar">✕</button></div><div class="labin"><label>¿Qué vas a medir?</label><div class="labch">${ch}</div><p class="labd">${esc(K.d)}</p>${fl}<details class="labtip"><summary>Cómo grabar el vídeo</summary><ul>${M.tip.map(t=>"<li>"+esc(t)+"</li>").join("")}</ul></details><label>Vídeo</label>${LB.msg?`<p class="labw">${esc(LB.msg)}</p>`:""}<div class="labvs">${vid}</div>${LB.ref?`<small>Ejercicio: ${esc(LB.ref)}</small>`:""}</div>`}
+function labNext(from){const st=lbSteps();for(let k=0;k<2;k++){for(let j=(k?-1:from)+1;j<st.length;j++){const q=st[j].k;if(LB.marks[q]==null&&!LB.skip[q])return q}}return null}
+function labToast(m){const t=$("labtoast");if(!t)return;t.textContent=m;t.classList.add("on");clearTimeout(LBT.t);LBT.t=setTimeout(()=>t.classList.remove("on"),1100)}
+function labXf(){const z=$("labz");if(z)z.style.transform="translate("+LB.tx+"px,"+LB.ty+"px) scale("+LB.zoom+")"}
+function labGuide(){const g=$("labgl");if(!g||!LB)return;g.hidden=!LB.guide;g.className="labgl "+(LB.guide===2?"h":"v");g.style.left=LB.guide===1?LB.gx+"%":"";g.style.top=LB.guide===2?LB.gy+"%":""}
+function labUi(){
+ if(!LB)return;const sl=$("labsl");if(sl){sl.max=Math.max(1,LB.N-1);sl.value=LB.fi}
+ const b=$("labbd");if(b)b.textContent=LB.ready?"Fotograma "+(LB.fi+1)+" / "+LB.N+" · "+lf3(LB.fi/LB.fps)+" s":"";
+ const p=$("labpl"),v=$("labvid");if(p)p.textContent=v&&!v.paused&&!v.ended?"❚❚":"▶︎"}
+function labSeek(n){
+ if(!LB||!LB.ready)return;const v=$("labvid");n=Math.max(0,Math.min(LB.N-1,Math.round(n)));LB.fi=n;
+ if(v){if(!v.paused)v.pause();v.currentTime=Math.min(LB.t0+(n+.5)*LB.p,Math.max(0,(v.duration||1e9)-.001))}labUi()}
+function labPlay(){
+ const v=$("labvid");if(!v||!LB||!LB.ready)return;if(!v.paused){v.pause();return}
+ if(LB.fi>=LB.N-2)labSeek(0);v.playbackRate=.25;v.play().catch(()=>{});
+ const tick=()=>{if(!LB||v.paused||v.ended){labUi();return}LB.fi=Math.max(0,Math.min(LB.N-1,Math.round((v.currentTime-LB.t0)/LB.p-.5)));labUi();requestAnimationFrame(tick)};requestAnimationFrame(tick);labUi()}
+function labMark(){
+ if(!LB||!LB.ready||!LB.act)return;const st=lbSteps(),i=st.findIndex(s=>s.k===LB.act);if(i<0)return;
+ LB.marks[LB.act]=LB.fi;delete LB.skip[LB.act];labToast("✓ "+st[i].l+" · fotograma "+(LB.fi+1));LB.act=labNext(i);labPanels()}
+function labPanels(){
+ if(!LB||!$("labst"))return;const st=lbSteps(),M=LB.marks,F=LB.fps;
+ const a=st.find(s=>s.k===LB.act),mk=$("labmk");mk.disabled=!a||!LB.ready;mk.innerHTML=a?"Marcar: <b>"+esc(a.l)+"</b>":"Todo marcado ✓";$("labhint").textContent=a?a.h:"Toca un paso para volver a marcarlo.";
+ $("labtl").innerHTML=`<button data-lbx="zoom">Zoom ${LB.zoom}×</button><button data-lbx="guide" class="${LB.guide?"on":""}">Guía: ${["no","vertical","horizontal"][LB.guide]}</button>`;
+ $("labtk").innerHTML=st.filter(s=>M[s.k]!=null).map(s=>`<i style="left:${100*M[s.k]/Math.max(1,LB.N-1)}%"></i>`).join("");
+ const fs=[30,60,120,240],ratio=LB.det&&LB.mfps?F/LB.mfps:1;
+ $("labfp").innerHTML=`<label>Fotogramas por segundo con que grabaste</label><small style="display:block;margin-bottom:8px">Elige los que usaste al grabar. En cámara lenta suelen ser 120 o 240, aunque el archivo diga 30.</small><div class="labch">${fs.map(f=>`<button class="labchip${F===f?" on":""}" data-lbx="fps" data-v="${f}">${f}</button>`).join("")}<input class="labfpi" type="text" inputmode="decimal" data-lbx-fps="1" value="${fs.includes(F)?"":F}" placeholder="Otro"></div><small>${LB.det?"El archivo tiene "+labDisp(LB.mfps)+" fotogramas/s. ":""}Cada fotograma = ${vf1(1000/F)} ms${ratio>=1.9?" · Cámara lenta ×"+Math.round(ratio):""}.</small>${LB.det&&F<LB.mfps*.97?`<p class="labw">El archivo tiene ${labDisp(LB.mfps)} fotogramas/s, así que no se puede haber grabado a menos. Revisa este valor.</p>`:""}${!LB.det?`<label>Fotogramas por segundo del archivo (no se han podido detectar)</label><input type="text" inputmode="decimal" data-lbx-mfps="1" value="${labDisp(LB.mfps||30)}">`:""}`;
+ $("labst").innerHTML=st.map((s,i)=>{const f=M[s.k],on=s.k===LB.act;return`<div class="labsr${on?" on":""}${f!=null?" ok":""}"><button class="labsb" data-lbx="act" data-v="${s.k}"><i>${i+1}</i><span><b>${esc(s.l)}${s.o?" <em>opcional</em>":""}</b><small>${f!=null?esc(lbFmtF(f)):LB.skip[s.k]?"Omitido":esc(s.h)}</small></span></button>${f!=null||LB.skip[s.k]?`<button class="labcl" data-lbx="clr" data-v="${s.k}" aria-label="Borrar marca">✕</button>`:on&&s.o?`<button class="labcl" data-lbx="skip" data-v="${s.k}">Omitir</button>`:""}</div>`}).join("");
+ const r=labCalc();let h="";
+ if(r.big)h+=`<div class="labbig"><small>${esc(r.big[2])}</small><b>${r.big[0]}<u>${esc(r.big[1])}</u></b></div>`;else h+='<p class="labd">Marca los pasos de arriba para ver el resultado.</p>';
+ h+=r.it.map(x=>`<div class="labit"><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join("");
+ if(r.tb)h+='<table class="labtb">'+r.tb.map((q,i)=>"<tr>"+q.map(c=>i?"<td>"+esc(c)+"</td>":"<th>"+esc(c)+"</th>").join("")+"</tr>").join("")+"</table>";
+ h+=r.w.map(w=>`<p class="labw">⚠ ${esc(w)}</p>`).join("");
+ h+=`<small class="labd">Margen de error: ±${vf1(1000/F)} ms por cada marca (un fotograma).</small>`;
+ if(r.ok)h+=`<button class="pr labbig2" data-lbx="save">Guardar en Tests</button><small class="labd">Se guardará en ${esc(r.tn)}.</small>`;
+ $("labrs").innerHTML=h}
+function labClick(ev){
+ const b=ev.target.closest("[data-lbx]");if(!b||!LB)return;const a=b.dataset.lbx,v=b.dataset.v;
+ if(a==="close")return labClose(false);
+ if(a==="kind"){LB.kind=v;LB.marks={};LB.skip={};LB.act=null;lbCfgInit();return labGo("setup")}
+ if(a==="rec"){const f=$("labf1");if(f)f.click();return}
+ if(a==="pick"){const f=$("labf2");if(f)f.click();return}
+ if(a==="go")return labGo("an");
+ if(a==="setup"){const x=$("labvid");if(x&&!x.paused)x.pause();return labGo("setup")}
+ if(a==="mark")return labMark();
+ if(a==="play")return labPlay();
+ if(a==="act"){const st=lbSteps();LB.act=v;if(LB.marks[v]!=null)labSeek(LB.marks[v]);labPanels();return}
+ if(a==="clr"){delete LB.marks[v];delete LB.skip[v];LB.act=v;return labPanels()}
+ if(a==="skip"){const st=lbSteps(),i=st.findIndex(s=>s.k===v);LB.skip[v]=1;LB.act=labNext(i);return labPanels()}
+ if(a==="zoom"){LB.zoom=LB.zoom===1?2:LB.zoom===2?3:1;if(LB.zoom===1){LB.tx=0;LB.ty=0}labXf();return labPanels()}
+ if(a==="guide"){LB.guide=(LB.guide+1)%3;labGuide();return labPanels()}
+ if(a==="fps"){LB.fps=+v;labPanels();return labUi()}
+ if(a==="save")return labSave()}
+/* avance fotograma a fotograma (se repite al mantener pulsado) */
+document.addEventListener("pointerdown",ev=>{const b=ev.target.closest("[data-lbs]");if(!b||!LB||!$("labov"))return;ev.preventDefault();const k=+b.dataset.lbs;labSeek(LB.fi+k);clearTimeout(LBT.a);clearInterval(LBT.b);LBT.a=setTimeout(()=>{LBT.b=setInterval(()=>{if(LB)labSeek(LB.fi+k)},Math.abs(k)>1?110:60)},420)},true);
+["pointerup","pointercancel"].forEach(e=>document.addEventListener(e,()=>{clearTimeout(LBT.a);clearInterval(LBT.b)},true));
+document.addEventListener("keydown",ev=>{if(!LB||!$("labov"))return;const t=ev.target;if(ev.key==="Escape"){labClose(false);return}if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)&&t.type!=="range")return;if($("labs1").hidden)return;
+ if(ev.key==="ArrowLeft"){ev.preventDefault();labSeek(LB.fi-(ev.shiftKey?10:1))}else if(ev.key==="ArrowRight"){ev.preventDefault();labSeek(LB.fi+(ev.shiftKey?10:1))}else if(ev.key===" "||ev.key==="Enter"){if(t&&t.tagName==="BUTTON")return;ev.preventDefault();labMark()}},true);
+
+/* ---- carga del vídeo y detección de fotogramas ---- */
+function labDetect(v){
+ return new Promise(res=>{
+  if(!v.requestVideoFrameCallback){res(0);return}
+  const ts=[];let done=false,id=0;
+  const fin=()=>{if(done)return;done=true;try{v.pause();v.cancelVideoFrameCallback(id)}catch(e){}v.playbackRate=1;
+   const d=[];for(let i=1;i<ts.length;i++){const x=ts[i]-ts[i-1];if(x>1e-4)d.push(x)}
+   if(d.length<4){res(0);return}
+   const q=d.slice().sort((a,b)=>a-b),base=q[Math.floor(q.length*.25)];let k=0,tt=0;d.forEach(x=>{k+=Math.max(1,Math.round(x/base));tt+=x});res(tt/k)};
+  const cb=(n,md)=>{ts.push(md.mediaTime);if(ts.length>=14)fin();else id=v.requestVideoFrameCallback(cb)};
+  id=v.requestVideoFrameCallback(cb);v.muted=true;v.playbackRate=.25;
+  const p=v.play();if(p&&p.catch)p.catch(()=>fin());setTimeout(fin,3500)})}
+function labAt(v,t){return new Promise(res=>{let d=false;const f=m=>{if(d)return;d=true;res(m)};v.requestVideoFrameCallback((n,md)=>f(md.mediaTime));v.currentTime=t;setTimeout(()=>f(null),2500)})}
+async function labRefine(v,pe){
+ const m0=await labAt(v,.0005);if(m0==null)return null;
+ const m1=await labAt(v,Math.max(m0+pe,v.duration-.0005));if(m1==null||m1<=m0)return null;
+ const n=Math.round((m1-m0)/pe);if(n<1)return null;const pn=(m1-m0)/n;if(Math.abs(pn/pe-1)>.02)return null;
+ return{p:pn,t0:m0,N:n+1}}
+async function labLoad(f){
+ if(!LB)return;const v=$("labvid");if(!v)return;
+ if(LB.url){try{URL.revokeObjectURL(LB.url)}catch(e){}}
+ LB.url=URL.createObjectURL(f);LB.name=f.name||"vídeo";LB.marks={};LB.skip={};LB.act=null;LB.ready=false;LB.msg="Cargando el vídeo…";
+ const a=$("labs0");if(a&&!a.hidden)a.innerHTML=labSetupH();
+ const tok=LB.url;
+ await new Promise(r=>{let k=0;const ok=()=>{if(k++)return;r()};v.onloadedmetadata=ok;v.onerror=ok;v.src=LB.url;setTimeout(ok,8000)});
+ if(!LB||LB.url!==tok)return;
+ if(!v.videoWidth||!isFinite(v.duration)||v.duration<=0){LB.msg="No he podido abrir este vídeo. Prueba con otro (MP4 o MOV) o grábalo de nuevo.";LB.name="";LB.ready=false;if($("labs0")&&!$("labs0").hidden)$("labs0").innerHTML=labSetupH();return}
+ LB.dur=v.duration;LB.msg="Analizando los fotogramas…";if($("labs0")&&!$("labs0").hidden)$("labs0").innerHTML=labSetupH();
+ let p=0;try{p=await labDetect(v)}catch(e){p=0}
+ if(!LB||LB.url!==tok)return;
+ LB.t0=0;LB.N=0;
+ if(p>0){let rf=null;try{rf=v.requestVideoFrameCallback?await labRefine(v,p):null}catch(e){rf=null}
+  if(!LB||LB.url!==tok)return;
+  if(rf){p=rf.p;LB.t0=rf.t0;LB.N=rf.N}
+  LB.p=p;LB.mfps=1/p;LB.det=true}else{LB.mfps=30;LB.p=1/30;LB.det=false}
+ if(!LB.N)LB.N=Math.max(2,Math.round((v.duration-LB.t0)/LB.p));
+ LB.fps=LB.mfps<=31?30:LB.mfps<=65?60:LB.mfps<=130?120:240;
+ LB.msg="";LB.ready=true;LB.fi=0;labSeek(0);
+ LB.act=labNext(-1);labGo("an")}
+
+/* ---- botón «Medir con Lab» dentro de los ejercicios de saltos, velocidad, cambios de dirección y lanzamientos ---- */
+const labGuess=n=>{n=String(n||"").toLowerCase();
+ if(/lanz|bal[oó]n medicinal|medicine|slam|throw|jabalina|disco|martillo|\bbola\b/.test(n))return["throw",/jabalina/.test(n)?"jav":/disco/.test(n)?"disc":/martillo/.test(n)?"ham":/bola|peso|shot/.test(n)?"shot":"med"];
+ if(/agilidad|cambio de direcc|\bcod\b|505|5-10-5|t-test|illinois|zigzag|zig-zag|shuffle/.test(n))return["cod",/5-10-5/.test(n)?"t5105":/505/.test(n)?"c505":/t-test/.test(n)?"tte":/illinois/.test(n)?"ill":"free"];
+ if(/sprint|aceleraci|\b(10|20|30|40) ?m\b|carrera lanzada|velocidad m[aá]xima/.test(n))return["speed",/\b40 ?m\b/.test(n)?"s40":/\b30 ?m\b/.test(n)?"s30":/\b20 ?m\b/.test(n)?"s20":/\b10 ?m\b/.test(n)?"s10":"s20"];
+ if(/salto|jump|pliom|\bhop\b|rebote|vallas?\b|bound|cmj|caj[oó]n/.test(n))return["jump",/squat jump|\bsj\b/.test(n)?"sj":/drop/.test(n)?"dj":/depth/.test(n)?"depj":/valla|rebote|\bhop\b|bound/.test(n)?"rep":/brazos|cmja/.test(n)?"cmja":"cmj"];
+ return null};
+{const _ex=exC;exC=function(e){const h=_ex.apply(this,arguments);if(ROLE!=="client"||(typeof RO!=="undefined"&&RO))return h;const g=labGuess(e&&e.name);if(!g||!h.endsWith("</div></div>"))return h;
+ return h.slice(0,-6)+`<div class="bar" style="margin:8px 0 0"><button data-lab="open" data-v="${g[0]}" data-k="${g[1]}" data-x="${esc((e.name||"").slice(0,60))}">📏 Medir con Lab</button></div></div>`}}
+Object.assign(window,{labH,labOpen,labGuess,nxLab:{open:labOpen,close:labClose,state:()=>LB,calc:labCalc,seek:labSeek,mark:labMark,save:labSave}});
 
 render();
 })();
