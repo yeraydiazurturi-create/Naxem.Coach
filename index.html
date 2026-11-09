@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-09.41">
+<meta name="app-version" content="2026-11-09.42">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -1433,7 +1433,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no tienes rutinas de este tipo. Crea una en Biblioteca → Rutinas.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-09.41";
+const APP_V="2026-11-09.42";
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -1751,10 +1751,10 @@ function adAj(){return`<div class="card"><b>Pruebas gratuitas</b><br><small>Día
 <div class="card"><b>Aviso para todos</b><br><small>Aparece en el perfil de todos los entrenadores y atletas. Déjalo vacío para quitarlo.</small><label>Mensaje</label><textarea id="cfg_aviso" placeholder="Ej.: Mañana habrá mantenimiento de 8:00 a 8:30">${esc(CFG.aviso||"")}</textarea><div class="bar" style="margin:10px 0 0"><button class="on" data-ad="cfg" data-k="aviso">Publicar</button></div></div>`}
 function adRg(){const L=AD.log||[];return L.length?`<div class="card"><b>Registro de acciones</b><table style="margin-top:8px"><tr><th>Fecha</th><th>Acción</th><th>Sobre</th></tr>${L.map(l=>`<tr><td>${new Date(l.t).toLocaleString("es-ES",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</td><td>${esc(adAct(l.action))}</td><td>${esc((l.target||"").split(":")[0])}${l.detail&&l.detail.key?" · "+esc(l.detail.key):""}</td></tr>`).join("")}</table></div>`:'<div class="empty">El registro está vacío.</div>'}
 function adH(){if(!ISADM)return'<div class="empty">Esta pantalla es solo para administradores.</div>';if(!AD.ok&&!adBusy&&!adErr)adLoad();
-const T=[["res","Resumen"],["co","Entrenadores"],["cl","Atletas"],["ch","Chat"+(NT.staff?" ("+NT.staff+")":"")],["ag","Agenda"],["iv","Entrevistas"+((AD.iv||[]).filter(x=>x.pres&&!x.revisada).length?" ("+(AD.iv||[]).filter(x=>x.pres&&!x.revisada).length+")":"")],["fa","Facturas"],["nu","Nutricionistas"],["ct","Contenido"],["dc","Descuentos"],["aj","Ajustes"],["rg","Registro"]],tb=`<div class="gtb"><div class="gtt">Administración</div><div class="gtr">${T.map(t=>`<button class="gtp${adT===t[0]?" on":""}" data-ad="tab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div></div>`;
+const T=[["res","Resumen"],["co","Entrenadores"],["cl","Atletas"],["ch","Chat"+(NT.staff?" ("+NT.staff+")":"")],["ag","Agenda"],["iv","Entrevistas"+((AD.iv||[]).filter(x=>x.pres&&!x.revisada).length?" ("+(AD.iv||[]).filter(x=>x.pres&&!x.revisada).length+")":"")],["fa","Facturas"],["nu","Nutricionistas"],["ct","Contenido"],["dc","Descuentos"],["fn","Funciones"],["aj","Ajustes"],["rg","Registro"]],tb=`<div class="gtb"><div class="gtt">Administración</div><div class="gtr">${T.map(t=>`<button class="gtp${adT===t[0]?" on":""}" data-ad="tab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div></div>`;
 if(adErr)return tb+`<div class="card"><b>No se pudo cargar el panel</b><br><small>${esc(adErr)}</small><div class="bar" style="margin:10px 0 0"><button class="on" data-ad="retry">Reintentar</button></div></div>`;
 if(!AD.ok)return tb+'<div class="empty">Cargando…</div>';if(adT==="dc")return tb+window.dcAdmin();
-return tb+{res:adRes,co:adCo,cl:adCl,ch:()=>chatBox(),ct:adCt,aj:adAj,rg:adRg,ag:agendaH,iv:adIv,fa:adFa,nu:adNu}[adT]()}
+return tb+{res:adRes,co:adCo,cl:adCl,ch:()=>chatBox(),ct:adCt,aj:adAj,fn:()=>window.fnAdmin(),rg:adRg,ag:agendaH,iv:adIv,fa:adFa,nu:adNu}[adT]()}
 function susH(){$("who").innerHTML="";$("app").innerHTML=`<div class="lg"><div class="lgc"><div class="lgi">!</div><div class="lgk">ACCESO</div><h2 class="lgh">Cuenta <em>suspendida</em></h2><p class="lgs">Tu cuenta está suspendida. Ponte en contacto con Nexum.</p><button class="lgt" data-act="logout">Salir</button></div></div>`}
 const avisoH=()=>CFG.aviso?`<div class="card" style="border-top-color:#d9a441"><b>📣 Aviso</b><p style="white-space:pre-wrap;margin:6px 0 0">${esc(CFG.aviso)}</p></div>`:"";
 document.addEventListener("input",ev=>{const t=ev.target;if(!t.dataset||t.dataset.adq===undefined)return;adQ=t.value;const l=$("adlist");if(l)l.innerHTML=adClList()});
@@ -2184,6 +2184,22 @@ button.vci.vcgo{background:#86222f;color:#fff;border-color:#86222f;opacity:1;fon
 .vcrow .vcpr:disabled{opacity:.55;cursor:default}
 .vcok{margin-top:10px;background:#1b251b;border:1px solid #2f4a2f;border-radius:12px;padding:12px 14px}
 .vcok p{margin:6px 0 0;color:#cfc8bb;font-size:14px}
+
+/* ===== Interruptores de funciones ===== */
+.fnl{margin-top:6px}
+.fnr{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--hair)}
+.fnl .fnr:first-child{border-top:0}
+.fni{flex:none;width:30px;text-align:center;font-size:22px}
+.fnt{flex:1;min-width:0}
+.fnt b{margin-right:8px}
+.fnt small{display:block;line-height:1.3;margin-top:3px}
+.fns{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8d877d}
+.fns.on{color:#86222f}
+button.fnsw{flex:none;width:56px;height:34px;border-radius:999px;border:0;padding:4px;background:#b9b2a5;cursor:pointer;transition:background .15s;touch-action:manipulation}
+button.fnsw i{display:block;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .15s}
+button.fnsw.on{background:#86222f}
+button.fnsw.on i{transform:translateX(22px)}
+button.fnsw:disabled{opacity:.55;cursor:default}
 </style>
 <script>
 (function(){
@@ -3025,7 +3041,7 @@ const labSkel=()=>`<div id="labs0" class="lbscr"></div>
 </div>
 <input id="labf1" class="labfi" type="file" accept="video/*" capture="environment"><input id="labf2" class="labfi" type="file" accept="video/*">`;
 function labOpen(mode,kind,ref){
- if(!LABM[mode])return;if(typeof RO!=="undefined"&&RO&&!NUTRI){alert("Estás en modo lectura: no se pueden guardar mediciones.");return}
+ if(!LABM[mode]||!fnOn("lab"))return;if(typeof RO!=="undefined"&&RO&&!NUTRI){alert("Estás en modo lectura: no se pueden guardar mediciones.");return}
  labClose(false);LB=lbNew();LB.mode=mode;LB.kind=kind&&LABM[mode].kinds.some(k=>k.id===kind)?kind:LABM[mode].kinds[0].id;LB.ref=ref||"";lbCfgInit();
  const o=document.createElement("div");o.id="labov";o.className="labov";o.innerHTML=labSkel();document.body.appendChild(o);document.body.style.overflow="hidden";
  o.addEventListener("click",labClick);
@@ -3179,7 +3195,7 @@ const vcNextHour=()=>{const n=new Date();return vcP2((n.getHours()+1)%24)+":00"}
 /* mensaje de chat: 1ª línea "📹 Videollamada", título opcional, "🗓 dd/mm/aaaa hh:mm" opcional y el enlace al final */
 const vcMsg=o=>["📹 Videollamada",o.t&&o.t!=="Videollamada"?String(o.t).replace(/\s+/g," ").slice(0,80):"",o.d?"🗓 "+vcDmy(o.d)+(o.h?" "+o.h:""):"",o.u].filter(Boolean).join("\n");
 function vcCard(t){
- if(typeof t!=="string"||t.indexOf("📹")!==0)return"";
+ if(typeof t!=="string"||t.indexOf("📹")!==0||!fnOn("video"))return"";
  const L=t.split("\n").map(x=>x.trim()).filter(Boolean);
  if(L[0]==="📹 Videollamada"){
   const u=L[L.length-1];if(L.length<2||!vcSafe(u))return"";
@@ -3193,7 +3209,7 @@ function vcCard(t){
  return""}
 /* enlace dentro de calendarios (agenda y calendario del atleta) */
 function vcJoinH(e,compact){
- const u=e&&e.kind==="call"?vcSafe(e.link):"";if(!u)return"";
+ const u=e&&e.kind==="call"?vcSafe(e.link):"";if(!u||!fnOn("video"))return"";
  const d=String(e.day||"").slice(0,10),h=e.hora?String(e.hora).slice(0,5):"";
  return `<br><a class="vcj vcjs" href="${esc(u)}" target="_blank" rel="noopener noreferrer">📹 Unirse</a>${compact?"":`<button type="button" class="vci vcjs" data-vc="ics" data-d="${esc(d)}" data-h="${esc(h)}" data-t="${esc(e.title||"Videollamada")}" data-u="${esc(u)}">📅 Añadir</button>`}`}
 /* .ics para añadir al calendario del móvil */
@@ -3222,7 +3238,7 @@ async function vcAnnounce(o){
  if(r.error)throw r.error}
 /* contexto del chat actual */
 function vcCtx(){
- if(typeof RO!=="undefined"&&RO)return null;
+ if((typeof RO!=="undefined"&&RO)||!fnOn("video"))return null;
  if(ROLE==="client"){
   if(chn==="priv")return{k:"ask",ev:"none",name:(typeof coachNm==="function"?coachNm():"")||"tu entrenador",src:"coach"};
   if(chn==="nutri")return{k:"ask",ev:"none",name:"tu nutricionista",src:"nutri"};
@@ -3317,6 +3333,56 @@ document.addEventListener("keydown",ev=>{if(ev.key==="Escape"&&VC.st)vcClose()})
 /* botón en cada chat */
 {const _cb6=chatBox;chatBox=function(){const h=_cb6.apply(this,arguments);let b="";try{b=vcBar()}catch(e){}if(!b)return h;const k=h.indexOf('<div id="chl"');return k<0?h:h.slice(0,k)+b+h.slice(k)}}
 Object.assign(window,{VC,vcCard,vcJoinH,vcNorm,vcSafe,vcSaveLink,vcLoadLink,vcAnnounce,vcOpen,vcIcs,nxVc:{open:vcOpen,state:()=>VC.st,ctx:vcCtx,msg:vcMsg,go:vcGo,ask:vcAsk,card:vcCard}});
+
+/* ===== v42 · Interruptores de funciones (administración) ===== */
+const FNS=[
+ {k:"lab",n:"Lab",i:"📏",d:"Medición por vídeo: saltos, velocidad, cambios de dirección y lanzamientos.",sel:['[data-act="tab"][data-v="lab"]','[data-lab]']},
+ {k:"rnk",n:"Ranking",i:"🏆",d:"Compara los tests de cada atleta con los de su grupo.",sel:['[data-act="tab"][data-v="rnk"]']},
+ {k:"fcz",n:"Zonas FC",i:"❤️",d:"Zonas cardíacas, VAM, VO₂máx y RM por VBT.",sel:['[data-act="tab"][data-v="fcz"]']},
+ {k:"cpo",n:"Cuerpo",i:"💪",d:"Mapa muscular: estímulo, fuerza relativa y recuperación.",sel:['[data-act="tab"][data-v="cpo"]']},
+ {k:"logros",n:"Compartir logros",i:"📸",d:"Imagen de la semana, del entreno o del progreso para redes y la comunidad.",sel:['[data-v21="shs"]','[data-v18="share"]']},
+ {k:"video",n:"Videollamadas",i:"📹",d:"Enlace de Meet o Zoom en los chats y en el calendario.",sel:['[data-ag="kd"]','.vcbar']}];
+let FNP=false,FNB=false,FNSIG="",FNT=0;
+try{FNP=localStorage.getItem("nx_fn_prev")==="1"}catch(e){}
+/* valor real del interruptor (si no está en la configuración, la función está activa) */
+function fnVal(k){const f=CFG&&CFG.funciones;return!(f&&typeof f==="object"&&f[k]===false)}
+/* ¿se muestra esta función a quien está usando la app? El administrador lo ve todo salvo que active "ver como los demás". */
+function fnOn(k){if(fnVal(k))return true;return!!(ISADM&&!RO&&!FNP)}
+function fnStyle(){
+ const off=FNS.filter(f=>!fnOn(f.k)),sig=off.map(f=>f.k).join();if(sig===FNSIG)return;FNSIG=sig;
+ let e=document.getElementById("fnoff");if(!e){e=document.createElement("style");e.id="fnoff";document.head.appendChild(e)}
+ e.textContent=off.map(f=>f.sel.join(",")+"{display:none!important}").join("\n")}
+/* si alguien estaba dentro de una sección que se apaga, se le lleva a la pantalla madre */
+{const _rn=render;render=function(){try{const g={lab:"tst",rnk:"tst",cpo:"tst",fcz:"rec"};if(g[tab]&&!fnOn(tab))tab=g[tab];if(!fnOn("video")&&AGF&&AGF.ag_k)AGF.ag_k="";fnStyle()}catch(e){}return _rn.apply(this,arguments)}}
+{const _so=shOpen;shOpen=function(){if(!fnOn("logros"))return;return _so.apply(this,arguments)}}
+/* panel de administración */
+function fnAdmin(){
+ const n=FNS.filter(f=>fnVal(f.k)).length;
+ const rows=FNS.map(f=>{const v=fnVal(f.k);return `<div class="fnr"><span class="fni">${f.i}</span><span class="fnt"><b>${esc(f.n)}</b><em class="fns${v?" on":""}">${v?"Activa":"Apagada"}</em><small>${esc(f.d)}</small></span><button type="button" class="fnsw${v?" on":""}" role="switch" aria-checked="${v}" aria-label="${esc(f.n)}" data-fnx="set" data-k="${f.k}"${FNB?" disabled":""}><i></i></button></div>`}).join("");
+ return `<div class="card"><div class="row"><b>Funciones de la app</b><small>${n} de ${FNS.length} activas</small></div><small>Activa o apaga secciones para todos los entrenadores y atletas. Lo que apagues desaparece de los menús; no se borra ningún dato y puedes volver a activarlo cuando quieras.</small><div class="fnl">${rows}</div><div class="bar" style="margin:6px 0 0"><button data-fnx="all" data-v="1"${FNB?" disabled":""}>Activar todas</button><button data-fnx="all" data-v="0"${FNB?" disabled":""}>Apagar todas</button></div><small style="display:block;margin-top:10px">Los demás verán el cambio al abrir la app o en unos minutos.</small></div>
+<div class="card"><b>Tu vista de administrador</b><div class="fnl"><div class="fnr"><span class="fni">👁</span><span class="fnt"><b>Ver la app como los demás</b><em class="fns${FNP?" on":""}">${FNP?"Activado":"Desactivado"}</em><small>${FNP?"Ahora ves solo lo que tienen activado el resto de cuentas.":"Ahora ves todas las funciones, también las apagadas, para poder probarlas antes de lanzarlas."}</small></span><button type="button" class="fnsw${FNP?" on":""}" role="switch" aria-checked="${FNP}" aria-label="Ver la app como los demás" data-fnx="prev"><i></i></button></div></div></div>`}
+async function fnSave(next){
+ const prev=CFG.funciones;CFG.funciones=next;FNB=true;render();
+ try{const r=await SB.rpc("admin_do",{p_action:"config",p_kind:null,p_id:null,p_arg:{key:"funciones",value:next}});if(r.error)throw r.error}
+ catch(e){CFG.funciones=prev;alert("No se pudo guardar: "+(e&&e.message?e.message:e))}
+ FNB=false;render()}
+document.addEventListener("click",async ev=>{
+ const b=ev.target.closest&&ev.target.closest("[data-fnx]");if(!b||!ISADM)return;const a=b.dataset.fnx;
+ if(a==="prev"){FNP=!FNP;try{localStorage.setItem("nx_fn_prev",FNP?"1":"0")}catch(e){}render();return}
+ if(FNB)return;
+ const cur=Object.assign({},CFG.funciones&&typeof CFG.funciones==="object"?CFG.funciones:{});
+ if(a==="set"){const k=b.dataset.k;cur[k]=!fnVal(k)}
+ else if(a==="all"){if(b.dataset.v==="0"&&!confirm("¿Apagar todas las funciones? Desaparecerán de los menús de todos los entrenadores y atletas."))return;FNS.forEach(f=>{cur[f.k]=b.dataset.v==="1"})}
+ else return;
+ await fnSave(cur)});
+/* los cambios llegan a quien ya tiene la app abierta */
+async function fnRefresh(){
+ if(document.hidden||FNB||typeof USER==="undefined"||!USER||!SB||Date.now()-FNT<45000)return;FNT=Date.now();
+ const a=JSON.stringify((CFG&&CFG.funciones)||{});try{await cfgLoad()}catch(e){return}
+ if(JSON.stringify((CFG&&CFG.funciones)||{})!==a&&!typing())render()}
+setInterval(fnRefresh,240000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)fnRefresh()});
+Object.assign(window,{fnOn,fnAdmin,nxFn:{on:fnOn,val:fnVal,refresh:fnRefresh,style:fnStyle,flags:()=>FNS.map(f=>f.k)}});
 
 render();
 })();
