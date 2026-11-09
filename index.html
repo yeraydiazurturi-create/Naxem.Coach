@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-09.40">
+<meta name="app-version" content="2026-11-09.41">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -478,7 +478,7 @@ ${typeH(s)}${s.rec?'<small>🔁 Se repite cada semana. Cada vez que la termines 
 function calH(){if(CLI()&&!evcOk&&!evcBusy)evcLoad();const y=cm.getFullYear(),m=cm.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
 let c="LMXJVSD".split("").map(d=>`<div class="wd">${d}</div>`).join("");for(let i=0;i<off;i++)c+="<div></div>";
 for(let d=1;d<=n;d++){const k=ymd(new Date(y,m,d)),ss=sOn(k);
-c+=`<div class="day ${k===today?"td":""} ${k===selDay?"sel":""}" data-act="selDay" data-v="${k}"><b>${d}</b>${CLI()?evcOn(k).slice(0,1).map(e=>`<i class="evc evk">${esc(e.title)}</i>`).join(""):""}${ss.slice(0,2).map(s=>`<i class="${s.done?"dn":""}">${esc(s.name)}</i>`).join("")}${ss.length>2?`<i>+${ss.length-2}</i>`:""}</div>`}
+c+=`<div class="day ${k===today?"td":""} ${k===selDay?"sel":""}" data-act="selDay" data-v="${k}"><b>${d}</b>${CLI()?evcOn(k).slice(0,1).map(e=>`<i class="evc evk">${e.kind==="call"?"📹 ":""}${esc(e.title)}</i>`).join(""):""}${ss.slice(0,2).map(s=>`<i class="${s.done?"dn":""}">${esc(s.name)}</i>`).join("")}${ss.length>2?`<i>+${ss.length-2}</i>`:""}</div>`}
 const sd=sOn(selDay);
 return `<div class="card"><div class="row"><button data-act="cPrev">‹</button><b style="text-transform:capitalize">${cm.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}</b><button data-act="cNext">›</button></div><div class="cal" style="margin-top:10px">${c}</div>
 <small>Relleno = realizada · borde = planificada</small></div>
@@ -887,7 +887,7 @@ const myName=()=>NUTRI?(NUN||"Nutricionista"):isAdm()?(ADMN||"Administrador"):((
 const coachNm=()=>(GATE&&GATE.coach)||"Entrenador";
 const chatNm=m=>m.role==="admin"?(m.author||"Administrador"):(m.is_coach&&(!m.author||m.author==="Entrenador"))?(ROLE==="client"?coachNm():myName()):m.author;
 const chatRl=(m,hd)=>m.role==="admin"?"Administrador":m.role==="nutri"?"Nutricionista":m.is_coach?"Entrenador":"@"+hd;
-const lk=t=>esc(t).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:#86222f">$1</a>');
+const lk=t=>(window.vcCard&&window.vcCard(t))||esc(t).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:#86222f">$1</a>');
 function chatLold(){return CH.length?CH.map(m=>{const u=(m.url||"").indexOf("https://")===0?esc(m.url):"",md=!u?"":m.kind==="audio"?`<audio controls preload="none" src="${u}" style="width:100%"></audio>`:m.kind==="video"?`<video controls playsinline preload="metadata" src="${u}" style="max-width:100%;max-height:260px"></video>`:m.kind==="image"?`<img src="${u}" style="max-width:100%;max-height:260px">`:"";
 return `<div style="margin-bottom:10px"><small><b style="color:${m.is_coach?"#86222f":"#0d0d0d"}">${esc(m.author)}${m.is_coach?" · Entrenador":""}</b> · ${new Date(m.created_at).toLocaleString("es-ES",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}${ROLE==="coach"?` <button class="x" data-act="cDelMsg" data-v="${m.id}">✕</button>`:""}</small>${md?"<div>"+md+"</div>":""}${m.body?`<div style="white-space:pre-wrap;word-break:break-word">${lk(m.body)}</div>`:""}</div>`}).join(""):"<small>Aún no hay mensajes.</small>"}
 function chatH(){if(CLI()&&GATE&&GATE.sin_coach)return'<div class="card"><b>Chat</b><br><small>Aún no tienes entrenador asignado. Cuando un entrenador te dé acceso podrás hablar con él aquí.</small></div>';const bk='<div class="bar"><button data-act="chn" data-v="">‹ Chats</button></div>';
@@ -1433,7 +1433,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no tienes rutinas de este tipo. Crea una en Biblioteca → Rutinas.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-09.40";
+const APP_V="2026-11-09.41";
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -1790,14 +1790,14 @@ function agendaH(){if(!evOk&&!evBusy&&!evErr)evLoad();
 const y=agM.getFullYear(),m=agM.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate(),canC=!!COACH,me=MYID;
 const on=k=>EVT.filter(e=>String(e.day).slice(0,10)===k);
 let c="LMXJVSD".split("").map(d=>`<div class="wd">${d}</div>`).join("");for(let i=0;i<off;i++)c+="<div></div>";
-for(let d=1;d<=n;d++){const k=ymd(new Date(y,m,d)),ee=on(k);c+=`<div class="day ${k===today?"td":""} ${k===agSel?"sel":""}" data-ag="sel" data-v="${k}"><b>${d}</b>${ee.slice(0,2).map(e=>`<i class="evc ${e.scope==="team"?"evt":"evk"}">${esc(e.title)}</i>`).join("")}${ee.length>2?`<i>+${ee.length-2}</i>`:""}</div>`}
+for(let d=1;d<=n;d++){const k=ymd(new Date(y,m,d)),ee=on(k);c+=`<div class="day ${k===today?"td":""} ${k===agSel?"sel":""}" data-ag="sel" data-v="${k}"><b>${d}</b>${ee.slice(0,2).map(e=>`<i class="evc ${e.scope==="team"?"evt":"evk"}">${e.kind==="call"?"📹 ":""}${esc(e.title)}</i>`).join("")}${ee.length>2?`<i>+${ee.length-2}</i>`:""}</div>`}
 const sd=on(agSel),cn=id=>{const x=CLS.find(q=>q.id===id);return x?x.name:"un atleta"};
-const list=sd.map(e=>`<div class="row" style="margin-top:10px;align-items:flex-start"><span>${e.scope==="team"?"👥":"🏃"} <b>${e.hora?esc(hhmm(e.hora))+" · ":""}${esc(e.title)}</b><br><small>${e.scope==="team"?"Equipo (entrenadores y administración)":e.client_id?"Para "+esc(cn(e.client_id)):"Para todos tus atletas"}${e.owner_name?" · "+esc(e.owner_name):""}${e.notes?"<br>"+esc(e.notes):""}</small></span>${(e.owner===me||(ISADM&&!COACH))?`<button class="x" data-ag="del" data-id="${e.id}">Eliminar</button>`:""}</div>`).join("")||"<div><small>Sin eventos este día.</small></div>";
+const list=sd.map(e=>`<div class="row" style="margin-top:10px;align-items:flex-start"><span>${e.kind==="call"?"📹":e.scope==="team"?"👥":"🏃"} <b>${e.hora?esc(hhmm(e.hora))+" · ":""}${esc(e.title)}</b><br><small>${e.scope==="team"?"Equipo (entrenadores y administración)":e.client_id?"Para "+esc(cn(e.client_id)):"Para todos tus atletas"}${e.owner_name?" · "+esc(e.owner_name):""}${e.notes?"<br>"+esc(e.notes):""}</small>${window.vcJoinH?window.vcJoinH(e):""}</span>${(e.owner===me||(ISADM&&!COACH))?`<button class="x" data-ag="del" data-id="${e.id}">Eliminar</button>`:""}</div>`).join("")||"<div><small>Sin eventos este día.</small></div>";
 const A=k=>AGF["ag_"+k]!==undefined?AGF["ag_"+k]:"";
 const form=agNew?`<div class="card"><b>Nuevo evento</b><div class="bar" style="margin:10px 0 0"><button class="${agSc==="team"?"on":""}" data-ag="sc" data-v="team">👥 Para el equipo</button>${canC?`<button class="${agSc==="client"?"on":""}" data-ag="sc" data-v="client">🏃 Para atletas</button>`:""}</div>
-<label>Título</label><input id="ag_t" maxlength="120" value="${esc(A("t"))}" placeholder="${agSc==="team"?"Reunión de equipo":"Sesión de test, revisión…"}">
+<div class="bar" style="margin:10px 0 0"><button class="${A("k")==="call"?"":"on"}" data-ag="kd" data-v="event">📌 Evento</button><button class="${A("k")==="call"?"on":""}" data-ag="kd" data-v="call">📹 Videollamada</button></div><label>Título</label><input id="ag_t" maxlength="120" value="${esc(A("t"))}" placeholder="${agSc==="team"?"Reunión de equipo":"Sesión de test, revisión…"}">
 <div class="head"><div><label>Fecha</label><input id="ag_d" type="date" value="${esc(A("d")||agSel)}"></div><div><label>Hora (opcional)</label><input id="ag_h" type="time" value="${esc(A("h"))}"></div></div>
-${agSc==="client"?`<label>¿Para quién?</label><select id="ag_c"><option value="">Todos mis atletas</option>${CLS.map(x=>`<option value="${x.id}"${A("c")===x.id?" selected":""}>${esc(x.name)}</option>`).join("")}</select><small>Lo verán en su calendario.</small>`:"<small>Lo verán todos los entrenadores y la administración.</small>"}
+${A("k")==="call"?`<label>Enlace de la videollamada</label><input id="ag_l" type="url" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="https://meet.google.com/…" value="${esc(A("l")||(window.VC&&window.VC.link)||"")}"><small>Tu enlace fijo se rellena solo. Puedes guardarlo desde cualquier chat con 📹 Videollamada.</small>`:""}${agSc==="client"?`<label>¿Para quién?</label><select id="ag_c"><option value="">Todos mis atletas</option>${CLS.map(x=>`<option value="${x.id}"${A("c")===x.id?" selected":""}>${esc(x.name)}</option>`).join("")}</select><small>Lo verán en su calendario.</small>${A("k")==="call"?`<label style="display:flex;align-items:center;gap:8px;margin-top:10px"><input type="checkbox" id="ag_m"${A("m")==="0"?"":" checked"} onchange="AGF.ag_m=this.checked?'1':'0'" style="width:20px;height:20px;margin:0"> Avisar también en el chat</label>`:""}`:"<small>Lo verán todos los entrenadores y la administración.</small>"}
 <label>Notas (opcional)</label><textarea id="ag_n">${esc(A("n"))}</textarea>
 ${evErr?`<p style="color:#86222f"><b>${esc(evErr)}</b></p>`:""}<div class="bar" style="margin:10px 0 0"><button class="on" data-ag="save">Guardar evento</button><button data-ag="cancel">Cancelar</button></div></div>`:`<div class="bar"><button class="w" data-ag="new">+ Nuevo evento</button></div>`;
 return `<div class="card"><div class="row"><button data-ag="prev">‹</button><b style="text-transform:capitalize">${agM.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}</b><button data-ag="next">›</button></div><div class="cal" style="margin-top:10px">${c}</div><small>Azul = equipo · amarillo = atletas</small></div>
@@ -1809,17 +1809,23 @@ else if(a==="prev"){agM=new Date(agM.getFullYear(),agM.getMonth()-1,1);render()}
 else if(a==="next"){agM=new Date(agM.getFullYear(),agM.getMonth()+1,1);render()}
 else if(a==="new"){agNew=true;agSc="team";AGF={};evErr="";render()}
 else if(a==="cancel"){agNew=false;AGF={};evErr="";render()}
-else if(a==="sc"){["t","d","h","n"].forEach(k=>{if($("ag_"+k))AGF["ag_"+k]=$("ag_"+k).value});agSc=v;render()}
+else if(a==="sc"){["t","d","h","n","l"].forEach(k=>{if($("ag_"+k))AGF["ag_"+k]=$("ag_"+k).value});agSc=v;render()}
+else if(a==="kd"){["t","d","h","n","l"].forEach(k=>{if($("ag_"+k))AGF["ag_"+k]=$("ag_"+k).value});AGF.ag_k=v==="call"?"call":"";render();if(v==="call"&&window.vcLoadLink)window.vcLoadLink().then(()=>{if(AGF.ag_k==="call"&&!AGF.ag_l)render()})}
 else if(a==="save"){const t=V("ag_t"),d=V("ag_d"),h=V("ag_h"),n=V("ag_n"),c=V("ag_c");if(!t){evErr="Escribe un título.";render();return}if(!d){evErr="Elige la fecha.";render();return}
-const id=await uidGet();const row={scope:agSc,owner:id,owner_name:myName(),coach_id:agSc==="client"?id:null,client_id:agSc==="client"&&c?c:null,title:t,notes:n,day:d,hora:h};
-const r=await SB.from("events").insert(row);if(r.error)throw r.error;agNew=false;AGF={};evErr="";agSel=d;await evLoad(true)}
+const kd=AGF.ag_k==="call",lu=kd?window.vcNorm(V("ag_l")):"";if(kd&&!lu){evErr="Pon el enlace de la videollamada (https://…).";render();return}
+const id=await uidGet();const row={scope:agSc,owner:id,owner_name:myName(),coach_id:agSc==="client"?id:null,client_id:agSc==="client"&&c?c:null,title:t,notes:n,day:d,hora:h,kind:kd?"call":"event",link:kd?lu:null};
+const ann=kd&&agSc==="client"&&AGF.ag_m!=="0";
+const r=await SB.from("events").insert(row);if(r.error)throw r.error;agNew=false;AGF={};evErr="";agSel=d;
+if(kd){try{if(window.VC&&!window.VC.link)await window.vcSaveLink(lu)}catch(_e){}}
+let warn="";if(ann){try{await window.vcAnnounce({c:c||"",d,h,t,u:lu})}catch(_e){warn="El evento se guardó, pero no se pudo avisar por el chat."}}
+await evLoad(true);if(warn){evErr=warn;render()}}
 else if(a==="del"){if(!confirm("¿Eliminar este evento?"))return;const r=await SB.from("events").delete().eq("id",b.dataset.id);if(r.error)throw r.error;await evLoad(true)}
 }catch(e){evErr=e.message||String(e);render()}});
 /* Eventos que ve el atleta */
 async function evcLoad(force){if(ROLE!=="client"||!CL||evcBusy||(evcOk&&!force))return;evcBusy=true;try{const r=await SB.rpc("client_events",{p_u:CL.usr,p_p:CL.pwd});if(r.error)throw r.error;const d=r.data||[];const ch=JSON.stringify(d)!==JSON.stringify(EVC);EVC=d;evcOk=true;evcBusy=false;if(ch&&!typing())render()}catch(e){evcOk=true}evcBusy=false}
 const evcOn=k=>EVC.filter(e=>String(e.day).slice(0,10)===k);
-const evcDayH=k=>{const L=evcOn(k);return L.map(e=>`<div class="row" style="margin-top:8px"><span>📌 <b>${e.hora?esc(hhmm(e.hora))+" · ":""}${esc(e.title)}</b>${e.notes||e.by?`<br><small>${esc(e.notes||"")}${e.by?" · "+esc(e.by):""}</small>`:""}</span></div>`).join("")};
-const evcSoonH=()=>{if(!CLI())return"";if(!evcOk&&!evcBusy)evcLoad();if(!evcOk)return"";const t=new Date(today+"T00:00"),e7=ymd(new Date(t.getTime()+7*864e5)),L=EVC.filter(e=>{const d=String(e.day).slice(0,10);return d>=today&&d<=e7});if(!L.length)return"";return`<div class="card"><b>📌 Próximos eventos</b>${L.slice(0,5).map(e=>`<div style="margin-top:6px"><small>${new Date(String(e.day).slice(0,10)+"T00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short"})}${e.hora?" · "+esc(hhmm(e.hora)):""}</small><br><b>${esc(e.title)}</b></div>`).join("")}</div>`};
+const evcDayH=k=>{const L=evcOn(k);return L.map(e=>`<div class="row" style="margin-top:8px"><span>${e.kind==="call"?"📹":"📌"} <b>${e.hora?esc(hhmm(e.hora))+" · ":""}${esc(e.title)}</b>${e.notes||e.by?`<br><small>${esc(e.notes||"")}${e.by?" · "+esc(e.by):""}</small>`:""}${window.vcJoinH?window.vcJoinH(e):""}</span></div>`).join("")};
+const evcSoonH=()=>{if(!CLI())return"";if(!evcOk&&!evcBusy)evcLoad();if(!evcOk)return"";const t=new Date(today+"T00:00"),e7=ymd(new Date(t.getTime()+7*864e5)),L=EVC.filter(e=>{const d=String(e.day).slice(0,10);return d>=today&&d<=e7});if(!L.length)return"";return`<div class="card"><b>📌 Próximos eventos</b>${L.slice(0,5).map(e=>`<div style="margin-top:6px"><small>${new Date(String(e.day).slice(0,10)+"T00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short"})}${e.hora?" · "+esc(hhmm(e.hora)):""}</small><br><b>${e.kind==="call"?"📹 ":""}${esc(e.title)}</b>${window.vcJoinH?window.vcJoinH(e,1):""}</div>`).join("")}</div>`};
 setInterval(()=>{if(ROLE==="client"&&CL&&!document.hidden)evcLoad(true)},120000);
 
 /* ---------- Facturas (PDF sin librerías) ---------- */
@@ -2125,6 +2131,59 @@ html[data-theme=light] #bnav button.on{background:rgba(134,34,47,.1);color:#8622
 .labit{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid #26262a;font-size:14px}.labit span{color:#8d877d}.labit b{font-weight:600;text-align:right}
 .labov table.labtb{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;font-variant-numeric:tabular-nums}
 .labov .labtb th,.labov .labtb td{padding:7px 6px;border-bottom:1px solid #26262a;text-align:left;color:#f1ece3}.labov .labtb th{color:#b79f78;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+
+/* ===== Videollamadas ===== */
+.vcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 0 2px}
+.vcbar button.vcbtn{background:#86222f;color:#fff;border:0;border-radius:999px;padding:9px 16px;min-height:40px;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
+.vcnx{font-size:13px;opacity:.9}
+.vcc{display:block;white-space:normal;min-width:210px;max-width:100%;text-align:left;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.28);border-radius:12px;padding:10px 12px;line-height:1.35}
+.vcc>span{display:block}
+.vcc .vch{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.vcc .vch b{font-size:14px}
+.vcc .vch em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:#86222f;color:#fff;border-radius:999px;padding:2px 8px}
+.vcc .vch em.vcpast{background:rgba(127,127,127,.55)}
+.vcc .vct{margin-top:4px;font-weight:600}
+.vcc .vcd{margin-top:2px;font-size:13px;opacity:.9}
+.vcc .vcb{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.vcc .vcp{margin-top:6px;font-size:11px;opacity:.7}
+a.vcj{display:inline-block;background:#86222f;color:#fff!important;text-decoration:none!important;border-radius:10px;padding:9px 16px;min-height:38px;font-weight:700;font-size:14px;line-height:1.3;touch-action:manipulation}
+a.vcj.vcjs{padding:5px 12px;min-height:0;font-size:13px;margin-top:4px;border-radius:8px}
+.v21b.me a.vcj{background:#fff;color:#86222f!important}
+button.vci{background:transparent;color:inherit;border:1px solid currentColor;border-radius:10px;padding:8px 12px;min-height:38px;font-size:13px;cursor:pointer;opacity:.9}
+button.vci.vcjs{padding:4px 10px;min-height:0;margin:4px 0 0 6px;border-radius:8px}
+button.vci.vcgo{background:#86222f;color:#fff;border-color:#86222f;opacity:1;font-weight:700}
+.v21b.me button.vci{color:#fff}
+/* hoja */
+.vcov{position:fixed;inset:0;z-index:21000;background:rgba(0,0,0,.62);display:flex;align-items:flex-end;justify-content:center;padding-top:env(safe-area-inset-top,0px)}
+.vcov[hidden]{display:none}
+.vcov *{box-sizing:border-box}
+.vcsh{width:100%;max-width:520px;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#17171a;color:#f1ece3;border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px));font-size:15px;line-height:1.4}
+@media(min-width:600px){.vcov{align-items:center}.vcsh{border-radius:18px}}
+.vcsh button,.vcsh a{font:inherit}
+.vcsh-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.vcsh-h b{font-size:18px}
+.vcsh button.vcx{background:#232326;color:#f1ece3;border:0;border-radius:50%;width:38px;height:38px;padding:0;font-size:16px;cursor:pointer}
+.vcw{margin:2px 0 8px;color:#b79f78}
+.vcsh label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b79f78;margin:14px 0 6px;font-weight:700}
+.vcsh label.vcck{display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:14px;font-weight:500;color:#cfc8bb;margin:10px 0 0}
+.vcsh label.vcck input{width:20px;height:20px;margin:0;accent-color:#c4414e}
+.vcsh input[type=text],.vcsh input[type=url],.vcsh input[type=date],.vcsh input[type=time]{width:100%;background:#1f1f22;border:1px solid #38383d;border-radius:12px;color:#f1ece3;padding:12px;font-size:16px;min-height:46px}
+.vcsh input:focus{outline:2px solid #c4414e;outline-offset:1px}
+.vc2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vctabs{display:flex;gap:8px;margin-top:10px}
+.vctabs button{flex:1;min-height:44px;background:#232326;color:#f1ece3;border:1px solid #38383d;border-radius:12px;font-size:15px;cursor:pointer}
+.vctabs button.on{background:#86222f;border-color:#86222f;color:#fff;font-weight:700}
+.vcmk{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:#8d877d}
+.vcmk span{flex:0 0 100%}
+.vcmk button{background:#232326;color:#f1ece3;border:1px solid #38383d;border-radius:999px;padding:8px 14px;min-height:38px;font-size:13px;cursor:pointer}
+.vch2{margin:12px 0 0;color:#a8a195;font-size:13.5px}
+.vcer{margin:12px 0 0;color:#ff9aa5;font-weight:600;font-size:14px}
+.vcrow{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.vcrow>*{flex:1;min-height:48px;border-radius:12px;font-size:16px;border:0;cursor:pointer;background:#232326;color:#f1ece3;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.vcrow .vcpr{background:#86222f;color:#fff;font-weight:700}
+.vcrow .vcpr:disabled{opacity:.55;cursor:default}
+.vcok{margin-top:10px;background:#1b251b;border:1px solid #2f4a2f;border-radius:12px;padding:12px 14px}
+.vcok p{margin:6px 0 0;color:#cfc8bb;font-size:14px}
 </style>
 <script>
 (function(){
@@ -3106,6 +3165,158 @@ const labGuess=n=>{n=String(n||"").toLowerCase();
 {const _ex=exC;exC=function(e){const h=_ex.apply(this,arguments);if(ROLE!=="client"||(typeof RO!=="undefined"&&RO))return h;const g=labGuess(e&&e.name);if(!g||!h.endsWith("</div></div>"))return h;
  return h.slice(0,-6)+`<div class="bar" style="margin:8px 0 0"><button data-lab="open" data-v="${g[0]}" data-k="${g[1]}" data-x="${esc((e.name||"").slice(0,60))}">📏 Medir con Lab</button></div></div>`}}
 Object.assign(window,{labH,labOpen,labGuess,nxLab:{open:labOpen,close:labClose,state:()=>LB,calc:labCalc,seek:labSeek,mark:labMark,save:labSave}});
+
+/* ===== v41 · Videollamadas (enlace externo: Meet / Zoom / Teams) ===== */
+const VC={link:"",loaded:false,p:null,st:null};
+const vcSafe=u=>{u=String(u==null?"":u).trim();return/^https?:\/\/[^\s<>"']+$/i.test(u)&&u.length<=500?u:""};
+const vcNorm=u=>{u=String(u==null?"":u).trim();if(!u)return"";if(!/^[a-z][a-z0-9+.-]*:/i.test(u)){if(/\s/.test(u)||u.indexOf(".")<1)return"";u="https://"+u}return vcSafe(u)};
+const vcProv=u=>{let h="";try{h=new URL(u).hostname.toLowerCase()}catch(e){}return/(^|\.)meet\.google\.com$/.test(h)?"Google Meet":/(^|\.)zoom\.(us|com)$/.test(h)?"Zoom":/(^|\.)(teams\.microsoft\.com|teams\.live\.com)$/.test(h)?"Microsoft Teams":/whereby\.com$/.test(h)?"Whereby":/jit\.si$/.test(h)?"Jitsi":"Videollamada"};
+const vcP2=n=>String(n).padStart(2,"0");
+const vcDmy=d=>{const m=String(d).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?m[3]+"/"+m[2]+"/"+m[1]:""};
+const vcLbl=d=>{const x=new Date(String(d).slice(0,10)+"T00:00");return isNaN(x)?"":x.toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short"})};
+const vcDays=d=>Math.round((new Date(String(d).slice(0,10)+"T00:00")-new Date(today+"T00:00"))/864e5);
+const vcNextHour=()=>{const n=new Date();return vcP2((n.getHours()+1)%24)+":00"};
+/* mensaje de chat: 1ª línea "📹 Videollamada", título opcional, "🗓 dd/mm/aaaa hh:mm" opcional y el enlace al final */
+const vcMsg=o=>["📹 Videollamada",o.t&&o.t!=="Videollamada"?String(o.t).replace(/\s+/g," ").slice(0,80):"",o.d?"🗓 "+vcDmy(o.d)+(o.h?" "+o.h:""):"",o.u].filter(Boolean).join("\n");
+function vcCard(t){
+ if(typeof t!=="string"||t.indexOf("📹")!==0)return"";
+ const L=t.split("\n").map(x=>x.trim()).filter(Boolean);
+ if(L[0]==="📹 Videollamada"){
+  const u=L[L.length-1];if(L.length<2||!vcSafe(u))return"";
+  let d="",h="";const ti=[];
+  L.slice(1,-1).forEach(x=>{const m=x.match(/^🗓 (\d{2})\/(\d{2})\/(\d{4})(?: (\d{1,2}):(\d{2}))?$/);if(m&&!isNaN(new Date(m[3]+"-"+m[2]+"-"+m[1]+"T00:00"))){d=m[3]+"-"+m[2]+"-"+m[1];h=m[4]?vcP2(m[4])+":"+m[5]:""}else ti.push(x)});
+  const n=d?vcDays(d):null,st=n==null?"":n<0?"Pasada":n===0?"Hoy":n===1?"Mañana":"En "+n+" días",tt=ti.join(" ");
+  return `<span class="vcc"><span class="vch"><b>📹 Videollamada</b>${st?`<em class="${n<0?"vcpast":""}">${st}</em>`:""}</span>${tt?`<span class="vct">${esc(tt)}</span>`:""}${d?`<span class="vcd">🗓 ${esc(vcLbl(d))}${h?" · "+esc(h):""}</span>`:""}<span class="vcb"><a class="vcj" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Unirse</a>${d?`<button type="button" class="vci" data-vc="ics" data-d="${d}" data-h="${esc(h)}" data-t="${esc(tt)}" data-u="${esc(u)}">📅 Añadir</button>`:""}</span><span class="vcp">${esc(vcProv(u))}</span></span>`}
+ if(L[0]==="📹 Pido una videollamada"){
+  const note=L.slice(1).join(" "),mine=ROLE==="client",rep=!mine&&(chn==="priv"||chn==="nutri");
+  return `<span class="vcc"><span class="vch"><b>📹 ${mine?"Has pedido una videollamada":"Te piden una videollamada"}</b></span>${note?`<span class="vct">${esc(note)}</span>`:""}${rep?`<span class="vcb"><button type="button" class="vci vcgo" data-vc="open" data-v="now">Responder con enlace</button></span>`:""}</span>`}
+ return""}
+/* enlace dentro de calendarios (agenda y calendario del atleta) */
+function vcJoinH(e,compact){
+ const u=e&&e.kind==="call"?vcSafe(e.link):"";if(!u)return"";
+ const d=String(e.day||"").slice(0,10),h=e.hora?String(e.hora).slice(0,5):"";
+ return `<br><a class="vcj vcjs" href="${esc(u)}" target="_blank" rel="noopener noreferrer">📹 Unirse</a>${compact?"":`<button type="button" class="vci vcjs" data-vc="ics" data-d="${esc(d)}" data-h="${esc(h)}" data-t="${esc(e.title||"Videollamada")}" data-u="${esc(u)}">📅 Añadir</button>`}`}
+/* .ics para añadir al calendario del móvil */
+function vcIcs(d,h,t,u){
+ const m=String(d).match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return;
+ const q=x=>String(x).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n");
+ const z=new Date(),ts=z.getUTCFullYear()+vcP2(z.getUTCMonth()+1)+vcP2(z.getUTCDate())+"T"+vcP2(z.getUTCHours())+vcP2(z.getUTCMinutes())+vcP2(z.getUTCSeconds())+"Z";
+ let a,b;
+ if(h&&/^\d{1,2}:\d{2}$/.test(h)){const[hh,mm]=h.split(":").map(Number),s=new Date(+m[1],+m[2]-1,+m[3],hh,mm),f=new Date(s.getTime()+45*6e4),F=x=>x.getFullYear()+vcP2(x.getMonth()+1)+vcP2(x.getDate())+"T"+vcP2(x.getHours())+vcP2(x.getMinutes())+"00";a="DTSTART:"+F(s);b="DTEND:"+F(f)}
+ else{const s=new Date(+m[1],+m[2]-1,+m[3]),f=new Date(+m[1],+m[2]-1,+m[3]+1),F=x=>x.getFullYear()+vcP2(x.getMonth()+1)+vcP2(x.getDate());a="DTSTART;VALUE=DATE:"+F(s);b="DTEND;VALUE=DATE:"+F(f)}
+ const ti=(t&&t!=="Videollamada"?t:"Videollamada Nexum");
+ const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Nexum//Videollamadas//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH","BEGIN:VEVENT","UID:"+Date.now()+Math.random().toString(36).slice(2,8)+"@nexum",
+  "DTSTAMP:"+ts,a,b,"SUMMARY:"+q("📹 "+ti),"DESCRIPTION:"+q("Unirse: "+u),"URL:"+u,"LOCATION:"+q(u),"BEGIN:VALARM","TRIGGER:-PT10M","ACTION:DISPLAY","DESCRIPTION:"+q("Videollamada en 10 minutos"),"END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
+ const bl=new Blob([ics],{type:"text/calendar;charset=utf-8"}),url=URL.createObjectURL(bl),el=document.createElement("a");
+ el.href=url;el.download="videollamada.ics";document.body.appendChild(el);el.click();setTimeout(()=>{el.remove();URL.revokeObjectURL(url)},1500)}
+/* enlace personal (guardado en la cuenta; entrenador, nutricionista y admin) */
+function vcLoadLink(){
+ if(ROLE==="client")return Promise.resolve();
+ if(VC.p)return VC.p;
+ VC.p=(async()=>{try{const r=await SB.from("video_links").select("url").maybeSingle();if(!r.error){VC.link=(r.data&&r.data.url)||"";VC.loaded=true}}catch(e){}if(!VC.loaded)VC.p=null})();
+ return VC.p}
+async function vcSaveLink(u){const id=await uidGet(),r=await SB.from("video_links").upsert({user_id:id,url:u});if(r.error)throw r.error;VC.link=u;VC.loaded=true}
+/* aviso en el chat al programar desde la agenda */
+async function vcAnnounce(o){
+ const body=vcMsg({t:o.t,d:o.d,h:o.h,u:o.u}),r=await SB.from("chat").insert({author:myName(),is_coach:true,body,kind:"text",url:"",ch:o.c?"priv":"squad",client_id:o.c||null});
+ if(r.error)throw r.error}
+/* contexto del chat actual */
+function vcCtx(){
+ if(typeof RO!=="undefined"&&RO)return null;
+ if(ROLE==="client"){
+  if(chn==="priv")return{k:"ask",ev:"none",name:(typeof coachNm==="function"?coachNm():"")||"tu entrenador",src:"coach"};
+  if(chn==="nutri")return{k:"ask",ev:"none",name:"tu nutricionista",src:"nutri"};
+  return null}
+ if(chn==="priv"&&chp){const c=(typeof CLS!=="undefined"&&CLS||[]).find(y=>y.id===chp);return{k:"client",id:chp,name:c?c.name:"tu atleta",ev:isAdm()?"none":"client"}}
+ if(chn==="squad")return{k:"squad",name:window.sqNm?window.sqNm():"Comunidad",ev:isAdm()?"none":"client"};
+ if(chn==="nutri"&&NUTRI&&chp){const c=(NUL||[]).find(y=>y.id===chp);return{k:"nutri",id:chp,name:c?c.name:"tu atleta",ev:"nutri"}}
+ if(chn==="staff")return{k:"staff",name:window.stNm?window.stNm():"Equipo",ev:NUTRI?"none":"team"};
+ if(chn==="cdm"&&chp){const x=(SDR.l||[]).find(y=>y.id===chp);return{k:"cdm",name:x&&x.nombre?x.nombre:"esta persona",ev:"none"}}
+ return null}
+/* próxima videollamada programada de este chat */
+function vcNext(c){
+ const now=new Date(),ok=e=>{if(!vcSafe(e.link))return false;const d=String(e.day).slice(0,10);if(d<today)return false;if(d===today&&e.hora){const[hh,mm]=String(e.hora).slice(0,5).split(":").map(Number),t=new Date();t.setHours(hh,mm+60,0,0);if(t<now)return false}return true};
+ let L;
+ if(c.k==="ask"){if(!evcOk&&!evcBusy)evcLoad();L=(EVC||[]).filter(e=>e.kind==="call"&&e.src===c.src&&ok(e))}
+ else{if(!evOk&&!evBusy&&!evErr)evLoad();L=(EVT||[]).filter(e=>e.kind==="call"&&ok(e)&&(c.k==="client"?e.scope==="client"&&e.owner===MYID&&(e.client_id===c.id||!e.client_id):c.k==="squad"?e.scope==="client"&&e.owner===MYID&&!e.client_id:c.k==="nutri"?e.client_id===c.id:c.k==="staff"?e.scope==="team":false))}
+ L.sort((a,b)=>(String(a.day).slice(0,10)+(a.hora||"")).localeCompare(String(b.day).slice(0,10)+(b.hora||"")));
+ return L[0]||null}
+function vcBar(){
+ const c=vcCtx();if(!c)return"";
+ const n=vcNext(c),u=n?vcSafe(n.link):"";
+ return `<div class="vcbar"><button type="button" class="vcbtn" data-vc="open">${c.k==="ask"?"📹 Pedir videollamada":"📹 Videollamada"}</button>${n&&u?`<span class="vcnx">Próxima: <b>${esc(vcLbl(n.day))}${n.hora?" · "+esc(String(n.hora).slice(0,5)):""}</b> <a class="vcj vcjs" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Unirse</a></span>`:""}</div>`}
+/* ---------- hoja de videollamada ---------- */
+function vcEl(){let e=document.getElementById("vcov");if(!e){e=document.createElement("div");e.id="vcov";e.className="vcov";e.hidden=true;document.body.appendChild(e)}return e}
+function vcCap(){const s=VC.st;if(!s)return;const g=i=>{const e=document.getElementById(i);return e?e.value:null};
+ const u=g("vc_u");if(u!==null)s.u=u;const d=g("vc_d");if(d!==null)s.d=d;const h=g("vc_h");if(h!==null)s.h=h;const t=g("vc_t");if(t!==null)s.t=t;const n=g("vc_n");if(n!==null)s.note=n;
+ const r=document.getElementById("vc_r");if(r)s.rem=r.checked}
+function vcRender(){
+ const s=VC.st,e=vcEl();if(!s){e.hidden=true;e.innerHTML="";return}
+ const c=s.c,ask=c.k==="ask",plan=s.mode==="plan",who=c.k==="squad"?"toda la comunidad":c.k==="staff"?"el equipo":c.name;
+ let b;
+ if(s.sent){
+  b=ask?`<div class="vcok"><b>✅ Petición enviada</b><p>${esc(c.name)} la verá en el chat y te responderá con el enlace.</p></div><div class="vcrow"><button type="button" class="vcpr" data-vc="close">Cerrar</button></div>`
+   :`<div class="vcok"><b>✅ ${plan?"Videollamada programada":"Enlace enviado al chat"}</b><p>${plan?`${esc(vcLbl(s.d))}${s.h?" · "+esc(s.h):""}. `+(c.ev==="none"?"Cada persona puede añadirla a su calendario desde el mensaje.":"Aparece en el calendario y en el chat."):"Todos podrán entrar desde el mensaje."}</p></div><div class="vcrow"><a class="vcpr vcjb" href="${esc(s.sentU)}" target="_blank" rel="noopener noreferrer">Abrir la sala</a><button type="button" data-vc="close">Cerrar</button></div>`}
+ else if(ask){
+  b=`<label for="vc_n">¿Cuándo te viene bien? (opcional)</label><input id="vc_n" type="text" maxlength="160" placeholder="Ej.: mañana por la tarde" value="${esc(s.note||"")}"><p class="vch2">${esc(c.name)} recibirá tu petición en el chat y te mandará el enlace de la sala.</p>${s.err?`<p class="vcer">${esc(s.err)}</p>`:""}<div class="vcrow"><button type="button" class="vcpr" data-vc="ask"${s.busy?" disabled":""}>${s.busy?"Enviando…":"Enviar petición"}</button></div>`}
+ else{
+  b=`<div class="vctabs"><button type="button" data-vc="mode" data-v="now" class="${plan?"":"on"}">Ahora</button><button type="button" data-vc="mode" data-v="plan" class="${plan?"on":""}">Programar</button></div>
+<label for="vc_u">Enlace de la sala</label><input id="vc_u" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://meet.google.com/…" value="${esc(s.u||"")}">
+<div class="vcmk"><span>¿No tienes uno?</span><button type="button" data-vc="make" data-v="meet">Crear en Meet</button><button type="button" data-vc="make" data-v="zoom">Crear en Zoom</button></div>
+<label class="vcck"><input type="checkbox" id="vc_r"${s.rem?" checked":""}> Guardar como mi enlace fijo</label>
+${plan?`<div class="vc2"><div><label for="vc_d">Fecha</label><input id="vc_d" type="date" min="${today}" value="${esc(s.d||"")}"></div><div><label for="vc_h">Hora</label><input id="vc_h" type="time" value="${esc(s.h||"")}"></div></div><label for="vc_t">Título (opcional)</label><input id="vc_t" type="text" maxlength="80" placeholder="Revisión mensual, test, dudas…" value="${esc(s.t||"")}">
+<p class="vch2">${c.ev==="none"?"Se enviará al chat con la fecha y la hora; quien quiera puede añadirla a su calendario.":"Se guarda en el calendario"+(c.k==="staff"?" del equipo":c.k==="squad"?" de todos tus atletas":c.k==="client"||c.k==="nutri"?" de "+esc(c.name):"")+" y se avisa en el chat."}</p>`:`<p class="vch2">Se envía al chat un mensaje con el botón <b>Unirse</b>. Después abre tú también la sala.</p>`}
+${s.err?`<p class="vcer">${esc(s.err)}</p>`:""}<div class="vcrow"><button type="button" class="vcpr" data-vc="send"${s.busy?" disabled":""}>${s.busy?"Enviando…":plan?"Programar y avisar":"Enviar enlace al chat"}</button></div>`}
+ e.innerHTML=`<div class="vcsh" role="dialog" aria-modal="true" aria-label="Videollamada"><div class="vcsh-h"><b>📹 ${ask?"Pedir videollamada":"Videollamada"}</b><button type="button" class="vcx" data-vc="close" aria-label="Cerrar">✕</button></div><p class="vcw">${ask?"Con":"Para"} <b>${esc(who)}</b></p>${b}</div>`;
+ e.hidden=false}
+function vcOpen(mode){
+ const c=vcCtx();if(!c)return;
+ VC.st={c,mode:c.k==="ask"?"ask":(mode==="plan"?"plan":"now"),u:VC.link||"",rem:!VC.link,d:today,h:vcNextHour(),t:"",note:"",busy:false,err:"",sent:false,sentU:""};
+ vcRender();
+ if(c.k!=="ask")vcLoadLink().then(()=>{const s=VC.st;if(s&&s.c===c&&!s.sent&&VC.link){vcCap();if(!vcSafe(s.u)&&!String(s.u||"").trim()){s.u=VC.link;s.rem=false}vcRender()}});
+ setTimeout(()=>{const i=document.getElementById(c.k==="ask"?"vc_n":"vc_u");if(i&&!i.value&&!/iPhone|iPad|Android/i.test(navigator.userAgent))i.focus()},60)}
+function vcClose(){VC.st=null;vcRender()}
+async function vcGo(){
+ const s=VC.st;if(!s||s.busy||s.sent)return;vcCap();
+ const c=s.c,plan=s.mode==="plan",u=vcNorm(s.u);
+ if(!u){s.err="Pega un enlace válido (https://…).";return vcRender()}
+ if(plan){if(!s.d){s.err="Elige la fecha.";return vcRender()}if(s.d<today){s.err="La fecha ya pasó.";return vcRender()}if(!s.h){s.err="Elige la hora.";return vcRender()}}
+ s.busy=true;s.err="";s.u=u;vcRender();
+ try{
+  if(s.rem&&u!==VC.link){try{await vcSaveLink(u)}catch(e){}}
+  const t=(s.t||"").trim();
+  if(plan&&c.ev!=="none"){
+   const title=t||"Videollamada";
+   if(c.ev==="nutri"){const r=await SB.rpc("nutri_event_add",{p_client:c.id,p_title:title,p_notes:"",p_day:s.d,p_hora:s.h,p_link:u});if(r.error)throw r.error}
+   else{const id=await uidGet(),row=c.ev==="team"?{scope:"team",owner:id,owner_name:myName(),coach_id:null,client_id:null,title,notes:"",day:s.d,hora:s.h,kind:"call",link:u}:{scope:"client",owner:id,owner_name:myName(),coach_id:id,client_id:c.k==="client"?c.id:null,title,notes:"",day:s.d,hora:s.h,kind:"call",link:u},r=await SB.from("events").insert(row);if(r.error)throw r.error}
+  }
+  await post(vcMsg({t,d:plan?s.d:"",h:plan?s.h:"",u}));
+  s.sent=true;s.sentU=u;
+  if(plan&&c.ev!=="none"){try{evLoad(true)}catch(e){}}
+ }catch(e){s.err="No se pudo enviar: "+(e&&e.message?e.message:e)}
+ s.busy=false;vcRender()}
+async function vcAsk(){
+ const s=VC.st;if(!s||s.busy||s.sent)return;vcCap();
+ s.busy=true;s.err="";vcRender();
+ try{const n=(s.note||"").replace(/\s+/g," ").trim().slice(0,160);await post("📹 Pido una videollamada"+(n?"\n"+n:""));s.sent=true}catch(e){s.err="No se pudo enviar: "+(e&&e.message?e.message:e)}
+ s.busy=false;vcRender()}
+document.addEventListener("click",ev=>{
+ const o=document.getElementById("vcov");
+ if(o&&ev.target===o){vcClose();return}
+ const b=ev.target.closest&&ev.target.closest("[data-vc]");if(!b)return;
+ const a=b.dataset.vc;
+ if(a==="open"){ev.preventDefault();vcOpen(b.dataset.v)}
+ else if(a==="close")vcClose();
+ else if(a==="mode"){const s=VC.st;if(s){vcCap();s.mode=b.dataset.v==="plan"?"plan":"now";s.err="";vcRender()}}
+ else if(a==="make"){window.open(b.dataset.v==="zoom"?"https://zoom.us/start/videomeeting":"https://meet.new","_blank","noopener")}
+ else if(a==="send")vcGo();
+ else if(a==="ask")vcAsk();
+ else if(a==="ics"){ev.preventDefault();vcIcs(b.dataset.d,b.dataset.h,b.dataset.t,b.dataset.u)}
+});
+document.addEventListener("keydown",ev=>{if(ev.key==="Escape"&&VC.st)vcClose()});
+/* botón en cada chat */
+{const _cb6=chatBox;chatBox=function(){const h=_cb6.apply(this,arguments);let b="";try{b=vcBar()}catch(e){}if(!b)return h;const k=h.indexOf('<div id="chl"');return k<0?h:h.slice(0,k)+b+h.slice(k)}}
+Object.assign(window,{VC,vcCard,vcJoinH,vcNorm,vcSafe,vcSaveLink,vcLoadLink,vcAnnounce,vcOpen,vcIcs,nxVc:{open:vcOpen,state:()=>VC.st,ctx:vcCtx,msg:vcMsg,go:vcGo,ask:vcAsk,card:vcCard}});
 
 render();
 })();
