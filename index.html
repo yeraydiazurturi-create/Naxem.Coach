@@ -544,7 +544,7 @@ const h=CLI()?"":`<div class="bar"><button class="w" data-act="genA">Crear progr
 if(!A.length)return h+'<div class="empty">Aún no hay clases del programa Athlet Training.</div>';
 return h+[...Array(12)].map((_,i)=>{const w=i+1;return `<div class="card"><div class="row"><b>Semana ${w}</b>${!CLI()&&w>1?`<button class="x" data-act="cpW" data-v="${w}">Copiar semana ${w-1}</button>`:""}</div><div class="bar" style="margin:8px 0 0">${[1,2,3].map(n=>{const s=g(w,n);return s?`<button class="${s.done?"on":""}" data-act="openS" data-v="${s.id}">Sesión ${n}${s.done?" ✓":""}</button>`:""}).join("")}</div></div>`}).join("")}
 const canDel=s=>!CLI()||!!(GATE&&GATE.sin_coach)||isLog(s);
-function homeT(){if(!et)return '<div class="menu">'+ET.map((t,i)=>{const n=S.sessions.filter(s=>sty(s)===t[0]).length;return mt("etp",t[0],"",t[1],t[0]==="athlet"?n+"/36 clases":n+" sesiones")}).join("")+"</div>";
+function homeT(){if(!et)return '<div class="menu">'+ET.filter(t=>t[0]!=="athlet").map((t,i)=>{const n=S.sessions.filter(s=>sty(s)===t[0]).length;return mt("etp",t[0],"",t[1],t[0]==="athlet"?n+"/36 clases":n+" sesiones")}).join("")+"</div>";
 return '<div class="bar"><button data-act="etp" data-v="">‹ Tipos</button></div>'+(et==="athlet"?athletH():homeH())}
 function homeH(){const c=S.sessions.filter(s=>sty(s)===et).map(s=>{const t=stats(s);return `<div class="card"><div class="row"><b>${esc(s.name)}</b><small>${s.done?"✅ Realizada":s.rec?"🔁 Semanal":"🗓️ Plan"}</small></div><small>${s.rec?"Cada "+dowTxt(s.dow):esc(s.date)} · ${isLog(s)?(s.dist?s.dist+" km":"registro"):s.ex.length+" ejercicios"}${t.m?" · "+t.m+" min":""}</small><div class="sum"><span>sRPE <b>${t.load}</b></span><span><b>${Math.round(t.vol)}</b> kg</span></div><div class="ex">${s.ex.filter(e=>e.name).slice(0,4).map(e=>esc(e.name)).join(" · ")}</div><div class="bar" style="margin:8px 0 0"><button class="on" data-act="openS" data-v="${s.id}">Abrir</button>${CLI()?`<button data-v21="shs" data-id="${s.id}">Compartir</button>`:""}${plBtn(s)}${CLI()?"":`<button data-act="dup" data-v="${s.id}">Duplicar</button>`}${canDel(s)?`<button data-act="delS" data-v="${s.id}">Eliminar</button>`:""}</div></div>`}).join("");
 return ((CLI()&&et==="fuerza"&&!LG.includes(et))?"":`<div class="bar">${CLI()&&et==="fuerza"?"":'<button class="w" data-act="tab" data-v="crt">+ Crear entrenamiento</button>'}${LG.includes(et)?'<button data-act="newS">+ Registro rápido</button>':""}</div>`)+(c?`<div class="charts">${c}</div>`:'<div class="empty">Aquí aparecerán los entrenamientos que crees.</div>')}
@@ -1446,7 +1446,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-10.51";
+const APP_V="2026-11-11.52";
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -2451,6 +2451,30 @@ button.fnsw:disabled{opacity:.55;cursor:default}
 .pti{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:4px 0 6px}
 .ptpv{max-height:64px;max-width:160px;border-radius:8px;border:1px solid var(--hair,rgba(26,26,28,.09));object-fit:contain;background:#fff}
 #pted textarea,#ptae textarea{width:100%}
+/* ===== v52 · franja de anuncios ===== */
+#ptbar{position:fixed;left:0;right:0;bottom:64px;z-index:41;box-sizing:border-box;min-height:50px;display:flex;align-items:center;overflow:hidden;padding:7px 28px 7px 12px;background:rgba(20,20,22,.98);color:#f1ece3;border-top:1px solid rgba(220,199,161,.3);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html[data-theme=light] #ptbar{background:rgba(250,247,242,.98);color:#1a1a1c;border-top:1px solid var(--hairl)}
+body.spl #ptbar{opacity:0}body.ptkb #ptbar{display:none}
+body.hasptb main{padding-bottom:calc(92px + var(--ptb-h,0px))}
+body.hasptb .v21u{bottom:calc(84px + var(--ptb-h,0px))}
+.ptbi{flex:1;min-width:0;display:flex;align-items:center;gap:10px;cursor:pointer;animation:ptbin .4s ease both;-webkit-tap-highlight-color:transparent}
+.ptbl{flex:none;width:34px;height:34px;border-radius:9px;background:#fff;display:grid;place-items:center;overflow:hidden;font-weight:800;font-size:16px;color:#86222f;border:1px solid rgba(255,255,255,.12)}
+.ptbl img{width:100%;height:100%;object-fit:contain;display:block}
+.ptbt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ptbt i{font-style:normal;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b79f78;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-theme=light] .ptbt i{color:#8a6d3b}
+.ptbt b{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:inherit}
+.ptbd{flex:none;background:#86222f;color:#fff;border-radius:999px;padding:3px 10px;font-weight:800;font-size:13px;white-space:nowrap}
+.ptbx{all:unset;position:absolute;top:2px;right:3px;width:18px;height:18px;display:grid;place-items:center;cursor:pointer;color:#8f897e;border-radius:50%}
+.ptbx::after{content:"";position:absolute;inset:-7px}
+.ptbx svg{width:8px;height:8px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+.ptbx:hover,.ptbx:focus-visible{color:#fff;background:rgba(255,255,255,.14)}
+html[data-theme=light] .ptbx{color:#6f685e}html[data-theme=light] .ptbx:hover,html[data-theme=light] .ptbx:focus-visible{color:#1a1a1c;background:rgba(0,0,0,.08)}
+.ptbp{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--champ);opacity:.75;transform-origin:left;transform:scaleX(0);animation:ptbp linear forwards}
+@keyframes ptbp{to{transform:scaleX(1)}}
+@keyframes ptbin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ptbi{animation:none}.ptbp{display:none}}
+.ptc{scroll-margin-top:76px}
 </style>
 <script>
 (function(){
@@ -3753,7 +3777,7 @@ const ptKey=()=>ROLE+":"+(ROLE==="client"?(CL&&CL.usr)||"":USER||"");
 const ptUrl=u=>/^https:\/\/[^\s"'<>]+$/i.test(u||"")?u:"";
 const ptImg=u=>/^(data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+\/=]+|https:\/\/[^\s"'<>]+)$/.test(u||"")?u:"";
 const ptArgs=()=>ROLE==="client"&&CL?{p_u:CL.usr,p_p:CL.pwd}:{p_u:null,p_p:null};
-const ptCan=()=>(ROLE==="client"&&!!CL)||(ROLE==="coach"&&!CL&&!!COACH&&!NUTRI);
+const ptCan=()=>(ROLE==="client"&&!!CL)||(ROLE==="coach"&&!CL&&(!!COACH||!!ISADM)&&!NUTRI);
 const ptRe=()=>{if(tab==="menu"||tab==="pat")render()};
 const ptTx=t=>esc(t||"").replace(/\n/g,"<br>");
 const ptFecha=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("es-ES",{day:"numeric",month:"long"})}catch(e){return d}};
@@ -3764,7 +3788,7 @@ TT.pat=["Patrocinadores","marcas aliadas"];NAV_G.pat="menu";
 
 function ptLoad(f){if(!ptCan()||!SB)return;const k=ptKey();if(PTS.k!==k){PTS.k=k;PTS.L=null;PTS.ts=0;PTS.err="";PTS.seen={}}
  if(PTS.busy||(!f&&PTS.L&&Date.now()-PTS.ts<(PTS.err?6e4:3e5)))return;PTS.busy=true;
- const fin=(L,e)=>{if(PTS.k!==k)return;PTS.busy=false;PTS.ts=Date.now();PTS.err=e||"";if(L)PTS.L=L;else if(!PTS.L)PTS.L=[];ptRe()};
+ const fin=(L,e)=>{if(PTS.k!==k)return;PTS.busy=false;PTS.ts=Date.now();PTS.err=e||"";if(L)PTS.L=L;else if(!PTS.L)PTS.L=[];ptRe();ptStrip()};
  SB.rpc("sponsors_list",ptArgs()).then(r=>r.error?fin(null,r.error.message||"Error"):fin(Array.isArray(r.data)?r.data:[],""),e=>fin(null,String(e&&e.message||e)))}
 function ptTrack(kind,ids,ev){if(!SB||!ids.length||!ptCan())return;try{SB.rpc("sponsor_track",Object.assign({p_kind:kind,p_ids:ids,p_ev:ev},ptArgs())).then(()=>{},()=>{})}catch(e){}}
 function ptSeen(kind,ids){const now=Date.now(),n=ids.filter(i=>!PTS.seen[kind+i]||now-PTS.seen[kind+i]>18e5);if(!n.length)return;n.forEach(i=>{PTS.seen[kind+i]=now});ptTrack(kind,n,"v")}
@@ -3780,7 +3804,7 @@ function ptAd(a,pv){const e=ptUrl(a.enlace);
 function ptCard(s,pv){const lg=ptImg(s.logo),cv=ptImg(s.portada),w=ptUrl(s.web),A=s.ads||[],host=w?w.replace(/^https:\/\//i,"").replace(/^www\./i,"").split(/[\/?#]/)[0]:"";
  return`<div class="card ptc" data-sp="${esc(s.id)}">${cv?`<div class="ptcv"><img src="${esc(cv)}" alt="" loading="lazy"></div>`:""}<div class="pth"><span class="ptlg">${lg?`<img src="${esc(lg)}" alt="">`:esc((s.nombre||"?").trim().charAt(0).toUpperCase())}</span><div class="ptt"><div class="ptn">${esc(s.nombre)}</div>${s.categoria?`<div class="ptk">${esc(s.categoria)}</div>`:""}</div><i class="ptag">Patrocinador</i></div>${s.descripcion?`<div class="ptd">${ptTx(s.descripcion)}</div>`:""}${w?`<a class="ptlk" href="${esc(w)}" target="_blank" rel="noopener noreferrer sponsored"${pv?"":` data-pt="go" data-k="s" data-id="${esc(s.id)}"`}>Conocer la marca · ${esc(host)} ↗</a>`:""}${A.map(a=>ptAd(a,pv)).join("")}${A.length?"":`<div class="ptemp">Ahora mismo esta marca no tiene ofertas activas.</div>`}</div>`}
 window.patH=function(){ptLoad();const bk='<div class="bar"><button data-act="tab" data-v="menu">‹ Perfil</button></div>',
- info=`<div class="card">${ih("Cómo funciona","<p>Son marcas que colaboran con Nexum y ofrecen ventajas a "+(ROLE==="client"?"los atletas":"los entrenadores")+". Cada anuncio está marcado como «Patrocinado».</p><p>Nexum no vende estos productos ni se hace responsable de ellos: las condiciones de cada oferta las pone la marca.</p>")}<div class="ptd">Descuentos y ventajas de marcas aliadas.</div></div>`;
+ info=`<div class="card">${ih("Cómo funciona","<p>Son marcas que colaboran con Nexum y ofrecen ventajas a "+(ROLE==="client"?"los atletas":"los entrenadores")+". Cada anuncio está marcado como «Patrocinado».</p><p>Nexum no vende estos productos ni se hace responsable de ellos: las condiciones de cada oferta las pone la marca.</p>")}<div class="ptd">Descuentos y ventajas de marcas aliadas.</div>${ptbOff()?'<div class="bar" style="margin:10px 0 0"><button data-pt="baron">Volver a mostrar la franja de anuncios</button></div>':""}</div>`;
  if(!PTS.L)return bk+info+'<div class="card"><div class="ptd">Cargando…</div></div>';
  if(!PTS.L.length)return bk+info+`<div class="card"><div class="ptd">${PTS.err?"No se pudieron cargar los patrocinadores: "+esc(PTS.err):"Ahora mismo no hay patrocinadores activos."}</div>${PTS.err?'<div class="bar" style="margin:10px 0 0"><button data-pt="retry">Reintentar</button></div>':""}</div>`;
  ptSeen("s",PTS.L.map(s=>s.id));ptSeen("a",PTS.L.reduce((a,s)=>a.concat((s.ads||[]).map(x=>x.id)),[]));
@@ -3806,6 +3830,7 @@ document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-pt
  if(a==="go"){ptTrack(b.dataset.k,[id],"c");return}
  if(a==="copy"){const c=b.dataset.v||"";let ok=true;try{await navigator.clipboard.writeText(c)}catch(e){ok=false;prompt("Copia el código:",c)}if(!b.dataset.pv)ptTrack("a",[id],"k");if(ok){const t=b.textContent;b.textContent="¡Copiado!";setTimeout(()=>{b.textContent=t},1600)}return}
  if(a==="retry"){ptLoad(true);return}
+ if(a==="baron"){ptbRestore();render();return}
  if(!(ROLE==="coach"&&ISADM))return;
  const S1=i=>(PTS.adm||[]).find(x=>x.id===i),A1=i=>{for(const s of PTS.adm||[]){const a=(s.ads||[]).find(x=>x.id===i);if(a)return a}return null};
  if(a==="new"){PTS.ed={nombre:"",categoria:"",descripcion:"",web:"",aud:"todos",activo:true,orden:0,logo:"",portada:""};PTS.ad=null;PTS.admErr="";render();return}
@@ -3832,6 +3857,39 @@ document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-pt
 });
 document.addEventListener("input",ev=>{const i=ev.target&&ev.target.id;if(i&&/^(pt_|pa_)/.test(i))ptCap()});
 document.addEventListener("change",ev=>{const i=ev.target&&ev.target.id;if(i&&/^(pt_|pa_)/.test(i))ptCap()});
+
+/* ===== v52 · franja de anuncios sobre la barra inferior ===== */
+const PT_BAR_MS=10000,PT_OFF_MS=7*864e5;
+let ptbT=0;
+const ptbK=()=>"nx_ptb_"+(PTS.k||ptKey());
+function ptbOff(){try{const t=+localStorage.getItem(ptbK())||0;if(t&&Date.now()-t<PT_OFF_MS)return true}catch(e){}return !!PTS.offS&&Date.now()-PTS.offS<PT_OFF_MS}
+function ptbDismiss(){PTS.offS=Date.now();try{localStorage.setItem(ptbK(),String(PTS.offS))}catch(e){}ptStrip()}
+function ptbRestore(){PTS.offS=0;try{localStorage.removeItem(ptbK())}catch(e){}ptStrip()}
+const ptbList=()=>{const o=[];(PTS.L||[]).forEach(s=>(s.ads||[]).forEach(a=>{if(ptAdOn(a))o.push({a,s})}));return o};
+function ptbArm(){clearTimeout(ptbT);PTS.armed=true;ptbT=setTimeout(ptbTick,PT_BAR_MS)}
+function ptbTick(){PTS.armed=false;const el=$("ptbar"),L=ptbList();if(!el||L.length<2)return;if(document.hidden){ptbArm();return}PTS.bi=((PTS.bi||0)+1)%L.length;ptbPaint(el,L[PTS.bi],L.length)}
+function ptbPaint(el,c,n){const a=c.a,s=c.s,lg=ptImg(s.logo);PTS.bs=a.id;
+ el.innerHTML=`<button type="button" class="ptbx" data-ptb="x" aria-label="Quitar anuncios" title="Quitar anuncios"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 2L2 8"/></svg></button><div class="ptbi" role="link" tabindex="0" data-ptb="go" data-sp="${esc(s.id)}" data-pad="${esc(a.id)}" aria-label="${esc("Patrocinado: "+s.nombre+". "+a.titulo)}"><span class="ptbl">${lg?`<img src="${esc(lg)}" alt="">`:esc((s.nombre||"?").trim().charAt(0).toUpperCase())}</span><span class="ptbt"><i>Patrocinado · ${esc(s.nombre)}</i><b>${esc(a.titulo)}</b></span>${a.descuento?`<span class="ptbd">${esc(a.descuento)}</span>`:""}</div>${n>1?`<span class="ptbp" style="animation-duration:${PT_BAR_MS}ms"></span>`:""}`;
+ if(!document.hidden)ptSeen("a",[a.id]);
+ if(n>1)ptbArm();else{clearTimeout(ptbT);PTS.armed=false}}
+function ptbClick(ev){const b=ev.target.closest("[data-ptb]");if(!b)return;if(b.dataset.ptb==="x"){ptbDismiss();return}
+ ptTrack("a",[b.dataset.pad],"c");PTS.go=b.dataset.sp;const t=document.createElement("button");t.hidden=true;t.dataset.act="tab";t.dataset.v="pat";document.body.appendChild(t);t.click();t.remove()}
+function ptStrip(){let el=$("ptbar");
+ try{
+  if(PTS.go&&tab==="pat"){const id=String(PTS.go).replace(/"/g,"");PTS.go="";setTimeout(()=>{const e=document.querySelector('.ptc[data-sp="'+id+'"]');if(e)e.scrollIntoView({block:"start",behavior:"smooth"})},120)}
+  if(ptCan())ptLoad();
+  const L=ptbList(),on=document.body.classList.contains("hasnav")&&ptCan()&&L.length>0&&!ptbOff()&&tab!=="pat"&&tab!=="chat";
+  if(!on){if(el)el.remove();clearTimeout(ptbT);PTS.armed=false;PTS.bs="";document.body.classList.remove("hasptb");document.documentElement.style.removeProperty("--ptb-h");return}
+  if(!el){el=document.createElement("div");el.id="ptbar";el.setAttribute("role","complementary");el.setAttribute("aria-label","Publicidad");el.addEventListener("click",ptbClick);el.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.closest&&e.target.closest(".ptbi")){e.preventDefault();ptbClick(e)}});document.body.appendChild(el)}
+  let ix=L.findIndex(x=>x.a.id===PTS.bs);if(ix<0)ix=Math.floor(Math.random()*L.length);PTS.bi=ix;
+  if(PTS.bs!==L[ix].a.id||!el.firstChild)ptbPaint(el,L[ix],L.length);else if(L.length>1&&!PTS.armed)ptbArm();
+  const nav=$("bnav");el.style.bottom=(nav?nav.offsetHeight:64)+"px";
+  document.body.classList.add("hasptb");document.documentElement.style.setProperty("--ptb-h",el.offsetHeight+"px")
+ }catch(e){console.error("v52",e)}}
+{const _ns=navSync;navSync=function(){const r=_ns.apply(this,arguments);ptStrip();return r}}
+window.addEventListener("resize",()=>ptStrip());
+document.addEventListener("focusin",e=>{const t=e.target;if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)&&!/^(checkbox|radio|button|submit|file|range|color)$/i.test(t.type||""))document.body.classList.add("ptkb")});
+document.addEventListener("focusout",()=>{setTimeout(()=>{const a=document.activeElement;if(!a||!/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))document.body.classList.remove("ptkb")},120)});
 
 
 render();
