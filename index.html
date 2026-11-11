@@ -477,7 +477,11 @@ if(ROLE==="coach")S.pu=Date.now();save();render()},true);
 const PRGF=[["series","Series","3"],["reps","Reps","8"],["load","Kg","80"],["effVal","Esf.","RPE 8"]];
 const prgSt=e=>e&&e.prg&&Array.isArray(e.prg.steps)?e.prg.steps:[];
 function prgIdx(e,n){const L=prgSt(e).length;if(!L)return-1;n=Math.max(0,n|0);return e.prg.loop?n%L:Math.min(n,L-1)}
-function prgAt(e,n){const i=prgIdx(e,n);if(i<0)return e;const q=prgSt(e)[i]||{},c=Object.assign({},e),ok=v=>v!=null&&String(v).trim()!=="";["series","reps","effVal"].forEach(f=>{if(ok(q[f]))c[f]=String(q[f])});if(e.prg.mode==="pct"){if(ok(q.pct))c.pct=String(q.pct)}else if(ok(q.load)){c.load=String(q.load);c.pct=""}c.prgI=i;return norm(c)}
+function prgAt(e,n){const i=prgIdx(e,n);if(i<0)return e;const q=prgSt(e)[i]||{},c=Object.assign({},e),ok=v=>v!=null&&String(v).trim()!=="";
+if(q.sets&&q.sets.length){const m=q.sets.length,g=(f,k)=>{const v=q.sets[k]&&q.sets[k][f];return ok(v)?String(v).trim():""},R=[],Lo=[],P=[],X=[];
+for(let k=0;k<m;k++){R.push(g("reps",k)||repAt(e,k)||"-");const pk=g("pct",k),lk=g("load",k);if(pk){P.push(pk);Lo.push("-")}else if(lk){P.push("-");Lo.push(lk)}else{P.push(setV(e.pct,k)||"-");Lo.push(setV(e.load,k)||"-")}X.push(g("effVal",k)||setV(e.effVal,k,false)||"-")}
+const J=A=>A.every(x=>x==="-")?"":A.every(x=>x===A[0])?A[0]:A.join(", ");c.series=String(m);c.reps=J(R);c.load=J(Lo);c.pct=J(P);c.effVal=J(X);c.prgI=i;return norm(c)}
+["series","reps","effVal"].forEach(f=>{if(ok(q[f]))c[f]=String(q[f])});if(e.prg.mode==="pct"){if(ok(q.pct))c.pct=String(q.pct)}else if(ok(q.load)){c.load=String(q.load);c.pct=""}c.prgI=i;return norm(c)}
 const prgOn=s=>!!s&&(s.ex||[]).some(e=>prgSt(e).length>0);
 const prgEx=(s,n)=>(s.ex||[]).map(e=>prgAt(e,n));
 /* nº de sesión (0 = la primera) que le toca a la repetición semanal t en la fecha k:
@@ -501,10 +505,10 @@ const LSTW=/\s*(?:;|\/|,\s|\s)\s*/,LSTN=/\s*(?:;|\/|,\s)\s*/;
 const BLKX=/(^|[+\s,;])\d+\s*[x×*]\s*\S/i;
 const isBlk=v=>{const q=String(v==null?"":v);return BLKX.test(q)||/\d\s*\+\s*\d/.test(q)};
 const blkX=(v,num)=>{const out=[];String(v==null?"":v).split(/\s*(?:\+|;|,\s)\s*/).forEach(p=>{p=p.trim();if(!p)return;const m=p.match(/^(\d+)\s*[x×*]\s*(.+)$/i);if(m){let t=m[2].trim();if(num)t=t.split(/\s+/)[0];for(let i=0;i<Math.min(+m[1],30);i++)out.push(t)}else out.push(num?p.split(/\s+/)[0]:p)});return out};
-const lstA=(v,w)=>{const num=w!==false;if(isBlk(v)){const L=blkX(v,num);return num?L.filter(x=>/^[\d.,]/.test(x)):L}const L=String(v==null?"":v).trim().split(num?LSTW:LSTN).filter(Boolean);return num?L.filter(x=>/^[\d.,]/.test(x)):L};
-const setV=(v,k,w)=>{const L=lstA(v,w);return L.length?L[Math.min(k,L.length-1)]:String(v==null?"":v).trim()};
+const lstA=(v,w)=>{const num=w!==false,ok=x=>/^[\d.,]/.test(x)||x==="-";if(isBlk(v)){const L=blkX(v,num);return num?L.filter(ok):L}const L=String(v==null?"":v).trim().split(num?LSTW:LSTN).filter(Boolean);return num?L.filter(ok):L};
+const setV=(v,k,w)=>{const L=lstA(v,w),t=L.length?L[Math.min(k,L.length-1)]:String(v==null?"":v).trim();return t==="-"?"":t};
 const ldAt=(e,k)=>setV(e.load,k).replace(",",".");
-const lstT=(v,w)=>{const L=lstA(v,w);return L.length?L.map(x=>x.replace(".",",")).join(" / "):String(v==null?"":v).trim()};
+const lstT=(v,w)=>{const L=lstA(v,w);return L.length?L.map(x=>x==="-"?"–":x.replace(".",",")).join(" / "):String(v==null?"":v).trim()};
 const repL=e=>isBlk(e.reps)?blkX(e.reps,false):String(e.reps||"").split(/\s*[,;/]\s*/).filter(Boolean);
 const norm=e=>{const x=isBlk(e.series)&&!String(e.reps||"").trim()?Object.assign({},e,{reps:e.series,series:""}):e,L=repL(x);if(isBlk(x.reps)&&L.length){const c=Object.assign({},x);c.reps=L.every(q=>q===L[0])?L[0]:L.join(", ");c.series=String(L.length);return c}if(L.length>1&&!(parseInt(x.series)>0)){const c=Object.assign({},x);c.series=String(L.length);return c}return x};
 const effOn=s=>!!s&&(prgOn(s)||pctOn(s)||(s.ex||[]).some(e=>norm(e)!==e));
@@ -514,22 +518,21 @@ const pctOnE=e=>lstA(e.pct).some(x=>pctN(x)>0);
 const kgL=(pc,rv)=>lstA(pc).map(x=>{const p=pctN(x);return p?String(Math.round(rv*p/100*2)/2):""}).filter(Boolean);
 const effT=e=>e.effVal?(e.effType||"")+" "+lstT(e.effVal,false):"";
 const multi=e=>repL(e).length>1||lstA(e.load).length>1||lstA(e.pct).length>1||lstA(e.effVal,false).length>1;
-const setT=(e,k)=>[repT(repAt(e,k)),pctOnE(e)&&pctN(setV(e.pct,k))?setV(e.pct,k).replace(".",",")+" %":"",e.load&&(!pctOnE(e)||e.rm)&&ldAt(e,k)?ldAt(e,k).replace(".",",")+" kg":"",e.effVal?(e.effType||"")+" "+setV(e.effVal,k,false).replace(".",","):""].filter(Boolean).join(" · ");
+const setT=(e,k)=>[repT(repAt(e,k)),pctOnE(e)&&pctN(setV(e.pct,k))?setV(e.pct,k).replace(".",",")+" %":"",e.load&&(!pctOnE(e)||e.rm)&&ldAt(e,k)?ldAt(e,k).replace(".",",")+" kg":"",setV(e.effVal,k,false)?(e.effType||"")+" "+setV(e.effVal,k,false).replace(".",","):""].filter(Boolean).join(" · ");
 const setsOf=e=>{const n=Math.max(1,parseInt(e.series)||Math.max(repL(e).length,lstA(e.load).length,lstA(e.pct).length,lstA(e.effVal,false).length));return[...Array(n)].map((_,k)=>k)};
 const setsL=e=>multi(e)?setsOf(e).map(k=>`<div class="sr"><b>${k+1}</b><span>${esc(setT(e,k)||"–")}</span></div>`).join(""):"";
 const setsH=e=>multi(e)?`<div class="prgi prs"><b class="sh">Serie a serie</b>${setsL(e)}</div>`:"";
 const spT=x=>multi(x)?`<b class="sh">Serie a serie</b>${setsL(x)}`:"<small>Series distintas: escribe bloques «3x8» o «2x4 + 1x1», o una lista «8, 6, 4». Igual en kg («2x80 + 1x90» o «60, 65, 70»), % del 1RM y esfuerzo. Si faltan valores, se repite el último.</small>";
 const spH=e=>CLI()?"":`<div class="sph" data-sph>${spT(pctEff(e))}</div>`;
-const prgRowPv=(e,j)=>setsL(pctEff(prgAt(e,j)));
 document.addEventListener("input",ev=>{const t=ev.target,f=t.dataset&&t.dataset.f;if(!f||!["series","reps","load","pct","effVal"].includes(f)||CLI())return;const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i],h=c&&c.querySelector("[data-sph]");if(f==="reps"&&e&&isBlk(t.value)){const n=blkX(t.value,false).length;if(n>0){e.series=String(n);const si=c.querySelector('[data-f="series"]');if(si)si.value=String(n)}}if(e&&h)h.innerHTML=spT(pctEff(Object.assign({},e,{[f]:t.value})))});
-function pctEff(e){e=norm(e);if(!pctOnE(e))return e;const r=rmRef(rmTid(e)),c=Object.assign({},e);if(r){c.load=kgL(e.pct,r.v).join(" / ");c.rm=r}return c}
+function pctEff(e){e=norm(e);if(!pctOnE(e))return e;const r=rmRef(rmTid(e)),c=Object.assign({},e);if(r){const A=[...Array(setsOf(e).length)].map((_,k)=>{const p=pctN(setV(e.pct,k));return p?String(Math.round(r.v*p/100*2)/2):(setV(e.load,k).replace(",",".")||"-")});c.load=A.every(x=>x==="-")?"":A.every(x=>x===A[0])?A[0]:A.join(" / ");c.rm=r}return c}
 const exEff=(e,n)=>pctEff(n<0?e:prgAt(e,n));
-const pctOn=s=>!!s&&(s.ex||[]).some(e=>pctOnE(e)||(e.prg&&e.prg.mode==="pct"&&prgSt(e).some(q=>pctOnE(q))));
+const pctOn=s=>!!s&&(s.ex||[]).some(e=>pctOnE(e)||prgPct(e));
 const loadShort=e=>{if(pctOnE(e))return lstT(e.pct)+" % 1RM"+(e.rm&&e.load?" · "+lstT(e.load)+" kg":"");return e.load?lstT(e.load)+" kg":""};
 const pctB=e=>{if(!pctOnE(e))return"";const id=rmTid(e),tn=id?rmName(id):"",pc=esc(lstT(e.pct));
 if(e.rm)return`<div class="prgi">🎯 <b>${pc} %</b> de tu 1RM de «${esc(e.rm.n)}» (${fmtKg(e.rm.v)} kg${e.rm.d?", test del "+esc(e.rm.d.slice(8)+"/"+e.rm.d.slice(5,7)):""}) → <b>${esc(lstT(e.load))} kg</b></div>`;
 return`<div class="prgi">🎯 <b>${pc} %</b> de tu 1RM. ${tn?"Aún no hay test de «"+esc(tn)+"»: regístralo en Tests para ver los kg.":"Este ejercicio no tiene un test de 1RM asignado: díselo a tu entrenador."}</div>`};
-const rmHint=e=>{const pO=pctOnE(e),pm=e.prg&&e.prg.mode==="pct"&&prgSt(e).length,id=rmTid(e),r=rmRef(id),tn=id?rmName(id):"";
+const rmHint=e=>{const pO=pctOnE(e),pm=prgPct(e),id=rmTid(e),r=rmRef(id),tn=id?rmName(id):"";
 if(!pO&&!pm)return"Para prescribir la carga en % del 1RM escribe el porcentaje en «% del 1RM» (o elige % en la progresión). Por serie: «70, 75, 80».";
 if(!id)return"Elige el test que sirve de referencia: este ejercicio no se ha podido asociar a ninguno.";
 if(!r)return"No hay test de «"+tn+"» registrado en esta ficha: registra uno en Tests para calcular los kg.";
@@ -537,30 +540,50 @@ return"1RM de referencia: "+fmtKg(r.v)+" kg («"+r.n+"»"+(r.d?", test del "+r.d
 const rmH=e=>{if(CLI())return"";const id=rmTid(e),au=rmAuto(e.name);return`<div class="rmr"><label>1RM de referencia para el %</label><select data-rmt style="width:100%"><option value="">Automático${au?" ("+esc(rmName(au))+")":" (no detectado)"}</option>${rmTests().map(t=>`<option value="${t.id}"${e.rmT===t.id?" selected":""}>${esc(t.n)}</option>`).join("")}</select><small data-rmh>${esc(rmHint(e))}</small></div>`};
 document.addEventListener("change",ev=>{const t=ev.target;if(!t.dataset||t.dataset.rmt===undefined||CLI())return;ev.stopPropagation();const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i];if(!e)return;if(t.value)e.rmT=t.value;else delete e.rmT;if(ROLE==="coach")S.pu=Date.now();save();render()},true);
 document.addEventListener("input",ev=>{const t=ev.target;if(!t.dataset||t.dataset.f!=="pct"||CLI())return;const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i],h=c&&c.querySelector("[data-rmh]");if(e&&h)h.textContent=rmHint(Object.assign({},e,{pct:t.value}));if(e&&ROLE==="coach")S.pu=Date.now()});
-const prgPv=e=>{const rf=rmRef(rmTid(e)),pv=rf?prgSt(e).map((q,j)=>{const k=kgL(q.pct!==""&&q.pct!=null?q.pct:e.pct,rf.v);return k.length?"Ses. "+(j+1)+": "+k.join(" / ").replace(/\./g,",")+" kg":""}).filter(Boolean).join(" · "):"";return pv?"Con el 1RM actual del atleta: "+pv:rmHint(e)};
+/* v61 · progresión: cada sesión tiene su lista de series (una línea por serie con reps, kg o % del 1RM y esfuerzo) */
+const prgC=new Set();
+const tk=(v,k,w)=>{const L=lstA(v,w);if(!L.length)return"";const t=L[Math.min(k,L.length-1)];return t==="-"?"":t};
+const prgPct=e=>prgSt(e).some(q=>q.sets&&q.sets.length?q.sets.some(x=>pctN(x.pct)>0):(e.prg.mode==="pct"&&pctOnE(q)));
+function stSets(e,q){if(q.sets&&q.sets.length)return q.sets.map(x=>({reps:x.reps||"",load:x.load||"",pct:x.pct||"",effVal:x.effVal||""}));
+const pm=e.prg&&e.prg.mode==="pct",rp=q.reps!=null&&String(q.reps).trim()!=="",x=norm(Object.assign({},e,{series:q.series||e.series,reps:rp?q.reps:e.reps})),n=Math.max(1,parseInt(x.series)||repL(x).length||1);
+return[...Array(n)].map((_,k)=>({reps:rp?repAt(x,k):"",load:pm?"":tk(q.load,k),pct:pm?tk(q.pct,k):"",effVal:tk(q.effVal,k,false)}))}
+const prgMat=(e,j)=>{const q=prgSt(e)[j];if(q&&(!q.sets||!q.sets.length)){q.sets=stSets(e,q);["series","reps","load","pct","effVal"].forEach(f=>delete q[f])}return q};
+const psKg=(e,j,k)=>ldAt(exEff(e,j),k).replace(".",",");
+const psR=(e,j,k,x)=>{const ph={reps:repAt(e,k)||"8",load:psKg(e,j,k)||"80",pct:setV(e.pct,k)||"85",effVal:setV(e.effVal,k,false)||"RPE 8"},ml={reps:"text",load:"decimal",pct:"decimal",effVal:"text"},lb={reps:"Reps",load:"Kg",pct:"% del 1RM",effVal:"Esfuerzo"};
+return`<div class="psr"><b>${k+1}</b>${["reps","load","pct","effVal"].map(f=>`<input data-prgs="${f}" data-pi="${j}" data-sk="${k}" value="${esc(x[f]||"")}" placeholder="${esc(ph[f])}" inputmode="${ml[f]}" aria-label="${lb[f]} · sesión ${j+1} · serie ${k+1}">`).join("")}<button class="x" data-prg="srm" data-pi="${j}" data-sk="${k}" aria-label="Quitar la serie ${k+1} de la sesión ${j+1}">✕</button></div>`};
 function prgH(e,s){if(CLI())return"";
 if(!s||!s.rec)return`<div class="prg"><label>📈 Progresión por sesión</label><small>Para que las series (o reps, kg, esfuerzo) cambien en cada sesión, pon este entrenamiento en «🔁 Cada semana».</small></div>`;
-const st=prgSt(e),L=st.length,lp=!!(e.prg&&e.prg.loop),s0=parseInt(e.series)||3,pm=!!(e.prg&&e.prg.mode==="pct"),FF=PRGF.map(f=>f[0]==="load"&&pm?["pct","% 1RM","85"]:f);
-const rows=st.map((q,j)=>`<div class="prr"><b>${j+1}</b>${FF.map(f=>`<input data-prgi="${f[0]}" data-pi="${j}" value="${esc(q[f[0]]==null?"":q[f[0]])}" placeholder="${esc(f[0]==="series"?(e.series||f[2]):f[0]==="reps"?(e.reps||f[2]):f[0]==="load"?(e.load||f[2]):f[0]==="pct"?(e.pct||f[2]):(e.effVal||f[2]))}" aria-label="${f[1]} · sesión ${j+1}" inputmode="${f[0]==="series"?"numeric":"text"}">`).join("")}<button class="x" data-prg="rm" data-pi="${j}" aria-label="Quitar la sesión ${j+1}">✕</button></div><div class="prp" data-prp="${j}">${prgRowPv(e,j)}</div>`).join("");
-return`<div class="prg"><label>📈 Progresión por sesión</label><small>Cada vez que se repita el entrenamiento se aplica la siguiente fila. Si dejas un campo vacío se usa el valor base del ejercicio. Para cambiar el esquema de series de cada sesión escribe en «Reps» bloques como «3x8» o «2x4 + 1x1» (las series se ajustan solas), o una lista «8, 6, 4». Lo mismo vale en kg («2x80 + 1x90»), % del 1RM y esfuerzo.</small>${L?`<div class="qch" style="margin:8px 0 0"><button class="qc${pm?"":" on"}" data-prg="mode" data-v="kg">Carga en kg</button><button class="qc${pm?" on":""}" data-prg="mode" data-v="pct">Carga en % del 1RM</button></div><div class="prr prh"><span>Ses.</span>${FF.map(f=>`<span>${f[1]}</span>`).join("")}<span></span></div>${rows}${pm?`<small data-prgv style="display:block;margin-top:6px">${esc(prgPv(e))}</small>`:""}`:""}
+const st=prgSt(e),L=st.length,lp=!!(e.prg&&e.prg.loop),s0=parseInt(e.series)||3;
+const ses=st.map((q,j)=>{const open=!prgC.has(e.id+":"+j),sets=stSets(e,q);
+return`<div class="pss" data-ps="${j}"><div class="psh" data-prg="tog" data-pi="${j}"><b>${open?"▾":"▸"} Sesión ${j+1}</b><span class="psm" data-psm="${j}">${esc(prgTxt(exEff(e,j))||"valores base")}</span><span class="psa"><button class="x" data-prg="dup" data-pi="${j}" aria-label="Duplicar la sesión ${j+1}">⧉</button><button class="x" data-prg="rm" data-pi="${j}" aria-label="Quitar la sesión ${j+1}">✕</button></span></div>${open?`<div class="psb"><div class="psr prh"><span></span><span>Reps</span><span>Kg</span><span>% 1RM</span><span>Esf.</span><span></span></div>${sets.map((x,k)=>psR(e,j,k,x)).join("")}<div class="psf"><button class="qc" data-prg="sadd" data-pi="${j}">＋ Serie</button></div></div>`:""}</div>`}).join("");
+return`<div class="prg"><label>📈 Progresión por sesión</label><small>Cada vez que se repita el entrenamiento se aplica la siguiente sesión. En cada sesión escribes una línea por serie: reps, kg <b>o</b> % del 1RM y esfuerzo. Lo que dejes vacío usa el valor base del ejercicio. Con «＋ Serie» añades otra serie a esa sesión.</small>${ses}
 <div class="bar" style="margin:8px 0 4px"><button data-prg="add">＋ Añadir sesión</button></div>
 <div class="prgg"><small>Generar series automáticamente</small><div class="prr prg3"><label>Empieza en<input data-prgg="s0" type="number" inputmode="numeric" min="1" value="${s0}"></label><label>Cambio por sesión<input data-prgg="d" type="number" inputmode="numeric" value="1"></label><label>Nº de sesiones<input data-prgg="n" type="number" inputmode="numeric" min="1" max="20" value="4"></label><button class="x" data-prg="gen">Generar</button></div></div>
-${L?`<label class="prl"><input type="checkbox" data-prgl ${lp?"checked":""}> Al terminar, volver a la sesión 1</label><small>${lp?"Después de la sesión "+L+" empieza otra vez desde la 1.":"Después de la sesión "+L+" se mantiene la última fila."}</small>`:""}</div>`}
-document.addEventListener("click",ev=>{const b=ev.target.closest("[data-prg]");if(!b||CLI())return;ev.stopPropagation();const s=cur(),c=b.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i];if(!e)return;const a=b.dataset.prg,box=c.querySelector(".prg"),y0=box?box.getBoundingClientRect().top:0;
-e.prg=e.prg&&Array.isArray(e.prg.steps)?e.prg:{steps:[],loop:false};const L=e.prg.steps;
-if(a==="mode"){e.prg.mode=b.dataset.v==="pct"?"pct":"kg"}
-else if(a==="add"){const p=L[L.length-1]||{};L.push(L.length?{series:p.series||"",reps:p.reps||"",load:p.load||"",pct:p.pct||"",effVal:p.effVal||""}:{series:e.series||"",reps:"",load:"",pct:"",effVal:""})}
-else if(a==="rm"){L.splice(+b.dataset.pi,1)}
+${L?`<label class="prl"><input type="checkbox" data-prgl ${lp?"checked":""}> Al terminar, volver a la sesión 1</label><small>${lp?"Después de la sesión "+L+" empieza otra vez desde la 1.":"Después de la sesión "+L+" se mantiene la última sesión."}</small>`:""}</div>`}
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-prg]");if(!b||CLI())return;ev.stopPropagation();const s=cur(),c=b.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i];if(!e)return;const a=b.dataset.prg,box=c.querySelector(".prg"),y0=box?box.getBoundingClientRect().top:0,pj=+b.dataset.pi,sk=+b.dataset.sk;
+e.prg=e.prg&&Array.isArray(e.prg.steps)?e.prg:{steps:[],loop:false};const L=e.prg.steps;let ui=false;
+if(a==="tog"){const key=e.id+":"+pj;prgC.has(key)?prgC.delete(key):prgC.add(key);ui=true}
+else if(a==="add"){const p=L[L.length-1];L.push({sets:(p?stSets(e,p):[...Array(Math.max(1,parseInt(e.series)||3))].map(()=>({reps:"",load:"",pct:"",effVal:""}))).map(x=>Object.assign({},x))})}
+else if(a==="rm"){L.splice(pj,1)}
+else if(a==="dup"){const q=L[pj];if(q)L.splice(pj+1,0,{sets:stSets(e,q).map(x=>Object.assign({},x))})}
+else if(a==="sadd"){const q=prgMat(e,pj);if(q){const p=q.sets[q.sets.length-1]||{};q.sets.push({reps:p.reps||"",load:p.load||"",pct:p.pct||"",effVal:p.effVal||""})}}
+else if(a==="srm"){const q=prgMat(e,pj);if(q&&q.sets.length>1)q.sets.splice(sk,1)}
 else if(a==="gen"){const v=k=>{const i=box.querySelector('[data-prgg="'+k+'"]');return parseInt(i&&i.value)};const s0=v("s0"),d=v("d")||0,n=v("n");
 if(!(s0>=1)||!(n>=1)||n>20){alert("Indica las series iniciales (1 o más) y entre 1 y 20 sesiones.");return}
 if(L.length&&!confirm("Esto reemplaza la progresión actual de este ejercicio. ¿Continuar?"))return;
 L.splice(0,L.length,...[...Array(n)].map((_,j)=>({series:String(Math.max(1,s0+d*j)),reps:"",load:"",effVal:""})))}
 if(!L.length)delete e.prg;
-if(ROLE==="coach")S.pu=Date.now();save();render();
+if(!ui){if(ROLE==="coach")S.pu=Date.now();save()}render();
 const j=s.ex.findIndex(x=>x.id===e.id),c2=document.querySelector('#app .card[data-i="'+j+'"]'),b2=c2&&c2.querySelector(".prg");if(b2&&box)window.scrollBy(0,b2.getBoundingClientRect().top-y0)},true);
-document.addEventListener("input",ev=>{const t=ev.target,d=t.dataset;if(!d||d.prgi===undefined||CLI())return;ev.stopPropagation();const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i],q=e&&prgSt(e)[+d.pi];if(!q)return;q[d.prgi]=t.value;if(d.prgi==="reps"&&isBlk(t.value)){const n=blkX(t.value,false).length;if(n>0){q.series=String(n);const si=c.querySelector('[data-prgi="series"][data-pi="'+d.pi+'"]');if(si)si.value=String(n)}}{const pp=c.querySelector('[data-prp="'+d.pi+'"]');if(pp)pp.innerHTML=prgRowPv(e,+d.pi)}if(d.prgi==="pct"){const h=c.querySelector("[data-prgv]");if(h)h.textContent=prgPv(e)}if(ROLE==="coach")S.pu=Date.now();save()},true);
+document.addEventListener("input",ev=>{const t=ev.target,d=t.dataset;if(!d||d.prgs===undefined||CLI())return;ev.stopPropagation();const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i];if(!e)return;const j=+d.pi,k=+d.sk,q=prgMat(e,j);if(!q||!q.sets[k])return;
+q.sets[k][d.prgs]=(d.prgs==="load"||d.prgs==="pct")?t.value.replace(",","."):t.value;
+const row=t.closest(".psr");
+if(row&&t.value.trim()&&(d.prgs==="load"||d.prgs==="pct")){const o=d.prgs==="load"?"pct":"load",oi=row.querySelector('[data-prgs="'+o+'"]');q.sets[k][o]="";if(oi)oi.value=""}
+const m=c.querySelector('[data-psm="'+j+'"]');if(m)m.textContent=prgTxt(exEff(e,j))||"valores base";
+if(row){const kg=row.querySelector('[data-prgs="load"]');if(kg&&!kg.value)kg.placeholder=psKg(e,j,k)||"80"}
+if(ROLE==="coach")S.pu=Date.now();save()},true);
 document.addEventListener("change",ev=>{const t=ev.target;if(!t.dataset||t.dataset.prgl===undefined||CLI())return;ev.stopPropagation();const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i];if(!e||!e.prg)return;e.prg.loop=t.checked;if(ROLE==="coach")S.pu=Date.now();save();render()},true);
-const repAt=(e,k)=>{const L=repL(e);return L.length>1?L[Math.min(k,L.length-1)]:(L[0]||"")};
+const repAt=(e,k)=>{const L=repL(e),t=L.length>1?L[Math.min(k,L.length-1)]:(L[0]||"");return t==="-"?"":t};
 /* v57 · tiempo de descanso siempre explícito: en minutos y segundos, con atajos para el entrenador */
 const fmtSec=t=>{t=Math.round(t);const m=Math.floor(t/60),x=t%60;return(m?m+" min":"")+(m&&x?" ":"")+(x?x+" s":"")||"0 s"};
 const restSec=r=>Math.round(plRest(r))||0;
@@ -1576,7 +1599,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-11.60";
+const APP_V="2026-11-11.61";
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -2647,6 +2670,20 @@ button.mvx:disabled{opacity:.28;cursor:default}
 .sr{display:flex;gap:8px;align-items:baseline}
 .sr b{min-width:16px;text-align:right;font-size:12px;opacity:.7}
 .prs .sr{font-size:13px}
+
+/* ===== v61 · progresión: una línea por serie ===== */
+.pss{margin-top:8px;padding:8px 10px;border:1px solid var(--hairl,rgba(128,128,128,.3));border-radius:10px}
+.psh{display:flex;align-items:center;gap:8px;cursor:pointer;min-height:34px}
+.psh>b{font-size:13px;white-space:nowrap}
+.psm{flex:1;min-width:0;font-size:12px;opacity:.75;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.psa{display:flex;gap:4px}
+.psa .x{padding:0!important;min-height:30px;width:30px}
+.psr{display:grid;grid-template-columns:22px repeat(4,minmax(0,1fr)) 30px;gap:5px;align-items:center;margin-top:5px}
+.psr>b{font-size:12px;text-align:center;opacity:.7}
+.psr input{width:100%;min-width:0;padding:8px 3px;font-size:13px;text-align:center}
+.psr .x{padding:0!important;min-height:32px;width:30px}
+.psr.prh{margin-top:6px}
+.psf{margin-top:8px}
 
 </style>
 <script>
