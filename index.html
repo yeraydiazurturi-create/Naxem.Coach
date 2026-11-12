@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-12.64">
+<meta name="app-version" content="2026-11-12.65">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -789,7 +789,7 @@ b.disabled=true;m("Guardando…");try{if(CLI()){const {data,error}=await SB.rpc(
 ["pw0","pw1","pw2"].forEach(i=>{if($(i))$(i).value=""});m("✓ Contraseña cambiada.")}catch(e){m("No se pudo cambiar: "+(e.message||e))}b.disabled=false});
 const accH=()=>(ROLE==="coach"&&!CL?coachAccH():(CLI()?avCard():"")+(CLI()?nameCard()+subCard()+wantCard()+invCardCl():"")+accH0()+pwCard())+(window.pushCard?window.pushCard():"");
 const accH0=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?(GATE&&GATE.suscrito?`<button data-act="stPortal">Mi suscripción</button>`:""):`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}${ROLE==="coach"&&CL?"":`<button data-sw="1">${ROLE==="client"?"Cambiar a modo entrenador":"Cambiar a modo atleta"}</button>`}<button data-act="logout">Salir</button></div></div>`;
-const TT={lab:["Lab","medición por vídeo"],lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Mi","cuenta"],ent:["Entrenos","tus sesiones"],cal:["Calendario","planificación"],car:["Carga","análisis"],rec:["Recovery","recuperación"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"]};
+const TT={lab:["Lab","medición por vídeo"],lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Mi","cuenta"],ent:["Entrenos","tus sesiones"],cal:["Calendario","planificación"],car:["Carga","análisis"],rec:["Recovery","recuperación"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"],sal:["Salud","informes y pruebas"]};
 const TABS=[["ini","Inicio"],["ent","Entrenos"],["cal","Calendario"],["car","Carga"],["rec","Recovery"],["tst","Tests"]];
 const mt=(a,v,n,t,x,w)=>`<button class="mt${w?" wide":""}" data-act="${a}" data-v="${v}"><i>${/^\d+$/.test(String(n))?"":n}</i><span><b>${t}</b><small>${x}</small></span></button>`;
 function ydi(){const at=allT(),v=["Velocidad","Fuerza","Resistencia","Soporte"].map(p=>{const x=at.filter(t=>t.p===p).map(tsc).filter(y=>y!=null);return x.length?x.reduce((a,b)=>a+b)/x.length:null}).filter(y=>y!=null);return v.length?Math.round(v.reduce((a,b)=>a+b)/v.length):null}
@@ -1303,7 +1303,7 @@ var NAVOK=false;
 const SVG=d=>`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const IC={ent:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',nut:'<path d="M12 7c-2-2-6-1.5-7 2s1 8 4 10c1.2.8 2.2.2 3 0 .8.2 1.8.8 3 0 3-2 5-6.5 4-10s-5-4-7-2z"/><path d="M12 7c0-2 1-3.5 3-4"/>',rec:'<path d="M20.8 5.6a5 5 0 0 0-7.3 0L12 7.1l-1.5-1.5a5 5 0 0 0-7.3 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1z"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',tst:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',cli:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16.5 5a3.2 3.2 0 0 1 0 6M18 14.3c2 .8 3.5 2.8 3.5 5.7"/>',lib:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',cq:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/>',cob:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',sw:'<path d="M4 8h14l-3-3M20 16H6l3 3"/>'};
 const NAV_C=[["menu","Perfil"],["cli","Clientes"],["chat","Chat"],["lib","Biblioteca"],["cq","Cuestionario"],["cob","Cobros"]],NAV_A=[["menu","Perfil"],["ent","Entrenar"],["nut","Nutrición"],["rec","Estado"],["chat","Chat"],["tst","Progreso"]];
-const NAV_G={lab:"tst",adm:"menu",menu:"menu",ini:"menu",lib:"ent",ent:"ent",cal:"ent",car:"ent",crt:"ent",nut:"nut",rec:"rec",fcz:"rec",cue:"rec",chat:"chat",tst:"tst",apx:"tst",pro:"tst",rnk:"tst",cpo:"tst",rev:"tst"};
+const NAV_G={lab:"tst",adm:"menu",menu:"menu",ini:"menu",lib:"ent",ent:"ent",cal:"ent",car:"ent",crt:"ent",nut:"nut",rec:"rec",fcz:"rec",cue:"rec",sal:"rec",chat:"chat",tst:"tst",apx:"tst",pro:"tst",rnk:"tst",cpo:"tst",rev:"tst"};
 function render(){render0();navSync()}
 const coachName=()=>NUTRI?(NUN||""):COACH?`${COACH.nombre||""} ${COACH.apellidos||""}`.trim():"";
 const avGet=()=>ROLE==="client"?((S&&S.prof)||{}).photo||"":(lsG("nx_av_"+USER)||"");
@@ -1655,7 +1655,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-12.64";
+const APP_V="2026-11-12.65";
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -1741,8 +1741,8 @@ return`<details class="tmd"><summary>Protocolo y base científica</summary><p><b
 function trefsH(){return`<div class="card"><b>Referencias de los tests</b><ol class="refs">${TREFS.map(r=>`<li>${esc(r[0])}${r[2]?" †":""}${r[1]?` <a href="https://doi.org/${r[1]}" target="_blank" rel="noopener">doi:${r[1]}</a>`:""}</li>`).join("")}</ol><small>† Cita escrita de memoria, sin comprobar en esta sesión: verifica el DOI antes de difundirla. Las referencias de base y élite del índice son criterios orientativos de rendimiento; no proceden de una tabla normativa publicada.</small></div>`}
 const verCard=()=>`<div class="card"><b>Versión de la web</b><br><small>Esta pantalla usa la versión <b>${APP_V}</b>.</small><p id="vermsg" class="qmsg" style="color:#1a1a1c"></p><button class="on" data-ver="1">Buscar actualización</button></div>`;
 document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-ver]");if(!b)return;const m=$("vermsg");if(m)m.textContent="Comprobando…";try{const r=await fetch(location.pathname+"?v="+Date.now(),{cache:"reload"}),t=await r.text(),x=(t.match(/name="app-version" content="([^"]+)"/)||[])[1];if(!m)return;if(!x){m.textContent="No he podido leer la versión del servidor.";return}if(x!==APP_V){m.textContent="Hay una versión nueva ("+x+"). Recargando…";setTimeout(()=>location.replace(location.pathname+"?v="+x),900)}else m.textContent="Ya tienes la última versión publicada en el servidor ("+x+")."}catch(e){if(m)m.textContent="No hay conexión con el servidor."}});
-const GRP=[["Entrenar",["ent","cal","car","lib"]],["Estado",["rec","fcz","cue"]],["Rendimiento",["tst","lab","apx","pro","rnk","cpo","rev"]],["Ajustes",["acc","hlp"]]],GLB={lab:"Lab",lib:"Biblioteca",ent:"Entrenos",cal:"Calendario",car:"Carga",rec:"Recovery",fcz:"Zonas FC",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Perfil",cue:"Cuestionario",acc:"Cuenta",hlp:"Ayuda"};
-function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";if(t==="lib"&&ROLE==="coach"&&!CL)return"";const L=g[1].filter(k=>(k!=="lab"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&(k!=="lib"||ROLE==="client"||(ROLE==="coach"&&CL)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${GLB[k]}</button>`).join("")}</div></div>`}
+const GRP=[["Entrenar",["ent","cal","car","lib"]],["Estado",["rec","fcz","cue","sal"]],["Rendimiento",["tst","lab","apx","pro","rnk","cpo","rev"]],["Ajustes",["acc","hlp"]]],GLB={lab:"Lab",lib:"Biblioteca",ent:"Entrenos",cal:"Calendario",car:"Carga",rec:"Recovery",fcz:"Zonas FC",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Perfil",cue:"Cuestionario",sal:"Salud",acc:"Cuenta",hlp:"Ayuda"};
+function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";if(t==="lib"&&ROLE==="coach"&&!CL)return"";const L=g[1].filter(k=>(k!=="lab"||!NUTRI)&&(k!=="sal"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&(k!=="lib"||ROLE==="client"||(ROLE==="coach"&&CL)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${GLB[k]}</button>`).join("")}</div></div>`}
 let WV=null,wvOk=false,wvBusy=false,wvErr="",wvLast=0,wvW=0;
 async function wvLoad(){if(wvBusy)return;wvBusy=true;try{if(ROLE==="client"&&CL){const r=await SB.rpc("welcome_video",{p_u:CL.usr,p_p:CL.pwd});if(r.error)throw r.error;WV=r.data||null}wvOk=true;wvErr=""}catch(e){wvErr=e.message||String(e)}wvBusy=false;render()}
 const wvCur=()=>ROLE==="coach"?((LIB.find(x=>x.kind==="welcome")||{}).data||null):WV,wvFmt=t=>Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0"),wvDate=d=>new Date(d).toLocaleDateString("es-ES");
@@ -1980,7 +1980,7 @@ $("who").innerHTML=!USER||!ready?"":(ROLE==="coach"&&CL?(NUTRI?'<button data-nu=
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
 if(NUTRI&&!CL){nutriShell();return}if(ROLE==="coach"&&USER&&COACH&&COACH.suspendido&&!ISADM){susH();return}if(ROLE==="coach"&&USER&&!ISADM&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();NAVOK=true;return}if(CS&&ROLE==="coach"){regH();return}if(ROLE==="coach"&&USER&&!NUTRI&&!CL&&COACH&&(presEdit||(!ISADM&&!COACH.presentacion))){presH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
-NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),lab:()=>window.labH(),pat:()=>window.patH()}[tab]()}
+NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),lab:()=>window.labH(),pat:()=>window.patH()}[tab]()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
 if(CLP()&&!(a==="newS"&&LG.includes(et))&&!(a==="delS"&&(d=>d&&canDel(d))(S.sessions.find(x=>x.id===(t.dataset.v||S.cur))))&&["addMob","delMob","newS","delS","addEx","delEx","dup","planS","addCT","undoT","bm","imp"].includes(a))return;
@@ -2783,6 +2783,24 @@ html[data-theme=light] .nbb{box-shadow:0 0 0 2px #f5f1ea}
 .v21p.pmr{flex-wrap:wrap}
 .v21p .pmab{display:flex;gap:6px;flex:0 0 100%;margin:0 0 0 52px;flex-wrap:wrap;justify-content:flex-start;align-items:center}
 .v21p .pmab button{width:auto;min-height:0;padding:7px 12px;font-size:12.5px}
+
+/* v65 · Salud */
+.salc{display:flex;gap:12px;align-items:flex-start}
+.salc .sali{font-size:20px;line-height:1;flex:none;width:38px;height:38px;border-radius:10px;background:#f3efe7;display:flex;align-items:center;justify-content:center}
+.salc .salm{flex:1;min-width:0}
+.salc .salm>b{display:block;word-break:break-word}
+.salc .salm>small{display:block;margin-top:2px}
+.sala{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.sala .qc{flex:0 0 auto;padding:8px 14px;font-size:13px}
+.salpf{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;word-break:break-all}
+.salpv{background:#f3efe7;border-radius:10px;padding:4px 12px 10px;margin-top:10px;font-size:13px;line-height:1.45;color:#1a1a1c}
+.salpv b{display:block;margin-top:8px;font-size:12px;letter-spacing:.02em;color:#5c564c}
+.salpv span{display:block;white-space:pre-wrap;word-break:break-word}
+.salql{margin:14px 0 4px}
+.salh{display:block;font-size:12px;line-height:1.4;color:#6f685e}
+.salcon{display:flex;gap:10px;align-items:flex-start;margin:18px 0 0;font-size:13px;line-height:1.45;letter-spacing:0;text-transform:none;font-weight:400;color:#1a1a1c}
+.salcon input{width:auto;flex:none;margin-top:2px}
+.salpriv{font-size:12px;color:#6f685e;margin-top:6px;display:block}
 </style>
 <script>
 (function(){
@@ -3110,7 +3128,7 @@ else if(t.dataset.pn==="maila"){S.prof=S.prof||{};S.prof.maila=t.checked;save()}
 else if(t.dataset.pn==="cmail"){const v=t.checked;COACH=Object.assign({},COACH,{avisos_mail:v});uidGet().then(id=>SB.from("coaches").update({avisos_mail:v}).eq("id",id)).then(()=>{},()=>{})}},true);
 /* registro del service worker + aviso de versión nueva */
 if("serviceWorker" in navigator){try{navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).catch(()=>{});navigator.serviceWorker.addEventListener("message",e=>{if(e.data&&e.data.nx==="go")nxGo(e.data.url)})}catch(e){}}
-const HM={chat:"chat",ent:"ent",rec:"rec",dm:"chat",pro:"pro",nut:"nut",rev:"rev",cue:"cue",acc:"acc",cli:"cli",cob:"cob",lib:"lib",agd:"agd",adm:"adm"};const HOK=()=>ROLE==="client"?["chat","ent","rec","dm","pro","nut","rev","cue","acc"]:["chat","dm","acc","cli","cob","lib","agd"].concat(ISADM?["adm"]:[]);function nxGo(h){const hh=String(h||"").replace(/^.*#/,"");if(hh==="avisos"){if(ROLE&&window.nbOpen){try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}window.nbOpen()}return}if(!ROLE||!HM[hh]||!HOK().includes(hh))return;if(ROLE==="coach"&&CL){if(NUTRI||RO)return;cact("cList").then(()=>nxGo0(h));return}nxGo0(h)}
+const HM={chat:"chat",ent:"ent",rec:"rec",dm:"chat",pro:"pro",nut:"nut",rev:"rev",cue:"cue",sal:"sal",acc:"acc",cli:"cli",cob:"cob",lib:"lib",agd:"agd",adm:"adm"};const HOK=()=>ROLE==="client"?["chat","ent","rec","dm","pro","nut","rev","cue","sal","acc"]:["chat","dm","acc","cli","cob","lib","agd"].concat(ISADM?["adm"]:[]);function nxGo(h){const hh=String(h||"").replace(/^.*#/,"");if(hh==="avisos"){if(ROLE&&window.nbOpen){try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}window.nbOpen()}return}if(!ROLE||!HM[hh]||!HOK().includes(hh))return;if(ROLE==="coach"&&CL){if(NUTRI||RO)return;cact("cList").then(()=>nxGo0(h));return}nxGo0(h)}
 function nxGo0(h){const hh=String(h||"").replace(/^.*#/,""),k=HM[hh];if(k&&ROLE){tab=k;if(hh==="dm"&&ROLE==="client"){dmOn=true;DM.view="list";chn="";setTimeout(()=>dmLoadList(),50)}else if(typeof dmOn!=="undefined")dmOn=false;if(k==="ent"){entV="home";et=""}window.scrollTo(0,0);render()}}
 setTimeout(()=>{if(location.hash)nxGo(location.hash)},1800);
 let updShown=false;function updBanner(){if(updShown)return;updShown=true;const d=document.createElement("div");d.className="v21u";d.innerHTML='<span>Hay una versión nueva de Nexum</span><button>Actualizar</button>';d.querySelector("button").onclick=()=>location.reload();document.body.appendChild(d)}
@@ -4351,6 +4369,127 @@ document.addEventListener("click",async ev=>{const t=ev.target.closest("[data-v6
  PM.busy="";await Promise.all([pmLoad(true),dmLoadList(true)]);render()},true);
 document.addEventListener("input",ev=>{if(ev.target&&ev.target.id==="pmq"){PM.q=ev.target.value;const e=$("pmlist");if(e)e.innerHTML=pmDirList()}});
 setInterval(()=>{if(document.hidden||tab!=="chat"||dmOn||!PMS()||!GATE.premium)return;pmLoad(true)},15000);
+ /* ===== v65 · SALUD: informes médicos, de fisioterapia, nutrición… (solo atleta + su entrenador) ===== */
+ const SALT=[["medico","Médico","🩺"],["fisio","Fisioterapia","🦴"],["nutri","Nutrición","🥗"],["psico","Psicología","🧠"],["otro","Otro","📄"]];
+ const SALK=["motivo","tratamiento","limitaciones","medicacion","proxima","obs"];
+ const SALD={motivo:["Motivo o diagnóstico","Qué te han dicho o por qué acudiste"],tratamiento:["Tratamiento o pautas","Lo que te han recomendado"],limitaciones:["Limitaciones al entrenar","Movimientos, ejercicios o esfuerzos que debes evitar"],medicacion:["Medicación o suplementos","Qué tomas y cuánto (opcional)"],proxima:["Próxima revisión","Fecha o plazo"],obs:["Otras observaciones","Cualquier cosa que tu entrenador deba saber"]};
+ const SALO={
+  fisio:{motivo:["Lesión o molestia","Zona, desde cuándo y cómo ocurrió"],tratamiento:["Tratamiento y pautas","Ejercicios, terapia manual, reposo…"],limitaciones:["Qué evitar mientras te recuperas","Movimientos, cargas o impactos"]},
+  nutri:{motivo:["Objetivo o diagnóstico nutricional","Qué se ha valorado"],tratamiento:["Pauta o recomendaciones","Resumen de lo que te ha pautado"],limitaciones:["Alergias, intolerancias o alimentos a evitar",""],medicacion:["Suplementos","Qué tomas y cuánto (opcional)"]},
+  psico:{motivo:["Motivo de consulta (opcional)",""],tratamiento:["Pautas recomendadas",""],limitaciones:["Qué tener en cuenta al entrenar","Carga, descanso, estrés…"],medicacion:["Medicación (opcional)",""]},
+  medico:{limitaciones:["Limitaciones para entrenar","Esfuerzos o ejercicios que debes evitar"]}};
+ const salL=(t,k)=>((SALO[t]||{})[k])||SALD[k];
+ const SALX={medico:"Analítica de sangre",fisio:"Valoración de rodilla",nutri:"Plan nutricional",psico:"Informe de seguimiento",otro:"Informe"};
+ const SAL={list:null,err:"",busy:0,f:null,file:null,msg:"",open:{},key:"",t:0,loading:false};
+ const salKey=()=>(ROLE||"")+"|"+(CL?(CL.id||CL.usr||""):"");
+ function salEns(){const k=salKey();if(SAL.key!==k){SAL.key=k;SAL.list=null;SAL.err="";SAL.f=null;SAL.file=null;SAL.msg="";SAL.open={};SAL.t=0;SAL.busy=0}}
+ const salCoach=()=>ROLE==="coach"&&!!CL&&!!CL.id;
+ const salTT=t=>SALT.find(x=>x[0]===t)||SALT[4];
+ const salMB=n=>n>=1048576?(n/1048576).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round(n/1024))+" KB";
+ function salErr(e){const m=String(e&&e.message||e||"");
+  if(/sin acceso/i.test(m))return"Solo el atleta y su entrenador pueden ver esta sección.";
+  if(/health_(list|add)|schema cache|could not find the function/i.test(m))return"La sección Salud todavía no está disponible. Inténtalo más tarde.";
+  if(/Failed to fetch|NetworkError|network|load failed/i.test(m))return"Sin conexión. Comprueba tu internet e inténtalo de nuevo.";
+  return m||"No se pudo completar la operación."}
+ async function salLoad(force){salEns();if(SAL.loading)return;if(!force&&SAL.list&&Date.now()-SAL.t<60000)return;
+  SAL.loading=true;
+  try{const r=salCoach()?await SB.rpc("health_list_coach",{p_client:CL.id}):await SB.rpc("health_list",{p_u:CL.usr,p_p:CL.pwd});
+   if(r.error)throw r.error;SAL.list=r.data||[];SAL.err="";SAL.t=Date.now()}
+  catch(e){SAL.err=salErr(e);SAL.list=SAL.list||[];SAL.t=Date.now()}
+  SAL.loading=false;if(tab==="sal")render()}
+ function salCard(d,co){const T=salTT(d.tipo),f=d.form||{},ks=SALK.filter(k=>f[k]),op=!!SAL.open[d.id];
+  const dt=axFd(d.fecha||(d.created_at||"").slice(0,10));
+  const sub=[d.titulo?T[1]:"",dt,d.profesional].filter(Boolean).map(esc).join(" · ");
+  return`<div class="card"><div class="salc"><div class="sali">${T[2]}</div><div class="salm"><b>${esc(d.titulo||T[1])}</b><small>${sub}</small>
+   ${d.file_name?`<div class="salpf">📄 <span>${esc(d.file_name)}${d.file_size?" · "+salMB(d.file_size):""}</span></div>`:""}
+   <div class="sala">${d.file_name?`<button class="qc on" data-sal="pdf" data-id="${esc(d.id)}">Abrir PDF</button>`:""}${ks.length?`<button class="qc" data-sal="open" data-id="${esc(d.id)}">${op?"Ocultar cuestionario":"Ver cuestionario"}</button>`:""}${co?"":`<button class="x" data-sal="del" data-id="${esc(d.id)}">Eliminar</button>`}</div>
+   ${op&&ks.length?`<div class="salpv">${ks.map(k=>`<b>${esc(salL(d.tipo,k)[0])}</b><span>${esc(f[k])}</span>`).join("")}</div>`:""}
+  </div></div></div>`}
+ function salForm(){const f=SAL.f,t=f.tipo||"medico",solo=!!(GATE&&GATE.sin_coach);
+  const chips=SALT.map(x=>`<button class="qc${t===x[0]?" on":""}" data-sal="tipo" data-v="${x[0]}">${x[2]} ${x[1]}</button>`).join("");
+  const q=SALK.map(k=>{const L=salL(t,k);return`<label class="salql">${esc(L[0])}</label>`+(k==="proxima"?`<input data-salf="proxima" maxlength="200" placeholder="${esc(L[1])}" value="${esc(f.proxima||"")}">`:`<textarea data-salf="${k}" rows="2" maxlength="2000" placeholder="${esc(L[1])}">${esc(f[k]||"")}</textarea>`)}).join("");
+  const con=solo?"Autorizo que Nexum guarde esta información de salud. Solo yo puedo verla y, si algún día tengo entrenador asignado, también él.":"Autorizo que Nexum guarde esta información de salud. Solo yo y mi entrenador podemos verla.";
+  return`<div class="card"><b>Nuevo informe</b>
+   <div class="qch" style="margin-top:10px">${chips}</div>
+   <label class="salql">Título (opcional)</label><input data-salf="titulo" maxlength="120" placeholder="Ej.: ${esc(SALX[t]||"Informe")}" value="${esc(f.titulo||"")}">
+   <label class="salql">Fecha del informe</label><input type="date" data-salf="fecha" value="${esc(f.fecha||"")}">
+   <label class="salql">Profesional o centro (opcional)</label><input data-salf="profesional" maxlength="120" placeholder="Nombre del profesional o clínica" value="${esc(f.profesional||"")}">
+   <label class="salql">PDF del informe</label><span class="salh">Si lo tienes, súbelo. Máximo 10 MB.</span>
+   ${SAL.file?`<div class="salpf">📄 <span>${esc(SAL.file.name)} · ${salMB(SAL.file.size)}</span> <button class="x" data-sal="nofile" aria-label="Quitar PDF">✕</button></div>`:""}
+   <label class="tmb"><input type="file" accept="application/pdf,.pdf" data-sal="file" hidden>📎 ${SAL.file?"Cambiar PDF":"Elegir PDF"}</label>
+   <label class="salql" style="margin-top:18px">Cuestionario</label><span class="salh">Si no tienes PDF, o para resumir lo importante, rellena lo que quieras.</span>
+   ${q}
+   <label class="salcon"><input type="checkbox" data-salf="consent"${f.consent?" checked":""}><span>${con}</span></label>
+   ${SAL.msg?`<small class="qmsg" style="display:block;margin-top:10px">${esc(SAL.msg)}</small>`:""}
+   <div class="bar" style="margin-top:14px;gap:8px"><button class="w" data-sal="save"${SAL.busy?" disabled":""}>${SAL.busy?"Guardando…":"Guardar informe"}</button>${SAL.busy?"":`<button data-sal="cancel">Cancelar</button>`}</div></div>`}
+ function salH(){salEns();const co=salCoach(),solo=!!(GATE&&GATE.sin_coach);
+  if(ROLE==="coach"&&!co)return`<div class="card"><small>Abre un atleta para ver sus informes de salud.</small></div>`;
+  if(NUTRI)return`<div class="card"><small>Esta sección solo la ven el atleta y su entrenador.</small></div>`;
+  if(SAL.list===null||Date.now()-SAL.t>60000)setTimeout(()=>salLoad(),0);
+  const nm=co?esc(CL.name||"el atleta"):"";
+  const info=co?`<p><b>Privacidad.</b> Estos informes los ve solo ${nm} y tú como su entrenador. No los ven otros entrenadores, nutricionistas, el administrador ni otros atletas.</p><p>Úsalos para adaptar el entrenamiento: lesiones, limitaciones, medicación o pautas de otros profesionales.</p>`
+   :`<p>Guarda aquí tus informes médicos, de fisioterapia, nutrición o psicología, en PDF o rellenando un cuestionario.</p><p><b>Privacidad.</b> ${solo?"Solo tú puedes verlos. Si en el futuro tienes un entrenador asignado, también él podrá verlos.":"Solo tú y tu entrenador podéis verlos. No los ve nadie más: ni otros entrenadores, nutricionistas, el administrador ni otros atletas. Si cambias de entrenador, el nuevo podrá verlos."} Puedes eliminarlos cuando quieras.</p><p>Tu entrenador recibe un aviso cuando añades uno (sin el contenido).</p>`;
+  let h=`<div class="card">${ih(co?"Salud de "+nm:"Tus informes de salud",info)}<small class="salpriv">🔒 ${co?"Visible solo para el atleta y su entrenador":solo?"Privado: solo lo ves tú":"Privado: solo lo veis tú y tu entrenador"}</small></div>`;
+  if(!co&&!SAL.f)h+=`<div class="card"><button class="w" data-sal="new">＋ Añadir informe</button></div>`;
+  if(!co&&SAL.f)h+=salForm();
+  if(SAL.msg&&!SAL.f)h+=`<div class="card"><small class="qmsg">${esc(SAL.msg)}</small></div>`;
+  if(SAL.list===null)return h+`<div class="card"><small>Cargando…</small></div>`;
+  if(SAL.err)h+=`<div class="card"><b>No se pudieron cargar los informes</b><br><small>${esc(SAL.err)}</small><div class="sala"><button class="qc" data-sal="retry">Reintentar</button></div></div>`;
+  else if(!SAL.list.length)h+=`<div class="card"><small>${co?esc(CL.name||"El atleta")+" todavía no ha añadido informes de salud.":"Aún no has añadido ningún informe. Pulsa «Añadir informe» para subir un PDF o rellenar un cuestionario."}</small></div>`;
+  return h+SAL.list.map(d=>salCard(d,co)).join("")}
+ window.salH=salH;
+ async function salOpenPdf(id){let w=null;try{w=window.open("","_blank")}catch(_){}
+  try{const body=salCoach()?{action:"url",id}:{action:"url",id,u:CL.usr,p:CL.pwd};
+   const r=await SB.functions.invoke("health-files",{body});
+   if(r.error)throw new Error(await fnMsg(r.error));
+   const u=r.data&&r.data.url;if(!u)throw new Error((r.data&&r.data.error)||"No se pudo abrir el PDF");
+   if(w&&!w.closed)w.location.href=u;else location.href=u}
+  catch(e){try{if(w)w.close()}catch(_){}SAL.msg=salErr(e);render()}}
+ async function salDel(id){
+  try{const r=await SB.functions.invoke("health-files",{body:{action:"delete",id,u:CL.usr,p:CL.pwd}});
+   if(r.error)throw new Error(await fnMsg(r.error));
+   if(r.data&&r.data.error)throw new Error(r.data.error);
+   SAL.list=(SAL.list||[]).filter(x=>x.id!==id);SAL.msg="";SAL.t=Date.now();render()}
+  catch(e){SAL.msg=salErr(e);render()}}
+ async function salSave(){const f=SAL.f;if(!f||SAL.busy||salCoach())return;
+  const form={};SALK.forEach(k=>{const v=String(f[k]||"").trim();if(v)form[k]=v});
+  if(!SAL.file&&!Object.keys(form).length){SAL.msg="Añade un PDF o rellena alguna casilla del cuestionario.";render();return}
+  if(!f.consent){SAL.msg="Marca la casilla de consentimiento para guardar el informe.";render();return}
+  SAL.busy=1;SAL.msg="";render();
+  try{let path=null;
+   if(SAL.file){const r=await SB.functions.invoke("health-files",{body:{action:"upload",u:CL.usr,p:CL.pwd,size:SAL.file.size}});
+    if(r.error)throw new Error(await fnMsg(r.error));
+    const d=r.data||{};if(!d.path||!d.token)throw new Error(d.error||"No se pudo preparar la subida");
+    const up=await SB.storage.from("health").uploadToSignedUrl(d.path,d.token,SAL.file,{contentType:"application/pdf"});
+    if(up&&up.error)throw up.error;path=d.path}
+   const doc={tipo:f.tipo||"medico",titulo:String(f.titulo||"").trim(),fecha:f.fecha||"",profesional:String(f.profesional||"").trim(),consent:true,form};
+   if(path){doc.file_path=path;doc.file_name=SAL.file.name}
+   const r2=await SB.rpc("health_add",{p_u:CL.usr,p_p:CL.pwd,p_doc:doc});if(r2.error)throw r2.error;
+   SAL.f=null;SAL.file=null;SAL.msg="";SAL.busy=0;SAL.t=0;await salLoad(true);if(tab==="sal")render();return}
+  catch(e){SAL.msg=salErr(e)}
+  SAL.busy=0;render()}
+ document.addEventListener("click",ev=>{const t=ev.target.closest("[data-sal]");if(!t||t.tagName==="INPUT")return;ev.stopPropagation();ev.preventDefault();
+  const a=t.dataset.sal,id=t.dataset.id,v=t.dataset.v;salEns();
+  if(a==="new"&&!salCoach()){SAL.f={tipo:"medico"};SAL.file=null;SAL.msg="";render()}
+  else if(a==="cancel"){SAL.f=null;SAL.file=null;SAL.msg="";render()}
+  else if(a==="tipo"&&SAL.f){SAL.f.tipo=v;render()}
+  else if(a==="nofile"){SAL.file=null;SAL.msg="";render()}
+  else if(a==="save")salSave();
+  else if(a==="open"){SAL.open[id]=!SAL.open[id];render()}
+  else if(a==="pdf")salOpenPdf(id);
+  else if(a==="retry"){SAL.msg="";salLoad(true);render()}
+  else if(a==="del"&&!salCoach()){if(confirm("¿Eliminar este informe? Se borrará también el PDF y no se puede deshacer."))salDel(id)}
+ },true);
+ document.addEventListener("change",ev=>{const t=ev.target;if(!t||!t.dataset)return;
+  if(t.dataset.sal==="file"){const fl=t.files&&t.files[0];t.value="";if(!fl||!SAL.f)return;
+   if(!(/pdf/i.test(fl.type)||/\.pdf$/i.test(fl.name))){SAL.msg="El archivo debe ser un PDF.";render();return}
+   if(!fl.size){SAL.msg="El PDF está vacío.";render();return}
+   if(fl.size>10485760){SAL.msg="El PDF pesa más de 10 MB. Redúcelo e inténtalo de nuevo.";render();return}
+   SAL.file=fl;SAL.msg="";render()}
+  else if(t.dataset.salf==="consent"&&SAL.f){SAL.f.consent=!!t.checked}
+ },true);
+ document.addEventListener("input",ev=>{const t=ev.target;if(!t||!t.dataset||!SAL.f)return;const k=t.dataset.salf;if(k&&k!=="consent")SAL.f[k]=t.value},true);
+
 
 
 render();
