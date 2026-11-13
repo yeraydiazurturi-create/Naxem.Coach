@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-12.66">
+<meta name="app-version" content="2026-11-12.67">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -1656,7 +1656,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-12.66";
+const APP_V="2026-11-12.67";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 14,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -3432,7 +3432,7 @@ window.pnLbl=c=>{if(!c.plan)return"Sin plan elegido";const E={active:"suscripci�
 /* estilos de los planes por tramos */
 {const s=document.createElement("style");s.textContent=`.pnq{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:#e6e0d4;border-radius:12px;margin:4px 0 14px}.pnq button{padding:10px 6px;background:transparent;color:#1a1a1c;border:0;border-radius:9px;text-transform:none;letter-spacing:0;font-size:14px}.pnq button.on{background:#1a1a1c;color:#fff}.pnq i{font-style:normal;font-size:10.5px;font-weight:700;background:#d9a441;color:#1a1a1c;padding:2px 6px;border-radius:999px;margin-left:4px}.pnc.no{opacity:.55}.pnc .pnb.pnb2{background:#5f8f4e;color:#fff}.pnm{height:8px;background:#e6e0d4;border-radius:999px;overflow:hidden;margin:6px 0}.pnm i{display:block;height:100%;background:#5f8f4e;border-radius:999px}.pnm i.hot{background:#d9a441}.pnu{font-size:13px;margin:8px 0 0;color:#1a1a1c}.pnu a{color:#86222f;font-weight:700}.pnr{font-size:12px;color:#6f685e;text-align:center;margin:10px 0 0}`;document.head.appendChild(s)}
 /* ===== v66 · textos legales, aceptaciones versionadas y derechos RGPD ===== */
-const LEGAL_V="2026-11-12";
+const LEGAL_V="2026-11-13";
 let LGL={coach:null,u:"",lb:false,err:"",busy:false,doc:"",aud:""};window.LGL=LGL;
 const lgO=()=>{const f=(CFG&&CFG.nexum_fiscal)||{},p=(v,l)=>v?esc(v):`<mark class="lgmk">[${l}]</mark>`;return{n:p(f.nombre,"nombre del titular"),nif:p(f.nif,"NIF"),dir:p(f.direccion,"domicilio"),mail:p(f.email,"correo de contacto"),raw:f}};
 const lgTrial=()=>{const v=CFG&&+CFG.trial_dias;return v>0?v:7};
@@ -3460,7 +3460,7 @@ terminos_coach:()=>{const o=lgO(),cm=(typeof COM==="number"&&COM>0)?Math.round(C
 <h4>4. Tus atletas y tus cobros</h4><p>Tú fijas los precios que cobras a tus atletas y eres quien les presta el servicio de entrenamiento: eres responsable de tus obligaciones fiscales, de facturarles y de tus condiciones con ellos. Los pagos de los atletas se procesan con Stripe${cm?"; Nexum retiene una comisión del "+cm+" % de cada cobro":"; Nexum no cobra comisión por ellos"}.</p>
 <h4>5. Datos personales de tus atletas</h4><p>Respecto de los datos de tus atletas, tú eres el <b>responsable del tratamiento</b> y Nexum actúa como <b>encargado</b>, conforme al contrato que aparece en el «Encargo de tratamiento» (que forma parte de estas condiciones). Te comprometes a informar a tus atletas del tratamiento (puedes remitirles a la Política de privacidad de Nexum), a contar con una base legitimadora para los datos que introduzcas y, en especial, a obtener su consentimiento explícito para los datos de salud. No debes introducir datos de terceros sin una base legal.</p>
 <h4>6. Uso aceptable</h4><p>No puedes usar Nexum para actividades ilícitas, para enviar spam, para suplantar a otras personas, para vulnerar derechos de terceros ni para intentar acceder a datos que no te corresponden. Nexum podrá suspender cuentas que incumplan estas condiciones.</p>
-<h4>7. Contenidos</h4><p>Conservas la titularidad de tus rutinas, plantillas, vídeos y mensajes. Concedes a Nexum una licencia limitada, no exclusiva, solo para alojarlos y mostrarlos a quien corresponda con el fin de prestar el servicio.</p>
+<h4>7. Contenidos</h4><p>Conservas la titularidad de tus rutinas, plantillas, vídeos y mensajes. Concedes a Nexum una licencia limitada, no exclusiva, solo para alojarlos y mostrarlos a quien corresponda con el fin de prestar el servicio.</p><p>Las stories que publiques son contenido tuyo: eres responsable de lo que muestran y no debes publicar imágenes ni datos de tus atletas sin su permiso. Como entrenador puedes retirar las stories de tu grupo y ver quién ha visto cada una; Nexum podrá retirar cualquier story denunciada.</p>
 <h4>8. Disponibilidad y soporte</h4><p>Nexum aplica esfuerzos razonables para que el servicio funcione de forma continua, sin garantizar una disponibilidad concreta. Pueden producirse paradas por mantenimiento o por fallos de proveedores.</p>
 <h4>9. Responsabilidad</h4><p>Nexum es una herramienta de gestión: las decisiones de entrenamiento y nutrición son tuyas y de tus atletas. En la medida permitida por la ley, la responsabilidad de Nexum frente a ti se limita al importe que hayas pagado por el servicio en los 12 meses anteriores al hecho, salvo en caso de dolo o culpa grave o de aquello que no pueda limitarse legalmente.</p>
 <h4>10. Duración y baja</h4><p>El contrato dura mientras mantengas tu cuenta. Puedes cancelar la suscripción en cualquier momento y solicitar la baja de tu cuenta. Tras la baja dispondrás de 30 días para solicitar una copia de tus datos; pasado ese plazo se suprimirán, salvo los que deban conservarse por ley (por ejemplo, facturas).</p>
@@ -3469,7 +3469,7 @@ terminos_coach:()=>{const o=lgO(),cm=(typeof COM==="number"&&COM>0)?Math.round(C
 encargo:()=>{const o=lgO();return`<h3>Encargo de tratamiento de datos (art. 28 RGPD)</h3><p class="lgdt">Versión ${LEGAL_V} · forma parte de las Condiciones del servicio para entrenadores</p>
 <p>Entre el entrenador usuario de Nexum («responsable del tratamiento») y ${o.n}, NIF ${o.nif} («encargado del tratamiento»), se acuerda lo siguiente.</p>
 <h4>1. Objeto y duración</h4><p>El encargado tratará los datos personales de los atletas del responsable únicamente para prestar el servicio Nexum (alojar y mostrar el seguimiento, enviar avisos, gestionar la cuenta). Dura lo que dure la relación de servicio.</p>
-<h4>2. Datos y personas afectadas</h4><p><b>Personas:</b> atletas y clientes del entrenador. <b>Datos:</b> identificativos y de contacto, usuario, datos de entrenamiento, medidas corporales, nutrición, descanso y hábitos, mensajes, y —si el atleta los aporta— informes de salud (categoría especial, art. 9 RGPD).</p>
+<h4>2. Datos y personas afectadas</h4><p><b>Personas:</b> atletas y clientes del entrenador. <b>Datos:</b> identificativos y de contacto, usuario, datos de entrenamiento, medidas corporales, nutrición, descanso y hábitos, mensajes, stories publicadas para el grupo del entrenador, y —si el atleta los aporta— informes de salud (categoría especial, art. 9 RGPD). Las stories que un usuario publica para toda la comunidad de Nexum las trata Nexum como responsable (ver la Política de privacidad).</p>
 <h4>3. Obligaciones del encargado</h4><ul><li>Tratar los datos solo siguiendo las instrucciones documentadas del responsable (estas condiciones y el uso normal de la plataforma).</li><li>Garantizar que las personas autorizadas se comprometen a la confidencialidad.</li><li>Aplicar medidas de seguridad adecuadas (art. 32 RGPD): comunicaciones cifradas, control de acceso por roles, almacenamiento privado de los informes de salud (solo el atleta y su entrenador acceden) y registro de acciones de administración.</li><li>Asistir al responsable para atender los derechos de los interesados y las obligaciones de seguridad.</li><li>Notificar al responsable sin dilación indebida, y en todo caso en un máximo de 48 horas desde que tenga conocimiento, cualquier violación de seguridad que afecte a los datos.</li><li>Al terminar el servicio, devolver o suprimir los datos a elección del responsable (30 días desde la baja), salvo que la ley exija conservarlos.</li><li>Poner a disposición del responsable la información necesaria para demostrar el cumplimiento y permitir auditorías razonables.</li></ul>
 <h4>4. Subencargados</h4><p>El responsable autoriza de forma general la intervención de los siguientes subencargados, con los que el encargado tiene contratos conformes al RGPD: <b>Supabase</b> (base de datos y archivos; servidores en la UE, Fráncfort), <b>Netlify</b> (alojamiento de la web), <b>Stripe</b> (pagos; actúa también como responsable independiente de los datos de pago), <b>Invopop</b> (facturación electrónica, cuando esté activada) y un proveedor de <b>correo electrónico transaccional</b>. Los avisos push se entregan a través de los servicios de notificaciones de cada navegador o sistema. El encargado informará de cambios con antelación razonable para que el responsable pueda oponerse.</p>
 <h4>5. Transferencias internacionales</h4><p>Cuando un subencargado esté en EE. UU., la transferencia se ampara en el Marco de Privacidad de Datos UE-EE. UU. o en cláusulas contractuales tipo.</p>
@@ -3480,7 +3480,7 @@ terminos_atleta:()=>{const o=lgO();return`<h3>Condiciones de uso para atletas</h
 <h4>3. Si entrenas con un entrenador</h4><p>El servicio de entrenamiento lo presta tu entrenador y las condiciones y el precio los acuerdas con él; Nexum es la herramienta que usáis. Los pagos del plan se procesan con Stripe a favor de tu entrenador. Tu entrenador es el responsable de tus datos y Nexum los trata por encargo suyo (consulta la Política de privacidad).</p>
 <h4>4. Si usas Nexum sin entrenador</h4><p>Puedes usar Nexum por tu cuenta. La modalidad de pago «Premium» se rige por sus propias condiciones, que se te muestran antes de contratarla.</p>
 <h4>5. Salud</h4><p>Nexum no es un servicio sanitario y no sustituye a un médico. Consulta con un profesional antes de empezar o cambiar tu programa, y detén el ejercicio ante dolor, mareo o cualquier síntoma extraño. Entrenas bajo tu responsabilidad. Los informes de salud que subas son opcionales y solo los ven tú y tu entrenador.</p>
-<h4>6. Conducta y contenidos</h4><p>Respeta a las demás personas en los chats, no compartas contenidos ilícitos u ofensivos y no intentes acceder a datos ajenos. Podremos suspender cuentas que incumplan estas normas.</p>
+<h4>6. Conducta y contenidos</h4><p>Respeta a las demás personas en los chats y en las stories, no compartas contenidos ilícitos, ofensivos, sexuales, violentos ni que expongan a otras personas sin su permiso, y no intentes acceder a datos ajenos. Eres responsable de lo que publicas: conservas su titularidad y concedes a Nexum una licencia limitada, solo para alojarlo y mostrarlo a quien elijas durante las 24 horas que dura una story. Las stories que publiques para la «comunidad Nexum» las verá cualquier usuario de Nexum, no solo tu grupo. Cualquier persona puede denunciar una story; tu entrenador (en las de su grupo) y Nexum pueden retirarla y, si se repite, suspender la cuenta.</p>
 <h4>7. Baja</h4><p>Puedes dejar de usar Nexum cuando quieras y pedir la baja y la eliminación de tus datos (ver «Mis datos y privacidad» en tu cuenta).</p>
 <h4>8. Cambios y ley aplicable</h4><p>Si cambian estas condiciones te lo diremos y te pediremos aceptar la nueva versión. Se rigen por la ley española; como consumidor puedes acudir a los juzgados de tu domicilio.</p>`},
 premium:()=>{const o=lgO(),pp=lgPP();return`<h3>Condiciones de Nexum Premium</h3><p class="lgdt">Versión ${LEGAL_V}</p>
@@ -3493,15 +3493,16 @@ premium:()=>{const o=lgO(),pp=lgPP();return`<h3>Condiciones de Nexum Premium</h3
 <h4>5. Si te asignan un entrenador</h4><p>Premium es solo para atletas sin entrenador. Si Nexum te asigna uno, tu suscripción Premium se cancela y pasas al plan de tu entrenador.</p>`},
 privacidad:()=>{const o=lgO();return`<h3>Política de privacidad</h3><p class="lgdt">Versión ${LEGAL_V}</p>
 <h4>1. Quién es el responsable</h4><ul><li><b>Si entrenas con un entrenador:</b> tu entrenador es el <b>responsable</b> de tus datos y Nexum los trata <b>por su encargo</b>.</li><li><b>Si eres entrenador, usas Nexum sin entrenador (incluido Premium) o visitas la web:</b> el responsable es ${o.n}, NIF ${o.nif}, ${o.dir}, ${o.mail}.</li></ul>
-<h4>2. Qué datos tratamos</h4><ul><li>Identificativos y de contacto: nombre, usuario, correo.</li><li>Datos de seguimiento: entrenamientos, medidas corporales, nutrición, descanso, hábitos, fotos si las subes y mensajes del chat.</li><li><b>Datos de salud</b> (informes médicos, de fisioterapia, nutrición u otros) <b>solo si tú decides subirlos</b>.</li><li>Datos de pago: los gestiona Stripe; Nexum no guarda el número de tu tarjeta.</li><li>Datos técnicos: dirección IP y navegador en el momento de aceptar los textos legales, y los necesarios para las notificaciones push que actives.</li></ul>
-<h4>3. Para qué y con qué base legal</h4><ul><li>Prestarte el servicio y gestionar tu cuenta — ejecución del contrato (art. 6.1.b RGPD).</li><li>Tratar tus informes de salud — tu <b>consentimiento explícito</b> (art. 9.2.a), que das al subir cada documento y puedes retirar borrándolo.</li><li>Facturación y obligaciones fiscales — obligación legal (art. 6.1.c).</li><li>Seguridad y prevención de abusos — interés legítimo (art. 6.1.f).</li><li>Notificaciones push y avisos opcionales — tu consentimiento.</li></ul>
-<h4>4. A quién se comunican</h4><p>Tu entrenador (y el nutricionista que te asigne, si lo hay), los proveedores que prestan el servicio por encargo (alojamiento y base de datos, pagos, correo, facturación electrónica) y las administraciones cuando la ley lo exija. No vendemos tus datos ni los usamos para publicidad de terceros.</p>
-<h4>5. Transferencias internacionales</h4><p>La base de datos está en la UE (Fráncfort). Algunos proveedores (por ejemplo, de alojamiento, pagos o correo) pueden estar en EE. UU.; en ese caso se aplican el Marco de Privacidad de Datos UE-EE. UU. o cláusulas contractuales tipo.</p>
-<h4>6. Cuánto tiempo los conservamos</h4><p>Mientras tengas cuenta. Tras la baja, los suprimimos (en 30 días como máximo), salvo lo que la ley obligue a conservar, como las facturas (con carácter general, 6 años) o los registros de aceptación legal, que se guardan para poder acreditar tu consentimiento.</p>
-<h4>7. Tus derechos</h4><p>Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad desde <b>Cuenta → Mis datos y privacidad</b> (puedes descargar tus datos al instante) o escribiendo a ${o.mail}. Responderemos en un máximo de un mes. Si crees que no tratamos bien tus datos, puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es). Si tu entrenador es el responsable, tu solicitud se le trasladará.</p>
-<h4>8. Seguridad</h4><p>Las comunicaciones van cifradas (HTTPS), el acceso a los datos se controla por roles (cada atleta solo ve lo suyo; el entrenador, el de sus atletas), los informes de salud se guardan en un almacenamiento privado al que solo acceden el atleta y su entrenador, y las acciones de administración quedan registradas.</p>
-<h4>9. Menores</h4><p>Nexum no está dirigido a menores de 14 años. Si un entrenador trabaja con menores, es él quien debe recabar la autorización de sus tutores.</p>
-<h4>10. Cambios</h4><p>Si cambiamos esta política te lo comunicaremos y se te pedirá aceptar la nueva versión.</p>`},
+<h4>2. Qué datos tratamos</h4><ul><li>Identificativos y de contacto: nombre, usuario, correo.</li><li>Datos de seguimiento: entrenamientos, medidas corporales, nutrición, descanso, hábitos, fotos si las subes y mensajes del chat.</li><li><b>Stories:</b> las fotos, vídeos cortos o textos que publiques como story, la fecha, el alcance que elijas y quién las ha visto.</li><li><b>Datos de salud</b> (informes médicos, de fisioterapia, nutrición u otros) <b>solo si tú decides subirlos</b>.</li><li>Datos de pago: los gestiona Stripe; Nexum no guarda el número de tu tarjeta.</li><li>Datos técnicos: dirección IP y navegador en el momento de aceptar los textos legales, y los necesarios para las notificaciones push que actives.</li></ul>
+<h4>3. Para qué y con qué base legal</h4><ul><li>Prestarte el servicio y gestionar tu cuenta — ejecución del contrato (art. 6.1.b RGPD).</li><li>Tratar tus informes de salud — tu <b>consentimiento explícito</b> (art. 9.2.a), que das al subir cada documento y puedes retirar borrándolo.</li><li>Facturación y obligaciones fiscales — obligación legal (art. 6.1.c).</li><li>Publicar tus stories y mostrarlas a las personas que elijas — ejecución del contrato (art. 6.1.b).</li><li>Seguridad, moderación y prevención de abusos (por ejemplo, revisar una story denunciada) — interés legítimo (art. 6.1.f).</li><li>Notificaciones push y avisos opcionales — tu consentimiento.</li></ul>
+<h4>4. A quién se comunican</h4><p>Tu entrenador (y el nutricionista que te asigne, si lo hay), las personas que correspondan al alcance de cada story que publiques (ver el apartado 5), los proveedores que prestan el servicio por encargo (alojamiento y base de datos, pagos, correo, facturación electrónica) y las administraciones cuando la ley lo exija. No vendemos tus datos ni los usamos para publicidad de terceros.</p>
+<h4>5. Stories</h4><p>Las stories son fotos, vídeos de hasta 30 segundos o textos que <b>desaparecen solos a las 24 horas</b>. Al publicar eliges quién las ve: <b>tu grupo</b> (tu entrenador y los atletas de su grupo) o <b>toda la comunidad de Nexum</b> (entrenadores y atletas, incluidos los que aún no tienen entrenador). Las stories oficiales de Nexum las ven todos los usuarios. Quien publica una story, el entrenador de su grupo y el administrador de Nexum pueden ver <b>quién la ha visto</b>. Los archivos se guardan en un almacenamiento privado, se muestran con enlaces temporales y se borran poco después de caducar; el registro de la story se elimina a los 7 días. Cualquier usuario puede <b>denunciar</b> una story: el administrador de Nexum la revisará y podrá retirarla, y conservará la denuncia hasta resolverla. Las fotos se reducen en tu dispositivo antes de subirlas (lo que elimina datos como la ubicación), pero los vídeos se suben tal cual: revisa lo que se ve y se oye en ellos. No publiques datos de salud, imágenes de otras personas sin su permiso ni datos de menores.</p>
+<h4>6. Transferencias internacionales</h4><p>La base de datos está en la UE (Fráncfort). Algunos proveedores (por ejemplo, de alojamiento, pagos o correo) pueden estar en EE. UU.; en ese caso se aplican el Marco de Privacidad de Datos UE-EE. UU. o cláusulas contractuales tipo.</p>
+<h4>7. Cuánto tiempo los conservamos</h4><p>Mientras tengas cuenta. Tras la baja, los suprimimos (en 30 días como máximo), salvo lo que la ley obligue a conservar, como las facturas (con carácter general, 6 años) o los registros de aceptación legal, que se guardan para poder acreditar tu consentimiento.</p>
+<h4>8. Tus derechos</h4><p>Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad desde <b>Cuenta → Mis datos y privacidad</b> (puedes descargar tus datos al instante) o escribiendo a ${o.mail}. Responderemos en un máximo de un mes. Si crees que no tratamos bien tus datos, puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es). Si tu entrenador es el responsable, tu solicitud se le trasladará.</p>
+<h4>9. Seguridad</h4><p>Las comunicaciones van cifradas (HTTPS), el acceso a los datos se controla por roles (cada atleta solo ve lo suyo; el entrenador, el de sus atletas), los informes de salud se guardan en un almacenamiento privado al que solo acceden el atleta y su entrenador, y las acciones de administración quedan registradas.</p>
+<h4>10. Menores</h4><p>Nexum no está dirigido a menores de 14 años. Si un entrenador trabaja con menores, es él quien debe recabar la autorización de sus tutores.</p>
+<h4>11. Cambios</h4><p>Si cambiamos esta política te lo comunicaremos y se te pedirá aceptar la nueva versión.</p>`},
 cookies:()=>`<h3>Cookies y almacenamiento local</h3><p class="lgdt">Versión ${LEGAL_V}</p>
 <p>Nexum <b>no usa cookies de publicidad ni de analítica</b>. Solo guarda en tu dispositivo lo imprescindible para que funcione, que no requiere tu consentimiento:</p>
 <ul><li>Tu sesión iniciada y tu perfil de acceso (para no pedirte la contraseña cada vez, si marcas «Mantener sesión abierta»).</li><li>Tus preferencias (tema claro/oscuro, rol recordado, ajustes de la app).</li><li>Datos temporales para que la app funcione con conexión inestable.</li></ul>
@@ -4663,6 +4664,316 @@ setInterval(()=>{if(document.hidden||tab!=="chat"||dmOn||!PMS()||!GATE.premium)r
  document.addEventListener("input",ev=>{const t=ev.target;if(!t||!t.dataset||!SAL.f)return;const k=t.dataset.salf;if(k&&k!=="consent")SAL.f[k]=t.value},true);
 
 
+/* ===== v67 · Stories (24 h): barra en Inicio y Chat, visor, creador y denuncias ===== */
+{const e=document.createElement("style");e.id="sgcss";e.textContent=`
+.sgbar{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;margin:0 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:flex-start}
+.sgbar::-webkit-scrollbar{display:none}
+.sgi{background:none;border:0;padding:0;color:inherit;display:flex;flex-direction:column;align-items:center;gap:4px;width:68px;flex:0 0 auto;cursor:pointer;text-align:center}
+.sgr{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.sgr::before{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,var(--champ),var(--rosa));-webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,#0000 calc(100% - 3px),#000 calc(100% - 2.5px))}
+.sgr.sn::before{background:rgba(127,127,127,.5)}
+.sgr.sm::before{background:var(--champ)}
+.sgr.sa::before{background:none;border:2px dashed rgba(127,127,127,.75);-webkit-mask:none;mask:none}
+.sga{width:54px;height:54px;border-radius:50%;background:var(--graphite);color:#dcc7a1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;letter-spacing:.02em;overflow:hidden;flex:0 0 auto}
+.sgr.sa .sga{background:transparent;color:inherit;font-size:30px;font-weight:300}
+.sgl{font-size:11.5px;font-weight:700;max-width:68px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sgk{font-style:normal;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--champ);margin-top:-3px}
+.sgh{flex:1;align-self:center;font-size:12px;opacity:.75;line-height:1.35;min-width:150px}
+.sgov{position:fixed;inset:0;z-index:9000;background:#000;display:flex;justify-content:center;color:#fff}
+.sgfr{position:relative;width:100%;max-width:480px;height:100%;background:#111;overflow:hidden}
+.sgpg{display:flex;gap:4px;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 6px;position:absolute;top:0;left:0;right:0;z-index:4}
+.sgpg i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden;display:block}
+.sgpg b{display:block;height:100%;width:0;background:#fff}
+.sgpg i.d b{width:100%}
+.sgpg b.go{width:100%;transform-origin:left;animation:sggo linear forwards}
+@keyframes sggo{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.sgov.pz .sgpg b.go{animation-play-state:paused}
+.sghd{position:absolute;top:calc(20px + env(safe-area-inset-top,0px));left:0;right:0;z-index:4;display:flex;align-items:center;gap:10px;padding:8px 12px 18px;background:linear-gradient(#000b,#0000)}
+.sghd .sga{width:38px;height:38px;flex:0 0 38px;font-size:14px;border:2px solid #fff3;color:#dcc7a1}
+.sghd div{flex:1;min-width:0;line-height:1.25}
+.sghd b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sghd small{color:#ddd;font-size:11.5px}
+.sgx{background:rgba(255,255,255,.16);color:#fff;border-radius:50%;width:34px;height:34px;padding:0;font-size:16px;line-height:1;flex:0 0 34px}
+.sgst{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000}
+.sgst img,.sgst video{width:100%;height:100%;object-fit:contain;background:#000}
+.sgld{color:#ccc;font-size:14px;padding:20px;text-align:center}
+.sgtx{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:110px 26px 120px;text-align:center;font-weight:800;line-height:1.25;word-break:break-word;overflow:auto;color:#fff}
+.c1{background:linear-gradient(160deg,#86222f,#3a0d14)}.c2{background:linear-gradient(160deg,#1a1a1c,#434347)}.c3{background:linear-gradient(160deg,#b79f78,#7a6644);color:#101011}.c4{background:linear-gradient(160deg,#c4414e,#86222f)}.c5{background:linear-gradient(160deg,#2f5d50,#14302a)}.c6{background:linear-gradient(160deg,#2d3f6b,#121b38)}
+.sgz{position:absolute;top:84px;bottom:120px;border:0;background:transparent;padding:0;border-radius:0;z-index:2}
+.sgz.l{left:0;width:32%}.sgz.r{right:0;width:68%}
+.sgcp{position:absolute;left:0;right:0;bottom:62px;padding:26px 18px 12px;z-index:3;background:linear-gradient(#0000,#000c);font-size:15px;line-height:1.35;pointer-events:none;word-break:break-word}
+.sgft{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;gap:8px;justify-content:space-between;align-items:center;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));background:#000c}
+.sgft button{background:rgba(255,255,255,.14);color:#fff;border-radius:20px;padding:9px 15px;font-size:14px}
+.sgft button.dg{background:#a8232f}
+.sgft span{flex:1}
+.sgpn{position:absolute;left:0;right:0;bottom:0;z-index:6;background:#fff;color:var(--black);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:75%;overflow:auto}
+.sgpn button.on{background:var(--red)}
+.sgpn textarea{min-height:64px}
+.sgcmo{background:#0e0e0f;color:#f4f0e8;overflow:auto;align-items:flex-start}
+html[data-theme=light] .sgcmo{background:#f5f1ea;color:#1a1a1c}
+.sgcm{background:transparent;height:auto;min-height:100%;max-width:520px;padding:calc(14px + env(safe-area-inset-top,0px)) 14px 30px;overflow:visible}
+.sgcmh .sgx{background:rgba(127,127,127,.22);color:inherit}
+.sgcmh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:18px}
+.sgmd{display:flex;gap:6px;margin-bottom:10px}
+.sgmd button{flex:1;background:#e9e3d9;color:var(--black)}
+.sgmd button.on{background:var(--red);color:#fff}
+.sgpick{display:flex;align-items:center;justify-content:center;gap:8px;border:2px dashed #b9a;border-radius:12px;padding:26px 12px;background:var(--soft);color:var(--red);font-weight:700;cursor:pointer;text-transform:none;letter-spacing:0;font-size:15px;margin:4px 0}
+.sgprev{position:relative;border-radius:12px;overflow:hidden;background:#000;max-height:46vh;display:flex;justify-content:center}
+.sgprev img,.sgprev video{max-width:100%;max-height:46vh;display:block}
+.sgpvt{height:240px;border-radius:12px;padding:20px;font-size:22px}
+.sgsws{display:flex;gap:8px;margin:10px 0 4px}
+.sgsw{width:34px;height:34px;border-radius:50%;padding:0;border:3px solid #fff}
+.sgsw.on{outline:3px solid var(--red)}
+.sgsc{display:flex;flex-direction:column;gap:6px;margin:4px 0}
+.sgsc button{background:#e9e3d9;color:var(--black);text-align:left;border-radius:10px;padding:10px 12px}
+.sgsc button.on{background:var(--red);color:#fff}
+.sgwr small{font-size:13px}
+.sgwr{background:#fff3c4;border:1px solid #d9a441;color:#4a3500;border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.4;margin:6px 0}
+.sgem{background:#fde2e2;border:1px solid #d77;color:#6a1111;border-radius:10px;padding:8px 10px;font-size:13px;margin:8px 0}
+.sgvw{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid #eee;font-size:14px}
+`;document.head.appendChild(e)}
+const SGS={grupo:"Mi grupo",comunidad:"Toda la comunidad Nexum",nexum:"Nexum (oficial)"};
+const SGBG=["c1","c2","c3","c4","c5","c6"];
+const SG={key:"",list:null,me:null,t:0,lb:false,err:"",sig:"",urls:{},pend:new Set(),pt:0,v:null,c:null,rep:{},adm:{list:null,lb:false,t:0}};
+const sgOkR=()=>{try{if(typeof NUTRI!=="undefined"&&NUTRI)return"";if(ROLE==="client"&&CL&&CL.usr&&CL.pwd)return"c";if(ROLE==="coach"&&!CL&&USER)return"k"}catch(_){}return""};
+const sgKey=()=>sgOkR()+"|"+(sgOkR()==="c"?CL.usr:USER||"");
+function sgEns(){const k=sgKey();if(SG.key!==k){SG.key=k;SG.list=null;SG.me=null;SG.t=0;SG.err="";SG.sig="";SG.urls={};SG.pend=new Set();SG.rep={};SG.adm={list:null,lb:false,t:0};if(SG.v||SG.c)sgKill()}}
+const sgCr=()=>sgOkR()==="c"?{p_u:CL.usr,p_p:CL.pwd}:{p_u:null,p_p:null};
+const sgAu=()=>sgOkR()==="c"?{u:CL.usr,p:CL.pwd}:{};
+function sgErr(e){const m=String(e&&e.message||e||"");
+ if(/No permitido|sin acceso/i.test(m))return"No tienes permiso para hacer esto.";
+ if(/story_|schema cache|could not find the function/i.test(m))return"Las stories todavía no están disponibles. Inténtalo más tarde.";
+ if(/Failed to fetch|NetworkError|network|load failed/i.test(m))return"Sin conexión. Comprueba tu internet e inténtalo de nuevo.";
+ return m||"No se pudo completar la operación."}
+const sgScr=()=>tab==="menu"||(tab==="chat"&&!chn&&!dmOn)||tab==="adm";
+async function sgLoad(f){sgEns();if(!sgOkR()||SG.lb)return;if(!f&&SG.list&&Date.now()-SG.t<45000)return;
+ const k=SG.key;SG.lb=true;let a,b,err=null;
+ try{[a,b]=await Promise.all([SB.rpc("story_me",sgCr()),SB.rpc("story_feed",sgCr())]);if(a.error||b.error||!a.data)err=a.error||b.error||new Error("sin acceso")}catch(e){err=e}
+ SG.lb=false;if(k!==SG.key)return;
+ if(err){SG.err=sgErr(err);if(!SG.list)SG.list=[]}else{SG.me=a.data;SG.list=Array.isArray(b.data)?b.data:[];SG.err=""}
+ SG.t=Date.now();
+ const sig=JSON.stringify([SG.me&&SG.me.canpost,SG.err,SG.list.map(x=>[x.id,x.seen,x.views])]);
+ if(sig!==SG.sig){SG.sig=sig;if(!SG.v&&!SG.c&&sgScr())render()}}
+const sgIn=n=>{const p=String(n||"?").trim().split(/\s+/).filter(Boolean);return esc(((p[0]||"?")[0]+(p.length>1?p[1][0]:"")).toUpperCase())};
+const sgAgo=i=>{const m=Math.round((Date.now()-new Date(i))/6e4);return m<1?"ahora":m<60?"hace "+m+" min":"hace "+Math.floor(m/60)+" h"};
+const sgLeft=i=>{const m=Math.round((new Date(i)-Date.now())/6e4);return m<=0?"ahora":m<60?"en "+m+" min":"en "+Math.ceil(m/60)+" h"};
+const sgMod=s=>s.mod!=null?!!s.mod:(!!s.mine||!!(SG.me&&SG.me.admin));
+function sgGroups(){const m=new Map();
+ (SG.list||[]).forEach(s=>{const k=(s.scope==="nexum"?"n:":"a:")+s.author_id;let g=m.get(k);if(!g){g={key:k,name:s.name,kind:s.author_kind,mine:!!s.mine,items:[]};m.set(k,g)}g.items.push(s)});
+ const a=[...m.values()];a.forEach(g=>{g.unseen=g.items.some(x=>!x.seen);g.last=g.items[g.items.length-1].created_at});
+ const rk=g=>g.mine?0:g.kind==="admin"?1:g.unseen?2:3;
+ return a.sort((x,y)=>rk(x)-rk(y)||(y.last>x.last?1:y.last<x.last?-1:0))}
+function sgGrp(k){if(/^one:/.test(k)){const id=k.slice(4),s=(SG.list||[]).find(x=>x.id===id);return s?{key:k,name:s.name,kind:s.author_kind,mine:!!s.mine,items:[s]}:null}return sgGroups().find(g=>g.key===k)||null}
+function sgBar(){sgEns();const r=sgOkR();if(!r)return"";
+ if(!SG.list||(!SG.me&&!SG.err)){setTimeout(()=>sgLoad(),0);return""}
+ if(!SG.me)return"";
+ setTimeout(()=>sgLoad(),0);
+ const G=sgGroups(),can=!!SG.me.canpost;if(!can&&!G.length)return"";
+ const rol=g=>g.kind==="admin"?"Oficial":g.kind==="coach"?"Entrenador":"";
+ const add=can?`<button class="sgi" data-sg="new" aria-label="Añadir tu story"><span class="sgr sa"><span class="sga">+</span></span><b class="sgl">Tu story</b></button>`:"";
+ const hint=can&&!G.length?`<div class="sgh">Comparte un momento con tu grupo o con toda la comunidad. Se borra sola a las 24 h.</div>`:"";
+ const cs=G.map(g=>`<button class="sgi" data-sg="open" data-k="${esc(g.key)}" aria-label="Ver stories de ${esc(g.mine?"ti":g.name)}"><span class="sgr ${g.mine?"sm":g.unseen?"":"sn"}"><span class="sga">${g.kind==="admin"&&!g.mine?"N":sgIn(g.name)}</span></span><b class="sgl">${g.mine?(g.kind==="admin"?"Nexum":"Tú"):esc(String(g.name||"").split(" ")[0])}</b>${rol(g)&&!g.mine?`<i class="sgk">${rol(g)}</i>`:""}</button>`).join("");
+ return`<div class="sgbar" id="sgbar">${add}${cs}${hint}</div>`}
+window.stBar=sgBar;
+
+/* ---------- archivos (URL firmadas de lectura) ---------- */
+async function sgNeed(ids){const now=Date.now(),need=ids.filter(i=>!(SG.urls[i]&&now-SG.urls[i].t<45*6e4));if(!need.length)return;
+ try{const r=await SB.functions.invoke("story-files",{body:{action:"urls",ids:need,...sgAu()}});if(r.error)throw new Error(await fnMsg(r.error));
+  const u=(r.data&&r.data.urls)||{};Object.keys(u).forEach(i=>{SG.urls[i]={u:u[i],t:Date.now()}})}catch(e){}}
+
+/* ---------- visto ---------- */
+function sgSeen(s){if(s.seen||s.mine)return;s.seen=true;SG.pend.add(s.id);clearTimeout(SG.pt);SG.pt=setTimeout(sgFlush,1500)}
+async function sgFlush(){clearTimeout(SG.pt);if(!SG.pend.size)return;const ids=[...SG.pend];SG.pend.clear();try{await SB.rpc("story_view",{...sgCr(),p_ids:ids})}catch(e){}}
+
+/* ---------- visor ---------- */
+const sgOv=()=>{let o=document.getElementById("sgov");if(!o){o=document.createElement("div");o.id="sgov";o.className="sgov";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");document.body.appendChild(o);document.documentElement.style.overflow="hidden"}return o};
+function sgKill(){clearTimeout(SG.hold);const o=document.getElementById("sgov");if(o)o.remove();document.documentElement.style.overflow="";
+ if(SG.c&&SG.c.prev){try{URL.revokeObjectURL(SG.c.prev)}catch(_){}}SG.v=null;SG.c=null}
+async function sgClose(){sgKill();await sgFlush();await sgLoad(true);if(sgScr())render()}
+function sgOpen(k){sgEns();const g=sgGrp(k);if(!g||!g.items.length)return;
+ const ks=/^one:/.test(k)?[k]:sgGroups().map(x=>x.key);
+ let i=g.items.findIndex(x=>!x.seen);if(i<0||g.mine)i=0;
+ SG.v={key:k,keys:ks,idx:i,panel:"",busy:false,msg:"",vw:null,tok:0};sgShow()}
+function sgPaused(){const o=document.getElementById("sgov");return!!(o&&o.classList.contains("pz"))}
+function sgPause(on){const o=document.getElementById("sgov");if(!o)return;o.classList.toggle("pz",!!on);const v=o.querySelector("video");if(v){if(on)v.pause();else v.play&&v.play().catch(()=>{})}}
+function sgFtH(s){const mod=sgMod(s);
+ let ft="";
+ if(mod)ft+=`<button data-sg="vw" aria-label="Quién la ha visto">👁 ${+s.views||0}</button>`;else ft+="<span></span>";
+ ft+="<span></span>";
+ if(s.kind==="video")ft+=`<button data-sg="mute" id="sgmu" aria-label="Sonido">🔊</button>`;
+ if(!s.mine&&!mod)ft+=SG.rep[s.id]?`<button disabled>Denunciada ✓</button>`:`<button data-sg="rep">Denunciar</button>`;
+ if(mod)ft+=`<button class="dg" data-sg="del">Borrar</button>`;
+ return ft}
+function sgPnH(V){
+ let pn="";
+ if(V.panel==="del")pn=`<b>¿Borrar esta story?</b><br><small>Dejará de verse para todos y no se puede deshacer.</small>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="delok"${V.busy?" disabled":""}>Borrar</button><button data-sg="pc">Cancelar</button></div>`;
+ else if(V.panel==="rep")pn=`<b>Denunciar esta story</b><br><small>La verá el administrador de Nexum. Cuéntanos qué pasa (opcional).</small><textarea id="sgrr" maxlength="300" placeholder="Motivo">${esc(V.reason||"")}</textarea>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="repok"${V.busy?" disabled":""}>Enviar denuncia</button><button data-sg="pc">Cancelar</button></div>`;
+ else if(V.panel==="repd")pn=`<b>Gracias</b><br><small>El administrador revisará esta story.</small><div class="bar" style="margin:12px 0 0"><button class="on" data-sg="pc">Cerrar</button></div>`;
+ else if(V.panel==="vw"){const L=V.vw;pn=`<b>Lo han visto${L?" ("+L.length+")":""}</b>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}${!L&&!V.msg?`<br><small>Cargando…</small>`:L&&!L.length?`<br><small>Todavía no la ha visto nadie.</small>`:(L||[]).map(x=>`<div class="sgvw"><span>${esc(x.name)}</span><small>${sgAgo(x.at)}</small></div>`).join("")}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="pc">Cerrar</button></div>`}
+ return pn}
+function sgPn(){const V=SG.v,o=document.getElementById("sgov");if(!V||!o)return;const s=sgCur(),fr=o.querySelector(".sgfr");if(!s||!fr)return;
+ const f=o.querySelector(".sgft");if(f){f.innerHTML=sgFtH(s);const v=o.querySelector("video"),m=document.getElementById("sgmu");if(v&&m)m.textContent=v.muted?"🔇":"🔊"}
+ let el=document.getElementById("sgpn");const h=sgPnH(V);
+ if(!h){if(el)el.remove();sgPause(false);return}
+ if(!el){el=document.createElement("div");el.className="sgpn";el.id="sgpn";fr.appendChild(el)}el.innerHTML=h;sgPause(true)}
+function sgShow(){const V=SG.v;if(!V)return;const g=sgGrp(V.key);
+ if(!g||!g.items.length){sgNextGroup();return}
+ if(V.idx>=g.items.length)V.idx=g.items.length-1;if(V.idx<0)V.idx=0;
+ const s=g.items[V.idx];sgSeen(s);const o=sgOv();o.className="sgov"+(V.panel?" pz":"");
+ const my=++V.tok,media=s.kind==="image"||s.kind==="video",url=media&&SG.urls[s.id]&&SG.urls[s.id].u;
+ const bars=g.items.map((x,i)=>`<i class="${i<V.idx?"d":""}${i===V.idx?" c":""}"><b></b></i>`).join("");
+ const who=s.scope==="nexum"?"N":sgIn(s.name);
+ const mod=sgMod(s),can=!!(SG.me&&SG.me.canpost);
+ let st;
+ if(s.kind==="text"){const n=(s.text||"").length;st=`<div class="sgtx ${esc(/^c[1-6]$/.test(s.bg||"")?s.bg:"c1")}" style="font-size:${n>120?20:n>60?24:30}px">${esc(s.text)}</div>`}
+ else if(!media)st=`<div class="sgld">Esta story ya no está disponible.</div>`;
+ else if(!url)st=`<div class="sgld" id="sgld">Cargando…</div>`;
+ else if(s.kind==="image")st=`<img id="sgmd" src="${esc(url)}" alt="Story de ${esc(s.name)}">`;
+ else st=`<video id="sgmd" src="${esc(url)}" playsinline autoplay></video>`;
+ const kind=s.author_kind==="admin"?"Oficial":s.author_kind==="coach"?"Entrenador":"Atleta";
+ const sub=[s.mine?"Tú":kind,sgAgo(s.created_at),s.scope==="grupo"?"Grupo":s.scope==="comunidad"?"Comunidad":""].concat(s.mine?["caduca "+sgLeft(s.expires_at)]:[]).filter(Boolean).join(" · ");
+ const ft=sgFtH(s),pn=sgPnH(V);
+ o.innerHTML=`<div class="sgfr"><div class="sgpg">${bars}</div><div class="sghd"><span class="sga">${who}</span><div><b>${esc(s.name)}</b><small>${esc(sub)}</small></div><button class="sgx" data-sg="x" aria-label="Cerrar">✕</button></div><div class="sgst">${st}</div>${s.kind==="text"?"":(s.text?`<div class="sgcp">${esc(s.text)}</div>`:"")}<button class="sgz l" data-sg="prev" aria-label="Anterior"></button><button class="sgz r" data-sg="next" aria-label="Siguiente"></button><div class="sgft">${ft}</div>${pn?`<div class="sgpn" id="sgpn">${pn}</div>`:""}</div>`;
+ const cur=o.querySelector(".sgpg i.c b");
+ const go=d=>{if(!cur||SG.v!==V||V.tok!==my)return;cur.style.animationDuration=d+"s";cur.classList.add("go")};
+ if(s.kind==="text")go(Math.min(10,Math.max(5,3+(s.text||"").length/22)));
+ else if(media&&!url){const ids=g.items.filter(x=>x.media||x.kind!=="text").map(x=>x.id);sgNeed(ids).then(()=>{if(SG.v===V&&V.tok===my){if(SG.urls[s.id])sgShow();else{const l=document.getElementById("sgld");if(l)l.textContent="No se pudo cargar. Toca para seguir."}}})}
+ else if(s.kind==="image"){const im=o.querySelector("#sgmd");im.onload=()=>go(5);im.onerror=()=>{im.replaceWith(Object.assign(document.createElement("div"),{className:"sgld",textContent:"No se pudo cargar la foto. Toca para seguir."}));go(4)};if(im.complete&&im.naturalWidth)go(5)}
+ else{const v=o.querySelector("#sgmd");v.muted=!!SG.muted;
+  v.addEventListener("timeupdate",()=>{if(cur&&v.duration)cur.style.width=Math.min(100,v.currentTime/v.duration*100)+"%"});
+  v.addEventListener("ended",()=>{if(SG.v===V&&V.tok===my)sgNext()});
+  v.addEventListener("error",()=>{v.replaceWith(Object.assign(document.createElement("div"),{className:"sgld",textContent:"No se pudo cargar el vídeo. Toca para seguir."}));go(4)});
+  const pl=v.play();if(pl&&pl.catch)pl.catch(()=>{v.muted=true;SG.muted=true;const m=document.getElementById("sgmu");if(m)m.textContent="🔇";v.play().catch(()=>{})});
+  const m=document.getElementById("sgmu");if(m)m.textContent=v.muted?"🔇":"🔊"}
+ const nx=g.items[V.idx+1];if(nx&&(nx.kind==="image"||nx.kind==="video")&&!SG.urls[nx.id])sgNeed(g.items.filter(x=>x.kind!=="text").map(x=>x.id));
+ const f=o.querySelector(".sgx");if(f&&!V.panel)f.focus()}
+function sgNext(){const V=SG.v;if(!V)return;const g=sgGrp(V.key);if(g&&V.idx<g.items.length-1){V.idx++;V.panel="";V.msg="";sgShow();return}sgNextGroup()}
+function sgNextGroup(){const V=SG.v;if(!V)return;const i=V.keys.indexOf(V.key);let j=i+1;while(j<V.keys.length&&!sgGrp(V.keys[j]))j++;
+ if(j>=V.keys.length){sgClose();return}V.key=V.keys[j];V.idx=0;V.panel="";V.msg="";sgShow()}
+function sgPrev(){const V=SG.v;if(!V)return;if(V.idx>0){V.idx--;V.panel="";V.msg="";sgShow();return}
+ let j=V.keys.indexOf(V.key)-1;while(j>=0&&!sgGrp(V.keys[j]))j--;
+ if(j<0){sgShow();return}V.key=V.keys[j];const g=sgGrp(V.key);V.idx=g?g.items.length-1:0;V.panel="";V.msg="";sgShow()}
+function sgCur(){const V=SG.v;if(!V)return null;const g=sgGrp(V.key);return g?g.items[V.idx]:null}
+async function sgDel(){const V=SG.v,s=sgCur();if(!V||!s||V.busy)return;V.busy=true;V.msg="";sgPn();
+ try{const r=await SB.rpc("story_delete",{...sgCr(),p_id:s.id});if(r.error)throw r.error;
+  SG.list=(SG.list||[]).filter(x=>x.id!==s.id);delete SG.urls[s.id];SG.sig="";
+  try{SB.functions.invoke("story-files",{body:{action:"purge"}})}catch(_){}
+  V.busy=false;V.panel="";V.msg="";const g=sgGrp(V.key);if(g&&g.items.length){if(V.idx>=g.items.length)V.idx=g.items.length-1;sgShow()}else sgNextGroup();return}
+ catch(e){V.msg=sgErr(e)}V.busy=false;if(SG.v===V)sgPn()}
+async function sgRep(){const V=SG.v,s=sgCur();if(!V||!s||V.busy)return;const reason=((document.getElementById("sgrr")||{}).value||"").trim();V.reason=reason;V.busy=true;V.msg="";sgPn();
+ try{const r=await SB.rpc("story_report",{...sgCr(),p_id:s.id,p_reason:reason||null});if(r.error)throw r.error;SG.rep[s.id]=true;V.busy=false;V.panel="repd";if(SG.v===V)sgPn();return}
+ catch(e){V.msg=sgErr(e)}V.busy=false;V.panel="rep";if(SG.v===V)sgPn()}
+async function sgVw(){const V=SG.v,s=sgCur();if(!V||!s)return;V.panel="vw";V.vw=null;V.msg="";sgPn();
+ try{const r=await SB.rpc("story_viewers",{...sgCr(),p_id:s.id});if(r.error)throw r.error;if(SG.v===V&&V.panel==="vw"){V.vw=Array.isArray(r.data)?r.data:[];sgPn()}}
+ catch(e){if(SG.v===V&&V.panel==="vw"){V.msg=sgErr(e);sgPn()}}}
+
+/* ---------- creador ---------- */
+function sgNew(){sgEns();if(!SG.me||!SG.me.canpost)return;
+ SG.c={kind:"media",mk:"",blob:null,ext:"",ctype:"",dur:0,prev:"",text:"",bg:"c1",scope:SG.me.grupo?"grupo":"comunidad",busy:false,pick:false,msg:""};sgRC()}
+const sgScopes=()=>{const a=[];if(SG.me&&SG.me.grupo)a.push("grupo");a.push("comunidad");if(SG.me&&SG.me.admin)a.push("nexum");return a};
+function sgScopeTx(sc){const k=SG.me&&SG.me.kind==="coach";
+ return sc==="grupo"?(k?"La verán tú y tus atletas.":"La verán tu entrenador y los atletas de su grupo."):sc==="comunidad"?"La verá cualquier persona de Nexum: otros entrenadores y atletas, también quienes aún no tienen entrenador. No publiques datos privados tuyos ni de otras personas.":"Aparecerá como «Nexum» y la verán todos."}
+function sgRC(){const c=SG.c;if(!c)return;const o=sgOv();o.className="sgov sgcmo";
+ const sc=sgScopes(),med=c.kind==="media";
+ const body=med?(c.prev?`<div class="sgprev">${c.mk==="video"?`<video src="${esc(c.prev)}" controls playsinline muted></video>`:`<img src="${esc(c.prev)}" alt="Vista previa">`}</div><div class="bar" style="margin:8px 0 0"><button class="x" data-sg="crm">Quitar y elegir otra</button></div><label>Texto sobre la story (opcional)</label><textarea id="sgcap" maxlength="280" rows="2" placeholder="Añade un texto">${esc(c.text)}</textarea>`
+   :`<label class="sgpick">${c.pick?"Preparando…":"📷 Elegir foto o vídeo"}<input type="file" id="sgfile" accept="image/*,video/*" hidden></label><small>Foto, o vídeo de hasta 30 segundos y 25 MB.</small>`)
+  :`<div class="sgtx ${esc(c.bg)} sgpvt" id="sgpvt" style="font-size:${c.text.length>120?18:c.text.length>60?20:24}px">${esc(c.text)||"<span style='opacity:.6'>Escribe tu story…</span>"}</div><textarea id="sgtxt" maxlength="280" rows="3" placeholder="Escribe tu story (máx. 280 caracteres)" style="margin-top:8px">${esc(c.text)}</textarea><div class="sgsws">${SGBG.map((b,i)=>`<button class="sgsw ${b}${c.bg===b?" on":""}" data-sg="cb" data-v="${b}" aria-label="Fondo ${i+1}"></button>`).join("")}</div>`;
+ const scs=sc.length>1?`<label>¿Quién la verá?</label><div class="sgsc">${sc.map(x=>`<button class="${c.scope===x?"on":""}" data-sg="cs" data-v="${x}">${SGS[x]}</button>`).join("")}</div>`:`<label>¿Quién la verá?</label>`;
+ o.innerHTML=`<div class="sgfr sgcm"><div class="sgcmh"><b>Nueva story</b><button class="sgx" data-sg="cx" aria-label="Cerrar">✕</button></div><div class="card"><div class="sgmd"><button class="${med?"on":""}" data-sg="ck" data-v="media">Foto o vídeo</button><button class="${med?"":"on"}" data-sg="ck" data-v="text">Texto</button></div>${body}${scs}<div class="${c.scope==="comunidad"?"sgwr":""}" id="sgsx">${c.scope==="comunidad"?"<b>Se verá fuera de tu grupo.</b> ":""}<small${c.scope==="comunidad"?' style="color:#4a3500"':""}>${esc(sgScopeTx(c.scope))}</small></div>${c.msg?`<div class="sgem">${esc(c.msg)}</div>`:""}<div class="bar" style="margin:12px 0 4px"><button class="on" data-sg="cpub"${c.busy||c.pick?" disabled":""}>${c.busy?"Publicando…":"Publicar"}</button><button data-sg="cx">Cancelar</button></div><small>Las stories desaparecen solas a las 24 horas. Quien la vea podrá denunciarla.</small></div></div>`}
+function sgImg(f){return new Promise((ok,ko)=>{const u=URL.createObjectURL(f),im=new Image(),bad=()=>{URL.revokeObjectURL(u);ko(new Error("No se pudo leer la foto. Prueba con otra en JPG o PNG."))};
+ im.onload=()=>{try{const M=1080,w=im.naturalWidth,h=im.naturalHeight;if(!w||!h)throw 0;const k=Math.min(1,M/Math.max(w,h)),cw=Math.max(1,Math.round(w*k)),ch=Math.max(1,Math.round(h*k)),cv=document.createElement("canvas");cv.width=cw;cv.height=ch;const x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,cw,ch);x.drawImage(im,0,0,cw,ch);
+  cv.toBlob(b=>{URL.revokeObjectURL(u);b&&b.size?ok({blob:b,ext:"jpg",type:"image/jpeg"}):ko(new Error("No se pudo preparar la foto."))},"image/jpeg",.82)}catch(e){bad()}};
+ im.onerror=bad;im.src=u})}
+function sgVid(f){return new Promise((ok,ko)=>{const t=(f.type||"").toLowerCase(),n=(f.name||"").toLowerCase();
+ const ext=/mp4|m4v/.test(t)||/\.(mp4|m4v)$/.test(n)?"mp4":/webm/.test(t)||/\.webm$/.test(n)?"webm":/quicktime/.test(t)||/\.mov$/.test(n)?"mov":"";
+ if(!ext)return ko(new Error("Formato de vídeo no admitido. Usa MP4, MOV o WebM."));
+ if(f.size>25*1048576)return ko(new Error("El vídeo pesa más de 25 MB. Grábalo más corto o con menos calidad."));
+ if(!f.size)return ko(new Error("El vídeo está vacío."));
+ const u=URL.createObjectURL(f),v=document.createElement("video");v.preload="metadata";v.muted=true;let fin=false;
+ const end=(fn,a)=>{if(fin)return;fin=true;clearTimeout(tm);try{URL.revokeObjectURL(u)}catch(_){}fn(a)};
+ const tm=setTimeout(()=>end(ko,new Error("No se pudo leer el vídeo. Prueba con otro en MP4.")),9000);
+ v.onloadedmetadata=()=>{const d=v.duration;if(!isFinite(d)||d<=0)return end(ko,new Error("No se pudo leer el vídeo."));
+  if(d>30.5)return end(ko,new Error("El vídeo dura "+Math.round(d)+" segundos. El máximo es 30: recórtalo e inténtalo de nuevo."));
+  end(ok,{blob:f,ext,type:ext==="mp4"?"video/mp4":ext==="webm"?"video/webm":"video/quicktime",dur:Math.min(30,Math.max(1,Math.ceil(d)))})};
+ v.onerror=()=>end(ko,new Error("No se pudo leer el vídeo. Prueba con otro en MP4."));v.src=u})}
+async function sgPick(f){const c=SG.c;if(!c||!f)return;c.msg="";const t=(f.type||"").toLowerCase(),n=(f.name||"").toLowerCase();
+ const isV=/^video\//.test(t)||/\.(mp4|mov|webm|m4v)$/.test(n),isI=/^image\//.test(t)||/\.(jpe?g|png|webp|heic|heif)$/.test(n);
+ if(!isV&&!isI){c.msg="Elige una foto o un vídeo.";sgRC();return}
+ c.pick=true;sgRC();
+ try{const b=isV?await sgVid(f):await sgImg(f);if(SG.c!==c)return;
+  if(c.prev){try{URL.revokeObjectURL(c.prev)}catch(_){}}
+  c.blob=b.blob;c.ext=b.ext;c.ctype=b.type;c.mk=isV?"video":"image";c.dur=isV?b.dur:0;c.prev=URL.createObjectURL(b.blob)}
+ catch(e){if(SG.c!==c)return;c.msg=e.message||"No se pudo preparar el archivo."}
+ c.pick=false;sgRC()}
+async function sgPub(){const c=SG.c;if(!c||c.busy||c.pick)return;const txt=(c.text||"").trim(),med=c.kind==="media";
+ if(med&&!c.blob){c.msg="Elige una foto o un vídeo.";sgRC();return}
+ if(!med&&!txt){c.msg="Escribe algo para tu story.";sgRC();return}
+ c.busy=true;c.msg="";sgRC();
+ try{let path=null,kind="text";
+  if(med){kind=c.mk;const r=await SB.functions.invoke("story-files",{body:{action:"upload",ext:c.ext,size:c.blob.size,...sgAu()}});
+   if(r.error)throw new Error(await fnMsg(r.error));const d=r.data||{};if(!d.path||!d.token)throw new Error(d.error||"No se pudo preparar la subida");
+   const up=await SB.storage.from("stories").uploadToSignedUrl(d.path,d.token,c.blob,{contentType:c.ctype});if(up&&up.error)throw up.error;path=d.path}
+  const r2=await SB.rpc("story_add",{...sgCr(),p_kind:kind,p_text:txt||null,p_bg:med?null:c.bg,p_path:path,p_dur:kind==="video"?c.dur:null,p_scope:c.scope});
+  if(r2.error)throw r2.error;
+  sgKill();await sgLoad(true);if(sgScr())render();return}
+ catch(e){if(SG.c!==c)return;c.msg=sgErr(e);c.busy=false;sgRC()}}
+
+/* ---------- eventos ---------- */
+document.addEventListener("click",ev=>{const t=ev.target.closest&&ev.target.closest("[data-sg]");if(!t||t.tagName==="INPUT")return;
+ if(SG.noclick&&/^(prev|next)$/.test(t.dataset.sg)){ev.stopPropagation();ev.preventDefault();return}
+ ev.stopPropagation();ev.preventDefault();const a=t.dataset.sg,v=t.dataset.v;
+ if(a==="new")sgNew();
+ else if(a==="open")sgOpen(t.dataset.k);
+ else if(a==="x")sgClose();
+ else if(a==="next"){if(SG.v&&SG.v.panel)return;sgNext()}
+ else if(a==="prev"){if(SG.v&&SG.v.panel)return;sgPrev()}
+ else if(a==="mute"){const m=document.querySelector("#sgov video");if(m){m.muted=!m.muted;SG.muted=m.muted;t.textContent=m.muted?"🔇":"🔊"}}
+ else if(a==="del"&&SG.v){SG.v.panel="del";SG.v.msg="";sgPn()}
+ else if(a==="rep"&&SG.v){SG.v.panel="rep";SG.v.msg="";SG.v.reason="";sgPn()}
+ else if(a==="vw")sgVw();
+ else if(a==="pc"&&SG.v){SG.v.panel="";SG.v.msg="";sgPn()}
+ else if(a==="delok")sgDel();
+ else if(a==="repok")sgRep();
+ else if(a==="cx")sgKill();
+ else if(a==="ck"&&SG.c){SG.c.kind=v;SG.c.msg="";sgRC()}
+ else if(a==="cb"&&SG.c){SG.c.bg=v;sgRC()}
+ else if(a==="cs"&&SG.c){SG.c.scope=v;sgRC()}
+ else if(a==="crm"&&SG.c){if(SG.c.prev){try{URL.revokeObjectURL(SG.c.prev)}catch(_){}}Object.assign(SG.c,{blob:null,prev:"",mk:"",ext:"",ctype:"",dur:0,msg:""});sgRC()}
+ else if(a==="cpub")sgPub();
+ else if(a==="rview"){const id=t.dataset.id;sgEns();if(!(SG.list||[]).some(x=>x.id===id))return;SG.v=null;sgOpen("one:"+id)}
+ else if(a==="rres")sgAdRes(+t.dataset.id,t.dataset.rm==="1");
+ else if(a==="rld")sgAdLoad(true);
+},true);
+document.addEventListener("change",ev=>{const t=ev.target;if(t&&t.id==="sgfile"&&SG.c){const f=t.files&&t.files[0];t.value="";if(f)sgPick(f)}},true);
+document.addEventListener("input",ev=>{const t=ev.target;if(!t||!SG.c)return;
+ if(t.id==="sgtxt"){SG.c.text=t.value;const p=document.getElementById("sgpvt");if(p){p.textContent=t.value||"Escribe tu story…";p.style.fontSize=(t.value.length>120?18:t.value.length>60?20:24)+"px"}}
+ else if(t.id==="sgcap")SG.c.text=t.value},true);
+document.addEventListener("keydown",ev=>{if(!SG.v&&!SG.c)return;
+ if(ev.key==="Escape"){if(SG.v&&SG.v.panel){SG.v.panel="";SG.v.msg="";sgPn()}else if(SG.v)sgClose();else sgKill()}
+ else if(SG.v&&!SG.v.panel&&!/INPUT|TEXTAREA/.test((ev.target||{}).tagName||"")){if(ev.key==="ArrowRight")sgNext();else if(ev.key==="ArrowLeft")sgPrev()}},true);
+document.addEventListener("animationend",ev=>{const b=ev.target;if(SG.v&&b&&b.matches&&b.matches(".sgpg b.go"))sgNext()},true);
+document.addEventListener("pointerdown",ev=>{if(!SG.v||SG.v.panel||!ev.target.closest||!ev.target.closest(".sgz"))return;clearTimeout(SG.hold);SG.held=false;SG.hold=setTimeout(()=>{SG.held=true;sgPause(true)},220)},true);
+const sgUp=()=>{if(!SG.v)return;clearTimeout(SG.hold);if(SG.held){SG.held=false;SG.noclick=true;setTimeout(()=>{SG.noclick=false},80);if(!SG.v.panel)sgPause(false)}};
+document.addEventListener("pointerup",sgUp,true);document.addEventListener("pointercancel",sgUp,true);
+setInterval(()=>{if(document.hidden||!sgOkR()||SG.v||SG.c||!sgScr())return;sgLoad(true)},6e4);
+
+/* ---------- enganche en Inicio y en Chat ---------- */
+{const hero=/(<div class="hero">[\s\S]*?<\/div><\/div>)/,put=h=>{const b=sgBar();if(!b)return h;return hero.test(h)?h.replace(hero,"$1"+b):b+h};
+ const _p=profH;profH=function(){const h=_p.apply(this,arguments);try{return ROLE==="client"&&CL?put(h):h}catch(e){return h}};
+ const _c=coachHomeH;coachHomeH=function(){const h=_c.apply(this,arguments);try{return put(h)}catch(e){return h}};
+ const _h=chatH;chatH=function(){const h=_h.apply(this,arguments);try{if(chn||dmOn)return h;const b=sgBar();return b?b+h:h}catch(e){return h}}}
+
+/* ---------- administración: denuncias ---------- */
+async function sgAdLoad(f){sgEns();const A=SG.adm;if(A.lb||(!f&&A.list&&Date.now()-A.t<30000))return;A.lb=true;
+ try{const r=await SB.rpc("admin_story_reports");if(r.error)throw r.error;A.list=Array.isArray(r.data)?r.data:[];A.err=""}catch(e){A.list=A.list||[];A.err=sgErr(e)}
+ A.lb=false;A.t=Date.now();if(tab==="adm")render()}
+async function sgAdRes(id,rm){const A=SG.adm;if(!id||A.lb)return;if(rm&&!confirm("¿Quitar esta story para todos?"))return;
+ try{const r=await SB.rpc("admin_story_resolve",{p_id:id,p_remove:!!rm});if(r.error)throw r.error;if(rm){try{SB.functions.invoke("story-files",{body:{action:"purge"}})}catch(_){}}await sgAdLoad(true);sgLoad(true)}
+ catch(e){alert("No se pudo resolver: "+sgErr(e))}}
+function sgAdminCard(){if(!ISADM)return"";sgAdLoad();sgLoad();const A=SG.adm,L=A.list||[];
+ const row=r=>`<div class="v21r" style="align-items:flex-start"><span><b>${esc(r.author)}</b> · ${r.kind==="text"?"texto":r.kind==="video"?"vídeo":"foto"} · ${esc(SGS[r.scope]||r.scope)}${r.gone?" · <i>ya no está</i>":""}<br>${r.text?`<small>«${esc(String(r.text).slice(0,120))}»</small><br>`:""}<small>Denunciada por ${esc(r.reporter)} · ${new Date(r.created_at).toLocaleDateString("es-ES")}${r.reason?" · "+esc(r.reason):""}</small></span><span style="display:flex;flex-direction:column;gap:6px">${!r.gone&&(SG.list||[]).some(x=>x.id===r.story_id)?`<button data-sg="rview" data-id="${esc(r.story_id)}">Ver</button>`:""}${r.gone?"":`<button class="on" data-sg="rres" data-id="${r.id}" data-rm="1">Quitar</button>`}<button data-sg="rres" data-id="${r.id}" data-rm="0">Descartar</button></span></div>`;
+ return`<div class="card" id="sgadm"><b>Denuncias de stories${L.length?" ("+L.length+")":""}</b><br><small>Las stories duran 24 h. Si alguien denuncia una, aparece aquí y te llega un correo. «Quitar» la borra para todos; «Descartar» la deja y cierra la denuncia.</small>${A.err?`<div class="sgem">${esc(A.err)}</div>`:""}${A.list===null?"<small style='display:block;margin-top:8px'>Cargando…</small>":L.length?L.map(row).join(""):"<small style='display:block;margin-top:8px'>No hay denuncias pendientes.</small>"}<div class="bar" style="margin:10px 0 0"><button data-sg="rld">Actualizar</button></div></div>`}
+{const _pa=window.pnAdmin;window.pnAdmin=function(){return(_pa?_pa.apply(this,arguments):"")+sgAdminCard()}}
 
 render();
 })();
