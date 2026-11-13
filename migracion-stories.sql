@@ -1,6 +1,7 @@
 -- ============================================================================
--- NEXUM · STORIES (v67)
+-- NEXUM · STORIES (v67 + v68)
 -- Stories de 24 h (foto, vídeo ≤ 30 s o texto) para entrenadores y atletas.
+--   · v68: textos colocados DENTRO de la foto/vídeo (columna «ov») y foto de perfil de quien publica en el círculo («story_photos»).
 --   · Alcance de cada story: 'grupo' (el entrenador y sus atletas), 'comunidad' (toda la plataforma)
 --     o 'nexum' (solo el administrador; sale como «Nexum»).
 --   · Los atletas sin entrenador ven lo de la comunidad y lo de Nexum.
@@ -56,6 +57,38 @@ alter table public.story_views enable row level security;
 alter table public.story_reports enable row level security;
 revoke all on public.stories, public.story_views, public.story_reports from anon, authenticated;
 revoke all on sequence public.story_reports_id_seq from anon, authenticated;
+
+-- ---------- 1b. (v68) Textos sobre la foto o el vídeo ----------
+-- «ov» = lista (máx. 4) de textos colocados sobre la foto/vídeo:
+--   [{"t":"Hoy pierna","x":50,"y":30,"s":8,"c":"w","b":1}]
+--   t texto (1–140) · x,y posición del centro en % de la foto (0–100) · s tamaño (3–16, en % del ancho) · c color (clave) · b fondo (0 sin, 1 oscuro, 2 color)
+alter table public.stories add column if not exists ov jsonb;
+
+create or replace function public.nx_story_ov_ok(o jsonb)
+returns boolean language plpgsql immutable set search_path = public as $$
+declare it jsonb; k text;
+begin
+  if o is null then return true; end if;
+  if jsonb_typeof(o) <> 'array' or jsonb_array_length(o) > 4 then return false; end if;
+  for it in select value from jsonb_array_elements(o) loop
+    if jsonb_typeof(it) <> 'object' then return false; end if;
+    for k in select jsonb_object_keys(it) loop
+      if k not in ('t', 'x', 'y', 's', 'c', 'b') then return false; end if;
+    end loop;
+    if coalesce(jsonb_typeof(it->'t'), '') <> 'string' or char_length(btrim(it->>'t')) not between 1 and 140 then return false; end if;
+    if coalesce(jsonb_typeof(it->'x'), '') <> 'number' or (it->>'x')::numeric not between 0 and 100 then return false; end if;
+    if coalesce(jsonb_typeof(it->'y'), '') <> 'number' or (it->>'y')::numeric not between 0 and 100 then return false; end if;
+    if coalesce(jsonb_typeof(it->'s'), '') <> 'number' or (it->>'s')::numeric not between 3 and 16 then return false; end if;
+    if coalesce(jsonb_typeof(it->'c'), '') <> 'string' or (it->>'c') !~ '^[a-z]{1,2}$' then return false; end if;
+    if coalesce(jsonb_typeof(it->'b'), '') <> 'number' or (it->>'b')::numeric not in (0, 1, 2) then return false; end if;
+  end loop;
+  return true;
+end $$;
+revoke all on function public.nx_story_ov_ok(jsonb) from public, anon, authenticated;
+
+alter table public.stories drop constraint if exists stories_ov_chk;
+alter table public.stories add constraint stories_ov_chk
+  check (ov is null or (kind in ('image', 'video') and public.nx_story_ov_ok(ov)));
 
 -- ---------- 2. Bucket privado (25 MB, solo imagen y vídeo) ----------
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
@@ -125,7 +158,7 @@ begin
         'name', case when s.scope = 'nexum' then 'Nexum'
                      else coalesce((select c.name from clients c where c.id = s.author_id),
                                    (select btrim(coalesce(k.nombre, '') || ' ' || coalesce(k.apellidos, '')) from coaches k where k.id = s.author_id), '—') end,
-        'scope', s.scope, 'kind', s.kind, 'text', s.body, 'bg', s.bg, 'media', s.path is not null, 'dur', s.dur,
+        'scope', s.scope, 'kind', s.kind, 'text', s.body, 'bg', s.bg, 'media', s.path is not null, 'dur', s.dur, 'ov', s.ov,
         'created_at', s.created_at, 'expires_at', s.expires_at, 'mine', s.author_id = me,
         'mod', (s.author_id = me or coalesce((w->>'admin')::boolean, false) or (w->>'kind' = 'coach' and s.group_id = me)),
         'seen', s.author_id = me or exists (select 1 from story_views v where v.story_id = s.id and v.viewer_id = me),
@@ -136,9 +169,10 @@ begin
       order by s.created_at desc limit 300) q), '[]'::jsonb);
 end $$;
 
-create or replace function public.story_add(p_u text, p_p text, p_kind text, p_text text, p_bg text, p_path text, p_dur integer, p_scope text)
+drop function if exists public.story_add(text, text, text, text, text, text, integer, text);
+create or replace function public.story_add(p_u text, p_p text, p_kind text, p_text text, p_bg text, p_path text, p_dur integer, p_scope text, p_ov jsonb default null)
 returns uuid language plpgsql security definer set search_path = public, extensions as $$
-declare w jsonb := public.nx_story_who(p_u, p_p); me uuid; grp uuid; v_scope text; n integer; v_id uuid;
+declare w jsonb := public.nx_story_who(p_u, p_p); me uuid; grp uuid; v_scope text; n integer; v_id uuid; v_body text;
 begin
   if w is null or not coalesce((w->>'canpost')::boolean, false) then raise exception 'No permitido'; end if;
   me := (w->>'id')::uuid; grp := nullif(w->>'grp', '')::uuid;
@@ -154,14 +188,23 @@ begin
     if not exists (select 1 from storage.objects where bucket_id = 'stories' and name = p_path) then raise exception 'El archivo no se ha subido bien. Inténtalo de nuevo'; end if;
     if p_kind = 'video' and (p_dur is null or p_dur not between 1 and 30) then raise exception 'El vídeo debe durar entre 1 y 30 segundos'; end if;
   end if;
+  -- textos sobre la foto: un JSON «null» o una lista vacía cuentan como «sin textos»
+  if p_ov is not null and (jsonb_typeof(p_ov) = 'null' or (jsonb_typeof(p_ov) = 'array' and jsonb_array_length(p_ov) = 0)) then p_ov := null; end if;
+  v_body := nullif(btrim(coalesce(p_text, '')), '');
+  if p_ov is not null then
+    if p_kind not in ('image', 'video') then raise exception 'Los textos sobre la foto solo valen para fotos y vídeos'; end if;
+    if not public.nx_story_ov_ok(p_ov) then raise exception 'Los textos de la story no son válidos'; end if;
+    -- el texto plano (denuncias, moderación) es la suma de los textos puestos sobre la foto
+    v_body := left((select string_agg(btrim(e.value->>'t'), ' · ') from jsonb_array_elements(p_ov) e), 280);
+  end if;
   select count(*) into n from stories where author_id = me and deleted_at is null and expires_at > now();
   if n >= 15 then raise exception 'Has llegado al máximo de 15 stories activas'; end if;
   select count(*) into n from stories where author_id = me and created_at > now() - interval '1 day';
   if n >= 40 then raise exception 'Has publicado demasiadas stories hoy'; end if;
-  insert into stories (author_kind, author_id, group_id, scope, kind, body, bg, path, dur)
-  values (case when v_scope = 'nexum' then 'admin' else w->>'kind' end, me, grp, v_scope, p_kind, nullif(btrim(coalesce(p_text, '')), ''),
+  insert into stories (author_kind, author_id, group_id, scope, kind, body, bg, path, dur, ov)
+  values (case when v_scope = 'nexum' then 'admin' else w->>'kind' end, me, grp, v_scope, p_kind, v_body,
           case when p_kind = 'text' then coalesce(nullif(p_bg, ''), 'c1') else null end,
-          case when p_kind = 'text' then null else p_path end, case when p_kind = 'video' then p_dur end)
+          case when p_kind = 'text' then null else p_path end, case when p_kind = 'video' then p_dur end, p_ov)
   returning id into v_id;
   return v_id;
 end $$;
@@ -207,6 +250,24 @@ begin
   if not (s.author_id = me or coalesce((w->>'admin')::boolean, false) or (w->>'kind' = 'coach' and s.group_id = me)) then raise exception 'No permitido'; end if;
   update stories set deleted_at = coalesce(deleted_at, now()) where id = p_id;
   return true;
+end $$;
+
+-- (v68) Foto de perfil de quien publica (para el círculo)
+-- Devuelve la foto SOLO de personas con una story que quien pregunta puede ver (las de «Nexum (oficial)» no llevan foto).
+create or replace function public.story_photos(p_u text default null, p_p text default null, p_ids uuid[] default '{}')
+returns table(id uuid, photo text) language plpgsql security definer set search_path = public, extensions as $$
+declare w jsonb := public.nx_story_who(p_u, p_p);
+begin
+  if w is null then raise exception 'No permitido'; end if;
+  return query
+    select a.aid, a.f
+      from (select v.aid,
+                   case when exists (select 1 from clients c where c.id = v.aid)
+                        then (select c2.data->'prof'->>'photo' from clients c2 where c2.id = v.aid)
+                        else (select k.foto from coaches k where k.id = v.aid) end as f
+              from (select distinct s.author_id as aid from stories s
+                     where s.author_id = any (p_ids[1:40]) and s.scope <> 'nexum' and public.nx_story_vis(s, w)) v) a
+     where a.f is not null and length(a.f) <= 250000 and a.f ~ '^data:image/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$';
 end $$;
 
 create or replace function public.nx_story_notify(p_text text)
@@ -295,9 +356,9 @@ grant execute on function public.story_orphans() to service_role;
 
 -- ---------- 5. Permisos ----------
 -- Atletas (sin sesión: usan usuario y contraseña) y entrenadores (con sesión) usan las mismas funciones
-revoke all on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text),
+revoke all on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text, jsonb), public.story_photos(text, text, uuid[]),
   public.story_view(text, text, uuid[]), public.story_viewers(text, text, uuid), public.story_delete(text, text, uuid), public.story_report(text, text, uuid, text) from public;
-grant execute on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text),
+grant execute on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text, jsonb), public.story_photos(text, text, uuid[]),
   public.story_view(text, text, uuid[]), public.story_viewers(text, text, uuid), public.story_delete(text, text, uuid), public.story_report(text, text, uuid, text)
   to anon, authenticated, service_role;
 revoke all on function public.admin_story_reports(), public.admin_story_resolve(bigint, boolean) from public, anon;

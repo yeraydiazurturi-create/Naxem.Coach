@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-12.67">
+<meta name="app-version" content="2026-11-13.68">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -1656,7 +1656,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-12.67";
+const APP_V="2026-11-13.68";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 14,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -4664,7 +4664,7 @@ setInterval(()=>{if(document.hidden||tab!=="chat"||dmOn||!PMS()||!GATE.premium)r
  document.addEventListener("input",ev=>{const t=ev.target;if(!t||!t.dataset||!SAL.f)return;const k=t.dataset.salf;if(k&&k!=="consent")SAL.f[k]=t.value},true);
 
 
-/* ===== v67 · Stories (24 h): barra en Inicio y Chat, visor, creador y denuncias ===== */
+/* ===== v67-v68 · Stories (24 h): barra en Inicio y Chat, visor, creador, denuncias, foto de perfil en el círculo y textos dentro de la foto ===== */
 {const e=document.createElement("style");e.id="sgcss";e.textContent=`
 .sgbar{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;margin:0 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:flex-start}
 .sgbar::-webkit-scrollbar{display:none}
@@ -4701,7 +4701,7 @@ setInterval(()=>{if(document.hidden||tab!=="chat"||dmOn||!PMS()||!GATE.premium)r
 .c1{background:linear-gradient(160deg,#86222f,#3a0d14)}.c2{background:linear-gradient(160deg,#1a1a1c,#434347)}.c3{background:linear-gradient(160deg,#b79f78,#7a6644);color:#101011}.c4{background:linear-gradient(160deg,#c4414e,#86222f)}.c5{background:linear-gradient(160deg,#2f5d50,#14302a)}.c6{background:linear-gradient(160deg,#2d3f6b,#121b38)}
 .sgz{position:absolute;top:84px;bottom:120px;border:0;background:transparent;padding:0;border-radius:0;z-index:2}
 .sgz.l{left:0;width:32%}.sgz.r{right:0;width:68%}
-.sgcp{position:absolute;left:0;right:0;bottom:62px;padding:26px 18px 12px;z-index:3;background:linear-gradient(#0000,#000c);font-size:15px;line-height:1.35;pointer-events:none;word-break:break-word}
+.sgcp{position:absolute;left:0;right:0;bottom:62px;padding:40px 18px 16px;z-index:3;background:linear-gradient(#0000,#000d);font-size:20px;font-weight:700;text-align:center;line-height:1.3;pointer-events:none;word-break:break-word;text-shadow:0 1px 6px #000a}
 .sgft{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;gap:8px;justify-content:space-between;align-items:center;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));background:#000c}
 .sgft button{background:rgba(255,255,255,.14);color:#fff;border-radius:20px;padding:9px 15px;font-size:14px}
 .sgft button.dg{background:#a8232f}
@@ -4718,8 +4718,8 @@ html[data-theme=light] .sgcmo{background:#f5f1ea;color:#1a1a1c}
 .sgmd button{flex:1;background:#e9e3d9;color:var(--black)}
 .sgmd button.on{background:var(--red);color:#fff}
 .sgpick{display:flex;align-items:center;justify-content:center;gap:8px;border:2px dashed #b9a;border-radius:12px;padding:26px 12px;background:var(--soft);color:var(--red);font-weight:700;cursor:pointer;text-transform:none;letter-spacing:0;font-size:15px;margin:4px 0}
-.sgprev{position:relative;border-radius:12px;overflow:hidden;background:#000;max-height:46vh;display:flex;justify-content:center}
-.sgprev img,.sgprev video{max-width:100%;max-height:46vh;display:block}
+.sgprev{position:relative;border-radius:12px;overflow:hidden;background:#000;display:flex;justify-content:center;min-height:120px}
+.sgprev .sgmw{height:min(52vh,480px)}
 .sgpvt{height:240px;border-radius:12px;padding:20px;font-size:22px}
 .sgsws{display:flex;gap:8px;margin:10px 0 4px}
 .sgsw{width:34px;height:34px;border-radius:50%;padding:0;border:3px solid #fff}
@@ -4731,13 +4731,30 @@ html[data-theme=light] .sgcmo{background:#f5f1ea;color:#1a1a1c}
 .sgwr{background:#fff3c4;border:1px solid #d9a441;color:#4a3500;border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.4;margin:6px 0}
 .sgem{background:#fde2e2;border:1px solid #d77;color:#6a1111;border-radius:10px;padding:8px 10px;font-size:13px;margin:8px 0}
 .sgvw{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid #eee;font-size:14px}
+.sga img{width:100%;height:100%;object-fit:cover;display:block}
+.sgmw{position:relative;container-type:inline-size;width:100%;height:100%;overflow:hidden;background:#000;flex:0 0 auto}
+.sgmw>img,.sgmw>video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.sgovl{position:absolute;inset:0;pointer-events:none}
+.sgmw:not(.rd) .sgovl{visibility:hidden}
+.sgo{position:absolute;transform:translate(-50%,-50%);width:max-content;max-width:90%;text-align:center;font-weight:800;line-height:1.18;white-space:pre-wrap;overflow-wrap:anywhere;padding:.14em .42em;border-radius:.38em;font-size:16px;box-sizing:border-box}
+.sgcmo .sgo{pointer-events:auto;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.sgo.sel{outline:2px dashed #fff;outline-offset:3px;box-shadow:0 0 0 1px #0008}
+.sgo:focus-visible{outline:2px solid var(--champ);outline-offset:3px}
+.sged{margin:6px 0 2px}
+.sgtb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.sgtb button{background:#e9e3d9;color:var(--black);border-radius:10px;padding:8px 12px;font-size:14px}
+.sgtb button.on{background:var(--red);color:#fff}
+.sgtb .sgl2{font-size:12px;opacity:.75}
+.sgtb .sgsws{margin:0}
+.sgsw.o{width:30px;height:30px;border:2px solid rgba(127,127,127,.55)}
+.sgsw.o.on{border-color:#fff}
 `;document.head.appendChild(e)}
 const SGS={grupo:"Mi grupo",comunidad:"Toda la comunidad Nexum",nexum:"Nexum (oficial)"};
 const SGBG=["c1","c2","c3","c4","c5","c6"];
-const SG={key:"",list:null,me:null,t:0,lb:false,err:"",sig:"",urls:{},pend:new Set(),pt:0,v:null,c:null,rep:{},adm:{list:null,lb:false,t:0}};
+const SG={key:"",list:null,me:null,t:0,lb:false,err:"",sig:"",urls:{},pend:new Set(),pt:0,v:null,c:null,rep:{},adm:{list:null,lb:false,t:0},ph:{},phb:false,phe:0,dg:null};
 const sgOkR=()=>{try{if(typeof NUTRI!=="undefined"&&NUTRI)return"";if(ROLE==="client"&&CL&&CL.usr&&CL.pwd)return"c";if(ROLE==="coach"&&!CL&&USER)return"k"}catch(_){}return""};
 const sgKey=()=>sgOkR()+"|"+(sgOkR()==="c"?CL.usr:USER||"");
-function sgEns(){const k=sgKey();if(SG.key!==k){SG.key=k;SG.list=null;SG.me=null;SG.t=0;SG.err="";SG.sig="";SG.urls={};SG.pend=new Set();SG.rep={};SG.adm={list:null,lb:false,t:0};if(SG.v||SG.c)sgKill()}}
+function sgEns(){const k=sgKey();if(SG.key!==k){SG.key=k;SG.list=null;SG.me=null;SG.t=0;SG.err="";SG.sig="";SG.urls={};SG.pend=new Set();SG.rep={};SG.adm={list:null,lb:false,t:0};SG.ph={};SG.phb=false;SG.phe=0;SG.dg=null;if(SG.v||SG.c)sgKill()}}
 const sgCr=()=>sgOkR()==="c"?{p_u:CL.usr,p_p:CL.pwd}:{p_u:null,p_p:null};
 const sgAu=()=>sgOkR()==="c"?{u:CL.usr,p:CL.pwd}:{};
 function sgErr(e){const m=String(e&&e.message||e||"");
@@ -4751,19 +4768,34 @@ async function sgLoad(f){sgEns();if(!sgOkR()||SG.lb)return;if(!f&&SG.list&&Date.
  try{[a,b]=await Promise.all([SB.rpc("story_me",sgCr()),SB.rpc("story_feed",sgCr())]);if(a.error||b.error||!a.data)err=a.error||b.error||new Error("sin acceso")}catch(e){err=e}
  SG.lb=false;if(k!==SG.key)return;
  if(err){SG.err=sgErr(err);if(!SG.list)SG.list=[]}else{SG.me=a.data;SG.list=Array.isArray(b.data)?b.data:[];SG.err=""}
- SG.t=Date.now();
+ SG.t=Date.now();if(!err)sgPhEnsure();
  const sig=JSON.stringify([SG.me&&SG.me.canpost,SG.err,SG.list.map(x=>[x.id,x.seen,x.views])]);
  if(sig!==SG.sig){SG.sig=sig;if(!SG.v&&!SG.c&&sgScr())render()}}
+const sgPh=(id,mine)=>{try{if(mine){const a=avGet();if(phOk(a))return a}}catch(_){}const e=SG.ph[id];return e&&e.p||""};
+const sgAvIn=(id,name,nx,mine)=>{if(nx)return"N";const p=sgPh(id,mine);return p?`<img src="${esc(p)}" alt="" draggable="false">`:sgIn(name)};
+async function sgPhEnsure(){if(SG.phb||!SG.list)return;const k=SG.key,now=Date.now();if(now-SG.phe<3e5)return;
+ const me=SG.me&&SG.me.id;let own=false;try{own=phOk(avGet())}catch(_){}
+ const ids=[...new Set(SG.list.filter(s=>s.scope!=="nexum").map(s=>s.author_id))].filter(id=>!(own&&id===me)).filter(id=>{const e=SG.ph[id];return!e||now-e.t>18e5}).slice(0,40);
+ if(!ids.length)return;SG.phb=true;let r=null,bad=false;
+ try{r=await SB.rpc("story_photos",{...sgCr(),p_ids:ids});if(r.error)throw r.error}catch(e){bad=true}
+ SG.phb=false;if(k!==SG.key)return;
+ if(bad){SG.phe=Date.now();return}
+ const got={};let ch=false;(r.data||[]).forEach(x=>{if(x&&phOk(x.photo))got[x.id]=x.photo});
+ ids.forEach(id=>{const p=got[id]||"",o=SG.ph[id];if((o?o.p:"")!==p)ch=true;SG.ph[id]={p,t:Date.now()}});
+ if(ch)sgPhPaint()}
+function sgPhPaint(){const b=document.getElementById("sgbar");
+ if(b&&!SG.c){const sl=b.scrollLeft,h=sgBar();if(h){const t=document.createElement("div");t.innerHTML=h;const n=t.firstElementChild;if(n){b.replaceWith(n);n.scrollLeft=sl}}}
+ const s=SG.v?sgCur():null,el=document.querySelector("#sgov .sghd .sga");if(s&&el)el.innerHTML=sgAvIn(s.author_id,s.name,s.scope==="nexum",s.mine)}
 const sgIn=n=>{const p=String(n||"?").trim().split(/\s+/).filter(Boolean);return esc(((p[0]||"?")[0]+(p.length>1?p[1][0]:"")).toUpperCase())};
 const sgAgo=i=>{const m=Math.round((Date.now()-new Date(i))/6e4);return m<1?"ahora":m<60?"hace "+m+" min":"hace "+Math.floor(m/60)+" h"};
 const sgLeft=i=>{const m=Math.round((new Date(i)-Date.now())/6e4);return m<=0?"ahora":m<60?"en "+m+" min":"en "+Math.ceil(m/60)+" h"};
 const sgMod=s=>s.mod!=null?!!s.mod:(!!s.mine||!!(SG.me&&SG.me.admin));
 function sgGroups(){const m=new Map();
- (SG.list||[]).forEach(s=>{const k=(s.scope==="nexum"?"n:":"a:")+s.author_id;let g=m.get(k);if(!g){g={key:k,name:s.name,kind:s.author_kind,mine:!!s.mine,items:[]};m.set(k,g)}g.items.push(s)});
+ (SG.list||[]).forEach(s=>{const k=(s.scope==="nexum"?"n:":"a:")+s.author_id;let g=m.get(k);if(!g){g={key:k,name:s.name,kind:s.author_kind,mine:!!s.mine,aid:s.author_id,nx:s.scope==="nexum",items:[]};m.set(k,g)}g.items.push(s)});
  const a=[...m.values()];a.forEach(g=>{g.unseen=g.items.some(x=>!x.seen);g.last=g.items[g.items.length-1].created_at});
  const rk=g=>g.mine?0:g.kind==="admin"?1:g.unseen?2:3;
  return a.sort((x,y)=>rk(x)-rk(y)||(y.last>x.last?1:y.last<x.last?-1:0))}
-function sgGrp(k){if(/^one:/.test(k)){const id=k.slice(4),s=(SG.list||[]).find(x=>x.id===id);return s?{key:k,name:s.name,kind:s.author_kind,mine:!!s.mine,items:[s]}:null}return sgGroups().find(g=>g.key===k)||null}
+function sgGrp(k){if(/^one:/.test(k)){const id=k.slice(4),s=(SG.list||[]).find(x=>x.id===id);return s?{key:k,name:s.name,kind:s.author_kind,mine:!!s.mine,aid:s.author_id,nx:s.scope==="nexum",items:[s]}:null}return sgGroups().find(g=>g.key===k)||null}
 function sgBar(){sgEns();const r=sgOkR();if(!r)return"";
  if(!SG.list||(!SG.me&&!SG.err)){setTimeout(()=>sgLoad(),0);return""}
  if(!SG.me)return"";
@@ -4772,7 +4804,7 @@ function sgBar(){sgEns();const r=sgOkR();if(!r)return"";
  const rol=g=>g.kind==="admin"?"Oficial":g.kind==="coach"?"Entrenador":"";
  const add=can?`<button class="sgi" data-sg="new" aria-label="Añadir tu story"><span class="sgr sa"><span class="sga">+</span></span><b class="sgl">Tu story</b></button>`:"";
  const hint=can&&!G.length?`<div class="sgh">Comparte un momento con tu grupo o con toda la comunidad. Se borra sola a las 24 h.</div>`:"";
- const cs=G.map(g=>`<button class="sgi" data-sg="open" data-k="${esc(g.key)}" aria-label="Ver stories de ${esc(g.mine?"ti":g.name)}"><span class="sgr ${g.mine?"sm":g.unseen?"":"sn"}"><span class="sga">${g.kind==="admin"&&!g.mine?"N":sgIn(g.name)}</span></span><b class="sgl">${g.mine?(g.kind==="admin"?"Nexum":"Tú"):esc(String(g.name||"").split(" ")[0])}</b>${rol(g)&&!g.mine?`<i class="sgk">${rol(g)}</i>`:""}</button>`).join("");
+ const cs=G.map(g=>`<button class="sgi" data-sg="open" data-k="${esc(g.key)}" aria-label="Ver stories de ${esc(g.mine?"ti":g.name)}"><span class="sgr ${g.mine?"sm":g.unseen?"":"sn"}"><span class="sga">${sgAvIn(g.aid,g.name,g.nx,g.mine)}</span></span><b class="sgl">${g.mine?(g.kind==="admin"?"Nexum":"Tú"):esc(String(g.name||"").split(" ")[0])}</b>${rol(g)&&!g.mine?`<i class="sgk">${rol(g)}</i>`:""}</button>`).join("");
  return`<div class="sgbar" id="sgbar">${add}${cs}${hint}</div>`}
 window.stBar=sgBar;
 
@@ -4822,27 +4854,28 @@ function sgShow(){const V=SG.v;if(!V)return;const g=sgGrp(V.key);
  const s=g.items[V.idx];sgSeen(s);const o=sgOv();o.className="sgov"+(V.panel?" pz":"");
  const my=++V.tok,media=s.kind==="image"||s.kind==="video",url=media&&SG.urls[s.id]&&SG.urls[s.id].u;
  const bars=g.items.map((x,i)=>`<i class="${i<V.idx?"d":""}${i===V.idx?" c":""}"><b></b></i>`).join("");
- const who=s.scope==="nexum"?"N":sgIn(s.name);
+ const who=sgAvIn(s.author_id,s.name,s.scope==="nexum",s.mine);
  const mod=sgMod(s),can=!!(SG.me&&SG.me.canpost);
  let st;
  if(s.kind==="text"){const n=(s.text||"").length;st=`<div class="sgtx ${esc(/^c[1-6]$/.test(s.bg||"")?s.bg:"c1")}" style="font-size:${n>120?20:n>60?24:30}px">${esc(s.text)}</div>`}
  else if(!media)st=`<div class="sgld">Esta story ya no está disponible.</div>`;
  else if(!url)st=`<div class="sgld" id="sgld">Cargando…</div>`;
- else if(s.kind==="image")st=`<img id="sgmd" src="${esc(url)}" alt="Story de ${esc(s.name)}">`;
- else st=`<video id="sgmd" src="${esc(url)}" playsinline autoplay></video>`;
+ else if(s.kind==="image")st=`<div class="sgmw" id="sgmw"><img id="sgmd" src="${esc(url)}" alt="Story de ${esc(s.name)}">${sgOvL(s.ov)}</div>`;
+ else st=`<div class="sgmw" id="sgmw"><video id="sgmd" src="${esc(url)}" playsinline autoplay></video>${sgOvL(s.ov)}</div>`;
  const kind=s.author_kind==="admin"?"Oficial":s.author_kind==="coach"?"Entrenador":"Atleta";
  const sub=[s.mine?"Tú":kind,sgAgo(s.created_at),s.scope==="grupo"?"Grupo":s.scope==="comunidad"?"Comunidad":""].concat(s.mine?["caduca "+sgLeft(s.expires_at)]:[]).filter(Boolean).join(" · ");
  const ft=sgFtH(s),pn=sgPnH(V);
- o.innerHTML=`<div class="sgfr"><div class="sgpg">${bars}</div><div class="sghd"><span class="sga">${who}</span><div><b>${esc(s.name)}</b><small>${esc(sub)}</small></div><button class="sgx" data-sg="x" aria-label="Cerrar">✕</button></div><div class="sgst">${st}</div>${s.kind==="text"?"":(s.text?`<div class="sgcp">${esc(s.text)}</div>`:"")}<button class="sgz l" data-sg="prev" aria-label="Anterior"></button><button class="sgz r" data-sg="next" aria-label="Siguiente"></button><div class="sgft">${ft}</div>${pn?`<div class="sgpn" id="sgpn">${pn}</div>`:""}</div>`;
+ o.innerHTML=`<div class="sgfr"><div class="sgpg">${bars}</div><div class="sghd"><span class="sga">${who}</span><div><b>${esc(s.name)}</b><small>${esc(sub)}</small></div><button class="sgx" data-sg="x" aria-label="Cerrar">✕</button></div><div class="sgst">${st}</div>${s.kind==="text"||(Array.isArray(s.ov)&&s.ov.length)?"":(s.text?`<div class="sgcp">${esc(s.text)}</div>`:"")}<button class="sgz l" data-sg="prev" aria-label="Anterior"></button><button class="sgz r" data-sg="next" aria-label="Siguiente"></button><div class="sgft">${ft}</div>${pn?`<div class="sgpn" id="sgpn">${pn}</div>`:""}</div>`;
  const cur=o.querySelector(".sgpg i.c b");
  const go=d=>{if(!cur||SG.v!==V||V.tok!==my)return;cur.style.animationDuration=d+"s";cur.classList.add("go")};
  if(s.kind==="text")go(Math.min(10,Math.max(5,3+(s.text||"").length/22)));
  else if(media&&!url){const ids=g.items.filter(x=>x.media||x.kind!=="text").map(x=>x.id);sgNeed(ids).then(()=>{if(SG.v===V&&V.tok===my){if(SG.urls[s.id])sgShow();else{const l=document.getElementById("sgld");if(l)l.textContent="No se pudo cargar. Toca para seguir."}}})}
- else if(s.kind==="image"){const im=o.querySelector("#sgmd");im.onload=()=>go(5);im.onerror=()=>{im.replaceWith(Object.assign(document.createElement("div"),{className:"sgld",textContent:"No se pudo cargar la foto. Toca para seguir."}));go(4)};if(im.complete&&im.naturalWidth)go(5)}
+ else if(s.kind==="image"){const im=o.querySelector("#sgmd");im.onload=()=>{sgFit();go(5)};im.onerror=()=>{(im.closest(".sgmw")||im).replaceWith(Object.assign(document.createElement("div"),{className:"sgld",textContent:"No se pudo cargar la foto. Toca para seguir."}));go(4)};if(im.complete&&im.naturalWidth){sgFit();go(5)}}
  else{const v=o.querySelector("#sgmd");v.muted=!!SG.muted;
   v.addEventListener("timeupdate",()=>{if(cur&&v.duration)cur.style.width=Math.min(100,v.currentTime/v.duration*100)+"%"});
   v.addEventListener("ended",()=>{if(SG.v===V&&V.tok===my)sgNext()});
-  v.addEventListener("error",()=>{v.replaceWith(Object.assign(document.createElement("div"),{className:"sgld",textContent:"No se pudo cargar el vídeo. Toca para seguir."}));go(4)});
+  v.addEventListener("loadedmetadata",sgFit);if(v.readyState>=1)sgFit();
+  v.addEventListener("error",()=>{(v.closest(".sgmw")||v).replaceWith(Object.assign(document.createElement("div"),{className:"sgld",textContent:"No se pudo cargar el vídeo. Toca para seguir."}));go(4)});
   const pl=v.play();if(pl&&pl.catch)pl.catch(()=>{v.muted=true;SG.muted=true;const m=document.getElementById("sgmu");if(m)m.textContent="🔇";v.play().catch(()=>{})});
   const m=document.getElementById("sgmu");if(m)m.textContent=v.muted?"🔇":"🔊"}
  const nx=g.items[V.idx+1];if(nx&&(nx.kind==="image"||nx.kind==="video")&&!SG.urls[nx.id])sgNeed(g.items.filter(x=>x.kind!=="text").map(x=>x.id));
@@ -4867,19 +4900,58 @@ async function sgVw(){const V=SG.v,s=sgCur();if(!V||!s)return;V.panel="vw";V.vw=
  try{const r=await SB.rpc("story_viewers",{...sgCr(),p_id:s.id});if(r.error)throw r.error;if(SG.v===V&&V.panel==="vw"){V.vw=Array.isArray(r.data)?r.data:[];sgPn()}}
  catch(e){if(SG.v===V&&V.panel==="vw"){V.msg=sgErr(e);sgPn()}}}
 
+/* ---------- textos dentro de la foto (se dibujan igual en el creador y en el visor) ---------- */
+const SGCL={w:["#ffffff","#111111"],k:["#111111","#ffffff"],y:["#ffd54a","#111111"],r:["#e5384a","#ffffff"],g:["#3ddc84","#0b2a17"],b:["#3b82f6","#ffffff"],p:["#dcc7a1","#111111"]};
+const SGCLN={w:"blanco",k:"negro",y:"amarillo",r:"rojo",g:"verde",b:"azul",p:"champán"};
+const SGSZ=[4,5.5,7,8.5,10.5,13,16];
+const sgN=(n,a,b,d)=>{n=+n;return isFinite(n)?Math.min(b,Math.max(a,n)):d};
+function sgOvSt(it){const k=SGCL[it.c]||SGCL.w,b=+it.b|0,x=sgN(it.x,0,100,50),y=sgN(it.y,0,100,50),z=sgN(it.s,3,16,8.5);
+ let st=`left:${+x.toFixed(2)}%;top:${+y.toFixed(2)}%;font-size:16px;font-size:${+z.toFixed(2)}cqw;`;
+ if(b===2)st+=`background:${k[0]};color:${k[1]};`;
+ else if(b===1)st+=it.c==="k"?`background:rgba(255,255,255,.78);color:${k[0]};`:`background:rgba(0,0,0,.6);color:${k[0]};`;
+ else st+=it.c==="k"?`color:${k[0]};text-shadow:0 0 8px rgba(255,255,255,.9),0 0 2px rgba(255,255,255,.8);`:`color:${k[0]};text-shadow:0 1px 8px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.65);`;
+ return st}
+function sgOvIt(it,i,ed,sel){if(!it||typeof it!=="object")return"";const t=typeof it.t==="string"?it.t:"";if(!ed&&!t.trim())return"";
+ return`<div class="sgo${ed&&i===sel?" sel":""}" style="${sgOvSt(it)}"${ed?` data-o="${i}" tabindex="0" role="button" aria-label="Texto: ${esc(t||"vacío")}. Arrástralo para moverlo."`:""}>${t?esc(t):"<span style='opacity:.55'>Escribe aquí</span>"}</div>`}
+function sgOvL(ov,ed,sel){const a=Array.isArray(ov)?ov.slice(0,4):[];if(!a.length&&!ed)return"";return`<div class="sgovl"${ed?' id="sgovl"':""}>${a.map((it,i)=>sgOvIt(it,i,!!ed,sel)).join("")}</div>`}
+/* La foto/vídeo y sus textos viven en una caja con la proporción de la foto, así un texto cae en el mismo sitio de la foto en cualquier pantalla */
+function sgFit(){document.querySelectorAll("#sgov .sgmw").forEach(w=>{const m=w.querySelector("img,video");if(!m)return;
+ const iw=m.naturalWidth||m.videoWidth,ih=m.naturalHeight||m.videoHeight;if(!iw||!ih)return;
+ const p=w.parentElement;let fw=p.clientWidth,fh=p.clientHeight;if(w.dataset.cm)fh=Math.round(Math.min(innerHeight*.52,480));
+ if(!fw||!fh)return;const k=Math.min(fw/iw,fh/ih);w.style.width=Math.max(1,Math.round(iw*k))+"px";w.style.height=Math.max(1,Math.round(ih*k))+"px";w.classList.add("rd")})}
+window.addEventListener("resize",()=>{if(SG.v||SG.c)requestAnimationFrame(sgFit)});
+function sgWire(){const w=document.getElementById("sgmw");if(!w)return;const m=w.querySelector("img,video");if(!m)return;
+ if(m.tagName==="IMG"){m.addEventListener("load",sgFit);if(m.complete&&m.naturalWidth)sgFit()}else{m.addEventListener("loadedmetadata",sgFit);if(m.readyState>=1)sgFit()}}
+
 /* ---------- creador ---------- */
 function sgNew(){sgEns();if(!SG.me||!SG.me.canpost)return;
- SG.c={kind:"media",mk:"",blob:null,ext:"",ctype:"",dur:0,prev:"",text:"",bg:"c1",scope:SG.me.grupo?"grupo":"comunidad",busy:false,pick:false,msg:""};sgRC()}
+ SG.c={kind:"media",mk:"",blob:null,ext:"",ctype:"",dur:0,prev:"",text:"",bg:"c1",scope:SG.me.grupo?"grupo":"comunidad",busy:false,pick:false,msg:"",ov:[],sel:-1};sgRC()}
 const sgScopes=()=>{const a=[];if(SG.me&&SG.me.grupo)a.push("grupo");a.push("comunidad");if(SG.me&&SG.me.admin)a.push("nexum");return a};
 function sgScopeTx(sc){const k=SG.me&&SG.me.kind==="coach";
  return sc==="grupo"?(k?"La verán tú y tus atletas.":"La verán tu entrenador y los atletas de su grupo."):sc==="comunidad"?"La verá cualquier persona de Nexum: otros entrenadores y atletas, también quienes aún no tienen entrenador. No publiques datos privados tuyos ni de otras personas.":"Aparecerá como «Nexum» y la verán todos."}
 function sgRC(){const c=SG.c;if(!c)return;const o=sgOv();o.className="sgov sgcmo";
  const sc=sgScopes(),med=c.kind==="media";
- const body=med?(c.prev?`<div class="sgprev">${c.mk==="video"?`<video src="${esc(c.prev)}" controls playsinline muted></video>`:`<img src="${esc(c.prev)}" alt="Vista previa">`}</div><div class="bar" style="margin:8px 0 0"><button class="x" data-sg="crm">Quitar y elegir otra</button></div><label>Texto sobre la story (opcional)</label><textarea id="sgcap" maxlength="280" rows="2" placeholder="Añade un texto">${esc(c.text)}</textarea>`
+ const ovc=c.ov||[];
+ const body=med?(c.prev?`<div class="sgprev"><div class="sgmw" id="sgmw" data-cm="1">${c.mk==="video"?`<video src="${esc(c.prev)}" controls playsinline muted></video>`:`<img src="${esc(c.prev)}" alt="Vista previa">`}${sgOvL(ovc,true,c.sel)}</div></div><div class="sged" id="sged">${sgEdH()}</div><div class="bar" style="margin:8px 0 0"><button class="on" data-sg="oadd"${ovc.length>=4?" disabled":""}>Aa Añadir texto</button><button class="x" data-sg="crm">Quitar y elegir otra</button></div><small>Toca un texto para editarlo y arrástralo para colocarlo donde quieras.</small>`
    :`<label class="sgpick">${c.pick?"Preparando…":"📷 Elegir foto o vídeo"}<input type="file" id="sgfile" accept="image/*,video/*" hidden></label><small>Foto, o vídeo de hasta 30 segundos y 25 MB.</small>`)
   :`<div class="sgtx ${esc(c.bg)} sgpvt" id="sgpvt" style="font-size:${c.text.length>120?18:c.text.length>60?20:24}px">${esc(c.text)||"<span style='opacity:.6'>Escribe tu story…</span>"}</div><textarea id="sgtxt" maxlength="280" rows="3" placeholder="Escribe tu story (máx. 280 caracteres)" style="margin-top:8px">${esc(c.text)}</textarea><div class="sgsws">${SGBG.map((b,i)=>`<button class="sgsw ${b}${c.bg===b?" on":""}" data-sg="cb" data-v="${b}" aria-label="Fondo ${i+1}"></button>`).join("")}</div>`;
  const scs=sc.length>1?`<label>¿Quién la verá?</label><div class="sgsc">${sc.map(x=>`<button class="${c.scope===x?"on":""}" data-sg="cs" data-v="${x}">${SGS[x]}</button>`).join("")}</div>`:`<label>¿Quién la verá?</label>`;
- o.innerHTML=`<div class="sgfr sgcm"><div class="sgcmh"><b>Nueva story</b><button class="sgx" data-sg="cx" aria-label="Cerrar">✕</button></div><div class="card"><div class="sgmd"><button class="${med?"on":""}" data-sg="ck" data-v="media">Foto o vídeo</button><button class="${med?"":"on"}" data-sg="ck" data-v="text">Texto</button></div>${body}${scs}<div class="${c.scope==="comunidad"?"sgwr":""}" id="sgsx">${c.scope==="comunidad"?"<b>Se verá fuera de tu grupo.</b> ":""}<small${c.scope==="comunidad"?' style="color:#4a3500"':""}>${esc(sgScopeTx(c.scope))}</small></div>${c.msg?`<div class="sgem">${esc(c.msg)}</div>`:""}<div class="bar" style="margin:12px 0 4px"><button class="on" data-sg="cpub"${c.busy||c.pick?" disabled":""}>${c.busy?"Publicando…":"Publicar"}</button><button data-sg="cx">Cancelar</button></div><small>Las stories desaparecen solas a las 24 horas. Quien la vea podrá denunciarla.</small></div></div>`}
+ o.innerHTML=`<div class="sgfr sgcm"><div class="sgcmh"><b>Nueva story</b><button class="sgx" data-sg="cx" aria-label="Cerrar">✕</button></div><div class="card"><div class="sgmd"><button class="${med?"on":""}" data-sg="ck" data-v="media">Foto o vídeo</button><button class="${med?"":"on"}" data-sg="ck" data-v="text">Texto</button></div>${body}${scs}<div class="${c.scope==="comunidad"?"sgwr":""}" id="sgsx">${c.scope==="comunidad"?"<b>Se verá fuera de tu grupo.</b> ":""}<small${c.scope==="comunidad"?' style="color:#4a3500"':""}>${esc(sgScopeTx(c.scope))}</small></div>${c.msg?`<div class="sgem">${esc(c.msg)}</div>`:""}<div class="bar" style="margin:12px 0 4px"><button class="on" data-sg="cpub"${c.busy||c.pick?" disabled":""}>${c.busy?"Publicando…":"Publicar"}</button><button data-sg="cx">Cancelar</button></div><small>Las stories desaparecen solas a las 24 horas. Quien la vea podrá denunciarla.</small></div></div>`;sgWire()}
+function sgEdH(){const c=SG.c,it=c&&(c.ov||[])[c.sel];if(!it)return"";
+ return`<label for="sgot">Texto ${c.sel+1}</label><textarea id="sgot" maxlength="140" rows="2" placeholder="Escribe el texto">${esc(it.t)}</textarea><div class="sgtb" id="sgtb">${sgTbH()}</div>`}
+function sgTbH(){const c=SG.c,it=c&&(c.ov||[])[c.sel];if(!it)return"";
+ return`<span class="sgl2">Tamaño</span><button data-sg="osz" data-v="-1" aria-label="Texto más pequeño">A−</button><button data-sg="osz" data-v="1" aria-label="Texto más grande">A+</button>`
+  +[[0,"Sin fondo"],[1,"Oscuro"],[2,"Color"]].map(([v,l])=>`<button class="${(+it.b|0)===v?"on":""}" data-sg="obg" data-v="${v}">${l}</button>`).join("")
+  +`<span class="sgsws">${Object.keys(SGCL).map(k=>`<button class="sgsw o${it.c===k?" on":""}" data-sg="ocl" data-v="${k}" style="background:${SGCL[k][0]}" aria-label="Color ${SGCLN[k]}"></button>`).join("")}</span><button data-sg="odel">Quitar texto</button><button class="on" data-sg="oend">Listo</button>`}
+function sgOvPaint(){const c=SG.c,e=document.getElementById("sgovl");if(!c||!e)return;e.innerHTML=(c.ov||[]).map((it,i)=>sgOvIt(it,i,true,c.sel)).join("");const b=document.querySelector("[data-sg=oadd]");if(b)b.disabled=(c.ov||[]).length>=4}
+function sgEd(){const e=document.getElementById("sged");if(e)e.innerHTML=sgEdH()}
+function sgTb(){const e=document.getElementById("sgtb");if(e)e.innerHTML=sgTbH()}
+const sgOvCur=()=>{const c=SG.c;return c&&(c.ov||[])[c.sel]||null};
+function sgOvAdd(){const c=SG.c;if(!c||(c.ov||[]).length>=4)return;c.ov.push({t:"",x:50,y:[50,28,72,14][c.ov.length]||50,s:8.5,c:"w",b:1});c.sel=c.ov.length-1;c.msg="";sgOvPaint();sgEd();const t=document.getElementById("sgot");if(t)t.focus()}
+function sgOvSz(d){const it=sgOvCur();if(!it)return;let j=0,bd=1e9;SGSZ.forEach((z,i)=>{const e=Math.abs(z-it.s);if(e<bd){bd=e;j=i}});it.s=SGSZ[Math.min(SGSZ.length-1,Math.max(0,j+d))];sgOvPaint();sgTb()}
+function sgOvSet(o){const it=sgOvCur();if(!it)return;Object.assign(it,o);sgOvPaint();sgTb()}
+function sgOvDel(){const c=SG.c;if(!c||!sgOvCur())return;c.ov.splice(c.sel,1);c.sel=-1;sgOvPaint();sgEd()}
+function sgOvEnd(){const c=SG.c;if(!c)return;const it=sgOvCur();if(it&&!String(it.t).trim())c.ov.splice(c.sel,1);c.sel=-1;sgOvPaint();sgEd()}
 function sgImg(f){return new Promise((ok,ko)=>{const u=URL.createObjectURL(f),im=new Image(),bad=()=>{URL.revokeObjectURL(u);ko(new Error("No se pudo leer la foto. Prueba con otra en JPG o PNG."))};
  im.onload=()=>{try{const M=1080,w=im.naturalWidth,h=im.naturalHeight;if(!w||!h)throw 0;const k=Math.min(1,M/Math.max(w,h)),cw=Math.max(1,Math.round(w*k)),ch=Math.max(1,Math.round(h*k)),cv=document.createElement("canvas");cv.width=cw;cv.height=ch;const x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,cw,ch);x.drawImage(im,0,0,cw,ch);
   cv.toBlob(b=>{URL.revokeObjectURL(u);b&&b.size?ok({blob:b,ext:"jpg",type:"image/jpeg"}):ko(new Error("No se pudo preparar la foto."))},"image/jpeg",.82)}catch(e){bad()}};
@@ -4905,7 +4977,9 @@ async function sgPick(f){const c=SG.c;if(!c||!f)return;c.msg="";const t=(f.type|
   c.blob=b.blob;c.ext=b.ext;c.ctype=b.type;c.mk=isV?"video":"image";c.dur=isV?b.dur:0;c.prev=URL.createObjectURL(b.blob)}
  catch(e){if(SG.c!==c)return;c.msg=e.message||"No se pudo preparar el archivo."}
  c.pick=false;sgRC()}
+const sgR1=n=>Math.round(sgN(n,0,100,50)*10)/10;
 async function sgPub(){const c=SG.c;if(!c||c.busy||c.pick)return;const txt=(c.text||"").trim(),med=c.kind==="media";
+ const ovs=med?(c.ov||[]).map(o=>({t:String(o.t||"").trim().slice(0,140),x:sgR1(o.x),y:sgR1(o.y),s:Math.round(sgN(o.s,3,16,8.5)*10)/10,c:SGCL[o.c]?o.c:"w",b:[0,1,2].includes(+o.b)?+o.b:1})).filter(o=>o.t).slice(0,4):[];
  if(med&&!c.blob){c.msg="Elige una foto o un vídeo.";sgRC();return}
  if(!med&&!txt){c.msg="Escribe algo para tu story.";sgRC();return}
  c.busy=true;c.msg="";sgRC();
@@ -4913,7 +4987,7 @@ async function sgPub(){const c=SG.c;if(!c||c.busy||c.pick)return;const txt=(c.te
   if(med){kind=c.mk;const r=await SB.functions.invoke("story-files",{body:{action:"upload",ext:c.ext,size:c.blob.size,...sgAu()}});
    if(r.error)throw new Error(await fnMsg(r.error));const d=r.data||{};if(!d.path||!d.token)throw new Error(d.error||"No se pudo preparar la subida");
    const up=await SB.storage.from("stories").uploadToSignedUrl(d.path,d.token,c.blob,{contentType:c.ctype});if(up&&up.error)throw up.error;path=d.path}
-  const r2=await SB.rpc("story_add",{...sgCr(),p_kind:kind,p_text:txt||null,p_bg:med?null:c.bg,p_path:path,p_dur:kind==="video"?c.dur:null,p_scope:c.scope});
+  const r2=await SB.rpc("story_add",{...sgCr(),p_kind:kind,p_text:med?null:(txt||null),p_ov:ovs.length?ovs:null,p_bg:med?null:c.bg,p_path:path,p_dur:kind==="video"?c.dur:null,p_scope:c.scope});
   if(r2.error)throw r2.error;
   sgKill();await sgLoad(true);if(sgScr())render();return}
  catch(e){if(SG.c!==c)return;c.msg=sgErr(e);c.busy=false;sgRC()}}
@@ -4938,7 +5012,13 @@ document.addEventListener("click",ev=>{const t=ev.target.closest&&ev.target.clos
  else if(a==="ck"&&SG.c){SG.c.kind=v;SG.c.msg="";sgRC()}
  else if(a==="cb"&&SG.c){SG.c.bg=v;sgRC()}
  else if(a==="cs"&&SG.c){SG.c.scope=v;sgRC()}
- else if(a==="crm"&&SG.c){if(SG.c.prev){try{URL.revokeObjectURL(SG.c.prev)}catch(_){}}Object.assign(SG.c,{blob:null,prev:"",mk:"",ext:"",ctype:"",dur:0,msg:""});sgRC()}
+ else if(a==="crm"&&SG.c){if(SG.c.prev){try{URL.revokeObjectURL(SG.c.prev)}catch(_){}}Object.assign(SG.c,{blob:null,prev:"",mk:"",ext:"",ctype:"",dur:0,msg:"",sel:-1});sgRC()}
+ else if(a==="oadd")sgOvAdd();
+ else if(a==="osz")sgOvSz(+v);
+ else if(a==="obg")sgOvSet({b:+v});
+ else if(a==="ocl")sgOvSet({c:v});
+ else if(a==="odel")sgOvDel();
+ else if(a==="oend")sgOvEnd();
  else if(a==="cpub")sgPub();
  else if(a==="rview"){const id=t.dataset.id;sgEns();if(!(SG.list||[]).some(x=>x.id===id))return;SG.v=null;sgOpen("one:"+id)}
  else if(a==="rres")sgAdRes(+t.dataset.id,t.dataset.rm==="1");
@@ -4947,12 +5027,29 @@ document.addEventListener("click",ev=>{const t=ev.target.closest&&ev.target.clos
 document.addEventListener("change",ev=>{const t=ev.target;if(t&&t.id==="sgfile"&&SG.c){const f=t.files&&t.files[0];t.value="";if(f)sgPick(f)}},true);
 document.addEventListener("input",ev=>{const t=ev.target;if(!t||!SG.c)return;
  if(t.id==="sgtxt"){SG.c.text=t.value;const p=document.getElementById("sgpvt");if(p){p.textContent=t.value||"Escribe tu story…";p.style.fontSize=(t.value.length>120?18:t.value.length>60?20:24)+"px"}}
- else if(t.id==="sgcap")SG.c.text=t.value},true);
+ else if(t.id==="sgot"){const it=sgOvCur();if(it){it.t=t.value;sgOvPaint()}}},true);
 document.addEventListener("keydown",ev=>{if(!SG.v&&!SG.c)return;
- if(ev.key==="Escape"){if(SG.v&&SG.v.panel){SG.v.panel="";SG.v.msg="";sgPn()}else if(SG.v)sgClose();else sgKill()}
+ const oo=SG.c&&ev.target&&ev.target.closest&&ev.target.closest(".sgo[data-o]");
+ if(oo){const i=+oo.dataset.o,it=SG.c.ov[i];if(it){const st=ev.shiftKey?5:2;let h=true,mv=true;
+  if(ev.key==="ArrowLeft")it.x=Math.max(4,it.x-st);else if(ev.key==="ArrowRight")it.x=Math.min(96,it.x+st);else if(ev.key==="ArrowUp")it.y=Math.max(4,it.y-st);else if(ev.key==="ArrowDown")it.y=Math.min(96,it.y+st);
+  else if(ev.key==="Enter"||ev.key===" "){mv=false;SG.c.sel=i;sgOvPaint();sgEd();const t=document.getElementById("sgot");if(t)t.focus()}else h=false;
+  if(h){ev.preventDefault();ev.stopPropagation();if(mv){oo.style.left=it.x+"%";oo.style.top=it.y+"%"}return}}}
+ if(ev.key==="Escape"){if(SG.c&&!SG.v&&SG.c.sel>=0){SG.c.sel=-1;sgOvPaint();sgEd();ev.preventDefault();return}
+  if(SG.v&&SG.v.panel){SG.v.panel="";SG.v.msg="";sgPn()}else if(SG.v)sgClose();else sgKill()}
  else if(SG.v&&!SG.v.panel&&!/INPUT|TEXTAREA/.test((ev.target||{}).tagName||"")){if(ev.key==="ArrowRight")sgNext();else if(ev.key==="ArrowLeft")sgPrev()}},true);
 document.addEventListener("animationend",ev=>{const b=ev.target;if(SG.v&&b&&b.matches&&b.matches(".sgpg b.go"))sgNext()},true);
 document.addEventListener("pointerdown",ev=>{if(!SG.v||SG.v.panel||!ev.target.closest||!ev.target.closest(".sgz"))return;clearTimeout(SG.hold);SG.held=false;SG.hold=setTimeout(()=>{SG.held=true;sgPause(true)},220)},true);
+document.addEventListener("pointerdown",ev=>{if(!SG.c||!ev.target.closest)return;const o=ev.target.closest(".sgo[data-o]");if(!o)return;
+ const w=document.getElementById("sgmw"),i=+o.dataset.o,it=(SG.c.ov||[])[i];if(!w||!it)return;
+ SG.dg={i,id:ev.pointerId,x0:ev.clientX,y0:ev.clientY,ix:+it.x,iy:+it.y,r:w.getBoundingClientRect(),mv:false,el:o};try{o.setPointerCapture(ev.pointerId)}catch(_){}ev.preventDefault()},true);
+document.addEventListener("pointermove",ev=>{const d=SG.dg;if(!d||ev.pointerId!==d.id||!SG.c)return;const it=SG.c.ov[d.i];if(!it)return;
+ if(!d.mv&&Math.hypot(ev.clientX-d.x0,ev.clientY-d.y0)<5)return;d.mv=true;
+ const hw=Math.min(50,d.el.offsetWidth/2/d.r.width*100),hh=Math.min(50,d.el.offsetHeight/2/d.r.height*100);
+ it.x=Math.round(Math.min(100-hw,Math.max(hw,d.ix+(ev.clientX-d.x0)/d.r.width*100))*10)/10;it.y=Math.round(Math.min(100-hh,Math.max(hh,d.iy+(ev.clientY-d.y0)/d.r.height*100))*10)/10;
+ d.el.style.left=it.x+"%";d.el.style.top=it.y+"%"},true);
+const sgDrop=ev=>{const d=SG.dg;if(!d||(ev.pointerId!==undefined&&ev.pointerId!==d.id))return;SG.dg=null;const c=SG.c;if(!c)return;
+ const same=c.sel===d.i;c.sel=d.i;sgOvPaint();if(!same||!document.getElementById("sgot"))sgEd();const t=document.getElementById("sgot");if(t&&!d.mv)t.focus()};
+document.addEventListener("pointerup",sgDrop,true);document.addEventListener("pointercancel",sgDrop,true);
 const sgUp=()=>{if(!SG.v)return;clearTimeout(SG.hold);if(SG.held){SG.held=false;SG.noclick=true;setTimeout(()=>{SG.noclick=false},80);if(!SG.v.panel)sgPause(false)}};
 document.addEventListener("pointerup",sgUp,true);document.addEventListener("pointercancel",sgUp,true);
 setInterval(()=>{if(document.hidden||!sgOkR()||SG.v||SG.c||!sgScr())return;sgLoad(true)},6e4);
