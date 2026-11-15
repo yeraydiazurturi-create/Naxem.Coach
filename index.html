@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.73">
+<meta name="app-version" content="2026-11-15.74">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -461,6 +461,22 @@ details.card summary{font-weight:500}
 .vst small{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;min-height:30px;line-height:1.35}
 .vst b{display:block;font-size:24px;font-weight:600;color:var(--wine);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .vst b em{font-style:normal;font-size:12px;color:#8a8175;margin-left:3px;font-weight:400}
+/* v74 · VO₂máx en grande */
+.vxo .vxoh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.vxo .vxoh small{text-align:right;max-width:52%;line-height:1.35}.vxo .vxoh small span{white-space:nowrap}
+.vxon{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:14px 0 2px}
+.vxon b{font-size:72px;line-height:1;font-weight:600;color:var(--wine);letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.vxon span{font-size:14px;letter-spacing:.06em;color:#6f685e;font-weight:600}
+.vxol{display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:12px}
+.vxol span{font-size:12px;padding:5px 11px;border:1px solid var(--hair);border-radius:999px;font-variant-numeric:tabular-nums;color:#4a443b}
+.vxol .lv{background:var(--wine);border-color:var(--wine);color:#fff;font-weight:600;letter-spacing:.04em}
+.vxog{position:relative;display:flex;height:12px;margin:30px 0 0}
+.vxog i{display:block;height:100%}
+.vxog i:first-child{border-radius:6px 0 0 6px}.vxog i:nth-child(5){border-radius:0 6px 6px 0}
+.vxog .m{position:absolute;top:-9px;bottom:-9px;width:4px;margin-left:-2px;border-radius:2px;background:#1a1a1c;box-shadow:0 0 0 2px rgba(255,255,255,.75)}
+.vxoa{position:relative;height:20px;margin-top:12px}
+.vxoa span{position:absolute;top:0;transform:translateX(-50%);font-size:11px;color:#6f685e;font-variant-numeric:tabular-nums}
+@media(max-width:380px){.vxon b{font-size:60px}}
 .vvk{display:block;letter-spacing:.2em;text-transform:uppercase;font-size:10px;font-weight:600}
 .vvk b{color:var(--wine)}
 .vvl{font-size:36px;font-weight:600;color:var(--wine);letter-spacing:-.025em;line-height:1.1;margin:8px 0 2px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
@@ -1814,7 +1830,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.73";
+const APP_V="2026-11-15.74";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -3834,7 +3850,7 @@ function fxMss(vam){const x=fxN(FX.ms);if(x==null||x<=0)return{v:null,msg:""};co
  return{v,msg:""}}
 const FXL=["Novato","Iniciado","Medio","Avanzado","Élite"],FXLT=["Empiezas aquí","Buena base","Nivel sólido","Estás fuerte aquí","Nivel de élite"];
 /* nivel según el VO₂máx (ml/kg/min). Escala orientativa para adultos; cambia según el sexo si lo has indicado */
-function fxLvl(vo2){const sx=typeof apxSex==="function"?apxSex():"",T=sx==="M"?[30,37,44,52]:[38,45,52,60];let i=0;while(i<4&&vo2>=T[i])i++;return{i,sx}}
+function fxLvl(vo2){const sx=typeof apxSex==="function"?apxSex():"",T=sx==="M"?[30,37,44,52]:[38,45,52,60];let i=0;while(i<4&&vo2>=T[i])i++;return{i,sx,T}}
 const FXP={1:["R1","Perfil resistente: tienes mucha base aeróbica y poca reserva de velocidad. Combina rodajes y trabajo de umbral con sprints cortos para ganar velocidad máxima."],2:["R2","Trabajo de alta intensidad con predominancia oxidativa (intervalos a tu VAM)."],3:["R3","Perfil veloz: tu reserva de velocidad es grande frente a tu VAM. Prioriza subir la VAM con intervalos de 3–5 min y mantén los sprints."]};
 const fxProf=(vam,mss)=>{if(!mss)return null;const r=(mss-vam)/vam;return r<.45?1:r<.85?2:3};
 const FXZ=[["Z1","Recuperación / base","#8a8f98"],["Z2","Umbral aeróbico","#4f7a5a"],["Z3","Entre umbrales","#8e9a3a"],["Z4","Umbral anaeróbico","#b08a2e"],["Z5","VO₂máx (VAM)","#c0602a"],["Z6","Por encima de la VAM","#86222f"],["Z7","Velocidad (hasta la MSS)","#1a1a1c"]];
@@ -3866,8 +3882,16 @@ function fxHistH(){const L=fxHist(),ro=!!(RO&&!NUTRI),n=L.length;
 function fxAerOut(){const r=fxAer();if(!r.vam)return r.msg?`<div class="card vx"><small>${esc(r.msg)}</small></div>`:"";
  const vam=r.vam,vo2=r.vo2,ms=fxMss(vam),mss=ms.v,asr=mss?mss-vam:null,pr=fxProf(vam,mss),lv=fxLvl(vo2),c=fzCalc(fzGet()),hr=c.ok,mx=mss||Math.ceil(vam*1.6/5)*5;
  const tn=FXT[FX.t].n,ro=!!(RO&&!NUTRI);
+ /* 0. VO₂máx en grande (v74) */
+ const T=lv.T,ga=T[0]-10,gb=T[3]+14,gp=v=>+Math.min(100,Math.max(0,(v-ga)/(gb-ga)*100)).toFixed(2),ed=[ga,T[0],T[1],T[2],T[3],gb],tn0=FXT[FX.t].n;
+ let h=`<div class="card vx vxo"><div class="vxoh"><h4>VO₂máx estimado</h4><small><span>desde ${esc(tn0)}</span> <span>· ${esc(fxDf(fxD()))}</span></small></div>
+ <div class="vxon"><b>${fxK(vo2)}</b><span>ml/kg/min</span></div>
+ <div class="vxol"><span class="lv">${FXL[lv.i]}</span><span>${fxK(vo2/3.5)} MET</span><span>VAM ${fxK(vam)} km/h</span></div>
+ <div class="vxog" role="img" aria-label="VO₂máx ${fxK(vo2)} ml/kg/min, nivel ${FXL[lv.i]}">${[0,1,2,3,4].map(i=>`<i style="width:${+((ed[i+1]-ed[i])/(gb-ga)*100).toFixed(2)}%;background:rgba(134,34,47,${[.16,.32,.52,.76,1][i]})"></i>`).join("")}<i class="m" style="left:${gp(vo2)}%"></i></div>
+ <div class="vxoa">${T.map(t=>`<span style="left:${gp(t)}%">${t}</span>`).join("")}</div>
+ <small style="display:block;margin-top:6px">Los números de la escala son los límites entre niveles (ml/kg/min). Escala orientativa para adultos${lv.sx?"":"; indica tu sexo en el cuestionario o en el Hybrid Test para afinarla"}.</small></div>`;
  /* 1. VAM y reserva de velocidad */
- let h=`<div class="card vx"><div class="vxh"><h4>VAM &amp; reserva de velocidad</h4><small>VAM desde ${esc(tn)} · ${esc(fxDf(fxD()))}</small></div>${fxChart(vam,mss)}
+ h+=`<div class="card vx"><div class="vxh"><h4>VAM &amp; reserva de velocidad</h4><small>VAM desde ${esc(tn)} · ${esc(fxDf(fxD()))}</small></div>${fxChart(vam,mss)}
  <div class="vxk"><i style="background:#dcc7a1"></i><div><b>VAM · Velocidad aeróbica máxima</b><span class="vxr">0–${fxK(vam)} km/h</span><small>Hasta aquí trabajas en aeróbico: es la velocidad a la que llegas a tu VO₂máx.</small></div></div>
  <div class="vxk"><i style="background:#86222f"></i><div><b>ASR · Reserva de velocidad</b>${mss?`<span class="vxr">${fxK(vam)}–${fxK(mss)} km/h</span><small>Lo que tienes por encima de la VAM hasta tu velocidad máxima (Vmax).</small>`:`<small>Añade tu velocidad máxima (MSS) arriba para calcular tu reserva de velocidad y ver tu perfil.</small>`}</div></div>
  <div class="vst"><div><small>VAM</small><b>${fxK(vam)}<em>km/h</em></b></div><div><small>Reserva de velocidad (ASR)</small><b>${mss?fxK(asr):"–"}${mss?"<em>km/h</em>":""}</b></div><div><small>ASR sobre VAM</small><b>${mss?"+"+Math.round(asr/vam*100)+"<em>%</em>":"–"}</b></div></div></div>`;
