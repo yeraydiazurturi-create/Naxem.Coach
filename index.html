@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.70">
+<meta name="app-version" content="2026-11-15.72">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -495,6 +495,82 @@ details.card summary{font-weight:500}
 .vhdl{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 .vhdl.up{color:#3d7a52}.vhdl.dn{color:var(--wine)}
 .vhi button.x{padding:6px 10px;font-size:12px}
+/* v71 · historial del perfil */
+.hxs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.hxs span{font-size:12px;padding:5px 10px;border:1px solid var(--hair);border-radius:999px}
+.hxs .nw{background:var(--wine);color:#fff;border-color:var(--wine)}
+.hxc{text-align:left}
+.hxc small{color:#6f685e}
+.hxh{font-size:11px;letter-spacing:.2em;font-weight:600;text-transform:uppercase;color:var(--wine);position:relative;padding-left:12px;line-height:1.5}
+.hxh:before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:3px;border-radius:2px;background:var(--wine)}
+.hxt{display:flex;gap:4px;margin:14px 0 4px;border-bottom:1px solid var(--hair)}
+#hxov .hxt button{flex:1;background:transparent!important;color:#6f685e!important;border:0;border-bottom:2px solid transparent;border-radius:10px 10px 0 0;padding:10px 6px;font-size:14px;text-transform:none;letter-spacing:.02em}
+#hxov .hxt button.on{color:var(--wine)!important;border-bottom-color:var(--wine);font-weight:700}
+.hxk{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 12px}
+.hxk2{grid-template-columns:repeat(2,1fr)}
+.hxk>div{border:1px solid var(--hair);border-radius:12px;padding:10px 6px;text-align:center}
+.hxk b{display:block;font-size:22px;line-height:1.2;color:var(--wine);font-variant-numeric:tabular-nums}
+.hxk small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.hxf{display:flex;flex-wrap:wrap;gap:6px}
+#hxov .hxf button{background:transparent;color:#1a1a1c;border:1px solid var(--hair);border-radius:999px;padding:6px 12px;font-size:13px;text-transform:none;letter-spacing:.02em}
+#hxov .hxf button.on{background:var(--wine);color:#fff;border-color:var(--wine)}
+.hxm{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8a8175;font-weight:600;margin:18px 0 4px}
+.hxm0{margin-top:6px}
+.hxi{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--hair)}
+.hxe{flex:0 0 34px;height:34px;border-radius:10px;background:rgba(134,34,47,.08);display:flex;align-items:center;justify-content:center;font-size:17px}
+.hxi>div{flex:1;min-width:0}
+.hxi b{display:block;font-size:14px;font-weight:600;line-height:1.35;color:#1a1a1c}
+.hxi small{display:block;margin-top:2px;line-height:1.35}
+.hxi time{font-size:12px;color:#8a8175;white-space:nowrap;font-variant-numeric:tabular-nums;padding-top:2px}
+.hxe0{margin:18px 0 6px;color:#6f685e;font-size:14px;line-height:1.5}
+.hxn{margin-top:12px;padding:12px 14px;border:1px solid var(--hair);border-radius:12px;font-size:13px;line-height:1.45;background:rgba(134,34,47,.05);color:#1a1a1c}
+.hxgr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.hxg{padding:0;background:transparent;border:0;text-align:left;color:#1a1a1c;display:block;border-radius:12px}
+.hxgm{display:block;position:relative;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#222}
+.hxgm img,.hxgm video{width:100%;height:100%;object-fit:cover;display:block}
+.hxtx.sgtx{padding:8px;font-size:11px;line-height:1.25;overflow:hidden;align-items:center}
+.hxph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;background:linear-gradient(160deg,#2a2a2d,#111)}
+.hxpl{position:absolute;right:6px;bottom:6px;color:#fff;font-size:12px;background:rgba(0,0,0,.5);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.hxac{position:absolute;left:6px;top:6px;background:var(--wine);color:#fff;font-size:10px;letter-spacing:.06em;padding:3px 7px;border-radius:999px}
+.hxgd{display:block;font-size:11.5px;color:#6f685e;margin-top:5px}
+.hxmu{position:absolute;left:12px;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:5;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:6px 12px;font-size:12px;max-width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#hxlb .sgft button[disabled]{opacity:.35}
+/* ===== v72 · Patrocinadores: acceso de cristal y franja translúcida ===== */
+.ptg{position:relative;isolation:isolate;overflow:hidden;-webkit-appearance:none;appearance:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:12px;width:100%;min-width:0;min-height:92px;margin:0;padding:14px 16px;text-align:left;text-transform:none;letter-spacing:0;font-size:inherit;font-weight:400;color:#f4f0e8;border-radius:18px;
+ background:linear-gradient(135deg,rgba(220,199,161,.22) 0%,rgba(134,34,47,.22) 58%,rgba(255,255,255,.05) 100%);border:1px solid rgba(220,199,161,.30);
+ -webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.16),0 14px 32px -18px rgba(0,0,0,.7);transition:transform .15s,border-color .2s}
+.ptg::before,.ptg::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none}
+.ptg::before{right:-34px;top:-46px;width:140px;height:140px;background:radial-gradient(circle,rgba(220,199,161,.38),rgba(220,199,161,0) 70%)}
+.ptg::after{left:-26px;bottom:-60px;width:130px;height:130px;background:radial-gradient(circle,rgba(134,34,47,.42),rgba(134,34,47,0) 70%)}
+.ptg:active{transform:scale(.985);border-color:rgba(220,199,161,.55);background:linear-gradient(135deg,rgba(220,199,161,.22) 0%,rgba(134,34,47,.22) 58%,rgba(255,255,255,.05) 100%)}
+.ptg:focus-visible{outline:2px solid var(--champ);outline-offset:2px}
+.ptg.wide{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;padding-right:54px}
+.ptgs{display:flex;flex:none;align-items:center}
+.ptgl{flex:none;width:34px;height:34px;box-sizing:border-box;border-radius:50%;margin-left:-11px;background:#fff;border:2px solid rgba(255,255,255,.6);display:grid;place-items:center;overflow:hidden;font-weight:800;font-size:14px;line-height:1;color:#86222f;box-shadow:0 3px 8px -2px rgba(0,0,0,.35)}
+.ptgl{position:relative}.ptgl:first-child{margin-left:0}.ptgl:nth-child(1){z-index:3}.ptgl:nth-child(2){z-index:2}.ptgl:nth-child(3){z-index:1}
+.ptgl img{width:100%;height:100%;object-fit:contain;display:block}
+.ptgl.more{background:rgba(255,255,255,.16);color:#f4f0e8;font-size:11px;letter-spacing:.02em;border-color:rgba(255,255,255,.28);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ptgt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ptgt b{display:block;font-family:inherit;font-stretch:100%;font-size:16px;font-weight:700;line-height:1.2;letter-spacing:0;text-transform:none;color:inherit}
+.ptgt small{display:block;font-size:12.5px;line-height:1.3;color:rgba(244,240,232,.74)}
+.ptgc{position:absolute;right:12px;top:12px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:17px;line-height:1;padding-bottom:2px;box-sizing:border-box;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:inherit}
+.ptg.wide .ptgc{top:50%;margin-top:-13px;right:16px}
+html[data-theme=light] .ptg{color:#1a1a1c;background:linear-gradient(135deg,rgba(255,255,255,.82) 0%,rgba(220,199,161,.34) 58%,rgba(134,34,47,.12) 100%);border:1px solid rgba(138,109,59,.30);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(138,109,59,.10),0 14px 30px -20px rgba(60,40,20,.5)}
+html[data-theme=light] .ptg:active{background:linear-gradient(135deg,rgba(255,255,255,.82) 0%,rgba(220,199,161,.34) 58%,rgba(134,34,47,.12) 100%);border-color:rgba(138,109,59,.55)}
+html[data-theme=light] .ptg::before{background:radial-gradient(circle,rgba(220,199,161,.55),rgba(220,199,161,0) 70%)}
+html[data-theme=light] .ptg::after{background:radial-gradient(circle,rgba(134,34,47,.22),rgba(134,34,47,0) 70%)}
+html[data-theme=light] .ptgt small{color:#6f685e}
+html[data-theme=light] .ptgl{border-color:#fff;box-shadow:0 3px 8px -2px rgba(60,40,20,.35),0 0 0 1px rgba(138,109,59,.18)}
+html[data-theme=light] .ptgl.more{background:rgba(255,255,255,.7);color:#6f685e;border-color:#fff}
+html[data-theme=light] .ptgc{background:rgba(255,255,255,.7);border-color:rgba(138,109,59,.28);color:#86222f}
+/* franja de anuncios: cristal sobre el contenido */
+#ptbar{background:rgba(20,20,22,.78);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);border-top:1px solid rgba(220,199,161,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 -12px 28px -16px rgba(0,0,0,.55)}
+html[data-theme=light] #ptbar{background:rgba(250,247,242,.76);border-top:1px solid rgba(138,109,59,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 -12px 28px -18px rgba(60,40,20,.4)}
+.ptbl{border-radius:10px;box-shadow:0 2px 8px -2px rgba(0,0,0,.35)}
+.ptbt i{color:#dcc7a1}html[data-theme=light] .ptbt i{color:#7a5f2f}
+.ptbd{background:linear-gradient(135deg,#a02a39,#86222f);box-shadow:0 4px 12px -4px rgba(134,34,47,.7),inset 0 1px 0 rgba(255,255,255,.25)}
+@media (prefers-reduced-motion:reduce){.ptg{transition:none}}
 </style>
 </head>
 <body class="spl"><div id="splash"><img id="spl" alt=""></div><script>try{if(sessionStorage.getItem("nx_s")||matchMedia("(prefers-reduced-motion:reduce)").matches)document.body.classList.remove("spl")}catch(e){}</script>
@@ -1724,7 +1800,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.70";
+const APP_V="2026-11-15.72";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -3289,7 +3365,7 @@ const PHO={},unE=s=>String(s).replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(
 const avH=(id,nm,cls,click)=>{const p=PHO[id]&&PHO[id].photo;return`<span class="v21av ${cls||""}" ${click===false?"":`data-v21f="open" data-id="${esc(id)}" data-n="${esc(nm)}"`} ${p?`style="background-image:url('${esc(p)}')"`:""}>${p?"":esc((nm||"?").charAt(0).toUpperCase())}</span>`};
 async function phEnsure(){if(!DM.list)return;const need=DM.list.filter(c=>c.ph&&(!PHO[c.id]||PHO[c.id].h!==c.ph)).map(c=>c.id);if(!need.length)return;try{const r=await SB.rpc("dm_photos",Object.assign(DMA(),{p_ids:need}));(r.data||[]).forEach(x=>{const c=DM.list.find(y=>y.id===x.id);PHO[x.id]={h:c&&c.ph,photo:x.photo}});if(tab==="chat")render()}catch(e){}}
 function pubCalc(){const at=allT(),pl=["Velocidad","Fuerza","Resistencia","Soporte"],ps=pl.map(p=>{const v=at.filter(t=>t.p===p).map(tsc).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b)/v.length):null}),vs=ps.filter(x=>x!=null),lv=vs.length?Math.round(vs.reduce((a,b)=>a+b)/vs.length):null,st=streak(),d30=dk(29),w30=(S.sessions||[]).filter(s=>s.done&&!s.rec&&s.date>=d30).length,P=prs(),ds=[...Object.keys(S.rec||{}),...(S.sessions||[]).filter(s=>s.date).map(s=>s.date)].sort();
-return{lv,ps,st:st.cur,w30,pr:P.length?P[0].n+" "+P[0].t:"",since:ds[0]?ds[0].slice(0,7):""}}
+return{lv,ps,st:st.cur,w30,pr:P.length?P[0].n+" "+P[0].t:"",since:ds[0]?ds[0].slice(0,7):"",lg:hxPubLg()}}
 function pubSync(){try{if(ROLE!=="client"||!S||!S.prof||!(S.q&&S.q.done))return;const n=pubCalc();if(J21(n)!==J21(S.prof.pub)){S.prof.pub=n;save()}}catch(e){}}
 setTimeout(pubSync,5000);setInterval(pubSync,30000);
 function fichaBody(d,self){const p=d.pub||{},ph=d.photo||(PHO[d.id]&&PHO[d.id].photo),MS=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
@@ -3300,12 +3376,12 @@ else{if(p.lv!=null)h+=`<div class="v21lv"><small>Nivel general</small><b>${lvl(p
 const pl=["Velocidad","Fuerza","Resistencia","Soporte"].map((n,i)=>[n,(p.ps||[])[i]]).filter(x=>x[1]!=null);
 if(pl.length)h+=`<div class="v21pl">${pl.map(x=>`<div><span>${x[0]}</span><div class="pb"><i style="width:${x[1]}%"></i></div></div>`).join("")}</div>`;
 const ch=[];if(p.st>0)ch.push("🔥 "+p.st+" día"+(p.st===1?"":"s")+" de racha");if(p.w30)ch.push("💪 "+p.w30+" entreno"+(p.w30===1?"":"s")+" en 30 días");if(p.pr)ch.push("🏆 "+p.pr);
-if(ch.length)h+=`<div class="v21ch">${ch.map(c=>`<span>${esc(c)}</span>`).join("")}</div>`;if(p.lv==null&&!ch.length)h+=`<small style="display:block;text-align:center;margin-top:14px">Aún está empezando.</small>`}
+if(ch.length)h+=`<div class="v21ch">${ch.map(c=>`<span>${esc(c)}</span>`).join("")}</div>`;if(Array.isArray(p.lg)&&p.lg.length)h+=`<div class="v21ch" style="margin-top:8px">${p.lg.slice(0,4).map(c=>`<span>🏅 ${esc(String(c).slice(0,60))}</span>`).join("")}</div>`;if(p.lv==null&&!ch.length&&!(Array.isArray(p.lg)&&p.lg.length))h+=`<small style="display:block;text-align:center;margin-top:14px">Aún está empezando.</small>`}
 if(!self&&d.dm)h+=`<div class="bar" style="margin-top:16px"><button class="w" data-v21f="msg" data-id="${esc(d.id)}" data-n="${esc(d.name)}">Enviar mensaje</button></div>`;return h}
 function fichaShell(){fichaClose();const o=document.createElement("div");o.id="v21fi";o.className="rcov";o.innerHTML='<div class="rcw"><button class="rcx" data-v21f="x">‹ Cerrar</button><div class="rcc" id="v21fb"><small>Cargando…</small></div></div>';document.body.appendChild(o);document.body.style.overflow="hidden"}
 const fichaClose=()=>{const o=$("v21fi");if(o){o.remove();document.body.style.overflow=""}};
 async function fichaOpen(id,nm){fichaShell();try{const r=await SB.rpc("dm_profile",Object.assign(DMA(),{p_other:id}));if(r.error)throw r.error;if($("v21fb"))$("v21fb").innerHTML=fichaBody(r.data,false)}catch(e){if($("v21fb"))$("v21fb").innerHTML="<small>No se pudo cargar la ficha.</small>"}}
-const fichaCard=()=>`<div class="card">${ih("Mi ficha","<p>Es lo que ven los demás atletas de tu entrenador cuando tocan tu foto o tu nombre en el chat: tu foto, una frase sobre ti y un resumen de tu nivel. No se muestran datos personales, tu peso ni tus resultados concretos.</p>")}<label>Sobre mí<textarea id="v21bio" maxlength="140" placeholder="Ej.: Corro por la mañana y levanto por la tarde." style="min-height:60px">${esc((S.prof&&S.prof.bio)||"")}</textarea></label><label class="v21t"><span>Mostrar mi nivel y resumen</span><input type="checkbox" data-v21f="fh" ${S.prof&&S.prof.fh?"":"checked"}></label><div class="bar"><button data-v21f="prev">Ver mi ficha</button><button class="on" data-v21f="bio">Guardar</button></div></div>`;
+const fichaCard=()=>`<div class="card">${ih("Mi ficha","<p>Es lo que ven los demás atletas de tu entrenador cuando tocan tu foto o tu nombre en el chat: tu foto, una frase sobre ti y un resumen de tu nivel. Si no la ocultas, también se muestran hasta 4 logros recientes (por ejemplo «Racha de 30 días»), siempre sin cifras. No se muestran datos personales, tu peso ni tus resultados concretos.</p>")}<label>Sobre mí<textarea id="v21bio" maxlength="140" placeholder="Ej.: Corro por la mañana y levanto por la tarde." style="min-height:60px">${esc((S.prof&&S.prof.bio)||"")}</textarea></label><label class="v21t"><span>Mostrar mi nivel y resumen</span><input type="checkbox" data-v21f="fh" ${S.prof&&S.prof.fh?"":"checked"}></label><div class="bar"><button data-v21f="prev">Ver mi ficha</button><button class="on" data-v21f="bio">Guardar</button></div></div>`;
 const _pc=window.pushCard;window.pushCard=()=>(ROLE==="client"&&S?fichaCard():"")+_pc();
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-v21f]");if(!t||t.tagName==="INPUT")return;ev.stopPropagation();ev.preventDefault();const a=t.dataset.v21f;
 if(a==="x")fichaClose();
@@ -3500,7 +3576,7 @@ window.pnLbl=c=>{if(!c.plan)return"Sin plan elegido";const E={active:"suscripci�
 /* estilos de los planes por tramos */
 {const s=document.createElement("style");s.textContent=`.pnq{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:#e6e0d4;border-radius:12px;margin:4px 0 14px}.pnq button{padding:10px 6px;background:transparent;color:#1a1a1c;border:0;border-radius:9px;text-transform:none;letter-spacing:0;font-size:14px}.pnq button.on{background:#1a1a1c;color:#fff}.pnq i{font-style:normal;font-size:10.5px;font-weight:700;background:#d9a441;color:#1a1a1c;padding:2px 6px;border-radius:999px;margin-left:4px}.pnc.no{opacity:.55}.pnc .pnb.pnb2{background:#5f8f4e;color:#fff}.pnm{height:8px;background:#e6e0d4;border-radius:999px;overflow:hidden;margin:6px 0}.pnm i{display:block;height:100%;background:#5f8f4e;border-radius:999px}.pnm i.hot{background:#d9a441}.pnu{font-size:13px;margin:8px 0 0;color:#1a1a1c}.pnu a{color:#86222f;font-weight:700}.pnr{font-size:12px;color:#6f685e;text-align:center;margin:10px 0 0}`;document.head.appendChild(s)}
 /* ===== v66 · textos legales, aceptaciones versionadas y derechos RGPD ===== */
-const LEGAL_V="2026-11-13.2";
+const LEGAL_V="2026-11-15";
 let LGL={coach:null,u:"",lb:false,err:"",busy:false,doc:"",aud:""};window.LGL=LGL;
 const lgO=()=>{const f=(CFG&&CFG.nexum_fiscal)||{},p=(v,l)=>v?esc(v):`<mark class="lgmk">[${l}]</mark>`;return{n:p(f.nombre,"nombre del titular"),nif:p(f.nif,"NIF"),dir:p(f.direccion,"domicilio"),mail:p(f.email,"correo de contacto"),raw:f}};
 const lgTrial=()=>{const v=CFG&&+CFG.trial_dias;return v>0?v:7};
@@ -3548,7 +3624,7 @@ terminos_atleta:()=>{const o=lgO();return`<h3>Condiciones de uso para atletas</h
 <h4>3. Si entrenas con un entrenador</h4><p>El servicio de entrenamiento lo presta tu entrenador y las condiciones y el precio los acuerdas con él; Nexum es la herramienta que usáis. Los pagos del plan se procesan con Stripe a favor de tu entrenador. Tu entrenador es el responsable de tus datos y Nexum los trata por encargo suyo (consulta la Política de privacidad).</p>
 <h4>4. Si usas Nexum sin entrenador</h4><p>Puedes usar Nexum por tu cuenta. La modalidad de pago «Premium» se rige por sus propias condiciones, que se te muestran antes de contratarla.</p>
 <h4>5. Salud</h4><p>Nexum no es un servicio sanitario y no sustituye a un médico. Consulta con un profesional antes de empezar o cambiar tu programa, y detén el ejercicio ante dolor, mareo o cualquier síntoma extraño. Entrenas bajo tu responsabilidad. Los informes de salud que subas son opcionales y solo los ven tú y tu entrenador.</p>
-<h4>6. Conducta y contenidos</h4><p>Respeta a las demás personas en los chats y en las stories, no compartas contenidos ilícitos, ofensivos, sexuales, violentos ni que expongan a otras personas sin su permiso, y no intentes acceder a datos ajenos. Eres responsable de lo que publicas: conservas su titularidad y concedes a Nexum una licencia limitada, solo para alojarlo y mostrarlo a quien elijas durante las 24 horas que dura una story. Las stories que publiques para la «comunidad Nexum» las verá cualquier usuario de Nexum, no solo tu grupo. Cualquier persona puede denunciar una story; tu entrenador (en las de su grupo) y Nexum pueden retirarla y, si se repite, suspender la cuenta. Si añades una canción de Spotify a una story, Nexum solo guarda el enlace de la canción; la música y el reproductor son de Spotify y se rigen por sus condiciones.</p>
+<h4>6. Conducta y contenidos</h4><p>Respeta a las demás personas en los chats y en las stories, no compartas contenidos ilícitos, ofensivos, sexuales, violentos ni que expongan a otras personas sin su permiso, y no intentes acceder a datos ajenos. Eres responsable de lo que publicas: conservas su titularidad y concedes a Nexum una licencia limitada, solo para alojarlo y mostrarlo a quien elijas durante las 24 horas que dura una story y, si la compartes con la comunidad, mientras se conserve en tu historial privado (máximo 12 meses). Las stories que publiques para la «comunidad Nexum» las verá cualquier usuario de Nexum, no solo tu grupo. Cualquier persona puede denunciar una story; tu entrenador (en las de su grupo) y Nexum pueden retirarla y, si se repite, suspender la cuenta. Si añades una canción de Spotify a una story, Nexum solo guarda el enlace de la canción; la música y el reproductor son de Spotify y se rigen por sus condiciones.</p>
 <h4>7. Baja</h4><p>Puedes dejar de usar Nexum cuando quieras y pedir la baja y la eliminación de tus datos (ver «Mis datos y privacidad» en tu cuenta).</p>
 <h4>8. Cambios y ley aplicable</h4><p>Si cambian estas condiciones te lo diremos y te pediremos aceptar la nueva versión. Se rigen por la ley española; como consumidor puedes acudir a los juzgados de tu domicilio.</p>`},
 premium:()=>{const o=lgO(),pp=lgPP();return`<h3>Condiciones de Nexum Premium</h3><p class="lgdt">Versión ${LEGAL_V}</p>
@@ -3561,10 +3637,10 @@ premium:()=>{const o=lgO(),pp=lgPP();return`<h3>Condiciones de Nexum Premium</h3
 <h4>5. Si te asignan un entrenador</h4><p>Premium es solo para atletas sin entrenador. Si Nexum te asigna uno, tu suscripción Premium se cancela y pasas al plan de tu entrenador.</p>`},
 privacidad:()=>{const o=lgO();return`<h3>Política de privacidad</h3><p class="lgdt">Versión ${LEGAL_V}</p>
 <h4>1. Quién es el responsable</h4><ul><li><b>Si entrenas con un entrenador:</b> tu entrenador es el <b>responsable</b> de tus datos y Nexum los trata <b>por su encargo</b>.</li><li><b>Si eres entrenador, usas Nexum sin entrenador (incluido Premium) o visitas la web:</b> el responsable es ${o.n}, NIF ${o.nif}, ${o.dir}, ${o.mail}.</li></ul>
-<h4>2. Qué datos tratamos</h4><ul><li>Identificativos y de contacto: nombre, usuario, correo.</li><li>Datos de seguimiento: entrenamientos, medidas corporales, nutrición, descanso, hábitos, fotos si las subes y mensajes del chat.</li><li><b>Stories:</b> las fotos, vídeos cortos o textos que publiques como story, los textos que escribas encima, la canción de Spotify que añadas (solo su enlace y el nombre), la fecha, el alcance que elijas y quién las ha visto. Si tienes foto de perfil, se muestra en el círculo de tus stories a quien las vea.</li><li><b>Datos de salud</b> (informes médicos, de fisioterapia, nutrición u otros) <b>solo si tú decides subirlos</b>.</li><li>Datos de pago: los gestiona Stripe; Nexum no guarda el número de tu tarjeta.</li><li>Datos técnicos: dirección IP y navegador en el momento de aceptar los textos legales, y los necesarios para las notificaciones push que actives.</li></ul>
+<h4>2. Qué datos tratamos</h4><ul><li>Identificativos y de contacto: nombre, usuario, correo.</li><li>Datos de seguimiento: entrenamientos, medidas corporales, nutrición, descanso, hábitos, fotos si las subes y mensajes del chat.</li><li><b>Stories:</b> las fotos, vídeos cortos o textos que publiques como story, los textos que escribas encima, la canción de Spotify que añadas (solo su enlace y el nombre), la fecha, el alcance que elijas y quién las ha visto. Si tienes foto de perfil, se muestra en el círculo de tus stories a quien las vea.</li><li><b>Historial:</b> tus logros (récords, rachas, constancia, subidas de nivel y evaluaciones guardadas), que se calculan a partir de tus datos de entrenamiento y se guardan en tu cuenta; las stories que compartes con toda la comunidad, que se conservan en tu archivo privado (ver el apartado 5); y, si eres entrenador, tus hitos (primer cliente, número de clientes y años en Nexum). Tu entrenador puede ver los logros de sus atletas. Los demás atletas de su grupo solo ven, si no ocultas tu resumen, hasta 4 logros recientes sin cifras.</li><li><b>Datos de salud</b> (informes médicos, de fisioterapia, nutrición u otros) <b>solo si tú decides subirlos</b>.</li><li>Datos de pago: los gestiona Stripe; Nexum no guarda el número de tu tarjeta.</li><li>Datos técnicos: dirección IP y navegador en el momento de aceptar los textos legales, y los necesarios para las notificaciones push que actives.</li></ul>
 <h4>3. Para qué y con qué base legal</h4><ul><li>Prestarte el servicio y gestionar tu cuenta — ejecución del contrato (art. 6.1.b RGPD).</li><li>Tratar tus informes de salud — tu <b>consentimiento explícito</b> (art. 9.2.a), que das al subir cada documento y puedes retirar borrándolo.</li><li>Facturación y obligaciones fiscales — obligación legal (art. 6.1.c).</li><li>Publicar tus stories y mostrarlas a las personas que elijas — ejecución del contrato (art. 6.1.b).</li><li>Seguridad, moderación y prevención de abusos (por ejemplo, revisar una story denunciada) — interés legítimo (art. 6.1.f).</li><li>Notificaciones push y avisos opcionales — tu consentimiento.</li><li>Cargar el reproductor de Spotify de una story — tu consentimiento, que das al pulsar «Cargar reproductor».</li></ul>
 <h4>4. A quién se comunican</h4><p>Tu entrenador (y el nutricionista que te asigne, si lo hay), las personas que correspondan al alcance de cada story que publiques (ver el apartado 5), los proveedores que prestan el servicio por encargo (alojamiento y base de datos, pagos, correo, facturación electrónica) y las administraciones cuando la ley lo exija. Si alguien pulsa el reproductor de Spotify de una story, Spotify recibe sus datos como responsable propio (ver el apartado 5). No vendemos tus datos ni los usamos para publicidad de terceros.</p>
-<h4>5. Stories</h4><p>Las stories son fotos, vídeos de hasta 30 segundos o textos que <b>desaparecen solos a las 24 horas</b>. Al publicar eliges quién las ve: <b>tu grupo</b> (tu entrenador y los atletas de su grupo) o <b>toda la comunidad de Nexum</b> (entrenadores y atletas, incluidos los que aún no tienen entrenador). Las stories oficiales de Nexum las ven todos los usuarios. Quien publica una story, el entrenador de su grupo y el administrador de Nexum pueden ver <b>quién la ha visto</b>. Los archivos se guardan en un almacenamiento privado, se muestran con enlaces temporales y se borran poco después de caducar; el registro de la story se elimina a los 7 días. Cualquier usuario puede <b>denunciar</b> una story: el administrador de Nexum la revisará y podrá retirarla, y conservará la denuncia hasta resolverla. <b>Música de Spotify:</b> las stories pueden llevar el enlace de una canción. Hasta que la persona que ve la story pulsa «Cargar reproductor» no se conecta nada con Spotify; al pulsarlo, Spotify recibe su dirección IP y puede usar sus propias cookies y datos de su cuenta, según su política de privacidad. Nexum no recibe esos datos. Las tipografías adicionales de los textos se descargan de Google Fonts. Las fotos se reducen en tu dispositivo antes de subirlas (lo que elimina datos como la ubicación), pero los vídeos se suben tal cual: revisa lo que se ve y se oye en ellos. No publiques datos de salud, imágenes de otras personas sin su permiso ni datos de menores.</p>
+<h4>5. Stories</h4><p>Las stories son fotos, vídeos de hasta 30 segundos o textos que <b>dejan de verse para los demás a las 24 horas</b>. Al publicar eliges quién las ve: <b>tu grupo</b> (tu entrenador y los atletas de su grupo) o <b>toda la comunidad de Nexum</b> (entrenadores y atletas, incluidos los que aún no tienen entrenador). Las stories oficiales de Nexum las ven todos los usuarios. Quien publica una story, el entrenador de su grupo y el administrador de Nexum pueden ver <b>quién la ha visto</b>. Los archivos se guardan en un almacenamiento privado y se muestran con enlaces temporales. Las stories que compartes <b>solo con tu grupo</b> se borran poco después de caducar y su registro a los 7 días. Las que compartes con <b>toda la comunidad</b> se conservan además en tu <b>historial privado</b>, que solo puedes ver tú, durante un máximo de 12 meses y hasta 100 publicaciones, para que puedas recuperarlas; puedes borrarlas cuando quieras, y se eliminan también si eliminas tu cuenta. Cualquier usuario puede <b>denunciar</b> una story: el administrador de Nexum la revisará y podrá retirarla, y conservará la denuncia hasta resolverla. <b>Música de Spotify:</b> las stories pueden llevar el enlace de una canción. Hasta que la persona que ve la story pulsa «Cargar reproductor» no se conecta nada con Spotify; al pulsarlo, Spotify recibe su dirección IP y puede usar sus propias cookies y datos de su cuenta, según su política de privacidad. Nexum no recibe esos datos. Las tipografías adicionales de los textos se descargan de Google Fonts. Las fotos se reducen en tu dispositivo antes de subirlas (lo que elimina datos como la ubicación), pero los vídeos se suben tal cual: revisa lo que se ve y se oye en ellos. No publiques datos de salud, imágenes de otras personas sin su permiso ni datos de menores.</p>
 <h4>6. Transferencias internacionales</h4><p>La base de datos está en la UE (Fráncfort). Algunos proveedores (por ejemplo, de alojamiento, pagos, correo o Spotify) pueden estar en EE. UU.; en ese caso se aplican el Marco de Privacidad de Datos UE-EE. UU. o cláusulas contractuales tipo.</p>
 <h4>7. Cuánto tiempo los conservamos</h4><p>Mientras tengas cuenta. Tras la baja, los suprimimos (en 30 días como máximo), salvo lo que la ley obligue a conservar, como las facturas (con carácter general, 6 años) o los registros de aceptación legal, que se guardan para poder acreditar tu consentimiento.</p>
 <h4>8. Tus derechos</h4><p>Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad desde <b>Cuenta → Mis datos y privacidad</b> (puedes descargar tus datos al instante) o escribiendo a ${o.mail}. Responderemos en un máximo de un mes. Si crees que no tratamos bien tus datos, puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es). Si tu entrenador es el responsable, tu solicitud se le trasladará.</p>
@@ -4439,7 +4515,7 @@ function ptTrack(kind,ids,ev){if(!SB||!ids.length||!ptCan())return;try{SB.rpc("s
 function ptSeen(kind,ids){const now=Date.now(),n=ids.filter(i=>!PTS.seen[kind+i]||now-PTS.seen[kind+i]>18e5);if(!n.length)return;n.forEach(i=>{PTS.seen[kind+i]=now});ptTrack(kind,n,"v")}
 
 /* tarjetas de acceso: solo si hay marcas activas */
-const ptTile=(num,wide)=>{const n=PTS.L?PTS.L.length:0;if(!n)return"";const na=PTS.L.reduce((a,s)=>a+(s.ads||[]).length,0);return mt("tab","pat",num,"Patrocinadores",na?na+(na>1?" ofertas activas":" oferta activa"):n+(n>1?" marcas aliadas":" marca aliada"),wide)};
+const ptTile=(num,wide)=>{const n=PTS.L?PTS.L.length:0;if(!n)return"";const na=PTS.L.reduce((a,s)=>a+(s.ads||[]).length,0);const lg=PTS.L.slice(0,3).map(s=>{const u=ptImg(s.logo);return`<span class="ptgl">${u?`<img src="${esc(u)}" alt="">`:esc((s.nombre||"?").trim().charAt(0).toUpperCase())}</span>`}).join("");return`<button type="button" class="ptg${wide?" wide":""}" data-act="tab" data-v="pat"><span class="ptgs">${lg}${n>3?`<span class="ptgl more">+${n-3}</span>`:""}</span><span class="ptgt"><b>Patrocinadores</b><small>${na?na+(na>1?" ofertas activas":" oferta activa"):n+(n>1?" marcas aliadas":" marca aliada")}</small></span><span class="ptgc" aria-hidden="true">›</span></button>`};
 {const _p=profH;profH=function(){let h=_p.apply(this,arguments);try{if(ROLE==="client"&&CL){ptLoad();const t=ptTile("",1);if(t){const i=h.indexOf('<div class="sec">Rombo de '),b='<div class="menu mini">'+t+"</div>";h=i>=0?h.slice(0,i)+b+h.slice(i):h+b}}}catch(e){console.error("v51",e)}return h}}
 {const _c=coachHomeH;coachHomeH=function(){let h=_c.apply(this,arguments);try{if(ptCan()){ptLoad();const t=ptTile("04"),r=/(<button class="mt" data-act="tab" data-v="agd">[\s\S]*?<\/button>)/;if(t&&r.test(h))h=h.replace(r,"$1"+t)}}catch(e){console.error("v51",e)}return h}}
 
@@ -5000,7 +5076,7 @@ function sgFtH(s){const mod=sgMod(s);
  return ft}
 function sgPnH(V){
  let pn="";
- if(V.panel==="del")pn=`<b>¿Borrar esta story?</b><br><small>Dejará de verse para todos y no se puede deshacer.</small>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="delok"${V.busy?" disabled":""}>Borrar</button><button data-sg="pc">Cancelar</button></div>`;
+ if(V.panel==="del")pn=`<b>¿Borrar esta story?</b><br><small>Dejará de verse para todos${(()=>{const q=sgCur();return q&&SG.me&&SG.me.archivo&&sgKeep(q.scope)?" y se borrará también de tu historial":""})()}. No se puede deshacer.</small>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="delok"${V.busy?" disabled":""}>Borrar</button><button data-sg="pc">Cancelar</button></div>`;
  else if(V.panel==="rep")pn=`<b>Denunciar esta story</b><br><small>La verá el administrador de Nexum. Cuéntanos qué pasa (opcional).</small><textarea id="sgrr" maxlength="300" placeholder="Motivo">${esc(V.reason||"")}</textarea>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="repok"${V.busy?" disabled":""}>Enviar denuncia</button><button data-sg="pc">Cancelar</button></div>`;
  else if(V.panel==="repd")pn=`<b>Gracias</b><br><small>El administrador revisará esta story.</small><div class="bar" style="margin:12px 0 0"><button class="on" data-sg="pc">Cerrar</button></div>`;
  else if(V.panel==="vw"){const L=V.vw;pn=`<b>Lo han visto${L?" ("+L.length+")":""}</b>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}${!L&&!V.msg?`<br><small>Cargando…</small>`:L&&!L.length?`<br><small>Todavía no la ha visto nadie.</small>`:(L||[]).map(x=>`<div class="sgvw"><span>${esc(x.name)}</span><small>${sgAgo(x.at)}</small></div>`).join("")}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="pc">Cerrar</button></div>`}
@@ -5030,7 +5106,7 @@ function sgShow(){const V=SG.v;if(!V)return;const g=sgGrp(V.key);
  else if(s.kind==="image")st=`<div class="sgmw" id="sgmw"><img id="sgmd" src="${esc(url)}" alt="Story de ${esc(s.name)}">${sgOvL(s.ov)}</div>`;
  else st=`<div class="sgmw" id="sgmw"><video id="sgmd" src="${esc(url)}" playsinline autoplay></video>${sgOvL(s.ov)}</div>`;
  const kind=s.author_kind==="admin"?"Oficial":s.author_kind==="coach"?"Entrenador":"Atleta";
- const sub=[s.mine?"Tú":kind,sgAgo(s.created_at),s.scope==="grupo"?"Grupo":s.scope==="comunidad"?"Comunidad":""].concat(s.mine?["caduca "+sgLeft(s.expires_at)]:[]).filter(Boolean).join(" · ");
+ const sub=[s.mine?"Tú":kind,sgAgo(s.created_at),s.scope==="grupo"?"Grupo":s.scope==="comunidad"?"Comunidad":""].concat(s.mine?["caduca "+sgLeft(s.expires_at)].concat(SG.me&&SG.me.archivo&&sgKeep(s.scope)?["se guarda en tu historial"]:[]):[]).filter(Boolean).join(" · ");
  const ft=sgFtH(s),pn=sgPnH(V);
  o.innerHTML=`<div class="sgfr"><div class="sgpg">${bars}</div><div class="sghd"><span class="sga">${who}</span><div><b>${esc(s.name)}</b><small>${esc(sub)}</small></div><button class="sgx" data-sg="x" aria-label="Cerrar">✕</button></div><div class="sgst">${st}</div>${sgMuChip(s)}${s.kind==="text"||(Array.isArray(s.ov)&&s.ov.length)?"":(s.text?`<div class="sgcp">${esc(s.text)}</div>`:"")}<button class="sgz l" data-sg="prev" aria-label="Anterior"></button><button class="sgz r" data-sg="next" aria-label="Siguiente"></button><div class="sgft">${ft}</div>${pn?`<div class="sgpn" id="sgpn">${pn}</div>`:""}</div>`;
  const cur=o.querySelector(".sgpg i.c b");
@@ -5100,11 +5176,11 @@ const sgMuOk=m=>m&&typeof m==="object"&&typeof m.id==="string"&&/^[A-Za-z0-9]{22
 function sgMuChip(s){const m=s.kind==="text"||s.kind==="image"||s.kind==="video"?sgMuOk(s.mu):null;return m?`<button class="sgmu" data-sg="mus" aria-label="Escuchar la música de esta story en Spotify">♫ <span>${esc(m.t||"Escuchar en Spotify")}</span></button>`:""}
 function sgOvL(ov,ed,sel){const a=Array.isArray(ov)?ov.slice(0,4):[];if(!a.length&&!ed)return"";return`<div class="sgovl"${ed?' id="sgovl"':""}>${a.map((it,i)=>sgOvIt(it,i,!!ed,sel)).join("")}</div>`}
 /* La foto/vídeo y sus textos viven en una caja con la proporción de la foto, así un texto cae en el mismo sitio de la foto en cualquier pantalla */
-function sgFit(){document.querySelectorAll("#sgov .sgmw").forEach(w=>{const m=w.querySelector("img,video");if(!m)return;
+function sgFit(){document.querySelectorAll("#sgov .sgmw,#hxlb .sgmw").forEach(w=>{const m=w.querySelector("img,video");if(!m)return;
  const iw=m.naturalWidth||m.videoWidth,ih=m.naturalHeight||m.videoHeight;if(!iw||!ih)return;
  const p=w.parentElement;let fw=p.clientWidth,fh=p.clientHeight;if(w.dataset.cm)fh=Math.round(Math.min(innerHeight*.52,480));
  if(!fw||!fh)return;const k=Math.min(fw/iw,fh/ih);w.style.width=Math.max(1,Math.round(iw*k))+"px";w.style.height=Math.max(1,Math.round(ih*k))+"px";w.classList.add("rd")})}
-window.addEventListener("resize",()=>{if(SG.v||SG.c)requestAnimationFrame(sgFit)});
+window.addEventListener("resize",()=>{if(SG.v||SG.c||document.getElementById("hxlb"))requestAnimationFrame(sgFit)});
 function sgWire(){const w=document.getElementById("sgmw");if(!w)return;const m=w.querySelector("img,video");if(!m)return;
  if(m.tagName==="IMG"){m.addEventListener("load",sgFit);if(m.complete&&m.naturalWidth)sgFit()}else{m.addEventListener("loadedmetadata",sgFit);if(m.readyState>=1)sgFit()}}
 
@@ -5112,6 +5188,8 @@ function sgWire(){const w=document.getElementById("sgmw");if(!w)return;const m=w
 function sgNew(){sgEns();if(!SG.me||!SG.me.canpost)return;
  SG.c={kind:"media",mk:"",blob:null,ext:"",ctype:"",dur:0,prev:"",text:"",bg:"c1",scope:SG.me.grupo?"grupo":"comunidad",busy:false,pick:false,msg:"",ov:[],sel:-1,fnt:"n",mu:null,mul:"",mumsg:""};SG.ls=null;sgRC()}
 const sgScopes=()=>{const a=[];if(SG.me&&SG.me.grupo)a.push("grupo");a.push("comunidad");if(SG.me&&SG.me.admin)a.push("nexum");return a};
+const sgKeep=sc=>sc==="comunidad"||sc==="nexum";
+function sgKeepTx(sc){return SG.me&&SG.me.archivo?(sgKeep(sc)?"Desaparece para los demás a las 24 horas, pero se guarda en tu historial privado (solo tú la ves) durante 12 meses. Puedes borrarla cuando quieras. Quien la vea podrá denunciarla.":"Desaparece sola a las 24 horas. Quien la vea podrá denunciarla."):"Las stories desaparecen solas a las 24 horas. Quien la vea podrá denunciarla."}
 function sgScopeTx(sc){const k=SG.me&&SG.me.kind==="coach";
  return sc==="grupo"?(k?"La verán tú y tus atletas.":"La verán tu entrenador y los atletas de su grupo."):sc==="comunidad"?"La verá cualquier persona de Nexum: otros entrenadores y atletas, también quienes aún no tienen entrenador. No publiques datos privados tuyos ni de otras personas.":"Aparecerá como «Nexum» y la verán todos."}
 function sgRC(){const c=SG.c;if(!c)return;const o=sgOv();o.className="sgov sgcmo";
@@ -5122,7 +5200,7 @@ function sgRC(){const c=SG.c;if(!c)return;const o=sgOv();o.className="sgov sgcmo
   :`<div class="sgtx ${esc(c.bg)} sgpvt" id="sgpvt" data-sf="${esc(SGF[c.fnt]?c.fnt:"n")}" style="font-size:${sgTxSz(c.text.length,c.fnt,1)}px">${esc(c.text)||"<span style='opacity:.6'>Escribe tu story…</span>"}</div><textarea id="sgtxt" maxlength="280" rows="3" placeholder="Escribe tu story (máx. 280 caracteres)" style="margin-top:8px">${esc(c.text)}</textarea><div class="sgsws">${SGBG.map((b,i)=>`<button class="sgsw ${b}${c.bg===b?" on":""}" data-sg="cb" data-v="${b}" aria-label="Fondo ${i+1}"></button>`).join("")}</div><label>Tipografía</label>${sgFsH("cf",SGF[c.fnt]?c.fnt:"n")}`;
  const scs=sc.length>1?`<label>¿Quién la verá?</label><div class="sgsc">${sc.map(x=>`<button class="${c.scope===x?"on":""}" data-sg="cs" data-v="${x}">${SGS[x]}</button>`).join("")}</div>`:`<label>¿Quién la verá?</label>`;
  const muB=sgMuH(c);
- o.innerHTML=`<div class="sgfr sgcm"><div class="sgcmh"><b>Nueva story</b><button class="sgx" data-sg="cx" aria-label="Cerrar">✕</button></div><div class="card"><div class="sgmd"><button class="${med?"on":""}" data-sg="ck" data-v="media">Foto o vídeo</button><button class="${med?"":"on"}" data-sg="ck" data-v="text">Texto</button></div>${body}${muB}${scs}<div class="${c.scope==="comunidad"?"sgwr":""}" id="sgsx">${c.scope==="comunidad"?"<b>Se verá fuera de tu grupo.</b> ":""}<small${c.scope==="comunidad"?' style="color:#4a3500"':""}>${esc(sgScopeTx(c.scope))}</small></div>${c.msg?`<div class="sgem">${esc(c.msg)}</div>`:""}<div class="bar" style="margin:12px 0 4px"><button class="on" data-sg="cpub"${c.busy||c.pick?" disabled":""}>${c.busy?"Publicando…":"Publicar"}</button><button data-sg="cx">Cancelar</button></div><small>Las stories desaparecen solas a las 24 horas. Quien la vea podrá denunciarla.</small></div></div>`;sgFonts();sgWire()}
+ o.innerHTML=`<div class="sgfr sgcm"><div class="sgcmh"><b>Nueva story</b><button class="sgx" data-sg="cx" aria-label="Cerrar">✕</button></div><div class="card"><div class="sgmd"><button class="${med?"on":""}" data-sg="ck" data-v="media">Foto o vídeo</button><button class="${med?"":"on"}" data-sg="ck" data-v="text">Texto</button></div>${body}${muB}${scs}<div class="${c.scope==="comunidad"?"sgwr":""}" id="sgsx">${c.scope==="comunidad"?"<b>Se verá fuera de tu grupo.</b> ":""}<small${c.scope==="comunidad"?' style="color:#4a3500"':""}>${esc(sgScopeTx(c.scope))}</small></div>${c.msg?`<div class="sgem">${esc(c.msg)}</div>`:""}<div class="bar" style="margin:12px 0 4px"><button class="on" data-sg="cpub"${c.busy||c.pick?" disabled":""}>${c.busy?"Publicando…":"Publicar"}</button><button data-sg="cx">Cancelar</button></div><small>${sgKeepTx(c.scope)}</small></div></div>`;sgFonts();sgWire()}
 function sgMuH(c){const m=c.mu;return`<label>🎵 Música de Spotify (opcional)</label>`+(m
  ?`<div class="sgmuc"><input id="sgmut" maxlength="80" placeholder="Nombre de la canción (opcional)" value="${esc(m.t||"")}" aria-label="Nombre de la canción"><button data-sg="mux" aria-label="Quitar la canción">✕</button></div><small>♫ Canción de Spotify añadida. Quien vea tu story podrá escucharla con el reproductor de Spotify.</small>`
  :`<div class="sgmuc"><input id="sgmul" type="url" inputmode="url" autocomplete="off" placeholder="Pega el enlace de la canción" value="${esc(c.mul||"")}" aria-label="Enlace de la canción de Spotify"><button class="on" data-sg="muadd">Añadir</button></div>${c.mumsg?`<div class="sgem">${esc(c.mumsg)}</div>`:""}<small>En Spotify: ··· → Compartir → Copiar enlace de la canción.</small>`)}
@@ -5267,6 +5345,188 @@ setInterval(()=>{if(document.hidden||!sgOkR()||SG.v||SG.c||!sgScr())return;sgLoa
  const _p=profH;profH=function(){const h=_p.apply(this,arguments);try{return ROLE==="client"&&CL?put(h):h}catch(e){return h}};
  const _c=coachHomeH;coachHomeH=function(){const h=_c.apply(this,arguments);try{return put(h)}catch(e){return h}};
  const _h=chatH;chatH=function(){const h=_h.apply(this,arguments);try{if(chn||dmOn)return h;const b=sgBar();return b?b+h:h}catch(e){return h}}}
+
+/* ---------- v71 · Historial del perfil: logros y archivo privado de stories ---------- */
+const HX={tab:"lg",f:"all",n:40,hit:null,hitE:"",cl:null,load:false,arch:null,archE:"",archL:false,urls:{},lb:-1,delc:false,busy:false,msg:"",key:""};
+const HXT={r:["🏆","Récords"],s:["🔥","Rachas"],c:["💪","Constancia"],n:["📈","Nivel"],e:["🧪","Evaluaciones"]};
+const HXH={alta:["🚀","Te uniste a Nexum"],c1:["🤝","Tu primer cliente"],c5:["👥","5 clientes"],c10:["👥","10 clientes"],c20:["🏢","20 clientes"],c50:["🏆","50 clientes"],
+ y1:["🎂","1 año en Nexum"],y2:["🎂","2 años en Nexum"],y3:["🎂","3 años en Nexum"],y5:["🎖️","5 años en Nexum"],y10:["🎖️","10 años en Nexum"]};
+const HXMN=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],HXM3=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const HXD=d=>typeof d==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(d);
+const hxMes=d=>HXMN[+d.slice(5,7)-1]+" "+d.slice(0,4);
+const hxDia=d=>(+d.slice(8,10))+" "+HXM3[+d.slice(5,7)-1];
+const hxDiaL=d=>hxDia(d)+" "+d.slice(0,4);
+const hxIso=v=>{const t=new Date(v);return isNaN(t)?"":ymd(t)};
+function hxMode(){try{if(typeof NUTRI!=="undefined"&&NUTRI)return""}catch(_){}
+ if(ROLE==="client"&&CL&&S)return"c";if(ROLE==="coach"&&CL&&S)return"v";if(ROLE==="coach"&&!CL&&USER)return"k";return""}
+function hxEns(){const k=hxMode()+"|"+sgKey();if(HX.key!==k){HX.key=k;HX.hit=null;HX.hitE="";HX.cl=null;HX.load=false;HX.arch=null;HX.archE="";HX.archL=false;HX.urls={};HX.lb=-1;HX.delc=false;HX.busy=false;HX.msg=""}}
+function hxErr(e){const m=String(e&&e.message||e||"");
+ if(/Failed to fetch|NetworkError|network|load failed/i.test(m))return"Sin conexión. Comprueba tu internet e inténtalo de nuevo.";
+ if(/No permitido|sin acceso/i.test(m))return"No tienes permiso para ver esto.";
+ if(/could not find the function|schema cache/i.test(m))return"Esto todavía no está disponible. Inténtalo más tarde.";
+ return"No se pudo cargar. Inténtalo de nuevo."}
+
+/* ----- logros del atleta: se calculan a partir de sus datos y se guardan la primera vez que se consiguen ----- */
+function hxCand(){const out=[],add=(k,t,d,n,x,h)=>{if(HXD(d)&&n)out.push({k,t,d,n,x:x||"",h:h?1:0})};
+ const ss=(S.sessions||[]).filter(s=>s&&s.done&&!s.rec&&HXD(s.date)),done=ss.map(s=>s.date).sort();
+ [1,10,25,50,100,250,500].forEach(m=>{if(done.length>=m)add("wk:"+m,"c",done[m-1],m===1?"Primer entreno completado":m+" entrenos completados","",m>=50)});
+ /* semanas (lunes a domingo) */
+ const wkOf=d=>{const t=new Date(d+"T12:00:00");t.setDate(t.getDate()-(t.getDay()+6)%7);return ymd(t)},nxW=w=>{const t=new Date(w+"T12:00:00");t.setDate(t.getDate()+7);return ymd(t)};
+ const W={};done.forEach(d=>{const w=wkOf(d);(W[w]=W[w]||new Set()).add(d)});const wks=Object.keys(W).sort();
+ const w3=wks.find(w=>W[w].size>=3);if(w3)add("wf","c",[...W[w3]].sort().pop(),"Primera semana completa","3 o más días entrenados en una semana");
+ if(wks.length){let w=wks[0],run=0,g=0;const end=wkOf(today),seen={};while(w<=end&&g++<700){const ok=W[w]&&W[w].size>=2;run=ok?run+1:0;
+  [4,12,26].forEach(m=>{if(run>=m&&!seen[m]){seen[m]=1;add("ws:"+m,"c",[...W[w]].sort().pop(),m+" semanas seguidas entrenando","Al menos 2 días de cada semana",m>=12)}});w=nxW(w)}}
+ /* check-ins diarios */
+ const ci=Object.keys(S.rec||{}).filter(k=>HXD(k)&&S.rec[k]&&S.rec[k].saved).sort();
+ [1,10,30,100].forEach(m=>{if(ci.length>=m)add("ci:"+m,"c",ci[m-1],m===1?"Primer check-in diario":m+" check-ins diarios","Recovery",m>=100)});
+ /* rachas */
+ const ds=ci.concat(done).sort();if(ds.length){const seenS={};let run=0,g=0;const t=new Date(ds[0]+"T12:00:00");
+  while(g++<1800){const k=ymd(t);if(k>today)break;if(act(k)){run++;MS.forEach(m=>{if(run===m&&!seenS[m]){seenS[m]=1;add("st:"+m,"s",k,"Racha de "+m+" días","Días seguidos con actividad",m>=14)}})}else run=0;t.setDate(t.getDate()+1)}}
+ /* récords en ejercicios: cada mejora de al menos un 2 % sobre la mejor marca anterior (la primera vez es solo el punto de partida) */
+ const M={};(S.sessions||[]).forEach(s=>{if(!s||!HXD(s.date))return;(s.ex||[]).forEach(e=>{const n=String(e&&e.name||"").trim();if(!n)return;
+  logL(e).forEach(l=>{const w=pf(l.w),r=pf(l.r);if(w>0&&r>0)(M[n]=M[n]||[]).push({d:s.date,w,r,v:e1(w,r)})})})});
+ Object.keys(M).forEach(n=>{const by={};M[n].forEach(x=>{if(!by[x.d]||x.v>by[x.d].v)by[x.d]=x});const L=Object.keys(by).sort().map(d=>by[d]);let best=0;
+  L.forEach((x,i)=>{if(i>0&&x.v>best*1.02)add("pe:"+n.toLowerCase().slice(0,40)+":"+x.d,"r",x.d,"Récord en "+n.slice(0,60),Math.round(x.w*10)/10+" kg × "+x.r,true);if(x.v>best)best=x.v})});
+ /* tests: récords y evaluaciones guardadas */
+ const TD={};
+ allT().forEach(t=>{if(t.p==="Antropometría")return;const L=((S.tests&&S.tests[t.id])||[]).filter(e=>e&&HXD(e.d)).slice().sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+  L.forEach(e=>{(TD[e.d]=TD[e.d]||[]).push(t.n)});if(L.length<2)return;let best=null;
+  L.forEach(e=>{const v=met(t,e);if(!isFinite(v))return;const mej=best!==null&&(t.dir==="min"?v<best:v>best);if(mej)add("pt:"+t.id+":"+e.d,"r",e.d,"Récord en "+t.n,fmtU(v,t.u),true);if(best===null||(t.dir==="min"?v<best:v>best))best=v})});
+ Object.keys(TD).forEach(d=>{const L=Array.from(new Set(TD[d]));add("tv:"+d,"e",d,L.length===1?"Test registrado: "+L[0]:L.length+" tests registrados",L.length===1?"":L.slice(0,4).join(", ")+(L.length>4?"…":""))});
+ (Array.isArray(S.aerH)?S.aerH:[]).forEach(x=>{if(!x||!HXD(x.d)||!isFinite(+x.vam)||+x.vam<=0)return;const T=typeof FXT!=="undefined"&&FXT[x.t]&&FXT[x.t].n||"VAM",r1=v=>String(Math.round(v*10)/10).replace(".",",");
+  add("ev:"+x.d+":"+String(x.t||"").slice(0,8),"e",x.d,"Evaluación aeróbica guardada ("+T+")","VAM "+r1(+x.vam)+" km/h"+(isFinite(+x.vo2)&&+x.vo2>0?" · VO₂máx "+r1(+x.vo2)+" ml/kg/min":""))});
+ return out}
+function hxScan(){try{if(ROLE!=="client"||!S||RO||!CL||!(S.q&&S.q.done))return;
+  const cand=hxCand(),L=(Array.isArray(S.logros)?S.logros:[]).filter(x=>x&&typeof x.k==="string"&&HXD(x.d)&&typeof x.n==="string");
+  const have=new Set(L.map(x=>x.k)),floor=L.length>=200?L[L.length-1].d:"";
+  const nw=cand.filter(c=>!have.has(c.k)&&c.d>=floor);
+  /* subidas de nivel: se vigila hacia delante (no hay forma fiable de reconstruir el nivel de hace meses) */
+  const P=pubCalc(),lab=P&&P.lv!=null?lvl(P.lv):null,ord=["Iniciación","Intermedio","Avanzado","Élite"];let lv=S.lgLv||"";
+  if(lab){if(!lv)lv=lab;else if(ord.indexOf(lab)>ord.indexOf(lv)){const k="lv:"+lab;if(!have.has(k))nw.push({k,t:"n",d:today,n:"Subes a nivel "+lab,x:"Antes: "+lv,h:1});lv=lab}else if(ord.indexOf(lab)<ord.indexOf(lv))lv=lab}
+  if(!nw.length&&lv===(S.lgLv||""))return;
+  const first=!S.lgv;
+  S.logros=L.concat(nw).sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:(a.k<b.k?1:-1)).slice(0,200);
+  S.lgv=1;S.lgLv=lv;if(first)S.lgs=S.logros.length;
+  save()}catch(e){}}
+function hxLogros(){return(Array.isArray(S&&S.logros)?S.logros:[]).filter(x=>x&&HXD(x.d)&&typeof x.n==="string"&&HXT[x.t])}
+function hxPubLg(){try{return(Array.isArray(S.logros)?S.logros:[]).filter(x=>x&&x.h===1&&x.t!=="e"&&typeof x.n==="string"&&HXD(x.d)).slice(0,4).map(x=>x.n.slice(0,60))}catch(e){return[]}}
+setTimeout(hxScan,6000);setInterval(hxScan,30000);
+
+/* ----- tarjeta en «Mi cuenta» ----- */
+function hxCard(){const m=hxMode();if(!m)return"";let sm="";
+ if(m!=="k"){const L=hxLogros(),nw=m==="c"?Math.max(0,L.length-(+S.lgs||0)):0;
+  sm=`<div class="hxs"><span>🏆 ${L.length} logro${L.length===1?"":"s"}</span>${nw>0&&S.lgv?`<span class="nw">${nw} nuevo${nw===1?"":"s"}</span>`:""}</div>`}
+ return`<div class="card" id="hxcard"><b>${m==="v"?"Historial de "+esc(CL.name):"Mi historial"}</b><small style="display:block;margin-top:4px">${m==="v"?"Los logros de este atleta.":m==="k"?"Tus hitos como entrenador y tus publicaciones guardadas.":"Tus logros y tus publicaciones guardadas, en un solo sitio."}</small>${sm}<div class="bar" style="margin:10px 0 0"><button class="on" data-hx="open">Abrir historial</button></div></div>`}
+{const _pc71=window.pushCard;window.pushCard=()=>hxCard()+_pc71()}
+
+/* ----- pantalla ----- */
+function hxClose(){hxLbKill();const o=document.getElementById("hxov");if(o){o.remove();document.body.style.overflow="";const c=document.getElementById("hxcard");if(c){const h=hxCard();if(h)c.outerHTML=h}}}
+function hxOpen(){const m=hxMode();if(!m)return;hxEns();hxScan();HX.tab="lg";HX.f="all";HX.n=40;HX.lb=-1;HX.delc=false;
+ hxClose();const o=document.createElement("div");o.id="hxov";o.className="rcov";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","Historial");
+ o.innerHTML='<div class="rcw"><button class="rcx" data-hx="x">‹ Cerrar</button><div class="rcc hxc" id="hxb"></div></div>';document.body.appendChild(o);document.body.style.overflow="hidden";
+ if(m==="c"&&S.logros&&(+S.lgs||0)!==hxLogros().length){S.lgs=hxLogros().length;save()}
+ hxPaint();if(m==="k")hxLoadK()}
+function hxPaint(){const b=document.getElementById("hxb");if(!b)return;const m=hxMode();if(!m){hxClose();return}
+ const tabs=m==="v"?"":`<div class="hxt" role="tablist"><button role="tab" aria-selected="${HX.tab==="lg"}" class="${HX.tab==="lg"?"on":""}" data-hx="tab" data-v="lg">${m==="k"?"Hitos":"Logros"}</button><button role="tab" aria-selected="${HX.tab==="pub"}" class="${HX.tab==="pub"?"on":""}" data-hx="tab" data-v="pub">Publicaciones</button></div>`;
+ const body=HX.tab==="pub"&&m!=="v"?hxPubH():m==="k"?hxKH():hxLgH();
+ b.innerHTML=`<div class="hxh">${m==="v"?"Historial de "+esc(CL.name):"Mi historial"}</div>${tabs}<div id="hxbd">${body}</div>`}
+function hxMonths(L,fn){let h="",cur="";L.forEach(x=>{const d=x.dd,mm=hxMes(d);if(mm!==cur){cur=mm;h+=`<div class="hxm">${esc(mm)}</div>`}h+=fn(x)});return h}
+function hxLgH(){const all=hxLogros(),m=hxMode();
+ if(!all.length)return`<p class="hxe0">${m==="v"?"Todavía no hay logros registrados.":"Todavía no tienes logros. Cada entreno, cada récord y cada día de racha quedarán guardados aquí."}</p>`;
+ const cnt={};all.forEach(x=>{cnt[x.t]=(cnt[x.t]||0)+1});let best=0;try{best=streak().best}catch(_){}
+ const fl=[["all","Todos",all.length]].concat(Object.keys(HXT).filter(k=>cnt[k]).map(k=>[k,HXT[k][1],cnt[k]]));
+ const f=cnt[HX.f]||HX.f==="all"?HX.f:"all",L=f==="all"?all:all.filter(x=>x.t===f),V=L.slice(0,HX.n).map(x=>Object.assign({dd:x.d},x));
+ return`<div class="hxk"><div><b>${all.length}</b><small>logros</small></div><div><b>${cnt.r||0}</b><small>récords</small></div><div><b>${best}</b><small>mejor racha</small></div></div>`
+ +`<div class="hxf" role="group" aria-label="Filtrar">${fl.map(x=>`<button class="${f===x[0]?"on":""}" data-hx="flt" data-v="${x[0]}">${esc(x[1])} · ${x[2]}</button>`).join("")}</div>`
+ +hxMonths(V,x=>`<div class="hxi"><span class="hxe" aria-hidden="true">${HXT[x.t][0]}</span><div><b>${esc(x.n)}</b>${x.x?`<small>${esc(x.x)}</small>`:""}</div><time datetime="${esc(x.d)}">${hxDia(x.d)}</time></div>`)
+ +(L.length>V.length?`<div class="bar" style="margin:14px 0 0"><button data-hx="more">Ver más (${L.length-V.length})</button></div>`:"")}
+
+/* ----- entrenador: hitos y logros de sus atletas ----- */
+async function hxLoadK(){if(HX.load)return;HX.load=true;const key=HX.key;
+ try{const [a,b]=await Promise.all([SB.rpc("coach_hitos"),SB.rpc("coach_logros_clientes")]);if(key!==HX.key)return;if(a.error)throw a.error;
+  HX.hit=a.data&&typeof a.data==="object"?a.data:{clientes:0,items:[]};HX.cl=b&&!b.error&&Array.isArray(b.data)?b.data:[];HX.hitE=""}
+ catch(e){if(key===HX.key){HX.hitE=hxErr(e);if(!HX.hit)HX.hit={clientes:0,items:[]};if(!HX.cl)HX.cl=[]}}
+ if(key===HX.key)HX.load=false;if(key===HX.key&&document.getElementById("hxov")&&HX.tab==="lg")hxPaint()}
+function hxKH(){if(!HX.hit)return`<p class="hxe0">Cargando…</p>`;
+ const I=(HX.hit.items||[]).filter(h=>h&&HXH[h.k]&&hxIso(h.at)).map(h=>({dd:hxIso(h.at),h})),n=+HX.hit.clientes||0;
+ const sin=HX.hitE?`<div class="sgem">${esc(HX.hitE)} <button data-hx="rk">Reintentar</button></div>`:"";
+ let h=sin+`<div class="hxk hxk2"><div><b>${n}</b><small>cliente${n===1?"":"s"} ahora</small></div><div><b>${I.length}</b><small>hito${I.length===1?"":"s"}</small></div></div>`;
+ h+=`<div class="hxm hxm0">Tus hitos</div>`+(I.length?hxMonths(I,x=>`<div class="hxi"><span class="hxe" aria-hidden="true">${HXH[x.h.k][0]}</span><div><b>${esc(HXH[x.h.k][1])}</b>${x.h.aprox?`<small>Registrado ese día; ya lo habías alcanzado antes</small>`:""}</div><time datetime="${esc(x.dd)}">${hxDia(x.dd)}</time></div>`):`<p class="hxe0">Tus hitos aparecerán aquí.</p>`);
+ const C=(HX.cl||[]).filter(x=>x&&HXD(x.d)&&typeof x.n==="string");
+ h+=`<div class="hxm">Logros destacados de tus atletas (últimos 90 días)</div>`+(C.length?C.map(x=>`<div class="hxi"><span class="hxe" aria-hidden="true">${(HXT[x.t]||["🏅"])[0]}</span><div><b>${esc(x.name||"Atleta")}</b><small>${esc(x.n)}</small></div><time datetime="${esc(x.d)}">${hxDia(x.d)}</time></div>`).join(""):`<p class="hxe0">Cuando tus atletas consigan rachas largas, récords o suban de nivel, los verás aquí.</p>`);
+ return h}
+
+/* ----- publicaciones: archivo privado ----- */
+async function hxLoadA(){sgEns();if(HX.archL||!sgOkR())return;HX.archL=true;const key=HX.key;
+ try{const r=await SB.rpc("story_archive",sgCr());if(key!==HX.key)return;if(r.error)throw r.error;const d=r.data||{};HX.arch={on:!!d.on,items:Array.isArray(d.items)?d.items:[]};HX.archE=""}
+ catch(e){if(key===HX.key){HX.archE=hxErr(e);if(!HX.arch)HX.arch={on:false,items:[]}}}
+ if(key===HX.key)HX.archL=false;if(key!==HX.key)return;
+ if(document.getElementById("hxov")&&HX.tab==="pub")hxPaint()}
+async function hxUrls(){const A=HX.arch;if(!A)return;const now=Date.now(),key=HX.key,ids=A.items.filter(s=>s.media&&!(HX.urls[s.id]&&now-HX.urls[s.id].t<45*6e4)).map(s=>s.id).slice(0,60);if(!ids.length)return;
+ try{const r=await SB.functions.invoke("story-files",{body:{action:"urls",archive:true,ids,...sgAu()}});if(r.error||key!==HX.key)return;const u=(r.data&&r.data.urls)||{};Object.keys(u).forEach(i=>{HX.urls[i]={u:u[i],t:Date.now()}})}catch(e){return}
+ if(document.getElementById("hxgrid"))hxGrid();if(HX.lb>=0&&document.getElementById("hxlb")&&(A.items[HX.lb]||{}).media)hxLb(HX.lb)}
+function hxTile(s,i){const u=HX.urls[s.id]&&HX.urls[s.id].u;let m;
+ if(s.kind==="text")m=`<div class="sgtx hxtx ${/^c([1-9]|1[0-2])$/.test(s.bg||"")?s.bg:"c1"}" data-sf="${SGF[s.fnt]?s.fnt:"n"}">${esc(s.text)}</div>`;
+ else if(!u)m=`<div class="hxph">${s.kind==="video"?"🎬":"📷"}</div>`;
+ else if(s.kind==="image")m=`<img src="${esc(u)}" alt="" loading="lazy" draggable="false">`;
+ else m=`<video src="${esc(u)}#t=0.1" preload="metadata" muted playsinline></video><span class="hxpl">▶</span>`;
+ const d=hxIso(s.created_at);
+ return`<button class="hxg" data-hx="po" data-i="${i}" aria-label="Abrir publicación del ${esc(d?hxDiaL(d):"")}"><span class="hxgm">${m}${s.active?`<span class="hxac">Activa</span>`:""}</span><span class="hxgd">${esc(d?hxDia(d):"")}${s.scope==="comunidad"?" · 🌍":s.scope==="nexum"?" · ✔":" · 👥"}</span></button>`}
+function hxGrid(){const e=document.getElementById("hxgrid"),A=HX.arch;if(e&&A)e.innerHTML=A.items.map(hxTile).join("")}
+function hxPubH(){if(!sgOkR())return`<p class="hxe0">Las publicaciones no están disponibles ahora mismo.</p>`;
+ if(!HX.arch){hxLoadA();return`<p class="hxe0">Cargando…</p>`}
+ const A=HX.arch,note=A.on?"<b>Solo tú ves esto.</b> Aquí se guardan, durante 12 meses, las stories que compartes con toda la comunidad. Las que compartes solo con tu grupo desaparecen a las 24 h. Puedes borrar cualquiera cuando quieras.":"<b>Solo tú ves esto.</b> Aquí aparecen tus stories activas.";
+ const er=HX.archE?`<div class="sgem">${esc(HX.archE)} <button data-hx="ra">Reintentar</button></div>`:"";
+ setTimeout(hxUrls,0);
+ return er+`<div class="hxn">${note}</div>`+(A.items.length?`<div class="hxgr" id="hxgrid">${A.items.map(hxTile).join("")}</div>`:`<p class="hxe0">${A.on?"Todavía no tienes publicaciones guardadas. Las stories que compartas con la comunidad aparecerán aquí cuando caduquen.":"No tienes stories activas."}</p>`)}
+
+/* ----- visor de una publicación guardada ----- */
+function hxLbKill(){const o=document.getElementById("hxlb");if(o)o.remove();HX.lb=-1;HX.delc=false;HX.msg=""}
+function hxLb(i){const A=HX.arch;if(!A||!A.items[i])return;HX.lb=i;const s=A.items[i];
+ sgFonts([s.fnt].concat((Array.isArray(s.ov)?s.ov:[]).map(o=>o&&o.f)));
+ let o=document.getElementById("hxlb");if(!o){o=document.createElement("div");o.id="hxlb";o.className="sgov";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","Publicación guardada");document.body.appendChild(o)}
+ const media=s.kind==="image"||s.kind==="video",url=media&&HX.urls[s.id]&&HX.urls[s.id].u;let st;
+ if(s.kind==="text"){const n=(s.text||"").length,f=SGF[s.fnt]?s.fnt:"n";st=`<div class="sgtx ${esc(/^c([1-9]|1[0-2])$/.test(s.bg||"")?s.bg:"c1")}" data-sf="${f}" style="font-size:${sgTxSz(n,f)}px">${esc(s.text)}</div>`}
+ else if(!media)st=`<div class="sgld">Esta publicación ya no está disponible.</div>`;
+ else if(!url)st=`<div class="sgld">Cargando…</div>`;
+ else if(s.kind==="image")st=`<div class="sgmw"><img src="${esc(url)}" alt="Publicación guardada">${sgOvL(s.ov)}</div>`;
+ else st=`<div class="sgmw"><video src="${esc(url)}" playsinline controls autoplay muted loop></video>${sgOvL(s.ov)}</div>`;
+ const d=hxIso(s.created_at),mu=sgMuOk(s.mu),sub=[SGS[s.scope]||"",s.active?"Activa ahora":"Guardada",s.views>0?"👁 "+s.views:""].filter(Boolean).join(" · ");
+ const cap=s.kind!=="text"&&!(Array.isArray(s.ov)&&s.ov.length)&&s.text?`<div class="sgcp">${esc(s.text)}</div>`:"";
+ const pn=HX.delc?`<div class="sgpn"><b>¿Borrar para siempre?</b><br><small>Se borrará de tu historial${s.active?" y dejará de verse para los demás":""}. No se puede deshacer.</small>${HX.msg?`<div class="sgem">${esc(HX.msg)}</div>`:""}<div class="bar" style="margin:12px 0 0"><button class="on" data-hx="dok"${HX.busy?" disabled":""}>${HX.busy?"Borrando…":"Borrar"}</button><button data-hx="dc">Cancelar</button></div></div>`:"";
+ o.innerHTML=`<div class="sgfr"><div class="sghd"><div><b>${esc(d?hxDiaL(d):"Publicación")}</b><small>${esc(sub)}</small></div><button class="sgx" data-hx="lx" aria-label="Cerrar">✕</button></div><div class="sgst">${st}</div>${mu?`<div class="hxmu">🎵 ${esc(mu.t||"Canción de Spotify")}</div>`:""}${cap}<div class="sgft"><button data-hx="lp" aria-label="Anterior"${i<=0?" disabled":""}>‹</button><button class="dg" data-hx="dl">Borrar</button><button data-hx="ln" aria-label="Siguiente"${i>=A.items.length-1?" disabled":""}>›</button></div>${pn}</div>`;
+ if(media&&!url){hxUrls();return}
+ const im=o.querySelector("img"),v=o.querySelector("video");
+ if(im){im.addEventListener("load",sgFit);if(im.complete&&im.naturalWidth)sgFit()}
+ if(v){v.addEventListener("loadedmetadata",sgFit);if(v.readyState>=1)sgFit()}
+ const f=o.querySelector(".sgx");if(f&&!HX.delc)f.focus()}
+async function hxDel(){const A=HX.arch,s=A&&A.items[HX.lb];if(!s||HX.busy)return;HX.busy=true;HX.msg="";hxLb(HX.lb);
+ try{const r=await SB.rpc("story_delete",Object.assign({},sgCr(),{p_id:s.id}));if(r.error)throw r.error;
+  try{Promise.resolve(SB.functions.invoke("story-files",{body:{action:"purge"}})).catch(()=>{})}catch(_){}
+  const k=A.items.findIndex(x=>x.id===s.id);if(k>=0)A.items.splice(k,1);delete HX.urls[s.id];HX.busy=false;HX.delc=false;HX.msg="";
+  if(A.items.length)hxLb(Math.min(Math.max(k,0),A.items.length-1));else hxLbKill();
+  hxPaint();sgLoad(true)}
+ catch(e){HX.busy=false;HX.msg=sgErr(e);hxLb(HX.lb)}}
+
+document.addEventListener("click",ev=>{const t=ev.target.closest&&ev.target.closest("[data-hx]");if(!t||t.tagName==="INPUT")return;ev.stopPropagation();ev.preventDefault();const a=t.dataset.hx;
+ if(a==="open")hxOpen();
+ else if(a==="x")hxClose();
+ else if(a==="tab"){HX.tab=t.dataset.v==="pub"?"pub":"lg";HX.lb=-1;hxLbKill();hxPaint()}
+ else if(a==="flt"){HX.f=t.dataset.v||"all";HX.n=40;hxPaint()}
+ else if(a==="more"){HX.n+=40;hxPaint()}
+ else if(a==="rk"){HX.load=false;HX.hitE="";hxLoadK();hxPaint()}
+ else if(a==="ra"){HX.archL=false;HX.archE="";HX.arch=null;hxPaint()}
+ else if(a==="po")hxLb(+t.dataset.i)
+ else if(a==="lx")hxLbKill()
+ else if(a==="lp"){HX.delc=false;HX.msg="";hxLb(HX.lb-1)}
+ else if(a==="ln"){HX.delc=false;HX.msg="";hxLb(HX.lb+1)}
+ else if(a==="dl"){HX.delc=true;HX.msg="";hxLb(HX.lb)}
+ else if(a==="dc"){HX.delc=false;HX.msg="";hxLb(HX.lb)}
+ else if(a==="dok")hxDel()},true);
+document.addEventListener("keydown",ev=>{if(!document.getElementById("hxov"))return;
+ if(ev.key==="Escape"){if(document.getElementById("hxlb")){if(HX.delc){HX.delc=false;hxLb(HX.lb)}else hxLbKill()}else hxClose();ev.preventDefault();ev.stopPropagation();return}
+ if(document.getElementById("hxlb")&&!HX.delc&&!/INPUT|TEXTAREA/.test((ev.target||{}).tagName||"")){if(ev.key==="ArrowRight"&&HX.arch&&HX.lb<HX.arch.items.length-1)hxLb(HX.lb+1);else if(ev.key==="ArrowLeft"&&HX.lb>0)hxLb(HX.lb-1)}},true);
+window.nxHx={scan:hxScan,cand:hxCand,open:hxOpen,close:hxClose,pub:()=>pubCalc(),fb:fichaBody};
 
 /* ---------- administración: denuncias ---------- */
 async function sgAdLoad(f){sgEns();const A=SG.adm;if(A.lb||(!f&&A.list&&Date.now()-A.t<30000))return;A.lb=true;
