@@ -1,7 +1,8 @@
 -- ============================================================================
--- NEXUM · STORIES (v67 + v68)
+-- NEXUM · STORIES (v67 + v68 + v69)
 -- Stories de 24 h (foto, vídeo ≤ 30 s o texto) para entrenadores y atletas.
 --   · v68: textos colocados DENTRO de la foto/vídeo (columna «ov») y foto de perfil de quien publica en el círculo («story_photos»).
+--   · v69: tipografías (en los textos sobre la foto y en las stories de texto), colores libres y canción de Spotify (solo se guarda el enlace: «mu»).
 --   · Alcance de cada story: 'grupo' (el entrenador y sus atletas), 'comunidad' (toda la plataforma)
 --     o 'nexum' (solo el administrador; sale como «Nexum»).
 --   · Los atletas sin entrenador ven lo de la comunidad y lo de Nexum.
@@ -58,12 +59,16 @@ alter table public.story_reports enable row level security;
 revoke all on public.stories, public.story_views, public.story_reports from anon, authenticated;
 revoke all on sequence public.story_reports_id_seq from anon, authenticated;
 
--- ---------- 1b. (v68) Textos sobre la foto o el vídeo ----------
--- «ov» = lista (máx. 4) de textos colocados sobre la foto/vídeo:
---   [{"t":"Hoy pierna","x":50,"y":30,"s":8,"c":"w","b":1}]
---   t texto (1–140) · x,y posición del centro en % de la foto (0–100) · s tamaño (3–16, en % del ancho) · c color (clave) · b fondo (0 sin, 1 oscuro, 2 color)
+-- ---------- 1b. (v68-v69) Textos sobre la foto, tipografía y música ----------
+--   ov  = (v68) hasta 4 textos sobre la foto/vídeo: [{"t":"Hoy pierna","x":50,"y":30,"s":8,"c":"w","b":1,"f":"d"}]
+--         t texto (1–140) · x,y centro en % de la foto · s tamaño (3–16 % del ancho) · c color (clave o #rrggbb) · b fondo (0 sin, 1 oscuro, 2 color) · f tipografía (v69, opcional)
+--   fnt = tipografía de las stories de solo texto (clave de 1–2 letras)
+--   mu  = canción de Spotify: {"id":"<22 caracteres>","t":"nombre (opcional, ≤ 80)"}  (solo el enlace; la música no se guarda)
 alter table public.stories add column if not exists ov jsonb;
+alter table public.stories add column if not exists fnt text;
+alter table public.stories add column if not exists mu jsonb;
 
+-- Textos sobre la foto: ahora con tipografía opcional «f» y color «c» = clave (1–2 letras) o #rrggbb
 create or replace function public.nx_story_ov_ok(o jsonb)
 returns boolean language plpgsql immutable set search_path = public as $$
 declare it jsonb; k text;
@@ -73,22 +78,43 @@ begin
   for it in select value from jsonb_array_elements(o) loop
     if jsonb_typeof(it) <> 'object' then return false; end if;
     for k in select jsonb_object_keys(it) loop
-      if k not in ('t', 'x', 'y', 's', 'c', 'b') then return false; end if;
+      if k not in ('t', 'x', 'y', 's', 'c', 'b', 'f') then return false; end if;
     end loop;
     if coalesce(jsonb_typeof(it->'t'), '') <> 'string' or char_length(btrim(it->>'t')) not between 1 and 140 then return false; end if;
     if coalesce(jsonb_typeof(it->'x'), '') <> 'number' or (it->>'x')::numeric not between 0 and 100 then return false; end if;
     if coalesce(jsonb_typeof(it->'y'), '') <> 'number' or (it->>'y')::numeric not between 0 and 100 then return false; end if;
     if coalesce(jsonb_typeof(it->'s'), '') <> 'number' or (it->>'s')::numeric not between 3 and 16 then return false; end if;
-    if coalesce(jsonb_typeof(it->'c'), '') <> 'string' or (it->>'c') !~ '^[a-z]{1,2}$' then return false; end if;
+    if coalesce(jsonb_typeof(it->'c'), '') <> 'string' or (it->>'c') !~ '^([a-z]{1,2}|#[0-9a-f]{6})$' then return false; end if;
     if coalesce(jsonb_typeof(it->'b'), '') <> 'number' or (it->>'b')::numeric not in (0, 1, 2) then return false; end if;
+    if it->'f' is not null and (coalesce(jsonb_typeof(it->'f'), '') <> 'string' or (it->>'f') !~ '^[a-z]{1,2}$') then return false; end if;
   end loop;
   return true;
 end $$;
 revoke all on function public.nx_story_ov_ok(jsonb) from public, anon, authenticated;
 
+-- Canción de Spotify: identificador de 22 caracteres y nombre opcional (sin caracteres de control)
+create or replace function public.nx_story_mu_ok(m jsonb)
+returns boolean language plpgsql immutable set search_path = public as $$
+declare k text;
+begin
+  if m is null then return true; end if;
+  if jsonb_typeof(m) <> 'object' then return false; end if;
+  for k in select jsonb_object_keys(m) loop
+    if k not in ('id', 't') then return false; end if;
+  end loop;
+  if coalesce(jsonb_typeof(m->'id'), '') <> 'string' or (m->>'id') !~ '^[A-Za-z0-9]{22}$' then return false; end if;
+  if m->'t' is not null and (coalesce(jsonb_typeof(m->'t'), '') <> 'string' or char_length(m->>'t') > 80 or (m->>'t') ~ '[[:cntrl:]]') then return false; end if;
+  return true;
+end $$;
+revoke all on function public.nx_story_mu_ok(jsonb) from public, anon, authenticated;
+
 alter table public.stories drop constraint if exists stories_ov_chk;
 alter table public.stories add constraint stories_ov_chk
   check (ov is null or (kind in ('image', 'video') and public.nx_story_ov_ok(ov)));
+alter table public.stories drop constraint if exists stories_fnt_chk;
+alter table public.stories add constraint stories_fnt_chk check (fnt is null or (kind = 'text' and fnt ~ '^[a-z]{1,2}$'));
+alter table public.stories drop constraint if exists stories_mu_chk;
+alter table public.stories add constraint stories_mu_chk check (mu is null or public.nx_story_mu_ok(mu));
 
 -- ---------- 2. Bucket privado (25 MB, solo imagen y vídeo) ----------
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
@@ -158,7 +184,7 @@ begin
         'name', case when s.scope = 'nexum' then 'Nexum'
                      else coalesce((select c.name from clients c where c.id = s.author_id),
                                    (select btrim(coalesce(k.nombre, '') || ' ' || coalesce(k.apellidos, '')) from coaches k where k.id = s.author_id), '—') end,
-        'scope', s.scope, 'kind', s.kind, 'text', s.body, 'bg', s.bg, 'media', s.path is not null, 'dur', s.dur, 'ov', s.ov,
+        'scope', s.scope, 'kind', s.kind, 'text', s.body, 'bg', s.bg, 'media', s.path is not null, 'dur', s.dur, 'ov', s.ov, 'fnt', s.fnt, 'mu', s.mu,
         'created_at', s.created_at, 'expires_at', s.expires_at, 'mine', s.author_id = me,
         'mod', (s.author_id = me or coalesce((w->>'admin')::boolean, false) or (w->>'kind' = 'coach' and s.group_id = me)),
         'seen', s.author_id = me or exists (select 1 from story_views v where v.story_id = s.id and v.viewer_id = me),
@@ -170,7 +196,9 @@ begin
 end $$;
 
 drop function if exists public.story_add(text, text, text, text, text, text, integer, text);
-create or replace function public.story_add(p_u text, p_p text, p_kind text, p_text text, p_bg text, p_path text, p_dur integer, p_scope text, p_ov jsonb default null)
+drop function if exists public.story_add(text, text, text, text, text, text, integer, text, jsonb);
+create or replace function public.story_add(p_u text, p_p text, p_kind text, p_text text, p_bg text, p_path text, p_dur integer, p_scope text,
+                                            p_ov jsonb default null, p_fnt text default null, p_mu jsonb default null)
 returns uuid language plpgsql security definer set search_path = public, extensions as $$
 declare w jsonb := public.nx_story_who(p_u, p_p); me uuid; grp uuid; v_scope text; n integer; v_id uuid; v_body text;
 begin
@@ -194,17 +222,25 @@ begin
   if p_ov is not null then
     if p_kind not in ('image', 'video') then raise exception 'Los textos sobre la foto solo valen para fotos y vídeos'; end if;
     if not public.nx_story_ov_ok(p_ov) then raise exception 'Los textos de la story no son válidos'; end if;
-    -- el texto plano (denuncias, moderación) es la suma de los textos puestos sobre la foto
     v_body := left((select string_agg(btrim(e.value->>'t'), ' · ') from jsonb_array_elements(p_ov) e), 280);
   end if;
+  -- tipografía (solo stories de texto)
+  if p_fnt is not null and btrim(p_fnt) = '' then p_fnt := null; end if;
+  if p_fnt is not null then
+    if p_kind <> 'text' then raise exception 'La tipografía solo vale para stories de texto'; end if;
+    if p_fnt !~ '^[a-z]{1,2}$' then raise exception 'Tipografía no válida'; end if;
+  end if;
+  -- canción de Spotify (cualquier tipo de story)
+  if p_mu is not null and jsonb_typeof(p_mu) = 'null' then p_mu := null; end if;
+  if p_mu is not null and not public.nx_story_mu_ok(p_mu) then raise exception 'La canción de Spotify no es válida'; end if;
   select count(*) into n from stories where author_id = me and deleted_at is null and expires_at > now();
   if n >= 15 then raise exception 'Has llegado al máximo de 15 stories activas'; end if;
   select count(*) into n from stories where author_id = me and created_at > now() - interval '1 day';
   if n >= 40 then raise exception 'Has publicado demasiadas stories hoy'; end if;
-  insert into stories (author_kind, author_id, group_id, scope, kind, body, bg, path, dur, ov)
+  insert into stories (author_kind, author_id, group_id, scope, kind, body, bg, path, dur, ov, fnt, mu)
   values (case when v_scope = 'nexum' then 'admin' else w->>'kind' end, me, grp, v_scope, p_kind, v_body,
           case when p_kind = 'text' then coalesce(nullif(p_bg, ''), 'c1') else null end,
-          case when p_kind = 'text' then null else p_path end, case when p_kind = 'video' then p_dur end, p_ov)
+          case when p_kind = 'text' then null else p_path end, case when p_kind = 'video' then p_dur end, p_ov, p_fnt, p_mu)
   returning id into v_id;
   return v_id;
 end $$;
@@ -356,9 +392,9 @@ grant execute on function public.story_orphans() to service_role;
 
 -- ---------- 5. Permisos ----------
 -- Atletas (sin sesión: usan usuario y contraseña) y entrenadores (con sesión) usan las mismas funciones
-revoke all on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text, jsonb), public.story_photos(text, text, uuid[]),
+revoke all on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text, jsonb, text, jsonb), public.story_photos(text, text, uuid[]),
   public.story_view(text, text, uuid[]), public.story_viewers(text, text, uuid), public.story_delete(text, text, uuid), public.story_report(text, text, uuid, text) from public;
-grant execute on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text, jsonb), public.story_photos(text, text, uuid[]),
+grant execute on function public.story_me(text, text), public.story_feed(text, text), public.story_add(text, text, text, text, text, text, integer, text, jsonb, text, jsonb), public.story_photos(text, text, uuid[]),
   public.story_view(text, text, uuid[]), public.story_viewers(text, text, uuid), public.story_delete(text, text, uuid), public.story_report(text, text, uuid, text)
   to anon, authenticated, service_role;
 revoke all on function public.admin_story_reports(), public.admin_story_resolve(bigint, boolean) from public, anon;
@@ -380,6 +416,8 @@ begin
 end $$;
 
 -- ---------- 7. Versión de los textos legales ----------
--- Las stories añaden un tratamiento nuevo (publicar contenido, visibilidad, denuncias): los textos suben de versión
--- y se vuelve a pedir la aceptación. Debe coincidir con LEGAL_V del archivo index.html.
+-- Las stories añadieron un tratamiento nuevo (publicar contenido, visibilidad, denuncias): los textos subieron de versión
+-- y se volvió a pedir la aceptación. La versión que RIGE en la base de datos es la de esta línea.
+-- (v69) Los textos legales de la web ya mencionan la música de Spotify y la foto en el círculo (LEGAL_V = 2026-11-13.2), pero la base de datos
+-- sigue en 2026-11-13 a propósito: para que a todos se les pida aceptar de nuevo, ejecuta DESPUÉS de subir la web el archivo activar-version-legal.sql.
 create or replace function public.nx_legal_version() returns text language sql immutable as $$ select '2026-11-13'::text $$;

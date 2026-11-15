@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-13.68">
+<meta name="app-version" content="2026-11-15.70">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -427,6 +427,74 @@ main>.menu+.menu,.menu{margin-bottom:12px}.card+.grid,.grid+.card,.grid+.grid,.m
 button.inf{border-width:1px;color:#857d70;border-color:#a8a094}
 .infb{background:rgba(26,26,28,.045)}
 details.card summary{font-weight:500}
+/* v70 · analizador de VAM y VO₂máx */
+.vx .vxh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.vx h4{margin:0;font-size:11px;letter-spacing:.2em;font-weight:600;text-transform:uppercase;color:var(--wine);position:relative;padding-left:12px;line-height:1.5}
+.vx h4:before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:3px;border-radius:2px;background:var(--wine)}
+.vx .vxh small{text-align:right;max-width:46%;line-height:1.35}
+.vxc{margin-top:16px}
+.vxl{position:relative;height:42px}
+.vxl span{position:absolute;top:0;font-size:10px;letter-spacing:.16em;font-weight:600;color:#8a8175;line-height:1.4;white-space:nowrap;text-transform:uppercase}
+.vxl span b{display:block;font-size:15px;letter-spacing:0;color:var(--wine);font-weight:600;text-transform:none}
+.vxl .a{transform:translateX(-100%);text-align:right;padding-right:7px}
+.vxl .m{right:0;text-align:right}
+.vxl.lo{height:84px}.vxl.lo .a{top:42px}
+.vxp{position:relative;height:116px;border-left:1px solid #b9b1a2;border-bottom:1px solid #b9b1a2}
+.vxp .g{position:absolute;top:0;bottom:0;width:1px;background:rgba(26,26,28,.13)}
+.vxp .vxb{position:absolute;left:0;right:0;top:30px;height:56px;display:flex}
+.vxp .vxb i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11px;letter-spacing:.22em;font-weight:700;overflow:hidden;white-space:nowrap}
+.vxp .vxb .a{background:#dcc7a1;color:#5b4a2e;border-radius:0 0 0 0}
+.vxp .vxb .r{background:var(--wine);color:#fff;border-radius:0 8px 8px 0}
+.vxp .vxb .e{border:1.5px dashed #b9b1a2;border-left:0;color:#8a8175;border-radius:0 8px 8px 0;letter-spacing:.1em;font-weight:600}
+.vxp .k{position:absolute;top:0;bottom:0;width:2px;background:var(--wine);margin-left:-1px}
+.vxa{position:relative;height:20px;margin-top:5px}
+.vxa span{position:absolute;top:0;font-size:12px;color:#6f685e;transform:translateX(-50%);font-variant-numeric:tabular-nums}
+.vxa span:first-child{transform:none}
+.vxt{text-align:center;font-size:10px;letter-spacing:.2em;color:#8a8175;margin-top:4px;text-transform:uppercase}
+.vxk{display:flex;gap:12px;padding:14px;border:1px solid var(--hair);border-radius:14px;margin-top:12px}
+.vxk>i{width:22px;height:22px;border-radius:6px;flex:none;margin-top:2px}
+.vxk>div{min-width:0}
+.vxk b{display:block;font-size:14px;font-weight:600}
+.vxk .vxr{display:block;color:var(--wine);font-weight:600;font-size:14px;margin:3px 0 4px;font-variant-numeric:tabular-nums}
+.vxk small{display:block;line-height:1.4}
+.vst{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--hair);margin-top:16px;padding-top:14px;text-align:center}
+.vst small{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;min-height:30px;line-height:1.35}
+.vst b{display:block;font-size:24px;font-weight:600;color:var(--wine);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.vst b em{font-style:normal;font-size:12px;color:#8a8175;margin-left:3px;font-weight:400}
+.vvk{display:block;letter-spacing:.2em;text-transform:uppercase;font-size:10px;font-weight:600}
+.vvk b{color:var(--wine)}
+.vvl{font-size:36px;font-weight:600;color:var(--wine);letter-spacing:-.025em;line-height:1.1;margin:8px 0 2px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.vvl span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8a8175;font-weight:600}
+.vvs{display:flex;gap:6px;margin:16px 0 8px}
+.vvs i{flex:1;height:8px;border-radius:4px;background:rgba(26,26,28,.12)}
+.vvs i.on{background:var(--wine)}
+.vvn{display:flex;gap:6px;font-size:10px;letter-spacing:.06em;color:#8a8175;text-transform:uppercase}
+.vvn span{flex:1;text-align:center;min-width:0}
+.vvn span.on{color:var(--wine);font-weight:700}
+.vvp{margin-top:16px;padding:12px 14px;border-left:3px solid var(--champ);background:rgba(120,100,70,.08);border-radius:0 12px 12px 0;font-size:14px;line-height:1.45}
+.vvp small{display:block;letter-spacing:.16em;text-transform:uppercase;font-size:10px;margin-bottom:5px;font-weight:600}
+.vvp small b{color:var(--wine)}
+.vz{padding:14px 0;border-top:1px solid var(--hair)}
+.vz:first-of-type{border-top:0}
+.vzh{display:flex;align-items:center;gap:10px}
+.vzh b{font-size:15px;font-weight:600}
+.vzb{min-width:36px;text-align:center;padding:5px 7px;border-radius:8px;font-weight:700;font-size:13px;color:#fff;flex:none;letter-spacing:.02em}
+.vzt{position:relative;height:8px;border-radius:4px;background:rgba(26,26,28,.13);margin:10px 0 8px;overflow:hidden}
+.vzt i{position:absolute;top:0;bottom:0;border-radius:4px}
+.vzv{display:flex;flex-wrap:wrap;gap:3px 16px;font-size:13px;font-variant-numeric:tabular-nums;color:#6f685e}
+.vzv .s{color:#1a1a1c;font-weight:600}
+.vzv .f{color:var(--wine);font-weight:600}
+.vhr{display:flex;align-items:center;gap:12px;cursor:pointer}
+.vhr b{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.vhd{width:12px;height:12px;border-radius:50%;background:var(--wine);flex:none}
+.vhc{font-size:22px;color:#8a8175;line-height:1}
+.vsp{display:block;width:100%;height:64px;margin:14px 0 4px}
+.vhl{margin-top:6px}
+.vhi{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--hair)}
+.vhi b{font-size:14px}
+.vhdl{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.vhdl.up{color:#3d7a52}.vhdl.dn{color:var(--wine)}
+.vhi button.x{padding:6px 10px;font-size:12px}
 </style>
 </head>
 <body class="spl"><div id="splash"><img id="spl" alt=""></div><script>try{if(sessionStorage.getItem("nx_s")||matchMedia("(prefers-reduced-motion:reduce)").matches)document.body.classList.remove("spl")}catch(e){}</script>
@@ -849,7 +917,7 @@ async function listCl(){let r=await SB.from("clients").select("id,name,usr,pwd_p
 /* ===== Plataforma multi-entrenador: perfil, registro de entrenador y comisión 20 % ===== */
 let PRF="",CS=0,COACH=null,RV={};try{PRF=localStorage.getItem("ydp_role")||""}catch(e){}
 window.nxCS=function(v){if(v!==undefined)CS=v;return CS};
-let COM=0.2;const EUR=n=>(+n||0).toLocaleString("es-ES",{style:"currency",currency:"EUR"}),PMP=()=>EUR(+(CFG&&CFG.premium_precio)||9.95),vMail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+let COM=0.2;const EUR=n=>(+n||0).toLocaleString("es-ES",{style:"currency",currency:"EUR"}),PMP=()=>EUR(+(CFG&&CFG.premium_precio)||4.9),vMail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 const vNIF=v=>{v=v.toUpperCase().replace(/[\s-]/g,"");const L="TRWAGMYFPDXBNJZSQVHLCKE";if(/^\d{8}[A-Z]$/.test(v))return L[+v.slice(0,8)%23]===v[8];if(/^[XYZ]\d{7}[A-Z]$/.test(v))return L[+("XYZ".indexOf(v[0])+v.slice(1,8))%23]===v[8];if(/^[ABCDEFGHJNPQRSUVW]\d{7}[0-9A-J]$/.test(v)){let s=0;for(let i=0;i<7;i++){let n=+v[i+1];if(i%2===0){n*=2;if(n>9)n-=9}s+=n}const c=(10-s%10)%10;return v[8]===String(c)||v[8]==="JABCDEFGHI"[c]}return false};
 const vIBAN=v=>{v=v.toUpperCase().replace(/\s/g,"");if(!/^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/.test(v)||(v.startsWith("ES")&&v.length!==24))return false;let r=0;for(const ch of v.slice(4)+v.slice(0,4)){const d=/\d/.test(ch);r=(r*(d?10:100)+(d?+ch:ch.charCodeAt(0)-55))%97}return r===1};
 async function loadCoach(){try{const {data}=await SB.from("coaches").select("*").maybeSingle();COACH=data||null;qsApply(COACH&&COACH.cuestionario)}catch(e){COACH=null}}
@@ -1656,9 +1724,9 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-13.68";
+const APP_V="2026-11-15.70";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
-const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 14,90 €/mes + IVA · 7 días de prueba gratis"}}};
+const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
 function anaRep(d){const fx=(n,k)=>n==null?"–":String(Math.round(n*(k||10))/(k||10)).replace(".",","),pn=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0},sc=k=>{const r=S.rec[k];return r&&r.saved&&r.ci?(r.ci.score!=null?r.ci.score:score(r.ci)):null},mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
 const I=[],add=(n,v,st,q,it,li,rf)=>I.push({n,v,st,q,it,li,rf});
@@ -3333,7 +3401,7 @@ Object.assign(window.nxDc,{bono:async()=>{const n=+((document.getElementById("dc
 {const _pc4=window.pushCard;window.pushCard=()=>refCard(false)+_pc4()}
 {const _ch2=coachHomeH;coachHomeH=function(){return refCard(true)+_ch2.apply(this,arguments)}}
 /* ===== v66 · planes del entrenador por tramos de clientes: Inicio · Crece · Pro (mensual o anual) ===== */
-const PN_DEF=[{key:"inicio",nombre:"Inicio",max:10,mensual:14.9,anual:149},{key:"crece",nombre:"Crece",max:20,mensual:24.9,anual:249,rec:true},{key:"pro",nombre:"Pro",max:null,mensual:34.9,anual:349}];
+const PN_DEF=[{key:"inicio",nombre:"Inicio",max:10,mensual:17.9,anual:179},{key:"crece",nombre:"Crece",max:20,mensual:29.9,anual:299,rec:true},{key:"pro",nombre:"Pro",max:null,mensual:39.9,anual:399}];
 let PN47={opt:null,busy:false,sel:"",per:"mes",err:"",flash:"",lb:false,codeFor:null};window.PN47=PN47;
 const pnE=n=>{n=+n||0;return Number.isInteger(n)?n.toLocaleString("es-ES")+" €":EUR(n)};
 const pnTiers=()=>{const t=PN47.opt&&PN47.opt.tiers;if(Array.isArray(t)&&t.length)return t;const c=CFG&&CFG.coach_tiers;return Array.isArray(c)&&c.length?c:PN_DEF};
@@ -3432,14 +3500,14 @@ window.pnLbl=c=>{if(!c.plan)return"Sin plan elegido";const E={active:"suscripci�
 /* estilos de los planes por tramos */
 {const s=document.createElement("style");s.textContent=`.pnq{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:#e6e0d4;border-radius:12px;margin:4px 0 14px}.pnq button{padding:10px 6px;background:transparent;color:#1a1a1c;border:0;border-radius:9px;text-transform:none;letter-spacing:0;font-size:14px}.pnq button.on{background:#1a1a1c;color:#fff}.pnq i{font-style:normal;font-size:10.5px;font-weight:700;background:#d9a441;color:#1a1a1c;padding:2px 6px;border-radius:999px;margin-left:4px}.pnc.no{opacity:.55}.pnc .pnb.pnb2{background:#5f8f4e;color:#fff}.pnm{height:8px;background:#e6e0d4;border-radius:999px;overflow:hidden;margin:6px 0}.pnm i{display:block;height:100%;background:#5f8f4e;border-radius:999px}.pnm i.hot{background:#d9a441}.pnu{font-size:13px;margin:8px 0 0;color:#1a1a1c}.pnu a{color:#86222f;font-weight:700}.pnr{font-size:12px;color:#6f685e;text-align:center;margin:10px 0 0}`;document.head.appendChild(s)}
 /* ===== v66 · textos legales, aceptaciones versionadas y derechos RGPD ===== */
-const LEGAL_V="2026-11-13";
+const LEGAL_V="2026-11-13.2";
 let LGL={coach:null,u:"",lb:false,err:"",busy:false,doc:"",aud:""};window.LGL=LGL;
 const lgO=()=>{const f=(CFG&&CFG.nexum_fiscal)||{},p=(v,l)=>v?esc(v):`<mark class="lgmk">[${l}]</mark>`;return{n:p(f.nombre,"nombre del titular"),nif:p(f.nif,"NIF"),dir:p(f.direccion,"domicilio"),mail:p(f.email,"correo de contacto"),raw:f}};
 const lgTrial=()=>{const v=CFG&&+CFG.trial_dias;return v>0?v:7};
 window.lgTrial=lgTrial;
 const lgTiers=()=>{const T=(typeof pnTiers==="function")?pnTiers():PN_DEF,iva=(CFG&&CFG.nexum_iva!=null&&isFinite(+CFG.nexum_iva))?+CFG.nexum_iva:21;
  return`<ul>${T.map((t,i)=>{const pv=i>0?T[i-1]:null;return`<li><b>${esc(t.nombre)}</b> (${t.max!=null?"hasta "+t.max+" clientes":(pv&&pv.max!=null?(pv.max+1)+" o más clientes":"sin límite")}): ${pnE(+t.mensual)} al mes o ${pnE(+t.anual>0?+t.anual:+t.mensual*10)} al año, más IVA (${iva} %).</li>`}).join("")}</ul>`};
-const lgPP=()=>{const g=GATE&&GATE.premium_precio,v=g||(CFG&&CFG.premium_precio)||9.95;return EUR(+v)};
+const lgPP=()=>{const g=GATE&&GATE.premium_precio,v=g||(CFG&&CFG.premium_precio)||4.9;return EUR(+v)};
 const LGD={
 aviso:()=>{const o=lgO();return`<h3>Aviso legal</h3>
 <p>En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de que la plataforma <b>Nexum</b> pertenece a:</p>
@@ -3460,7 +3528,7 @@ terminos_coach:()=>{const o=lgO(),cm=(typeof COM==="number"&&COM>0)?Math.round(C
 <h4>4. Tus atletas y tus cobros</h4><p>Tú fijas los precios que cobras a tus atletas y eres quien les presta el servicio de entrenamiento: eres responsable de tus obligaciones fiscales, de facturarles y de tus condiciones con ellos. Los pagos de los atletas se procesan con Stripe${cm?"; Nexum retiene una comisión del "+cm+" % de cada cobro":"; Nexum no cobra comisión por ellos"}.</p>
 <h4>5. Datos personales de tus atletas</h4><p>Respecto de los datos de tus atletas, tú eres el <b>responsable del tratamiento</b> y Nexum actúa como <b>encargado</b>, conforme al contrato que aparece en el «Encargo de tratamiento» (que forma parte de estas condiciones). Te comprometes a informar a tus atletas del tratamiento (puedes remitirles a la Política de privacidad de Nexum), a contar con una base legitimadora para los datos que introduzcas y, en especial, a obtener su consentimiento explícito para los datos de salud. No debes introducir datos de terceros sin una base legal.</p>
 <h4>6. Uso aceptable</h4><p>No puedes usar Nexum para actividades ilícitas, para enviar spam, para suplantar a otras personas, para vulnerar derechos de terceros ni para intentar acceder a datos que no te corresponden. Nexum podrá suspender cuentas que incumplan estas condiciones.</p>
-<h4>7. Contenidos</h4><p>Conservas la titularidad de tus rutinas, plantillas, vídeos y mensajes. Concedes a Nexum una licencia limitada, no exclusiva, solo para alojarlos y mostrarlos a quien corresponda con el fin de prestar el servicio.</p><p>Las stories que publiques son contenido tuyo: eres responsable de lo que muestran y no debes publicar imágenes ni datos de tus atletas sin su permiso. Como entrenador puedes retirar las stories de tu grupo y ver quién ha visto cada una; Nexum podrá retirar cualquier story denunciada.</p>
+<h4>7. Contenidos</h4><p>Conservas la titularidad de tus rutinas, plantillas, vídeos y mensajes. Concedes a Nexum una licencia limitada, no exclusiva, solo para alojarlos y mostrarlos a quien corresponda con el fin de prestar el servicio.</p><p>Las stories que publiques son contenido tuyo: eres responsable de lo que muestran y no debes publicar imágenes ni datos de tus atletas sin su permiso. Como entrenador puedes retirar las stories de tu grupo y ver quién ha visto cada una; Nexum podrá retirar cualquier story denunciada. Si añades una canción de Spotify a una story, Nexum solo guarda el enlace de la canción; la música y el reproductor son de Spotify y se rigen por sus condiciones.</p>
 <h4>8. Disponibilidad y soporte</h4><p>Nexum aplica esfuerzos razonables para que el servicio funcione de forma continua, sin garantizar una disponibilidad concreta. Pueden producirse paradas por mantenimiento o por fallos de proveedores.</p>
 <h4>9. Responsabilidad</h4><p>Nexum es una herramienta de gestión: las decisiones de entrenamiento y nutrición son tuyas y de tus atletas. En la medida permitida por la ley, la responsabilidad de Nexum frente a ti se limita al importe que hayas pagado por el servicio en los 12 meses anteriores al hecho, salvo en caso de dolo o culpa grave o de aquello que no pueda limitarse legalmente.</p>
 <h4>10. Duración y baja</h4><p>El contrato dura mientras mantengas tu cuenta. Puedes cancelar la suscripción en cualquier momento y solicitar la baja de tu cuenta. Tras la baja dispondrás de 30 días para solicitar una copia de tus datos; pasado ese plazo se suprimirán, salvo los que deban conservarse por ley (por ejemplo, facturas).</p>
@@ -3480,7 +3548,7 @@ terminos_atleta:()=>{const o=lgO();return`<h3>Condiciones de uso para atletas</h
 <h4>3. Si entrenas con un entrenador</h4><p>El servicio de entrenamiento lo presta tu entrenador y las condiciones y el precio los acuerdas con él; Nexum es la herramienta que usáis. Los pagos del plan se procesan con Stripe a favor de tu entrenador. Tu entrenador es el responsable de tus datos y Nexum los trata por encargo suyo (consulta la Política de privacidad).</p>
 <h4>4. Si usas Nexum sin entrenador</h4><p>Puedes usar Nexum por tu cuenta. La modalidad de pago «Premium» se rige por sus propias condiciones, que se te muestran antes de contratarla.</p>
 <h4>5. Salud</h4><p>Nexum no es un servicio sanitario y no sustituye a un médico. Consulta con un profesional antes de empezar o cambiar tu programa, y detén el ejercicio ante dolor, mareo o cualquier síntoma extraño. Entrenas bajo tu responsabilidad. Los informes de salud que subas son opcionales y solo los ven tú y tu entrenador.</p>
-<h4>6. Conducta y contenidos</h4><p>Respeta a las demás personas en los chats y en las stories, no compartas contenidos ilícitos, ofensivos, sexuales, violentos ni que expongan a otras personas sin su permiso, y no intentes acceder a datos ajenos. Eres responsable de lo que publicas: conservas su titularidad y concedes a Nexum una licencia limitada, solo para alojarlo y mostrarlo a quien elijas durante las 24 horas que dura una story. Las stories que publiques para la «comunidad Nexum» las verá cualquier usuario de Nexum, no solo tu grupo. Cualquier persona puede denunciar una story; tu entrenador (en las de su grupo) y Nexum pueden retirarla y, si se repite, suspender la cuenta.</p>
+<h4>6. Conducta y contenidos</h4><p>Respeta a las demás personas en los chats y en las stories, no compartas contenidos ilícitos, ofensivos, sexuales, violentos ni que expongan a otras personas sin su permiso, y no intentes acceder a datos ajenos. Eres responsable de lo que publicas: conservas su titularidad y concedes a Nexum una licencia limitada, solo para alojarlo y mostrarlo a quien elijas durante las 24 horas que dura una story. Las stories que publiques para la «comunidad Nexum» las verá cualquier usuario de Nexum, no solo tu grupo. Cualquier persona puede denunciar una story; tu entrenador (en las de su grupo) y Nexum pueden retirarla y, si se repite, suspender la cuenta. Si añades una canción de Spotify a una story, Nexum solo guarda el enlace de la canción; la música y el reproductor son de Spotify y se rigen por sus condiciones.</p>
 <h4>7. Baja</h4><p>Puedes dejar de usar Nexum cuando quieras y pedir la baja y la eliminación de tus datos (ver «Mis datos y privacidad» en tu cuenta).</p>
 <h4>8. Cambios y ley aplicable</h4><p>Si cambian estas condiciones te lo diremos y te pediremos aceptar la nueva versión. Se rigen por la ley española; como consumidor puedes acudir a los juzgados de tu domicilio.</p>`},
 premium:()=>{const o=lgO(),pp=lgPP();return`<h3>Condiciones de Nexum Premium</h3><p class="lgdt">Versión ${LEGAL_V}</p>
@@ -3493,11 +3561,11 @@ premium:()=>{const o=lgO(),pp=lgPP();return`<h3>Condiciones de Nexum Premium</h3
 <h4>5. Si te asignan un entrenador</h4><p>Premium es solo para atletas sin entrenador. Si Nexum te asigna uno, tu suscripción Premium se cancela y pasas al plan de tu entrenador.</p>`},
 privacidad:()=>{const o=lgO();return`<h3>Política de privacidad</h3><p class="lgdt">Versión ${LEGAL_V}</p>
 <h4>1. Quién es el responsable</h4><ul><li><b>Si entrenas con un entrenador:</b> tu entrenador es el <b>responsable</b> de tus datos y Nexum los trata <b>por su encargo</b>.</li><li><b>Si eres entrenador, usas Nexum sin entrenador (incluido Premium) o visitas la web:</b> el responsable es ${o.n}, NIF ${o.nif}, ${o.dir}, ${o.mail}.</li></ul>
-<h4>2. Qué datos tratamos</h4><ul><li>Identificativos y de contacto: nombre, usuario, correo.</li><li>Datos de seguimiento: entrenamientos, medidas corporales, nutrición, descanso, hábitos, fotos si las subes y mensajes del chat.</li><li><b>Stories:</b> las fotos, vídeos cortos o textos que publiques como story, la fecha, el alcance que elijas y quién las ha visto.</li><li><b>Datos de salud</b> (informes médicos, de fisioterapia, nutrición u otros) <b>solo si tú decides subirlos</b>.</li><li>Datos de pago: los gestiona Stripe; Nexum no guarda el número de tu tarjeta.</li><li>Datos técnicos: dirección IP y navegador en el momento de aceptar los textos legales, y los necesarios para las notificaciones push que actives.</li></ul>
-<h4>3. Para qué y con qué base legal</h4><ul><li>Prestarte el servicio y gestionar tu cuenta — ejecución del contrato (art. 6.1.b RGPD).</li><li>Tratar tus informes de salud — tu <b>consentimiento explícito</b> (art. 9.2.a), que das al subir cada documento y puedes retirar borrándolo.</li><li>Facturación y obligaciones fiscales — obligación legal (art. 6.1.c).</li><li>Publicar tus stories y mostrarlas a las personas que elijas — ejecución del contrato (art. 6.1.b).</li><li>Seguridad, moderación y prevención de abusos (por ejemplo, revisar una story denunciada) — interés legítimo (art. 6.1.f).</li><li>Notificaciones push y avisos opcionales — tu consentimiento.</li></ul>
-<h4>4. A quién se comunican</h4><p>Tu entrenador (y el nutricionista que te asigne, si lo hay), las personas que correspondan al alcance de cada story que publiques (ver el apartado 5), los proveedores que prestan el servicio por encargo (alojamiento y base de datos, pagos, correo, facturación electrónica) y las administraciones cuando la ley lo exija. No vendemos tus datos ni los usamos para publicidad de terceros.</p>
-<h4>5. Stories</h4><p>Las stories son fotos, vídeos de hasta 30 segundos o textos que <b>desaparecen solos a las 24 horas</b>. Al publicar eliges quién las ve: <b>tu grupo</b> (tu entrenador y los atletas de su grupo) o <b>toda la comunidad de Nexum</b> (entrenadores y atletas, incluidos los que aún no tienen entrenador). Las stories oficiales de Nexum las ven todos los usuarios. Quien publica una story, el entrenador de su grupo y el administrador de Nexum pueden ver <b>quién la ha visto</b>. Los archivos se guardan en un almacenamiento privado, se muestran con enlaces temporales y se borran poco después de caducar; el registro de la story se elimina a los 7 días. Cualquier usuario puede <b>denunciar</b> una story: el administrador de Nexum la revisará y podrá retirarla, y conservará la denuncia hasta resolverla. Las fotos se reducen en tu dispositivo antes de subirlas (lo que elimina datos como la ubicación), pero los vídeos se suben tal cual: revisa lo que se ve y se oye en ellos. No publiques datos de salud, imágenes de otras personas sin su permiso ni datos de menores.</p>
-<h4>6. Transferencias internacionales</h4><p>La base de datos está en la UE (Fráncfort). Algunos proveedores (por ejemplo, de alojamiento, pagos o correo) pueden estar en EE. UU.; en ese caso se aplican el Marco de Privacidad de Datos UE-EE. UU. o cláusulas contractuales tipo.</p>
+<h4>2. Qué datos tratamos</h4><ul><li>Identificativos y de contacto: nombre, usuario, correo.</li><li>Datos de seguimiento: entrenamientos, medidas corporales, nutrición, descanso, hábitos, fotos si las subes y mensajes del chat.</li><li><b>Stories:</b> las fotos, vídeos cortos o textos que publiques como story, los textos que escribas encima, la canción de Spotify que añadas (solo su enlace y el nombre), la fecha, el alcance que elijas y quién las ha visto. Si tienes foto de perfil, se muestra en el círculo de tus stories a quien las vea.</li><li><b>Datos de salud</b> (informes médicos, de fisioterapia, nutrición u otros) <b>solo si tú decides subirlos</b>.</li><li>Datos de pago: los gestiona Stripe; Nexum no guarda el número de tu tarjeta.</li><li>Datos técnicos: dirección IP y navegador en el momento de aceptar los textos legales, y los necesarios para las notificaciones push que actives.</li></ul>
+<h4>3. Para qué y con qué base legal</h4><ul><li>Prestarte el servicio y gestionar tu cuenta — ejecución del contrato (art. 6.1.b RGPD).</li><li>Tratar tus informes de salud — tu <b>consentimiento explícito</b> (art. 9.2.a), que das al subir cada documento y puedes retirar borrándolo.</li><li>Facturación y obligaciones fiscales — obligación legal (art. 6.1.c).</li><li>Publicar tus stories y mostrarlas a las personas que elijas — ejecución del contrato (art. 6.1.b).</li><li>Seguridad, moderación y prevención de abusos (por ejemplo, revisar una story denunciada) — interés legítimo (art. 6.1.f).</li><li>Notificaciones push y avisos opcionales — tu consentimiento.</li><li>Cargar el reproductor de Spotify de una story — tu consentimiento, que das al pulsar «Cargar reproductor».</li></ul>
+<h4>4. A quién se comunican</h4><p>Tu entrenador (y el nutricionista que te asigne, si lo hay), las personas que correspondan al alcance de cada story que publiques (ver el apartado 5), los proveedores que prestan el servicio por encargo (alojamiento y base de datos, pagos, correo, facturación electrónica) y las administraciones cuando la ley lo exija. Si alguien pulsa el reproductor de Spotify de una story, Spotify recibe sus datos como responsable propio (ver el apartado 5). No vendemos tus datos ni los usamos para publicidad de terceros.</p>
+<h4>5. Stories</h4><p>Las stories son fotos, vídeos de hasta 30 segundos o textos que <b>desaparecen solos a las 24 horas</b>. Al publicar eliges quién las ve: <b>tu grupo</b> (tu entrenador y los atletas de su grupo) o <b>toda la comunidad de Nexum</b> (entrenadores y atletas, incluidos los que aún no tienen entrenador). Las stories oficiales de Nexum las ven todos los usuarios. Quien publica una story, el entrenador de su grupo y el administrador de Nexum pueden ver <b>quién la ha visto</b>. Los archivos se guardan en un almacenamiento privado, se muestran con enlaces temporales y se borran poco después de caducar; el registro de la story se elimina a los 7 días. Cualquier usuario puede <b>denunciar</b> una story: el administrador de Nexum la revisará y podrá retirarla, y conservará la denuncia hasta resolverla. <b>Música de Spotify:</b> las stories pueden llevar el enlace de una canción. Hasta que la persona que ve la story pulsa «Cargar reproductor» no se conecta nada con Spotify; al pulsarlo, Spotify recibe su dirección IP y puede usar sus propias cookies y datos de su cuenta, según su política de privacidad. Nexum no recibe esos datos. Las tipografías adicionales de los textos se descargan de Google Fonts. Las fotos se reducen en tu dispositivo antes de subirlas (lo que elimina datos como la ubicación), pero los vídeos se suben tal cual: revisa lo que se ve y se oye en ellos. No publiques datos de salud, imágenes de otras personas sin su permiso ni datos de menores.</p>
+<h4>6. Transferencias internacionales</h4><p>La base de datos está en la UE (Fráncfort). Algunos proveedores (por ejemplo, de alojamiento, pagos, correo o Spotify) pueden estar en EE. UU.; en ese caso se aplican el Marco de Privacidad de Datos UE-EE. UU. o cláusulas contractuales tipo.</p>
 <h4>7. Cuánto tiempo los conservamos</h4><p>Mientras tengas cuenta. Tras la baja, los suprimimos (en 30 días como máximo), salvo lo que la ley obligue a conservar, como las facturas (con carácter general, 6 años) o los registros de aceptación legal, que se guardan para poder acreditar tu consentimiento.</p>
 <h4>8. Tus derechos</h4><p>Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad desde <b>Cuenta → Mis datos y privacidad</b> (puedes descargar tus datos al instante) o escribiendo a ${o.mail}. Responderemos en un máximo de un mes. Si crees que no tratamos bien tus datos, puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es). Si tu entrenador es el responsable, tu solicitud se le trasladará.</p>
 <h4>9. Seguridad</h4><p>Las comunicaciones van cifradas (HTTPS), el acceso a los datos se controla por roles (cada atleta solo ve lo suyo; el entrenador, el de sus atletas), los informes de salud se guardan en un almacenamiento privado al que solo acceden el atleta y su entrenador, y las acciones de administración quedan registradas.</p>
@@ -3507,7 +3575,7 @@ cookies:()=>`<h3>Cookies y almacenamiento local</h3><p class="lgdt">Versión ${L
 <p>Nexum <b>no usa cookies de publicidad ni de analítica</b>. Solo guarda en tu dispositivo lo imprescindible para que funcione, que no requiere tu consentimiento:</p>
 <ul><li>Tu sesión iniciada y tu perfil de acceso (para no pedirte la contraseña cada vez, si marcas «Mantener sesión abierta»).</li><li>Tus preferencias (tema claro/oscuro, rol recordado, ajustes de la app).</li><li>Datos temporales para que la app funcione con conexión inestable.</li></ul>
 <p>Algunos servicios de terceros pueden intervenir al usar ciertas funciones:</p>
-<ul><li><b>Stripe</b>, al pagar: usa cookies propias de seguridad y prevención del fraude.</li><li><b>YouTube y Vimeo</b>, al reproducir vídeos incrustados: pueden instalar cookies al reproducir el vídeo.</li><li><b>Google Fonts</b> (tipografías) y <b>jsDelivr</b> (una librería técnica): al cargar la web reciben tu dirección IP.</li></ul>
+<ul><li><b>Stripe</b>, al pagar: usa cookies propias de seguridad y prevención del fraude.</li><li><b>YouTube y Vimeo</b>, al reproducir vídeos incrustados: pueden instalar cookies al reproducir el vídeo.</li><li><b>Google Fonts</b> (tipografías) y <b>jsDelivr</b> (una librería técnica): al cargar la web reciben tu dirección IP.</li><li><b>Spotify</b>, solo si pulsas «Cargar reproductor» en una story con música: Spotify recibe tu dirección IP y puede instalar sus propias cookies.</li></ul>
 <p>Puedes borrar los datos guardados desde los ajustes de tu navegador. Si cambia lo que usamos, actualizaremos este texto.</p>`};
 const LGT={aviso:"Aviso legal",terminos_coach:"Condiciones del servicio",encargo:"Encargo de datos",terminos_atleta:"Condiciones de uso",premium:"Condiciones Premium",privacidad:"Privacidad",cookies:"Cookies"};
 const lgTabs=a=>a==="coach"?["aviso","terminos_coach","encargo","privacidad","cookies"]:a==="client"?["aviso","terminos_atleta","privacidad","cookies","premium"]:["aviso","terminos_coach","terminos_atleta","privacidad","cookies"];
@@ -3653,25 +3721,89 @@ window.nxTg={nin:v=>{TG.nm=v},edit:()=>{TG.edit=true;TG.nm=(TG.d&&TG.d.nombre)||
 {const _cb3=chatBox;chatBox=function(){const h=_cb3.apply(this,arguments);if(chn!=="staff"||ROLE!=="coach")return h;return tgHead()+h.replace(/^<div class="card"><b>[^<]*<\/b>(<br>)?/,'<div class="card">')}}
 
 /* ===== v21p · FC: VAM, VO2máx y RM por VBT ===== */
-let FX={t:"cooper",d:"",s:"",age:"",ex:"pb",k0:"",v0:"",k1:"",v1:"",k2:"",v2:""};
+/* ===== v70 · Analizador de VAM y VO₂máx: VAM + reserva de velocidad, veredicto, zonas Z1–Z7 y histórico ===== */
+let FX={t:"cooper",d:"",mu:"kmh",ms:"",s:"",age:"",ex:"pb",k0:"",v0:"",k1:"",v1:"",k2:"",v2:"",ho:false,sv:""};
 const fxN=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isFinite(n)?n:null};
 const fxF=(n,d)=>(Math.round(n*Math.pow(10,d))/Math.pow(10,d)).toString().replace(".",",");
+const fxK=n=>(Math.round(n*10)/10).toFixed(1).replace(".",",");
 const fxPace=v=>{if(!(v>0))return"–";const m=60/v;let mm=Math.floor(m),ss=Math.round((m-mm)*60);if(ss===60){mm++;ss=0}return mm+":"+String(ss).padStart(2,"0")};
-const FXT={cooper:{n:"Cooper 12 min",l:"Distancia recorrida en 12 min (m)",p:"2800",lo:1000,hi:4500},six:{n:"Test de 6 min",l:"Distancia recorrida en 6 min (m)",p:"1500",lo:600,hi:2600},nav:{n:"Course navette",l:"Velocidad del último palier completado (km/h)",p:"12",lo:8,hi:21},hr:{n:"Por FC (Uth)",l:"",p:"",lo:0,hi:0}};
+const FXT={vam:{n:"VAM directa",l:"Tu VAM (km/h)",p:"16",lo:8,hi:30},cooper:{n:"Cooper 12 min",l:"Distancia recorrida en 12 min (m)",p:"2800",lo:1000,hi:4500},six:{n:"Test de 6 min",l:"Distancia recorrida en 6 min (m)",p:"1500",lo:600,hi:2600},nav:{n:"Course navette",l:"Velocidad del último palier completado (km/h)",p:"12",lo:8,hi:21},yoyo:{n:"Yo-Yo IR1",l:"Distancia total recorrida (m)",p:"2400",lo:40,hi:3600},hr:{n:"Por FC (Uth)",l:"",p:"",lo:0,hi:0}};
 function fxAer(){const t=FX.t;let vam=null,vo2=null,msg="";
  if(t==="hr"){const c=fzCalc(fzGet());if(!c.ok)return{msg:"Rellena arriba tu FC en reposo y tu FC máxima."};vo2=15.3*c.max/c.rest;vam=vo2/3.5;msg="Fórmula de Uth: VO₂máx = 15,3 × FCmáx ÷ FCreposo. Es orientativa, sobre todo si tu FC máxima es estimada y no medida."}
  else{const d=fxN(FX.d),T=FXT[t];if(d==null||d<=0)return{msg:""};if(d<T.lo||d>T.hi)return{msg:"El valor parece fuera de rango ("+T.lo+"–"+T.hi+")."};
-  if(t==="cooper"){vo2=(d-504.9)/44.73;vam=vo2/3.5;msg="VO₂máx = (distancia − 504,9) ÷ 44,73 (Cooper). VAM = VO₂máx ÷ 3,5."}
+  if(t==="vam"){vam=d;vo2=3.5*d;msg="VAM = la que has indicado. VO₂máx ≈ 3,5 × VAM."}
+  else if(t==="cooper"){vo2=(d-504.9)/44.73;vam=vo2/3.5;msg="VO₂máx = (distancia − 504,9) ÷ 44,73 (Cooper). VAM = VO₂máx ÷ 3,5."}
   else if(t==="six"){vam=d/100;vo2=vam*3.5;msg="VAM = distancia en 6 min ÷ 100 (km/h). VO₂máx ≈ 3,5 × VAM."}
+  else if(t==="yoyo"){vo2=36.4+.0084*d;vam=vo2/3.5;msg="VO₂máx = 36,4 + 0,0084 × distancia (Yo-Yo IR1, Bangsbo). VAM = VO₂máx ÷ 3,5."}
   else{vam=d;vo2=5.857*d-19.458;msg="VAM = velocidad del último palier. VO₂máx = 5,857 × velocidad − 19,458 (Léger, adultos)."}}
  return{vam,vo2,msg}}
-function fxAerOut(){const r=fxAer();if(!r.vam)return r.msg?`<small>${esc(r.msg)}</small>`:"";
- const rows=[70,80,90,100,110].map(p=>{const v=r.vam*p/100;return`<tr><td>${p} %</td><td>${fxF(v,1)} km/h</td><td>${fxPace(v)} min/km</td></tr>`}).join("");
- return`<div class="qa"><span>VAM</span><b>${fxF(r.vam,1)} km/h</b></div><div class="qa"><span>VO₂máx</span><b>${fxF(r.vo2,1)} ml/kg/min</b></div><div class="qa"><span>Ritmo a 100 % VAM</span><b>${fxPace(r.vam)} min/km</b></div><table class="v21vt"><tr><th>% VAM</th><th>Velocidad</th><th>Ritmo</th></tr>${rows}</table><small>${esc(r.msg)} Son estimaciones: un test en pista con buen calentamiento y a tope es más fiable que una fórmula.</small>`}
-function fxAerH(){const T=FXT,f=FX;
+/* velocidad máxima de sprint (MSS): en km/h o a partir del tiempo en 20/30 m lanzados */
+function fxMss(vam){const x=fxN(FX.ms);if(x==null||x<=0)return{v:null,msg:""};const k=FX.mu==="s20"?20:FX.mu==="s30"?30:0,v=k?3.6*k/x:x;
+ if(!(v>=10&&v<=45))return{v:null,msg:k?"Ese tiempo da una velocidad fuera de rango (10–45 km/h).":"La velocidad máxima parece fuera de rango (10–45 km/h)."};
+ if(vam&&v<=vam)return{v:null,msg:"Tu velocidad máxima tiene que ser mayor que tu VAM ("+fxK(vam)+" km/h)."};
+ return{v,msg:""}}
+const FXL=["Novato","Iniciado","Medio","Avanzado","Élite"],FXLT=["Empiezas aquí","Buena base","Nivel sólido","Estás fuerte aquí","Nivel de élite"];
+/* nivel según el VO₂máx (ml/kg/min). Escala orientativa para adultos; cambia según el sexo si lo has indicado */
+function fxLvl(vo2){const sx=typeof apxSex==="function"?apxSex():"",T=sx==="M"?[30,37,44,52]:[38,45,52,60];let i=0;while(i<4&&vo2>=T[i])i++;return{i,sx}}
+const FXP={1:["R1","Perfil resistente: tienes mucha base aeróbica y poca reserva de velocidad. Combina rodajes y trabajo de umbral con sprints cortos para ganar velocidad máxima."],2:["R2","Trabajo de alta intensidad con predominancia oxidativa (intervalos a tu VAM)."],3:["R3","Perfil veloz: tu reserva de velocidad es grande frente a tu VAM. Prioriza subir la VAM con intervalos de 3–5 min y mantén los sprints."]};
+const fxProf=(vam,mss)=>{if(!mss)return null;const r=(mss-vam)/vam;return r<.45?1:r<.85?2:3};
+const FXZ=[["Z1","Recuperación / base","#8a8f98"],["Z2","Umbral aeróbico","#4f7a5a"],["Z3","Entre umbrales","#8e9a3a"],["Z4","Umbral anaeróbico","#b08a2e"],["Z5","VO₂máx (VAM)","#c0602a"],["Z6","Por encima de la VAM","#86222f"],["Z7","Velocidad (hasta la MSS)","#1a1a1c"]];
+const FXB=[.685,.765,.845,.93,1.01];
+function fxZones(vam,mss){const b=FXB.map(x=>vam*x),z6=mss?vam+.26*(mss-vam):null;
+ const R=[[0,b[0]],[b[0],b[1]],[b[1],b[2]],[b[2],b[3]],[b[3],b[4]],[b[4],z6]];if(mss)R.push([z6,mss]);
+ return R.map((r,i)=>({k:FXZ[i][0],n:FXZ[i][1],c:FXZ[i][2],lo:r[0],hi:r[1]}))}
+/* pulsaciones con la FC de reserva (Karvonen): %FCR ≈ %VO₂R = (v − 1) ÷ (VAM − 1), porque VO₂ = 3,5 × velocidad */
+function fxHr(v,vam,c){const p=Math.min(1,Math.max(0,(v-1)/(vam-1)));return Math.round(c.rest+p*(c.max-c.rest))}
+const fxD=()=>ymd(new Date());
+const fxDf=d=>/^\d{4}-\d\d-\d\d$/.test(d)?d.slice(8)+"-"+d.slice(5,7)+"-"+d.slice(0,4):"";
+function fxChart(vam,mss){const mx=mss||Math.ceil(vam*1.6/5)*5,pv=vam/mx*100,tk=[];for(let t=0;t<=mx+1e-9;t+=5)tk.push(t);
+ const g=tk.filter(t=>t>0).map(t=>`<i class="g" style="left:${+(t/mx*100).toFixed(2)}%"></i>`).join("");
+ const ax=tk.map(t=>`<span style="left:${+(t/mx*100).toFixed(2)}%">${t}</span>`).join("");
+ const lo=mss&&(mss-vam)/mss<.3;
+ return`<div class="vxc"><div class="vxl${lo?" lo":""}"><span class="a" style="left:${+pv.toFixed(2)}%">VAM<b>${fxK(vam)} km/h</b></span>${mss?`<span class="m">VMAX<b>${fxK(mss)} km/h</b></span>`:""}</div>
+ <div class="vxp">${g}<div class="vxb"><i class="a" style="width:${+pv.toFixed(2)}%">VAM</i>${mss?`<i class="r" style="width:${+(100-pv).toFixed(2)}%">ASR</i>`:`<i class="e" style="width:${+(100-pv).toFixed(2)}%">añade tu MSS</i>`}</div><i class="k" style="left:${+pv.toFixed(2)}%"></i>${mss?`<i class="k" style="left:100%"></i>`:""}</div>
+ <div class="vxa">${ax}</div><div class="vxt">Velocidad (km/h)</div></div>`}
+function fxHist(){return (Array.isArray(S.aerH)?S.aerH.filter(x=>x&&typeof x==="object"&&/^\d{4}-\d\d-\d\d$/.test(x.d)&&isFinite(+x.vam)&&+x.vam>0):[]).slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0)}
+function fxHistH(){const L=fxHist(),ro=!!(RO&&!NUTRI),n=L.length;
+ const hd=`<div class="vhr" role="button" tabindex="0" aria-expanded="${FX.ho?"true":"false"}" onclick="nxFx.ho()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nxFx.ho()}"><i class="vhd"></i><div style="flex:1;min-width:0"><b>Histórico de resistencia</b><br><small>${n?n+(n===1?" evaluación":" evaluaciones")+" · una por día":"Aún no hay evaluaciones guardadas"}</small></div><span class="vhc">${FX.ho?"⌄":"›"}</span></div>`;
+ if(!FX.ho)return`<div class="card vx">${hd}</div>`;
+ if(!n)return`<div class="card vx">${hd}<small style="display:block;margin-top:12px">Guarda tu primera evaluación con el botón «Guardar evaluación de hoy» y aquí verás cómo evoluciona tu VAM.</small></div>`;
+ let sp="";if(n>1){const P=L.slice(0,12).reverse(),vs=P.map(x=>+x.vam),a=Math.min(...vs),b=Math.max(...vs),w=300,h=64,pts=vs.map((v,i)=>[+(i/(vs.length-1)*(w-16)+8).toFixed(1),+(b===a?h/2:h-8-(v-a)/(b-a)*(h-16)).toFixed(1)]);
+  sp=`<svg class="vsp" viewBox="0 0 ${w} ${h}" role="img" aria-label="Evolución de la VAM"><polyline fill="none" stroke="#86222f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="${pts.map(p=>p.join(",")).join(" ")}"/>${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#86222f"/>`).join("")}</svg>`}
+ const rows=L.map((x,i)=>{const o=L[i+1],dl=o?+x.vam-+o.vam:null,t=FXT[x.t]?FXT[x.t].n:"Evaluación";
+  return`<div class="vhi"><div style="flex:1;min-width:0"><b>${esc(fxDf(x.d))}</b> <small>· ${esc(t)}</small><br><small>VAM ${fxK(+x.vam)} km/h · VO₂máx ${fxK(+x.vo2||0)}${+x.mss>0?" · MSS "+fxK(+x.mss)+" km/h":""}</small></div>${dl!=null&&Math.abs(dl)>=.05?`<span class="vhdl ${dl>0?"up":"dn"}">${dl>0?"▲ +":"▼ −"}${fxK(Math.abs(dl))}</span>`:""}${ro?"":`<button class="x" aria-label="Quitar la evaluación del ${esc(fxDf(x.d))}" onclick="nxFx.hx('${esc(x.d)}')">✕</button>`}</div>`}).join("");
+ return`<div class="card vx">${hd}${sp}<div class="vhl">${rows}</div></div>`}
+function fxAerOut(){const r=fxAer();if(!r.vam)return r.msg?`<div class="card vx"><small>${esc(r.msg)}</small></div>`:"";
+ const vam=r.vam,vo2=r.vo2,ms=fxMss(vam),mss=ms.v,asr=mss?mss-vam:null,pr=fxProf(vam,mss),lv=fxLvl(vo2),c=fzCalc(fzGet()),hr=c.ok,mx=mss||Math.ceil(vam*1.6/5)*5;
+ const tn=FXT[FX.t].n,ro=!!(RO&&!NUTRI);
+ /* 1. VAM y reserva de velocidad */
+ let h=`<div class="card vx"><div class="vxh"><h4>VAM &amp; reserva de velocidad</h4><small>VAM desde ${esc(tn)} · ${esc(fxDf(fxD()))}</small></div>${fxChart(vam,mss)}
+ <div class="vxk"><i style="background:#dcc7a1"></i><div><b>VAM · Velocidad aeróbica máxima</b><span class="vxr">0–${fxK(vam)} km/h</span><small>Hasta aquí trabajas en aeróbico: es la velocidad a la que llegas a tu VO₂máx.</small></div></div>
+ <div class="vxk"><i style="background:#86222f"></i><div><b>ASR · Reserva de velocidad</b>${mss?`<span class="vxr">${fxK(vam)}–${fxK(mss)} km/h</span><small>Lo que tienes por encima de la VAM hasta tu velocidad máxima (Vmax).</small>`:`<small>Añade tu velocidad máxima (MSS) arriba para calcular tu reserva de velocidad y ver tu perfil.</small>`}</div></div>
+ <div class="vst"><div><small>VAM</small><b>${fxK(vam)}<em>km/h</em></b></div><div><small>Reserva de velocidad (ASR)</small><b>${mss?fxK(asr):"–"}${mss?"<em>km/h</em>":""}</b></div><div><small>ASR sobre VAM</small><b>${mss?"+"+Math.round(asr/vam*100)+"<em>%</em>":"–"}</b></div></div></div>`;
+ /* 2. Veredicto */
+ h+=`<div class="card vx"><small class="vvk">Veredicto · <b>Resistencia</b></small><div class="vvl">${FXL[lv.i]}<span>${FXLT[lv.i]}</span></div>
+ <div class="vvs" role="img" aria-label="Nivel ${FXL[lv.i]} de 5">${FXL.map((_,i)=>`<i class="${i<=lv.i?"on":""}"></i>`).join("")}</div><div class="vvn">${FXL.map((n,i)=>`<span class="${i===lv.i?"on":""}">${n}</span>`).join("")}</div>
+ <div class="vvp"><small>Perfil de entrenamiento${pr?" · <b>"+FXP[pr][0]+"</b>":""}</small>${pr?FXP[pr][1]:"Añade tu velocidad máxima (MSS) para ver tu perfil de entrenamiento."}</div>
+ <small style="display:block;margin-top:10px">Nivel según tu VO₂máx (${fxK(vo2)} ml/kg/min). Escala orientativa para adultos${lv.sx?"":"; indica tu sexo en el cuestionario o en el Hybrid Test para afinarla"}.</small></div>`;
+ /* 3. Zonas Z1–Z7 */
+ const Z=fxZones(vam,mss);
+ h+=`<div class="card vx"><div class="vxh"><h4>Zonas de entrenamiento</h4><small>FC de reserva (Karvonen)</small></div><small style="display:block;margin:10px 0 2px">VAM ${fxK(vam)} km/h${mss?" · MSS "+fxK(mss)+" km/h":""}</small>`
+  +Z.map((z,i)=>{const a=z.lo/mx*100,b=Math.min(100,(z.hi==null?mx:z.hi)/mx*100);
+   const sp=i===0?`&lt; ${fxK(z.hi)} km/h`:z.hi==null?`&gt; ${fxK(z.lo)} km/h`:`${fxK(z.lo)}–${fxK(z.hi)} km/h`;
+   const pc=i===0?`&gt; ${fxPace(z.hi)} /km`:z.hi==null?`&lt; ${fxPace(z.lo)} /km`:`${fxPace(z.lo)}–${fxPace(z.hi)} /km`;
+   let fc="";if(hr&&i<5)fc=i===0?`&lt; ${fxHr(z.hi,vam,c)} ppm`:`${fxHr(z.lo,vam,c)}–${fxHr(z.hi,vam,c)} ppm`;
+   return`<div class="vz" data-z="${z.k}"><div class="vzh"><span class="vzb" style="background:${z.c}">${z.k}</span><b>${esc(z.n)}</b></div><div class="vzt"><i style="left:${+a.toFixed(2)}%;width:${+Math.max(1.5,b-a).toFixed(2)}%;background:${z.c}"></i></div><div class="vzv"><span class="s">${sp}</span><span>${pc}</span>${fc?`<span class="f">FC ${fc}</span>`:""}</div></div>`}).join("")
+  +`<small style="display:block;margin-top:10px">${hr?"Pulsaciones con la FC de reserva (Karvonen): reposo + % × (máxima − reposo), con el % que corresponde a cada velocidad.":"Rellena arriba tu FC en reposo y tu FC máxima («Tus datos») para ver también las pulsaciones de Z1 a Z5."} ${mss?"Z6 y Z7 van por velocidad: por encima de la VAM el pulso ya no sirve de guía.":"Z6 va por velocidad: por encima de la VAM el pulso ya no sirve de guía."}</small></div>`;
+ return h+`<div class="card vx"><small>${esc(r.msg)} Son estimaciones: un test en pista con buen calentamiento y a tope es más fiable que una fórmula.</small></div>`}
+function fxAerH(){const T=FXT,f=FX,ro=!!(RO&&!NUTRI);
  const chips=`<div class="qch">${Object.keys(T).map(k=>`<button class="qc${f.t===k?" on":""}" onclick="nxFx.t('${k}')">${T[k].n}</button>`).join("")}</div>`;
  const inp=f.t==="hr"?`<small>Usa tu FC en reposo y tu FC máxima de la tarjeta «Tus datos».</small>`:`<label>${T[f.t].l}</label><input type="number" inputmode="decimal" step="any" data-fxk="d" value="${esc(f.d)}" placeholder="${T[f.t].p}" oninput="nxFx.i(this)">`;
- return`<div class="card"><b>VAM y VO₂máx</b><br><small>La VAM es la velocidad aeróbica máxima: la que alcanzas cuando consumes tu máximo de oxígeno. Sirve para ajustar ritmos de series y rodajes.</small><label style="margin-top:10px">¿Cómo lo calculamos?</label>${chips}${inp}<div id="fxaer" style="margin-top:8px">${fxAerOut()}</div></div>`}
+ const MU=[["kmh","km/h"],["s20","Tiempo 20 m"],["s30","Tiempo 30 m"]],mu=MU.find(x=>x[0]===f.mu)||MU[0];
+ const mss=`<label style="margin-top:12px">Velocidad máxima de sprint · MSS (opcional)</label><div class="qch">${MU.map(m=>`<button class="qc${f.mu===m[0]?" on":""}" onclick="nxFx.mu('${m[0]}')">${m[1]}</button>`).join("")}</div><input type="number" inputmode="decimal" step="any" data-fxk="ms" value="${esc(f.ms)}" placeholder="${f.mu==="kmh"?"27":f.mu==="s20"?"2,60":"3,90"}" oninput="nxFx.i(this)" aria-label="${mu[0]==="kmh"?"MSS en km/h":"Tiempo en "+(mu[0]==="s20"?"20":"30")+" m lanzados, en segundos"}"><small id="fxmss" style="display:block;margin-top:4px">${fxMssMsg()}</small>`;
+ return`<div class="vx"><div class="card"><b>VAM y VO₂máx</b><br><small>La VAM es la velocidad aeróbica máxima: la que alcanzas cuando consumes tu máximo de oxígeno. Sirve para ajustar ritmos de series y rodajes. Con tu velocidad máxima verás también tu reserva de velocidad y tu perfil.</small><label style="margin-top:10px">¿Cómo lo calculamos?</label>${chips}${inp}${mss}${ro?"":`<div style="display:flex;align-items:center;gap:10px;margin-top:14px"><button class="w" onclick="nxFx.sv()" id="fxsvb">Guardar evaluación de hoy</button><small id="fxsv">${esc(f.sv)}</small></div>`}</div><div id="fxaer">${fxAerOut()}</div><div id="fxhist">${fxHistH()}</div></div>`}
+function fxMssMsg(){const r=fxAer();if(FX.mu!=="kmh"&&fxN(FX.ms)>0){const k=FX.mu==="s20"?20:30,t=fxN(FX.ms),v=3.6*k/t;if(v>=10&&v<=45&&!(r.vam&&v<=r.vam))return"Equivale a "+fxK(v)+" km/h (3,6 × "+k+" ÷ "+fxF(t,2)+" s). Mídelo en un sprint lanzado."}
+ const m=fxMss(r.vam);return esc(m.msg||"Mídela con un sprint lanzado de 20–30 m (con células o cronómetro): km/h = 3,6 × metros ÷ segundos.")}
 function fxRMrows(){const id=FX.ex,out=[];for(let i=0;i<3;i++){const k=fxN(FX["k"+i]),v=fxN(FX["v"+i]);if(!(k>0)||v==null)continue;if(v<.1||v>1.05){out.push({k,v,bad:v>1.05?"carga demasiado ligera (más de 1,05 m/s)":"velocidad no válida"});continue}const pc=vbPct(id,v);out.push({k,v,pc,rm:k/(pc/100)})}return out}
 function fxRMOut(){const id=FX.ex,R=fxRMrows(),ok=R.filter(x=>x.rm);if(!R.length)return"";
  const rows=R.map(x=>`<tr><td>${fxF(x.k,1)} kg</td><td>${fxF(x.v,2)} m/s</td><td>${x.bad?esc(x.bad):Math.round(x.pc)+" %"}</td><td>${x.bad?"–":fxF(x.rm,1)+" kg"}</td></tr>`).join("");
@@ -3685,7 +3817,17 @@ function fxRMH(){const f=FX;
  const sel=`<select onchange="nxFx.ex(this.value)">${Object.keys(VB).map(k=>`<option value="${k}"${f.ex===k?" selected":""}>${VB[k].n}</option>`).join("")}</select>`;
  const rows=[0,1,2].map(i=>`<div class="grid" style="grid-template-columns:1fr 1fr;gap:8px;margin-top:6px"><input type="number" inputmode="decimal" step="any" data-fxk="k${i}" value="${esc(f["k"+i])}" placeholder="Carga (kg)${i?" · opcional":""}" oninput="nxFx.i(this)"><input type="number" inputmode="decimal" step="any" data-fxk="v${i}" value="${esc(f["v"+i])}" placeholder="Velocidad (m/s)${i?" · opcional":""}" oninput="nxFx.i(this)"></div>`).join("");
  return`<div class="card"><b>1RM por velocidad (VBT)</b><br><small>Estima tu repetición máxima sin llegar a ella: mide la velocidad media concéntrica (m/s) de una serie con la máxima intención y la app la convierte en % del 1RM. Mejor con cargas del 55 al 90 % y con 2 o 3 series.</small><label style="margin-top:10px">Ejercicio</label>${sel}${rows}<div id="fxrm" style="margin-top:8px">${fxRMOut()}</div><small>Son relaciones medias de la población: tu perfil real puede variar. Si ves una velocidad más baja de la esperada, es señal de fatiga.</small></div>`}
-window.nxFx={i:el=>{FX[el.dataset.fxk]=el.value;const a=$("fxaer"),r=$("fxrm");if(el.dataset.fxk==="d"&&a)a.innerHTML=fxAerOut();else if(r)r.innerHTML=fxRMOut()},t:k=>{FX.t=k;render()},ex:k=>{FX.ex=k;const r=$("fxrm");if(r)r.innerHTML=fxRMOut()}};
+window.nxFx={i:el=>{const k=el.dataset.fxk;FX[k]=el.value;FX.sv="";
+  if(k==="d"||k==="ms"){const a=$("fxaer"),m=$("fxmss"),v=$("fxsv");if(a)a.innerHTML=fxAerOut();if(m)m.innerHTML=fxMssMsg();if(v)v.textContent=""}
+  else{const r=$("fxrm");if(r)r.innerHTML=fxRMOut()}},
+ t:k=>{FX.t=k;FX.sv="";render()},mu:k=>{FX.mu=k;FX.sv="";render()},ex:k=>{FX.ex=k;const r=$("fxrm");if(r)r.innerHTML=fxRMOut()},
+ ho:()=>{FX.ho=!FX.ho;const h=$("fxhist");if(h)h.innerHTML=fxHistH()},
+ sv:()=>{if(RO&&!NUTRI)return;const r=fxAer(),v=$("fxsv"),h=$("fxhist");
+  if(!r.vam){FX.sv="Introduce primero tu resultado.";if(v)v.textContent=FX.sv;return}
+  const m=fxMss(r.vam),e={d:fxD(),t:FX.t,vam:+r.vam.toFixed(2),vo2:+r.vo2.toFixed(1),mss:m.v?+m.v.toFixed(1):null};
+  S.aerH=fxHist().filter(x=>x.d!==e.d);S.aerH.unshift(e);S.aerH.sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0);S.aerH=S.aerH.slice(0,120);save();
+  FX.sv="✓ Guardada";FX.ho=true;if(v)v.textContent=FX.sv;if(h)h.innerHTML=fxHistH()},
+ hx:d=>{if(RO&&!NUTRI)return;S.aerH=fxHist().filter(x=>x.d!==d);save();const h=$("fxhist");if(h)h.innerHTML=fxHistH()}};
 {const _fc=fczH;fczH=function(){return _fc.apply(this,arguments)+fxAerH()+fxRMH()}}
 
 /* ===== v21r · velocidad programada y registrada por serie ===== */
@@ -4664,7 +4806,7 @@ setInterval(()=>{if(document.hidden||tab!=="chat"||dmOn||!PMS()||!GATE.premium)r
  document.addEventListener("input",ev=>{const t=ev.target;if(!t||!t.dataset||!SAL.f)return;const k=t.dataset.salf;if(k&&k!=="consent")SAL.f[k]=t.value},true);
 
 
-/* ===== v67-v68 · Stories (24 h): barra en Inicio y Chat, visor, creador, denuncias, foto de perfil en el círculo y textos dentro de la foto ===== */
+/* ===== v67-v69 · Stories (24 h): barra en Inicio y Chat, visor, creador, denuncias, foto de perfil en el círculo, textos dentro de la foto (tipografías y colores) y música de Spotify ===== */
 {const e=document.createElement("style");e.id="sgcss";e.textContent=`
 .sgbar{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;margin:0 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:flex-start}
 .sgbar::-webkit-scrollbar{display:none}
@@ -4721,7 +4863,7 @@ html[data-theme=light] .sgcmo{background:#f5f1ea;color:#1a1a1c}
 .sgprev{position:relative;border-radius:12px;overflow:hidden;background:#000;display:flex;justify-content:center;min-height:120px}
 .sgprev .sgmw{height:min(52vh,480px)}
 .sgpvt{height:240px;border-radius:12px;padding:20px;font-size:22px}
-.sgsws{display:flex;gap:8px;margin:10px 0 4px}
+.sgsws{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
 .sgsw{width:34px;height:34px;border-radius:50%;padding:0;border:3px solid #fff}
 .sgsw.on{outline:3px solid var(--red)}
 .sgsc{display:flex;flex-direction:column;gap:6px;margin:4px 0}
@@ -4748,13 +4890,33 @@ html[data-theme=light] .sgcmo{background:#f5f1ea;color:#1a1a1c}
 .sgtb .sgsws{margin:0}
 .sgsw.o{width:30px;height:30px;border:2px solid rgba(127,127,127,.55)}
 .sgsw.o.on{border-color:#fff}
+.sgsw.cu{position:relative;display:inline-block;overflow:hidden;cursor:pointer;background:conic-gradient(#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)}
+.sgsw.cu input{position:absolute;inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);opacity:0;cursor:pointer;border:0;padding:0}
+.sgfs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.sgfs button{flex:0 0 auto;white-space:nowrap;text-transform:none;letter-spacing:0;background:#e9e3d9;color:var(--black);padding:8px 13px;border-radius:10px;font-size:16px}
+.sgfs button.on{background:var(--red);color:#fff}
+.sgtb .sgfs{flex:0 0 100%}
+.c7{background:linear-gradient(160deg,#f59e0b,#9a3412)}.c8{background:linear-gradient(160deg,#ec4899,#831843)}.c9{background:linear-gradient(160deg,#7c3aed,#2e1065)}.c10{background:linear-gradient(160deg,#10b981,#064e3b)}.c11{background:linear-gradient(160deg,#fde68a,#f59e0b);color:#101011}.c12{background:linear-gradient(160deg,#f3f4f6,#9ca3af);color:#101011}
+[data-sf=t]{font-family:Archivo,"Arial Narrow",Impact,sans-serif;font-stretch:62%;font-weight:900;text-transform:uppercase!important;letter-spacing:.02em}
+[data-sf=e]{font-family:"Instrument Serif",Georgia,"Times New Roman",serif;font-style:italic;font-weight:400}
+[data-sf=m]{font-family:"Courier Prime","Courier New",ui-monospace,monospace;font-weight:700}
+[data-sf=h]{font-family:Caveat,"Bradley Hand","Segoe Script","Comic Sans MS",cursive;font-weight:700;line-height:1.05}
+[data-sf=s]{font-family:Pacifico,"Brush Script MT","Segoe Script",cursive;font-weight:400;line-height:1.3}
+[data-sf=r]{font-family:"Permanent Marker","Marker Felt","Comic Sans MS",cursive;font-weight:400}
+[data-sf=d]{font-family:"Bebas Neue",Impact,"Arial Narrow",sans-serif;font-weight:400;letter-spacing:.03em}
+.sgmu{position:absolute;left:12px;top:calc(92px + env(safe-area-inset-top,0px));z-index:5;max-width:calc(100% - 24px);display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.58);color:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sgmu span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sgpn a.x{display:inline-block;padding:9px 15px;border-radius:20px;background:#e9e3d9;color:var(--black);font-size:14px;font-weight:600;text-decoration:none}
+.sgsp{margin:10px 0 6px}
+.sgmuc{display:flex;gap:8px;align-items:center}
+.sgmuc input{flex:1;min-width:0}
 `;document.head.appendChild(e)}
 const SGS={grupo:"Mi grupo",comunidad:"Toda la comunidad Nexum",nexum:"Nexum (oficial)"};
-const SGBG=["c1","c2","c3","c4","c5","c6"];
-const SG={key:"",list:null,me:null,t:0,lb:false,err:"",sig:"",urls:{},pend:new Set(),pt:0,v:null,c:null,rep:{},adm:{list:null,lb:false,t:0},ph:{},phb:false,phe:0,dg:null};
+const SGBG=["c1","c2","c3","c4","c5","c6","c7","c8","c9","c10","c11","c12"];
+const SG={key:"",list:null,me:null,t:0,lb:false,err:"",sig:"",urls:{},pend:new Set(),pt:0,v:null,c:null,rep:{},adm:{list:null,lb:false,t:0},ph:{},phb:false,phe:0,dg:null,muOk:false,ls:null};
 const sgOkR=()=>{try{if(typeof NUTRI!=="undefined"&&NUTRI)return"";if(ROLE==="client"&&CL&&CL.usr&&CL.pwd)return"c";if(ROLE==="coach"&&!CL&&USER)return"k"}catch(_){}return""};
 const sgKey=()=>sgOkR()+"|"+(sgOkR()==="c"?CL.usr:USER||"");
-function sgEns(){const k=sgKey();if(SG.key!==k){SG.key=k;SG.list=null;SG.me=null;SG.t=0;SG.err="";SG.sig="";SG.urls={};SG.pend=new Set();SG.rep={};SG.adm={list:null,lb:false,t:0};SG.ph={};SG.phb=false;SG.phe=0;SG.dg=null;if(SG.v||SG.c)sgKill()}}
+function sgEns(){const k=sgKey();if(SG.key!==k){SG.key=k;SG.list=null;SG.me=null;SG.t=0;SG.err="";SG.sig="";SG.urls={};SG.pend=new Set();SG.rep={};SG.adm={list:null,lb:false,t:0};SG.ph={};SG.phb=false;SG.phe=0;SG.dg=null;SG.muOk=false;SG.ls=null;if(SG.v||SG.c)sgKill()}}
 const sgCr=()=>sgOkR()==="c"?{p_u:CL.usr,p_p:CL.pwd}:{p_u:null,p_p:null};
 const sgAu=()=>sgOkR()==="c"?{u:CL.usr,p:CL.pwd}:{};
 function sgErr(e){const m=String(e&&e.message||e||"");
@@ -4842,6 +5004,11 @@ function sgPnH(V){
  else if(V.panel==="rep")pn=`<b>Denunciar esta story</b><br><small>La verá el administrador de Nexum. Cuéntanos qué pasa (opcional).</small><textarea id="sgrr" maxlength="300" placeholder="Motivo">${esc(V.reason||"")}</textarea>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="repok"${V.busy?" disabled":""}>Enviar denuncia</button><button data-sg="pc">Cancelar</button></div>`;
  else if(V.panel==="repd")pn=`<b>Gracias</b><br><small>El administrador revisará esta story.</small><div class="bar" style="margin:12px 0 0"><button class="on" data-sg="pc">Cerrar</button></div>`;
  else if(V.panel==="vw"){const L=V.vw;pn=`<b>Lo han visto${L?" ("+L.length+")":""}</b>${V.msg?`<div class="sgem">${esc(V.msg)}</div>`:""}${!L&&!V.msg?`<br><small>Cargando…</small>`:L&&!L.length?`<br><small>Todavía no la ha visto nadie.</small>`:(L||[]).map(x=>`<div class="sgvw"><span>${esc(x.name)}</span><small>${sgAgo(x.at)}</small></div>`).join("")}<div class="bar" style="margin:12px 0 0"><button class="on" data-sg="pc">Cerrar</button></div>`}
+ else if(V.panel==="mus"){const s=sgCur(),m=s&&sgMuOk(s.mu);
+  if(m)pn=`<b>♫ ${esc(m.t||"Música de esta story")}</b>`
+   +(SG.muOk?`<div class="sgsp"><iframe title="Reproductor de Spotify" src="https://open.spotify.com/embed/track/${m.id}?utm_source=generator" width="100%" height="152" style="border:0;border-radius:12px" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div><small>La story está en pausa mientras escuchas. Con la sesión de Spotify iniciada suena la canción entera; si no, un fragmento de 30 segundos.</small>`
+    :`<br><small>Se cargará el reproductor de Spotify. Spotify recibirá tu dirección IP y podrá usar sus propias cookies. Hasta que lo pidas no se carga nada de Spotify.</small>`)
+   +`<div class="bar" style="margin:12px 0 0">${SG.muOk?"":`<button class="on" data-sg="muok">Cargar reproductor</button>`}<a class="x" href="https://open.spotify.com/track/${m.id}" target="_blank" rel="noopener noreferrer">Abrir en Spotify</a><button data-sg="pc">Cerrar</button></div>`}
  return pn}
 function sgPn(){const V=SG.v,o=document.getElementById("sgov");if(!V||!o)return;const s=sgCur(),fr=o.querySelector(".sgfr");if(!s||!fr)return;
  const f=o.querySelector(".sgft");if(f){f.innerHTML=sgFtH(s);const v=o.querySelector("video"),m=document.getElementById("sgmu");if(v&&m)m.textContent=v.muted?"🔇":"🔊"}
@@ -4851,13 +5018,13 @@ function sgPn(){const V=SG.v,o=document.getElementById("sgov");if(!V||!o)return;
 function sgShow(){const V=SG.v;if(!V)return;const g=sgGrp(V.key);
  if(!g||!g.items.length){sgNextGroup();return}
  if(V.idx>=g.items.length)V.idx=g.items.length-1;if(V.idx<0)V.idx=0;
- const s=g.items[V.idx];sgSeen(s);const o=sgOv();o.className="sgov"+(V.panel?" pz":"");
+ const s=g.items[V.idx];sgSeen(s);sgFonts([s.fnt].concat((Array.isArray(s.ov)?s.ov:[]).map(o=>o&&o.f)));const o=sgOv();o.className="sgov"+(V.panel?" pz":"");
  const my=++V.tok,media=s.kind==="image"||s.kind==="video",url=media&&SG.urls[s.id]&&SG.urls[s.id].u;
  const bars=g.items.map((x,i)=>`<i class="${i<V.idx?"d":""}${i===V.idx?" c":""}"><b></b></i>`).join("");
  const who=sgAvIn(s.author_id,s.name,s.scope==="nexum",s.mine);
  const mod=sgMod(s),can=!!(SG.me&&SG.me.canpost);
  let st;
- if(s.kind==="text"){const n=(s.text||"").length;st=`<div class="sgtx ${esc(/^c[1-6]$/.test(s.bg||"")?s.bg:"c1")}" style="font-size:${n>120?20:n>60?24:30}px">${esc(s.text)}</div>`}
+ if(s.kind==="text"){const n=(s.text||"").length;const f=SGF[s.fnt]?s.fnt:"n";st=`<div class="sgtx ${esc(/^c([1-9]|1[0-2])$/.test(s.bg||"")?s.bg:"c1")}" data-sf="${f}" style="font-size:${sgTxSz(n,f)}px">${esc(s.text)}</div>`}
  else if(!media)st=`<div class="sgld">Esta story ya no está disponible.</div>`;
  else if(!url)st=`<div class="sgld" id="sgld">Cargando…</div>`;
  else if(s.kind==="image")st=`<div class="sgmw" id="sgmw"><img id="sgmd" src="${esc(url)}" alt="Story de ${esc(s.name)}">${sgOvL(s.ov)}</div>`;
@@ -4865,7 +5032,7 @@ function sgShow(){const V=SG.v;if(!V)return;const g=sgGrp(V.key);
  const kind=s.author_kind==="admin"?"Oficial":s.author_kind==="coach"?"Entrenador":"Atleta";
  const sub=[s.mine?"Tú":kind,sgAgo(s.created_at),s.scope==="grupo"?"Grupo":s.scope==="comunidad"?"Comunidad":""].concat(s.mine?["caduca "+sgLeft(s.expires_at)]:[]).filter(Boolean).join(" · ");
  const ft=sgFtH(s),pn=sgPnH(V);
- o.innerHTML=`<div class="sgfr"><div class="sgpg">${bars}</div><div class="sghd"><span class="sga">${who}</span><div><b>${esc(s.name)}</b><small>${esc(sub)}</small></div><button class="sgx" data-sg="x" aria-label="Cerrar">✕</button></div><div class="sgst">${st}</div>${s.kind==="text"||(Array.isArray(s.ov)&&s.ov.length)?"":(s.text?`<div class="sgcp">${esc(s.text)}</div>`:"")}<button class="sgz l" data-sg="prev" aria-label="Anterior"></button><button class="sgz r" data-sg="next" aria-label="Siguiente"></button><div class="sgft">${ft}</div>${pn?`<div class="sgpn" id="sgpn">${pn}</div>`:""}</div>`;
+ o.innerHTML=`<div class="sgfr"><div class="sgpg">${bars}</div><div class="sghd"><span class="sga">${who}</span><div><b>${esc(s.name)}</b><small>${esc(sub)}</small></div><button class="sgx" data-sg="x" aria-label="Cerrar">✕</button></div><div class="sgst">${st}</div>${sgMuChip(s)}${s.kind==="text"||(Array.isArray(s.ov)&&s.ov.length)?"":(s.text?`<div class="sgcp">${esc(s.text)}</div>`:"")}<button class="sgz l" data-sg="prev" aria-label="Anterior"></button><button class="sgz r" data-sg="next" aria-label="Siguiente"></button><div class="sgft">${ft}</div>${pn?`<div class="sgpn" id="sgpn">${pn}</div>`:""}</div>`;
  const cur=o.querySelector(".sgpg i.c b");
  const go=d=>{if(!cur||SG.v!==V||V.tok!==my)return;cur.style.animationDuration=d+"s";cur.classList.add("go")};
  if(s.kind==="text")go(Math.min(10,Math.max(5,3+(s.text||"").length/22)));
@@ -4901,18 +5068,36 @@ async function sgVw(){const V=SG.v,s=sgCur();if(!V||!s)return;V.panel="vw";V.vw=
  catch(e){if(SG.v===V&&V.panel==="vw"){V.msg=sgErr(e);sgPn()}}}
 
 /* ---------- textos dentro de la foto (se dibujan igual en el creador y en el visor) ---------- */
-const SGCL={w:["#ffffff","#111111"],k:["#111111","#ffffff"],y:["#ffd54a","#111111"],r:["#e5384a","#ffffff"],g:["#3ddc84","#0b2a17"],b:["#3b82f6","#ffffff"],p:["#dcc7a1","#111111"]};
-const SGCLN={w:"blanco",k:"negro",y:"amarillo",r:"rojo",g:"verde",b:"azul",p:"champán"};
+const SGCL={w:["#ffffff","#111111"],k:["#111111","#ffffff"],y:["#ffd54a","#111111"],o:["#ff9a3c","#111111"],r:["#e5384a","#ffffff"],m:["#ff5fa2","#111111"],v:["#8b5cf6","#ffffff"],b:["#3b82f6","#ffffff"],c:["#22d3ee","#111111"],g:["#3ddc84","#0b2a17"],l:["#c6f432","#111111"],p:["#dcc7a1","#111111"],s:["#9ca3af","#111111"]};
+const SGCLN={w:"blanco",k:"negro",y:"amarillo",o:"naranja",r:"rojo",m:"rosa",v:"violeta",b:"azul",c:"cian",g:"verde",l:"lima",p:"champán",s:"gris"};
 const SGSZ=[4,5.5,7,8.5,10.5,13,16];
+/* tipografías: [nombre, factor de tamaño para que todas se vean igual de grandes] · las 5 últimas vienen de Google Fonts (se cargan al usar las stories) */
+const SGF={n:["Clásica",1],t:["Titular",1.15],e:["Elegante",1.2],m:["Máquina",.92],h:["Manuscrita",1.3],s:["Cursiva",.9],r:["Rotulador",.95],d:["Deportiva",1.25]};
+const SGFX=["m","h","s","r","d"];
+function sgFonts(keys){if(document.getElementById("sgfonts"))return;if(keys&&!keys.some(k=>SGFX.includes(k)))return;
+ const l=document.createElement("link");l.id="sgfonts";l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@700&family=Courier+Prime:wght@700&family=Pacifico&family=Permanent+Marker&display=swap";document.head.appendChild(l)}
 const sgN=(n,a,b,d)=>{n=+n;return isFinite(n)?Math.min(b,Math.max(a,n)):d};
-function sgOvSt(it){const k=SGCL[it.c]||SGCL.w,b=+it.b|0,x=sgN(it.x,0,100,50),y=sgN(it.y,0,100,50),z=sgN(it.s,3,16,8.5);
+const sgHex=c=>typeof c==="string"&&/^#[0-9a-f]{6}$/i.test(c)?c.toLowerCase():"";
+/* color → [color del texto, color de contraste (para el fondo «Color»), ¿texto oscuro?] */
+function sgCol(c){const h=sgHex(c);if(h){const n=parseInt(h.slice(1),16),L=(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255))/255;return[h,L>.6?"#111111":"#ffffff",L<.3]}const k=SGCL[c]||SGCL.w;return[k[0],k[1],c==="k"]}
+const sgTxSz=(n,f,sm)=>Math.round((sm?(n>120?18:n>60?20:24):(n>120?20:n>60?24:30))*(SGF[f]||SGF.n)[1]);
+function sgOvSt(it){const k=sgCol(it.c),b=+it.b|0,x=sgN(it.x,0,100,50),y=sgN(it.y,0,100,50),f=SGF[it.f]?it.f:"n",z=Math.min(22,sgN(it.s,3,16,8.5)*SGF[f][1]);
  let st=`left:${+x.toFixed(2)}%;top:${+y.toFixed(2)}%;font-size:16px;font-size:${+z.toFixed(2)}cqw;`;
  if(b===2)st+=`background:${k[0]};color:${k[1]};`;
- else if(b===1)st+=it.c==="k"?`background:rgba(255,255,255,.78);color:${k[0]};`:`background:rgba(0,0,0,.6);color:${k[0]};`;
- else st+=it.c==="k"?`color:${k[0]};text-shadow:0 0 8px rgba(255,255,255,.9),0 0 2px rgba(255,255,255,.8);`:`color:${k[0]};text-shadow:0 1px 8px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.65);`;
+ else if(b===1)st+=k[2]?`background:rgba(255,255,255,.78);color:${k[0]};`:`background:rgba(0,0,0,.6);color:${k[0]};`;
+ else st+=k[2]?`color:${k[0]};text-shadow:0 0 8px rgba(255,255,255,.9),0 0 2px rgba(255,255,255,.8);`:`color:${k[0]};text-shadow:0 1px 8px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.65);`;
  return st}
 function sgOvIt(it,i,ed,sel){if(!it||typeof it!=="object")return"";const t=typeof it.t==="string"?it.t:"";if(!ed&&!t.trim())return"";
- return`<div class="sgo${ed&&i===sel?" sel":""}" style="${sgOvSt(it)}"${ed?` data-o="${i}" tabindex="0" role="button" aria-label="Texto: ${esc(t||"vacío")}. Arrástralo para moverlo."`:""}>${t?esc(t):"<span style='opacity:.55'>Escribe aquí</span>"}</div>`}
+ return`<div class="sgo${ed&&i===sel?" sel":""}" data-sf="${SGF[it.f]?it.f:"n"}" style="${sgOvSt(it)}"${ed?` data-o="${i}" tabindex="0" role="button" aria-label="Texto: ${esc(t||"vacío")}. Arrástralo para moverlo."`:""}>${t?esc(t):"<span style='opacity:.55'>Escribe aquí</span>"}</div>`}
+const sgFsH=(a,cur)=>`<div class="sgfs" role="group" aria-label="Tipografía">${Object.keys(SGF).map(k=>`<button class="${cur===k?"on":""}" data-sg="${a}" data-v="${k}" data-sf="${k}">${SGF[k][0]}</button>`).join("")}</div>`;
+/* canción de Spotify: solo se acepta el enlace de una canción suelta; el identificador son 22 letras/números */
+function sgSpId(v){v=String(v||"").trim();let m=v.match(/^spotify:track:([A-Za-z0-9]{22})$/i);if(m)return{id:m[1]};
+ m=v.match(/^https?:\/\/open\.spotify\.com\/(?:intl-[A-Za-z-]+\/)?track\/([A-Za-z0-9]{22})(?:[\/?#].*)?$/i);if(m)return{id:m[1]};
+ if(/^https?:\/\/open\.spotify\.com\/(?:intl-[A-Za-z-]+\/)?(album|playlist|artist|episode|show)\//i.test(v)||/^spotify:(album|playlist|artist|episode|show):/i.test(v))return{err:"Solo se pueden añadir canciones sueltas, no álbumes, listas, artistas ni podcasts."};
+ if(/^https?:\/\/spotify\.link\//i.test(v))return{err:"Ese enlace corto no se puede leer. En Spotify pulsa ··· → Compartir → Copiar enlace de la canción."};
+ return{err:"No parece el enlace de una canción de Spotify. Debe empezar por open.spotify.com/track/…"}}
+const sgMuOk=m=>m&&typeof m==="object"&&typeof m.id==="string"&&/^[A-Za-z0-9]{22}$/.test(m.id)?{id:m.id,t:typeof m.t==="string"?m.t.replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,80):""}:null;
+function sgMuChip(s){const m=s.kind==="text"||s.kind==="image"||s.kind==="video"?sgMuOk(s.mu):null;return m?`<button class="sgmu" data-sg="mus" aria-label="Escuchar la música de esta story en Spotify">♫ <span>${esc(m.t||"Escuchar en Spotify")}</span></button>`:""}
 function sgOvL(ov,ed,sel){const a=Array.isArray(ov)?ov.slice(0,4):[];if(!a.length&&!ed)return"";return`<div class="sgovl"${ed?' id="sgovl"':""}>${a.map((it,i)=>sgOvIt(it,i,!!ed,sel)).join("")}</div>`}
 /* La foto/vídeo y sus textos viven en una caja con la proporción de la foto, así un texto cae en el mismo sitio de la foto en cualquier pantalla */
 function sgFit(){document.querySelectorAll("#sgov .sgmw").forEach(w=>{const m=w.querySelector("img,video");if(!m)return;
@@ -4925,7 +5110,7 @@ function sgWire(){const w=document.getElementById("sgmw");if(!w)return;const m=w
 
 /* ---------- creador ---------- */
 function sgNew(){sgEns();if(!SG.me||!SG.me.canpost)return;
- SG.c={kind:"media",mk:"",blob:null,ext:"",ctype:"",dur:0,prev:"",text:"",bg:"c1",scope:SG.me.grupo?"grupo":"comunidad",busy:false,pick:false,msg:"",ov:[],sel:-1};sgRC()}
+ SG.c={kind:"media",mk:"",blob:null,ext:"",ctype:"",dur:0,prev:"",text:"",bg:"c1",scope:SG.me.grupo?"grupo":"comunidad",busy:false,pick:false,msg:"",ov:[],sel:-1,fnt:"n",mu:null,mul:"",mumsg:""};SG.ls=null;sgRC()}
 const sgScopes=()=>{const a=[];if(SG.me&&SG.me.grupo)a.push("grupo");a.push("comunidad");if(SG.me&&SG.me.admin)a.push("nexum");return a};
 function sgScopeTx(sc){const k=SG.me&&SG.me.kind==="coach";
  return sc==="grupo"?(k?"La verán tú y tus atletas.":"La verán tu entrenador y los atletas de su grupo."):sc==="comunidad"?"La verá cualquier persona de Nexum: otros entrenadores y atletas, también quienes aún no tienen entrenador. No publiques datos privados tuyos ni de otras personas.":"Aparecerá como «Nexum» y la verán todos."}
@@ -4934,22 +5119,35 @@ function sgRC(){const c=SG.c;if(!c)return;const o=sgOv();o.className="sgov sgcmo
  const ovc=c.ov||[];
  const body=med?(c.prev?`<div class="sgprev"><div class="sgmw" id="sgmw" data-cm="1">${c.mk==="video"?`<video src="${esc(c.prev)}" controls playsinline muted></video>`:`<img src="${esc(c.prev)}" alt="Vista previa">`}${sgOvL(ovc,true,c.sel)}</div></div><div class="sged" id="sged">${sgEdH()}</div><div class="bar" style="margin:8px 0 0"><button class="on" data-sg="oadd"${ovc.length>=4?" disabled":""}>Aa Añadir texto</button><button class="x" data-sg="crm">Quitar y elegir otra</button></div><small>Toca un texto para editarlo y arrástralo para colocarlo donde quieras.</small>`
    :`<label class="sgpick">${c.pick?"Preparando…":"📷 Elegir foto o vídeo"}<input type="file" id="sgfile" accept="image/*,video/*" hidden></label><small>Foto, o vídeo de hasta 30 segundos y 25 MB.</small>`)
-  :`<div class="sgtx ${esc(c.bg)} sgpvt" id="sgpvt" style="font-size:${c.text.length>120?18:c.text.length>60?20:24}px">${esc(c.text)||"<span style='opacity:.6'>Escribe tu story…</span>"}</div><textarea id="sgtxt" maxlength="280" rows="3" placeholder="Escribe tu story (máx. 280 caracteres)" style="margin-top:8px">${esc(c.text)}</textarea><div class="sgsws">${SGBG.map((b,i)=>`<button class="sgsw ${b}${c.bg===b?" on":""}" data-sg="cb" data-v="${b}" aria-label="Fondo ${i+1}"></button>`).join("")}</div>`;
+  :`<div class="sgtx ${esc(c.bg)} sgpvt" id="sgpvt" data-sf="${esc(SGF[c.fnt]?c.fnt:"n")}" style="font-size:${sgTxSz(c.text.length,c.fnt,1)}px">${esc(c.text)||"<span style='opacity:.6'>Escribe tu story…</span>"}</div><textarea id="sgtxt" maxlength="280" rows="3" placeholder="Escribe tu story (máx. 280 caracteres)" style="margin-top:8px">${esc(c.text)}</textarea><div class="sgsws">${SGBG.map((b,i)=>`<button class="sgsw ${b}${c.bg===b?" on":""}" data-sg="cb" data-v="${b}" aria-label="Fondo ${i+1}"></button>`).join("")}</div><label>Tipografía</label>${sgFsH("cf",SGF[c.fnt]?c.fnt:"n")}`;
  const scs=sc.length>1?`<label>¿Quién la verá?</label><div class="sgsc">${sc.map(x=>`<button class="${c.scope===x?"on":""}" data-sg="cs" data-v="${x}">${SGS[x]}</button>`).join("")}</div>`:`<label>¿Quién la verá?</label>`;
- o.innerHTML=`<div class="sgfr sgcm"><div class="sgcmh"><b>Nueva story</b><button class="sgx" data-sg="cx" aria-label="Cerrar">✕</button></div><div class="card"><div class="sgmd"><button class="${med?"on":""}" data-sg="ck" data-v="media">Foto o vídeo</button><button class="${med?"":"on"}" data-sg="ck" data-v="text">Texto</button></div>${body}${scs}<div class="${c.scope==="comunidad"?"sgwr":""}" id="sgsx">${c.scope==="comunidad"?"<b>Se verá fuera de tu grupo.</b> ":""}<small${c.scope==="comunidad"?' style="color:#4a3500"':""}>${esc(sgScopeTx(c.scope))}</small></div>${c.msg?`<div class="sgem">${esc(c.msg)}</div>`:""}<div class="bar" style="margin:12px 0 4px"><button class="on" data-sg="cpub"${c.busy||c.pick?" disabled":""}>${c.busy?"Publicando…":"Publicar"}</button><button data-sg="cx">Cancelar</button></div><small>Las stories desaparecen solas a las 24 horas. Quien la vea podrá denunciarla.</small></div></div>`;sgWire()}
+ const muB=sgMuH(c);
+ o.innerHTML=`<div class="sgfr sgcm"><div class="sgcmh"><b>Nueva story</b><button class="sgx" data-sg="cx" aria-label="Cerrar">✕</button></div><div class="card"><div class="sgmd"><button class="${med?"on":""}" data-sg="ck" data-v="media">Foto o vídeo</button><button class="${med?"":"on"}" data-sg="ck" data-v="text">Texto</button></div>${body}${muB}${scs}<div class="${c.scope==="comunidad"?"sgwr":""}" id="sgsx">${c.scope==="comunidad"?"<b>Se verá fuera de tu grupo.</b> ":""}<small${c.scope==="comunidad"?' style="color:#4a3500"':""}>${esc(sgScopeTx(c.scope))}</small></div>${c.msg?`<div class="sgem">${esc(c.msg)}</div>`:""}<div class="bar" style="margin:12px 0 4px"><button class="on" data-sg="cpub"${c.busy||c.pick?" disabled":""}>${c.busy?"Publicando…":"Publicar"}</button><button data-sg="cx">Cancelar</button></div><small>Las stories desaparecen solas a las 24 horas. Quien la vea podrá denunciarla.</small></div></div>`;sgFonts();sgWire()}
+function sgMuH(c){const m=c.mu;return`<label>🎵 Música de Spotify (opcional)</label>`+(m
+ ?`<div class="sgmuc"><input id="sgmut" maxlength="80" placeholder="Nombre de la canción (opcional)" value="${esc(m.t||"")}" aria-label="Nombre de la canción"><button data-sg="mux" aria-label="Quitar la canción">✕</button></div><small>♫ Canción de Spotify añadida. Quien vea tu story podrá escucharla con el reproductor de Spotify.</small>`
+ :`<div class="sgmuc"><input id="sgmul" type="url" inputmode="url" autocomplete="off" placeholder="Pega el enlace de la canción" value="${esc(c.mul||"")}" aria-label="Enlace de la canción de Spotify"><button class="on" data-sg="muadd">Añadir</button></div>${c.mumsg?`<div class="sgem">${esc(c.mumsg)}</div>`:""}<small>En Spotify: ··· → Compartir → Copiar enlace de la canción.</small>`)}
+function sgMuAdd(){const c=SG.c;if(!c)return;const v=(document.getElementById("sgmul")||{}).value||c.mul||"",r=sgSpId(v);
+ if(r.err){c.mul=v;c.mumsg=r.err;sgRC();return}
+ c.mu={id:r.id,t:""};c.mul="";c.mumsg="";sgRC();sgMuTitle(c,r.id)}
+/* el nombre se intenta leer del servicio oEmbed de Spotify; si el navegador no puede, se escribe a mano */
+async function sgMuTitle(c,id){let tm=0;try{const ac=new AbortController();tm=setTimeout(()=>ac.abort(),5000);
+ const r=await fetch("https://open.spotify.com/oembed?url="+encodeURIComponent("https://open.spotify.com/track/"+id),{signal:ac.signal,credentials:"omit",referrerPolicy:"no-referrer"});clearTimeout(tm);
+ if(!r.ok)return;const j=await r.json(),t=String(j&&j.title||"").replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,80);
+ if(t&&SG.c===c&&c.mu&&c.mu.id===id&&!c.mu.t){c.mu.t=t;const i=document.getElementById("sgmut");if(i)i.value=t}}catch(_){clearTimeout(tm)}}
 function sgEdH(){const c=SG.c,it=c&&(c.ov||[])[c.sel];if(!it)return"";
  return`<label for="sgot">Texto ${c.sel+1}</label><textarea id="sgot" maxlength="140" rows="2" placeholder="Escribe el texto">${esc(it.t)}</textarea><div class="sgtb" id="sgtb">${sgTbH()}</div>`}
-function sgTbH(){const c=SG.c,it=c&&(c.ov||[])[c.sel];if(!it)return"";
- return`<span class="sgl2">Tamaño</span><button data-sg="osz" data-v="-1" aria-label="Texto más pequeño">A−</button><button data-sg="osz" data-v="1" aria-label="Texto más grande">A+</button>`
+function sgTbH(){const c=SG.c,it=c&&(c.ov||[])[c.sel];if(!it)return"";const hx=sgHex(it.c);
+ return sgFsH("ofn",SGF[it.f]?it.f:"n")+`<span class="sgl2">Tamaño</span><button data-sg="osz" data-v="-1" aria-label="Texto más pequeño">A−</button><button data-sg="osz" data-v="1" aria-label="Texto más grande">A+</button>`
   +[[0,"Sin fondo"],[1,"Oscuro"],[2,"Color"]].map(([v,l])=>`<button class="${(+it.b|0)===v?"on":""}" data-sg="obg" data-v="${v}">${l}</button>`).join("")
-  +`<span class="sgsws">${Object.keys(SGCL).map(k=>`<button class="sgsw o${it.c===k?" on":""}" data-sg="ocl" data-v="${k}" style="background:${SGCL[k][0]}" aria-label="Color ${SGCLN[k]}"></button>`).join("")}</span><button data-sg="odel">Quitar texto</button><button class="on" data-sg="oend">Listo</button>`}
+  +`<span class="sgsws">${Object.keys(SGCL).map(k=>`<button class="sgsw o${it.c===k?" on":""}" data-sg="ocl" data-v="${k}" style="background:${SGCL[k][0]}" aria-label="Color ${SGCLN[k]}"></button>`).join("")}<label class="sgsw o cu${hx?" on":""}" title="Otro color" aria-label="Elegir otro color"><input type="color" id="sgcc" value="${hx||"#ff5fa2"}"></label></span><button data-sg="odel">Quitar texto</button><button class="on" data-sg="oend">Listo</button>`}
 function sgOvPaint(){const c=SG.c,e=document.getElementById("sgovl");if(!c||!e)return;e.innerHTML=(c.ov||[]).map((it,i)=>sgOvIt(it,i,true,c.sel)).join("");const b=document.querySelector("[data-sg=oadd]");if(b)b.disabled=(c.ov||[]).length>=4}
 function sgEd(){const e=document.getElementById("sged");if(e)e.innerHTML=sgEdH()}
 function sgTb(){const e=document.getElementById("sgtb");if(e)e.innerHTML=sgTbH()}
 const sgOvCur=()=>{const c=SG.c;return c&&(c.ov||[])[c.sel]||null};
-function sgOvAdd(){const c=SG.c;if(!c||(c.ov||[]).length>=4)return;c.ov.push({t:"",x:50,y:[50,28,72,14][c.ov.length]||50,s:8.5,c:"w",b:1});c.sel=c.ov.length-1;c.msg="";sgOvPaint();sgEd();const t=document.getElementById("sgot");if(t)t.focus()}
-function sgOvSz(d){const it=sgOvCur();if(!it)return;let j=0,bd=1e9;SGSZ.forEach((z,i)=>{const e=Math.abs(z-it.s);if(e<bd){bd=e;j=i}});it.s=SGSZ[Math.min(SGSZ.length-1,Math.max(0,j+d))];sgOvPaint();sgTb()}
-function sgOvSet(o){const it=sgOvCur();if(!it)return;Object.assign(it,o);sgOvPaint();sgTb()}
+function sgOvAdd(){const c=SG.c;if(!c||(c.ov||[]).length>=4)return;c.ov.push(Object.assign({t:"",x:50,y:[50,28,72,14][c.ov.length]||50,s:8.5,c:"w",b:1,f:"n"},SG.ls||{}));c.sel=c.ov.length-1;c.msg="";sgOvPaint();sgEd();const t=document.getElementById("sgot");if(t)t.focus()}
+function sgOvSz(d){const it=sgOvCur();if(!it)return;let j=0,bd=1e9;SGSZ.forEach((z,i)=>{const e=Math.abs(z-it.s);if(e<bd){bd=e;j=i}});it.s=SGSZ[Math.min(SGSZ.length-1,Math.max(0,j+d))];sgLs(it);sgOvPaint();sgTb()}
+const sgLs=it=>{SG.ls={s:it.s,c:it.c,b:it.b,f:it.f||"n"}};
+function sgOvSet(o){const it=sgOvCur();if(!it)return;Object.assign(it,o);sgLs(it);sgOvPaint();sgTb()}
 function sgOvDel(){const c=SG.c;if(!c||!sgOvCur())return;c.ov.splice(c.sel,1);c.sel=-1;sgOvPaint();sgEd()}
 function sgOvEnd(){const c=SG.c;if(!c)return;const it=sgOvCur();if(it&&!String(it.t).trim())c.ov.splice(c.sel,1);c.sel=-1;sgOvPaint();sgEd()}
 function sgImg(f){return new Promise((ok,ko)=>{const u=URL.createObjectURL(f),im=new Image(),bad=()=>{URL.revokeObjectURL(u);ko(new Error("No se pudo leer la foto. Prueba con otra en JPG o PNG."))};
@@ -4979,7 +5177,7 @@ async function sgPick(f){const c=SG.c;if(!c||!f)return;c.msg="";const t=(f.type|
  c.pick=false;sgRC()}
 const sgR1=n=>Math.round(sgN(n,0,100,50)*10)/10;
 async function sgPub(){const c=SG.c;if(!c||c.busy||c.pick)return;const txt=(c.text||"").trim(),med=c.kind==="media";
- const ovs=med?(c.ov||[]).map(o=>({t:String(o.t||"").trim().slice(0,140),x:sgR1(o.x),y:sgR1(o.y),s:Math.round(sgN(o.s,3,16,8.5)*10)/10,c:SGCL[o.c]?o.c:"w",b:[0,1,2].includes(+o.b)?+o.b:1})).filter(o=>o.t).slice(0,4):[];
+ const ovs=med?(c.ov||[]).map(o=>({t:String(o.t||"").trim().slice(0,140),x:sgR1(o.x),y:sgR1(o.y),s:Math.round(sgN(o.s,3,16,8.5)*10)/10,c:sgHex(o.c)||(SGCL[o.c]?o.c:"w"),f:SGF[o.f]?o.f:"n",b:[0,1,2].includes(+o.b)?+o.b:1})).filter(o=>o.t).slice(0,4):[];
  if(med&&!c.blob){c.msg="Elige una foto o un vídeo.";sgRC();return}
  if(!med&&!txt){c.msg="Escribe algo para tu story.";sgRC();return}
  c.busy=true;c.msg="";sgRC();
@@ -4987,7 +5185,7 @@ async function sgPub(){const c=SG.c;if(!c||c.busy||c.pick)return;const txt=(c.te
   if(med){kind=c.mk;const r=await SB.functions.invoke("story-files",{body:{action:"upload",ext:c.ext,size:c.blob.size,...sgAu()}});
    if(r.error)throw new Error(await fnMsg(r.error));const d=r.data||{};if(!d.path||!d.token)throw new Error(d.error||"No se pudo preparar la subida");
    const up=await SB.storage.from("stories").uploadToSignedUrl(d.path,d.token,c.blob,{contentType:c.ctype});if(up&&up.error)throw up.error;path=d.path}
-  const r2=await SB.rpc("story_add",{...sgCr(),p_kind:kind,p_text:med?null:(txt||null),p_ov:ovs.length?ovs:null,p_bg:med?null:c.bg,p_path:path,p_dur:kind==="video"?c.dur:null,p_scope:c.scope});
+  const r2=await SB.rpc("story_add",{...sgCr(),p_kind:kind,p_text:med?null:(txt||null),p_ov:ovs.length?ovs:null,p_fnt:!med&&SGF[c.fnt]&&c.fnt!=="n"?c.fnt:null,p_mu:c.mu?Object.assign({id:c.mu.id},String(c.mu.t||"").replace(/[\u0000-\u001f\u007f]/g," ").trim()?{t:String(c.mu.t).replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,80)}:{}):null,p_bg:med?null:c.bg,p_path:path,p_dur:kind==="video"?c.dur:null,p_scope:c.scope});
   if(r2.error)throw r2.error;
   sgKill();await sgLoad(true);if(sgScr())render();return}
  catch(e){if(SG.c!==c)return;c.msg=sgErr(e);c.busy=false;sgRC()}}
@@ -5019,16 +5217,26 @@ document.addEventListener("click",ev=>{const t=ev.target.closest&&ev.target.clos
  else if(a==="ocl")sgOvSet({c:v});
  else if(a==="odel")sgOvDel();
  else if(a==="oend")sgOvEnd();
+ else if(a==="ofn")sgOvSet({f:v});
+ else if(a==="cf"&&SG.c){SG.c.fnt=v;sgRC()}
+ else if(a==="muadd")sgMuAdd();
+ else if(a==="mux"&&SG.c){SG.c.mu=null;SG.c.mumsg="";sgRC()}
+ else if(a==="mus"&&SG.v){SG.v.panel="mus";SG.v.msg="";sgPn()}
+ else if(a==="muok"&&SG.v){SG.muOk=true;sgPn()}
  else if(a==="cpub")sgPub();
  else if(a==="rview"){const id=t.dataset.id;sgEns();if(!(SG.list||[]).some(x=>x.id===id))return;SG.v=null;sgOpen("one:"+id)}
  else if(a==="rres")sgAdRes(+t.dataset.id,t.dataset.rm==="1");
  else if(a==="rld")sgAdLoad(true);
 },true);
-document.addEventListener("change",ev=>{const t=ev.target;if(t&&t.id==="sgfile"&&SG.c){const f=t.files&&t.files[0];t.value="";if(f)sgPick(f)}},true);
+document.addEventListener("change",ev=>{const t=ev.target;if(t&&t.id==="sgfile"&&SG.c){const f=t.files&&t.files[0];t.value="";if(f)sgPick(f)}else if(t&&t.id==="sgcc"&&SG.c)sgTb()},true);
 document.addEventListener("input",ev=>{const t=ev.target;if(!t||!SG.c)return;
- if(t.id==="sgtxt"){SG.c.text=t.value;const p=document.getElementById("sgpvt");if(p){p.textContent=t.value||"Escribe tu story…";p.style.fontSize=(t.value.length>120?18:t.value.length>60?20:24)+"px"}}
- else if(t.id==="sgot"){const it=sgOvCur();if(it){it.t=t.value;sgOvPaint()}}},true);
+ if(t.id==="sgtxt"){SG.c.text=t.value;const p=document.getElementById("sgpvt");if(p){p.textContent=t.value||"Escribe tu story…";p.style.fontSize=sgTxSz(t.value.length,SG.c.fnt,1)+"px"}}
+ else if(t.id==="sgot"){const it=sgOvCur();if(it){it.t=t.value;sgOvPaint()}}
+ else if(t.id==="sgcc"){const it=sgOvCur();if(it){it.c=sgHex(t.value)||it.c;sgLs(it);sgOvPaint();document.querySelectorAll("#sgtb .sgsw.o").forEach(b=>b.classList.remove("on"));const lb=t.closest(".sgsw");if(lb)lb.classList.add("on")}}
+ else if(t.id==="sgmul")SG.c.mul=t.value;
+ else if(t.id==="sgmut"&&SG.c.mu)SG.c.mu.t=t.value},true);
 document.addEventListener("keydown",ev=>{if(!SG.v&&!SG.c)return;
+ if(ev.key==="Enter"&&SG.c&&ev.target&&ev.target.id==="sgmul"){ev.preventDefault();sgMuAdd();return}
  const oo=SG.c&&ev.target&&ev.target.closest&&ev.target.closest(".sgo[data-o]");
  if(oo){const i=+oo.dataset.o,it=SG.c.ov[i];if(it){const st=ev.shiftKey?5:2;let h=true,mv=true;
   if(ev.key==="ArrowLeft")it.x=Math.max(4,it.x-st);else if(ev.key==="ArrowRight")it.x=Math.min(96,it.x+st);else if(ev.key==="ArrowUp")it.y=Math.max(4,it.y-st);else if(ev.key==="ArrowDown")it.y=Math.min(96,it.y+st);
