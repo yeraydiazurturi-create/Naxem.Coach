@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.76">
+<meta name="app-version" content="2026-11-15.77">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -477,6 +477,29 @@ details.card summary{font-weight:500}
 .vxoa{position:relative;height:20px;margin-top:12px}
 .vxoa span{position:absolute;top:0;transform:translateX(-50%);font-size:11px;color:#6f685e;font-variant-numeric:tabular-nums}
 @media(max-width:380px){.vxon b{font-size:60px}}
+/* v77 · Herramientas en lista grande y Biblioteca con ejercicios 2 por fila */
+.menu.hs{grid-template-columns:1fr;gap:14px}
+.menu.hs .mt{position:relative;min-height:136px;padding:24px 56px 24px 22px;gap:20px}
+.menu.hs .mt b{font-size:26px;line-height:1.15}
+.menu.hs .mt small{font-size:14px;line-height:1.4}
+.menu.hs .mt i{font-size:11px}
+.menu.hs .mt:after{content:"›";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:34px;line-height:1;color:var(--wine);font-weight:300}
+.menu.hs .mt:active:after{color:#fff}
+.exg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:6px}
+.exg>.card{margin:0;padding:12px;min-width:0;display:flex;flex-direction:column;gap:3px}
+.exg .exl>b,.exg .exl summary>b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;font-size:14px;line-height:1.25}
+.exg .exl small{font-size:11.5px;line-height:1.35;overflow-wrap:anywhere}
+.exg .exl .exb{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.exg .exl .exb span{display:flex;gap:6px;flex:1;min-width:0}
+.exg .exl .exb button{flex:1;min-width:0;padding:7px 4px;font-size:12px}
+.exg details.exl{display:block}
+.exg details.exl[open]{grid-column:1/-1}
+.exg details.exl>summary{display:flex;flex-direction:column;gap:3px;list-style:none;cursor:pointer;margin:0}
+.exg details.exl>summary::-webkit-details-marker{display:none}
+.exg details.exl>summary:after{content:"Ver más ▾";margin-top:6px;font-size:11px;font-weight:600;color:var(--wine)}
+.exg details.exl[open]>summary:after{content:"Ver menos ▴"}
+.exg details.exl[open]>summary{margin-bottom:6px}
+.exg details.exl .ytb{margin-top:8px}
 .vvk{display:block;letter-spacing:.2em;text-transform:uppercase;font-size:10px;font-weight:600}
 .vvk b{color:var(--wine)}
 .vvl{font-size:36px;font-weight:600;color:var(--wine);letter-spacing:-.025em;line-height:1.1;margin:8px 0 2px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
@@ -963,7 +986,7 @@ b.disabled=true;m("Guardando…");try{if(CLI()){const {data,error}=await SB.rpc(
 ["pw0","pw1","pw2"].forEach(i=>{if($(i))$(i).value=""});m("✓ Contraseña cambiada.")}catch(e){m("No se pudo cambiar: "+(e.message||e))}b.disabled=false});
 const accH=()=>(ROLE==="coach"&&!CL?coachAccH():(CLI()?avCard():"")+(CLI()?nameCard()+subCard()+wantCard()+invCardCl():"")+accH0()+pwCard())+(window.pushCard?window.pushCard():"");
 const accH0=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?(GATE&&GATE.suscrito?`<button data-act="stPortal">Mi suscripción</button>`:""):`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}${ROLE==="coach"&&CL?"":`<button data-sw="1">${ROLE==="client"?"Cambiar a modo entrenador":"Cambiar a modo atleta"}</button>`}<button data-act="logout">Salir</button></div></div>`;
-const TT={lab:["Lab","medición por vídeo"],lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Perfil","tu cuenta"],ent:["Sesiones","tus entrenos"],cal:["Agenda","tu planificación"],car:["Carga","análisis"],rec:["Diario","hábitos, sueño y ánimo"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"],sal:["Salud","informes y pruebas"]};
+const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Perfil","tu cuenta"],ent:["Sesiones","tus entrenos"],cal:["Agenda","tu planificación"],car:["Carga","análisis"],rec:["Diario","hábitos, sueño y ánimo"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"],sal:["Salud","informes y pruebas"]};
 const TABS=[["ini","Hoy"],["ent","Sesiones"],["cal","Agenda"],["car","Carga"],["rec","Diario"],["tst","Tests"]];
 const mt=(a,v,n,t,x,w)=>`<button class="mt${w?" wide":""}" data-act="${a}" data-v="${v}"><i>${/^\d+$/.test(String(n))?"":n}</i><span><b>${t}</b><small>${x}</small></span></button>`;
 function ydi(){const at=allT(),v=["Velocidad","Fuerza","Resistencia","Soporte"].map(p=>{const x=at.filter(t=>t.p===p).map(tsc).filter(y=>y!=null);return x.length?x.reduce((a,b)=>a+b)/x.length:null}).filter(y=>y!=null);return v.length?Math.round(v.reduce((a,b)=>a+b)/v.length):null}
@@ -1478,7 +1501,7 @@ var NAVOK=false;
 const SVG=d=>`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const IC={ent:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',nut:'<path d="M12 7c-2-2-6-1.5-7 2s1 8 4 10c1.2.8 2.2.2 3 0 .8.2 1.8.8 3 0 3-2 5-6.5 4-10s-5-4-7-2z"/><path d="M12 7c0-2 1-3.5 3-4"/>',rec:'<path d="M20.8 5.6a5 5 0 0 0-7.3 0L12 7.1l-1.5-1.5a5 5 0 0 0-7.3 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1z"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',tst:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',cli:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16.5 5a3.2 3.2 0 0 1 0 6M18 14.3c2 .8 3.5 2.8 3.5 5.7"/>',lib:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',cq:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/>',cob:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',sw:'<path d="M4 8h14l-3-3M20 16H6l3 3"/>'};
 const NAV_C=[["menu","Perfil"],["cli","Clientes"],["chat","Chat"],["lib","Biblioteca"],["cq","Cuestionario"],["cob","Cobros"]],NAV_A=[["menu","Hoy"],["ent","Entreno"],["nut","Nutrición"],["rec","Monitor"],["chat","Chat"],["tst","Eval."]];
-const NAV_G={lab:"tst",adm:"menu",menu:"menu",ini:"menu",lib:"ent",ent:"ent",cal:"ent",car:"ent",crt:"ent",nut:"nut",rec:"rec",fcz:"rec",cue:"rec",sal:"rec",chat:"chat",tst:"tst",apx:"tst",pro:"tst",rnk:"tst",cpo:"tst",rev:"tst"};
+const NAV_G={adm:"menu",menu:"menu",ini:"menu",lib:"ent",ent:"ent",cal:"ent",car:"ent",crt:"ent",nut:"nut",rec:"rec",fcz:"rec",cue:"rec",sal:"rec",chat:"chat",tst:"tst",apx:"tst",pro:"tst",rnk:"tst",cpo:"tst",rev:"tst"};
 function render(){render0();navSync()}
 const coachName=()=>NUTRI?(NUN||""):COACH?`${COACH.nombre||""} ${COACH.apellidos||""}`.trim():"";
 const avGet=()=>ROLE==="client"?((S&&S.prof)||{}).photo||"":(lsG("nx_av_"+USER)||"");
@@ -1829,7 +1852,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.76";
+const APP_V="2026-11-15.77";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -1917,8 +1940,8 @@ return`<details class="tmd"><summary>Protocolo y base científica</summary><p><b
 function trefsH(){return`<div class="card"><b>Referencias de los tests</b><ol class="refs">${TREFS.map(r=>`<li>${esc(r[0])}${r[2]?" †":""}${r[1]?` <a href="https://doi.org/${r[1]}" target="_blank" rel="noopener">doi:${r[1]}</a>`:""}</li>`).join("")}</ol><small>† Cita escrita de memoria, sin comprobar en esta sesión: verifica el DOI antes de difundirla. Las referencias de base y élite del índice son criterios orientativos de rendimiento; no proceden de una tabla normativa publicada.</small></div>`}
 const verCard=()=>`<div class="card"><b>Versión de la web</b><br><small>Esta pantalla usa la versión <b>${APP_V}</b>.</small><p id="vermsg" class="qmsg" style="color:#1a1a1c"></p><button class="on" data-ver="1">Buscar actualización</button></div>`;
 document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-ver]");if(!b)return;const m=$("vermsg");if(m)m.textContent="Comprobando…";try{const r=await fetch(location.pathname+"?v="+Date.now(),{cache:"reload"}),t=await r.text(),x=(t.match(/name="app-version" content="([^"]+)"/)||[])[1];if(!m)return;if(!x){m.textContent="No he podido leer la versión del servidor.";return}if(x!==APP_V){m.textContent="Hay una versión nueva ("+x+"). Recargando…";setTimeout(()=>location.replace(location.pathname+"?v="+x),900)}else m.textContent="Ya tienes la última versión publicada en el servidor ("+x+")."}catch(e){if(m)m.textContent="No hay conexión con el servidor."}});
-const GRP=[["Entreno",["ent","cal","car","lib"]],["Monitor",["rec","fcz","cue","sal"]],["Eval.",["tst","lab","apx","pro","rnk","cpo","rev"]],["Perfil",["acc","hlp"]]],GLB={lab:"Lab",lib:"Biblioteca",ent:"Sesiones",cal:"Agenda",car:"Carga",rec:"Diario",fcz:"Herramientas",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Hoy",cue:"Cuestionario",sal:"Salud",acc:"Cuenta",hlp:"Ayuda"};
-function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";if(t==="lib"&&ROLE==="coach"&&!CL)return"";const L=g[1].filter(k=>(k!=="lab"||!NUTRI)&&(k!=="sal"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&(k!=="lib"||ROLE==="client"||(ROLE==="coach"&&CL)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${GLB[k]}</button>`).join("")}</div></div>`}
+const GRP=[["Entreno",["ent","cal","car","lib"]],["Monitor",["rec","fcz","cue","sal"]],["Eval.",["tst","apx","pro","rnk","cpo","rev"]],["Perfil",["acc","hlp"]]],GLB={lib:"Biblioteca",ent:"Sesiones",cal:"Agenda",car:"Carga",rec:"Diario",fcz:"Herramientas",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Hoy",cue:"Cuestionario",sal:"Salud",acc:"Cuenta",hlp:"Ayuda"};
+function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";if(t==="lib"&&ROLE==="coach"&&!CL)return"";const L=g[1].filter(k=>(k!=="sal"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&(k!=="lib"||ROLE==="client"||(ROLE==="coach"&&CL)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${GLB[k]}</button>`).join("")}</div></div>`}
 let WV=null,wvOk=false,wvBusy=false,wvErr="",wvLast=0,wvW=0;
 async function wvLoad(){if(wvBusy)return;wvBusy=true;try{if(ROLE==="client"&&CL){const r=await SB.rpc("welcome_video",{p_u:CL.usr,p_p:CL.pwd});if(r.error)throw r.error;WV=r.data||null}wvOk=true;wvErr=""}catch(e){wvErr=e.message||String(e)}wvBusy=false;render()}
 const wvCur=()=>ROLE==="coach"?((LIB.find(x=>x.kind==="welcome")||{}).data||null):WV,wvFmt=t=>Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0"),wvDate=d=>new Date(d).toLocaleDateString("es-ES");
@@ -1992,7 +2015,7 @@ async function libUp(f){const b=await imgBlob(f,1200),p="recipes/"+Date.now()+"_
 const exSum=d=>[d.uni?"unilateral":"",d.series&&d.reps?d.series+"×"+d.reps:"",d.load?d.load+" kg":"",d.effVal?(d.effType||"")+" "+d.effVal:"",d.rest?"desc. "+d.rest:""].filter(Boolean).map(esc).join(" · ")||"Sin datos";
 function libListH(){const q=NRM(libQ),L=LIB.filter(x=>x.kind===KD[libT]&&NRM(x.name).includes(q)),ed=(a,id)=>!libCan(KD[libT])?"":`<span><button class="x" data-lb="${a}" data-v="${id}">Editar</button><button class="x" data-lb="delL" data-v="${id}">Eliminar</button></span>`;
 if(libT==="rt")return rtList(L.filter(x=>(x.data.rt||"train")===libR));
-if(libT==="ex"){const L3=L.filter(x=>!libC||xcN(x.data.cat)===libC);if(!L3.length)return'<div class="empty">No hay ejercicios en esta categoría.'+(libCan("exercise")?' Guárdalos desde una sesión con "💾 Biblioteca" o créalos aquí.':"")+'</div>';return[...XC,""].map(c=>{const g=L3.filter(x=>xcN(x.data.cat)===c);return g.length?`<div class="mhd">${c?c.toUpperCase():"SIN CATEGORÍA"} · ${g.length}</div>`+g.map(x=>`<div class="card ex-s"><div class="row"><b>${esc(x.name)}</b>${x.pub?`<span><small style="margin-right:8px">Nexum</small>${libCan("exercise")?`<button class="x" data-lb="editX" data-v="${x.id}">Editar</button>`:""}</span>`:ed("editX",x.id)}</div><small>${exSum(x.data)}</small></div>`).join(""):""}).join("")}
+if(libT==="ex"){const L3=L.filter(x=>!libC||xcN(x.data.cat)===libC);if(!L3.length)return'<div class="empty">No hay ejercicios en esta categoría.'+(libCan("exercise")?' Guárdalos desde una sesión con "💾 Biblioteca" o créalos aquí.':"")+'</div>';return[...XC,""].map(c=>{const g=L3.filter(x=>xcN(x.data.cat)===c);return g.length?`<div class="mhd">${c?c.toUpperCase():"SIN CATEGORÍA"} · ${g.length}</div><div class="exg">`+g.map(x=>{const bt=x.pub?`<small>Nexum</small>${libCan("exercise")?`<span><button class="x" data-lb="editX" data-v="${x.id}">Editar</button></span>`:""}`:ed("editX",x.id);return`<div class="card exl"><b>${esc(x.name)}</b><small>${exSum(x.data)}</small>${bt?`<div class="exb">${bt}</div>`:""}</div>`}).join("")+"</div>":""}).join("")}
 const cn=new Map(LIB.filter(x=>x.kind==="recipe").map(x=>[NRM(x.name),x.data])),nf=RCL.filter(r=>{const d=cn.get(NRM(r.t));return d&&d.ph}).length;
 const L2=L.filter(x=>(libM<0||(+x.data.m||0)===libM)&&rcOk(x.data,libTg)),mine=L2.length?L2.map(x=>`<div class="card"><div class="row"><b>${esc(x.name)}</b>${ed("editR",x.id)||`<button class="x" data-lb="vwR" data-v="${x.id}">Ver</button>`}</div><small>${esc(NM[+x.data.m||0])} · ${esc(x.data.k||"–")} kcal${x.data.ph?" · 📷":""}</small></div>`).join(""):'<div class="empty">Aún no hay recetas guardadas en la biblioteca.</div>';
 const bi=RCL.map((r,i)=>[r,i]).filter(a=>NRM(a[0].t).includes(q)&&(libM<0||a[0].m===libM)&&rcOk(a[0],libTg)).map(a=>`<div class="lbr"><div><b>${esc(a[0].t)}</b><br><small>${esc(NM[a[0].m])}${cn.has(NRM(a[0].t))?" · editada"+(cn.get(NRM(a[0].t)).ph?" · con foto":""):""}</small></div>${libCan("recipe")?`<span style="display:flex;gap:6px;flex:none"><label class="tmb" style="margin:0;padding:9px 12px">📷<input type="file" accept="image/*" data-bp="${a[1]}" hidden></label><button data-lb="bi" data-v="${a[1]}">Editar</button></span>`:`<button data-lb="vwB" data-v="${a[1]}">Ver</button>`}</div>`).join("");
@@ -2005,7 +2028,7 @@ function laList(){const q=NRM(laQ);
 if(laT==="rec"){const L=laRecs().map((r,i)=>[r,i]).filter(a=>NRM(a[0].t).includes(q)&&(laM<0||(+a[0].m||0)===laM));window.__LAR=laRecs();return L.length?L.map(a=>`<div class="lbr"><div><b>${esc(a[0].t)}</b><br><small>${esc(NM[+a[0].m||0])}${a[0].k?" · "+esc(a[0].k)+" kcal":""}</small></div><button data-la="rc" data-v="${a[1]}">Ver</button></div>`).join(""):'<div class="empty">No hay recetas con ese filtro.</div>'}
 if(laT==="rt"){const L=XV.filter(x=>x.kind==="routine"&&NRM(x.name).includes(q));return L.length?L.map(x=>{const d=x.data||{},it=(d.items||[]).map(i=>i.n||i.name||"").filter(Boolean);return`<details class="card"><summary><b>${esc(x.name)}</b> <small>· ${esc(RTN[d.rt||"train"]||"Rutina")}</small></summary><small>${it.length?it.map(esc).join(" · "):esc(rtSum(d))}</small></details>`}).join(""):'<div class="empty">Aún no hay rutinas en la biblioteca.</div>'}
 const seen=new Set(),L=XV.filter(x=>x.kind==="exercise").sort((a,b)=>(b.coach?1:0)-(a.coach?1:0)).filter(x=>{const k=NRM(x.name);if(seen.has(k))return false;seen.add(k);return true}).filter(x=>NRM(x.name).includes(q)&&(!laC||xcN((x.data||{}).cat)===laC)).sort((a,b)=>a.name.localeCompare(b.name));
-return L.length?L.map(x=>{const d=x.data||{};return`<div class="card ex-s"><div class="row"><b>${esc(x.name)}</b><small>${esc(d.cat||"")}</small></div><small>${exSum(d)}</small>${d.material?`<br><small>Material: ${esc(d.material)}</small>`:""}${d.obs?`<p><small>${esc(d.obs)}</small></p>`:""}${ytT({video:d.video})}</div>`}).join(""):'<div class="empty">No hay ejercicios con ese filtro.</div>'}
+return L.length?'<div class="exg">'+L.map(x=>{const d=x.data||{},hd=`<b>${esc(x.name)}</b><small>${esc(d.cat||"")}</small><small>${exSum(d)}</small>`,ex=(d.material?`<small>Material: ${esc(d.material)}</small>`:"")+(d.obs?`<p><small>${esc(d.obs)}</small></p>`:"")+ytT({video:d.video});return ex?`<details class="card exl"><summary>${hd}</summary>${ex}</details>`:`<div class="card exl">${hd}</div>`}).join("")+"</div>":'<div class="empty">No hay ejercicios con ese filtro.</div>'}
 function laH(){if(!xvOk&&!xvBusy&&!xvErr)xvLoad();
 const tb=`<div class="bar">${[["rec","Recetas"],["ex","Ejercicios"],["rt","Rutinas"]].map(t=>`<button class="${laT===t[0]?"on":""}" data-la="tab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div>`;
 if(xvErr)return tb+`<div class="card"><b>No se pudo cargar la biblioteca</b><br><small>${esc(xvErr)}</small><div class="bar" style="margin:10px 0 0"><button class="on" data-la="retry">Reintentar</button></div></div>`;
@@ -2156,7 +2179,7 @@ $("who").innerHTML=!USER||!ready?"":(ROLE==="coach"&&CL?(NUTRI?'<button data-nu=
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
 if(NUTRI&&!CL){nutriShell();return}if(ROLE==="coach"&&USER&&COACH&&COACH.suspendido&&!ISADM){susH();return}if(ROLE==="coach"&&USER&&!ISADM&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();NAVOK=true;return}if(CS&&ROLE==="coach"){regH();return}if(ROLE==="coach"&&USER&&!NUTRI&&!CL&&COACH&&(presEdit||(!ISADM&&!COACH.presentacion))){presH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
-NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),lab:()=>window.labH(),pat:()=>window.patH()}[tab]()}
+NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH()}[tab]()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
 if(CLP()&&!(a==="newS"&&LG.includes(et))&&!(a==="delS"&&(d=>d&&canDel(d))(S.sessions.find(x=>x.id===(t.dataset.v||S.cur))))&&["addMob","delMob","newS","delS","addEx","delEx","dup","planS","addCT","undoT","bm","imp"].includes(a))return;
@@ -3949,7 +3972,7 @@ window.nxFx={i:el=>{const k=el.dataset.fxk;FX[k]=el.value;FX.sv="";
   S.aerH=fxHist().filter(x=>x.d!==e.d);S.aerH.unshift(e);S.aerH.sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0);S.aerH=S.aerH.slice(0,120);save();
   FX.sv="✓ Guardada";FX.ho=true;if(v)v.textContent=FX.sv;if(h)h.innerHTML=fxHistH()},
  hx:d=>{if(RO&&!NUTRI)return;S.aerH=fxHist().filter(x=>x.d!==d);save();const h=$("fxhist");if(h)h.innerHTML=fxHistH()}};
-/* Herramientas = menú de 4 tarjetas (Zonas de FC · VAM y VO₂máx · 1RM por velocidad · Saltos y sprints de Lab); hay que pinchar para ver cada una */
+/* Herramientas = menú de 4 tarjetas (Zonas de FC · VAM y VO₂máx · 1RM por velocidad · Saltos y sprints); hay que pinchar para ver cada una */
 const HTL=[["fc","Zonas de FC"],["vam","VAM y VO₂máx"],["rm","1RM por velocidad"],["ss","Saltos y sprints"]];
 const htlOk=k=>k!=="ss"||(!NUTRI&&fnOn("lab")&&typeof window.hsSS==="function");
 function htlPrev(k){
@@ -3960,7 +3983,7 @@ function htlPrev(k){
 function hsH(fcFn){
  const hero=`<div class="hero"><small style="color:#ccc;letter-spacing:.25em">MONITOR</small><div class="hh">Herramientas</div><div class="script">pulso, resistencia, fuerza y saltos</div></div>`;
  const ks=HTL.filter(x=>htlOk(x[0]));if(!ks.some(x=>x[0]===htl))htl="";
- if(!htl)return hero+'<div class="menu">'+ks.map((x,i)=>mt("hsub",x[0],"0"+(i+1),x[1],htlPrev(x[0]),ks.length%2&&i===ks.length-1?1:0)).join("")+"</div>";
+ if(!htl)return hero+'<div class="menu hs">'+ks.map(x=>mt("hsub",x[0],{fc:"PULSO",vam:"RESISTENCIA",rm:"FUERZA",ss:"VÍDEO"}[x[0]],x[1],htlPrev(x[0]),1)).join("")+"</div>";
  const body=htl==="fc"?fcFn():htl==="vam"?fxAerH():htl==="rm"?fxRMH():window.hsSS();
  return '<div class="bar"><button data-act="hsub" data-v="">‹ Herramientas</button></div>'+body}
 {const _fc=fczH;fczH=function(){fxInit();return hsH(()=>_fc.apply(this,arguments))}}
@@ -4151,30 +4174,19 @@ function labSave(){
  LBFL={m:"Guardado: "+LABM[LB.mode].n+" · "+nm+" · "+r.sum,t:Date.now()};
  save();labClose(true)}
 
-/* ---- pantalla del apartado ---- */
-function labH(){
- if(NUTRI)return'<div class="card"><small>Lab no está disponible en este modo.</small></div>';
- let h="";
- if(LBFL&&Date.now()-LBFL.t<60000)h+=`<div class="card" style="border-left:4px solid #5f8f4e"><b>✓ ${esc(LBFL.m)}</b><br><small>Ya puedes verlo en Tests.</small></div>`;
- h+=`<div class="card"><b>Mide con el vídeo del móvil</b><p><small>Graba o sube un vídeo, avanza fotograma a fotograma y marca dos o tres momentos (despegue, aterrizaje, línea de meta…). Lab calcula el resultado y lo guarda en tus Tests.</small></p>${ih("Cómo grabar para que sea fiable","<ul><li>Móvil quieto, apoyado o en un trípode. Nada de grabar a pulso.</li><li>De lado y a la altura de la cadera, con el cuerpo entero a la vista.</li><li>60 fotogramas por segundo o más. La cámara lenta (120 o 240) da el resultado más exacto.</li><li>Cada marca tiene un margen de ±1 fotograma: a 30 fps son ±33 ms, a 240 fps solo ±4 ms.</li></ul>")}</div>`;
- h+='<div class="menu"><button class="mt wide" data-act="hgo" data-v="ss"><i></i><span><b>Saltos y sprints</b><small>Ahora se miden desde Herramientas ›</small></span></button>'+Object.keys(LABM).filter(k=>k!=="jump"&&k!=="speed").map((k,i)=>`<button class="mt" data-lab="open" data-v="${k}"><i>0${i+1}</i><span><b>${esc(LABM[k].n)}</b><small>${esc(LABM[k].s)}</small></span></button>`).join("")+"</div>";
- const L=(S.lab||[]).slice(-10).reverse();
- if(L.length)h+=`<div class="card" style="margin-top:12px"><b>Últimas mediciones</b>${L.map(x=>`<div class="qa"><span>${esc(String(x.d).slice(5).split("-").reverse().join("/"))} · ${esc(x.nm)}${x.ex?" · "+esc(x.ex):""}</span><span>${esc(x.s)}</span></div>`).join("")}<small>Los resultados guardados también aparecen en Tests.</small></div>`;
- return h}
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-lab]");if(!b)return;ev.stopPropagation();if(b.dataset.lab==="open")labOpen(b.dataset.v,b.dataset.k,b.dataset.x)},true);
 
 /* ---- Saltos y sprints dentro de Herramientas ---- */
-const lbSS=x=>x&&(x.m==="jump"||x.m==="speed");
 function hsSS(){
  if(NUTRI)return'<div class="card"><small>Los saltos y sprints no están disponibles en este modo.</small></div>';
  let h="";
  if(LBFL&&Date.now()-LBFL.t<60000)h+=`<div class="card" style="border-left:4px solid #5f8f4e"><b>✓ ${esc(LBFL.m)}</b><br><small>Ya puedes verlo en Tests.</small></div>`;
- h+=`<div class="card"><b>Saltos y sprints con el vídeo del móvil</b><p><small>Graba o sube un vídeo, avanza fotograma a fotograma y marca el despegue y el aterrizaje (saltos) o las líneas de meta (sprints). La app calcula el resultado y lo guarda en tus Tests.</small></p>${ih("Cómo grabar para que sea fiable","<ul><li>Móvil quieto, apoyado o en un trípode. Nada de grabar a pulso.</li><li>De lado y a la altura de la cadera, con el cuerpo entero a la vista.</li><li>60 fotogramas por segundo o más. La cámara lenta (120 o 240) da el resultado más exacto.</li><li>Cada marca tiene un margen de ±1 fotograma: a 30 fps son ±33 ms, a 240 fps solo ±4 ms.</li></ul>")}</div>`;
- h+='<div class="menu">'+[["jump","Saltos"],["speed","Sprints"]].map((k,i)=>`<button class="mt" data-lab="open" data-v="${k[0]}"><i>0${i+1}</i><span><b>${k[1]}</b><small>${esc(LABM[k[0]].s)}</small></span></button>`).join("")+"</div>";
- const L=(S.lab||[]).filter(lbSS).slice(-10).reverse();
+ h+=`<div class="card"><b>Mide con el vídeo del móvil</b><p><small>Graba o sube un vídeo, avanza fotograma a fotograma y marca los momentos clave: despegue y aterrizaje (saltos), líneas de meta (sprints), giros (cambios de dirección) o la suelta (lanzamientos). La app calcula el resultado y lo guarda en tus Tests.</small></p>${ih("Cómo grabar para que sea fiable","<ul><li>Móvil quieto, apoyado o en un trípode. Nada de grabar a pulso.</li><li>De lado y a la altura de la cadera, con el cuerpo entero a la vista.</li><li>60 fotogramas por segundo o más. La cámara lenta (120 o 240) da el resultado más exacto.</li><li>Cada marca tiene un margen de ±1 fotograma: a 30 fps son ±33 ms, a 240 fps solo ±4 ms.</li></ul>")}</div>`;
+ h+='<div class="menu">'+[["jump","Saltos"],["speed","Sprints"],["cod","Cambio de dirección"],["throw","Lanzamientos"]].map((k,i)=>`<button class="mt" data-lab="open" data-v="${k[0]}"><i>0${i+1}</i><span><b>${k[1]}</b><small>${esc(LABM[k[0]].s)}</small></span></button>`).join("")+"</div>";
+ const L=(S.lab||[]).slice(-10).reverse();
  if(L.length)h+=`<div class="card" style="margin-top:12px"><b>Últimas mediciones</b>${L.map(x=>`<div class="qa"><span>${esc(String(x.d).slice(5).split("-").reverse().join("/"))} · ${esc(x.nm)}${x.ex?" · "+esc(x.ex):""}</span><span>${esc(x.s)}</span></div>`).join("")}<small>Los resultados guardados también aparecen en Tests.</small></div>`;
  return h}
-function hsSSp(){const L=(S.lab||[]).filter(lbSS),x=L[L.length-1];return x?esc(x.nm)+" · "+esc(x.s):"CMJ, SJ, drop jump y sprints de 10 a 40 m"}
+function hsSSp(){const L=S.lab||[],x=L[L.length-1];return x?esc(x.nm)+" · "+esc(x.s):"Saltos, sprints, cambios de dirección y lanzamientos"}
 
 /* ---- espacio de trabajo (capa propia, fuera de #app para no perder el vídeo al repintar) ---- */
 const labSkel=()=>`<div id="labs0" class="lbscr"></div>
@@ -4320,7 +4332,7 @@ async function labLoad(f){
  LB.msg="";LB.ready=true;LB.fi=0;labSeek(0);
  LB.act=labNext(-1);labGo("an")}
 
-/* ---- botón «Medir con Lab» dentro de los ejercicios de saltos, velocidad, cambios de dirección y lanzamientos ---- */
+/* ---- botón «Medir con vídeo» dentro de los ejercicios de saltos, velocidad, cambios de dirección y lanzamientos ---- */
 const labGuess=n=>{n=String(n||"").toLowerCase();
  if(/lanz|bal[oó]n medicinal|medicine|slam|throw|jabalina|disco|martillo|\bbola\b/.test(n))return["throw",/jabalina/.test(n)?"jav":/disco/.test(n)?"disc":/martillo/.test(n)?"ham":/bola|peso|shot/.test(n)?"shot":"med"];
  if(/agilidad|cambio de direcc|\bcod\b|505|5-10-5|t-test|illinois|zigzag|zig-zag|shuffle/.test(n))return["cod",/5-10-5/.test(n)?"t5105":/505/.test(n)?"c505":/t-test/.test(n)?"tte":/illinois/.test(n)?"ill":"free"];
@@ -4328,8 +4340,8 @@ const labGuess=n=>{n=String(n||"").toLowerCase();
  if(/salto|jump|pliom|\bhop\b|rebote|vallas?\b|bound|cmj|caj[oó]n/.test(n))return["jump",/squat jump|\bsj\b/.test(n)?"sj":/drop/.test(n)?"dj":/depth/.test(n)?"depj":/valla|rebote|\bhop\b|bound/.test(n)?"rep":/brazos|cmja/.test(n)?"cmja":"cmj"];
  return null};
 {const _ex=exC;exC=function(e){const h=_ex.apply(this,arguments);if(ROLE!=="client"||(typeof RO!=="undefined"&&RO))return h;const g=labGuess(e&&e.name);if(!g||!h.endsWith("</div></div>"))return h;
- return h.slice(0,-6)+`<div class="bar" style="margin:8px 0 0"><button data-lab="open" data-v="${g[0]}" data-k="${g[1]}" data-x="${esc((e.name||"").slice(0,60))}">📏 Medir con Lab</button></div></div>`}}
-Object.assign(window,{hsSS,hsSSp,labH,labOpen,labGuess,nxLab:{open:labOpen,close:labClose,state:()=>LB,calc:labCalc,seek:labSeek,mark:labMark,save:labSave}});
+ return h.slice(0,-6)+`<div class="bar" style="margin:8px 0 0"><button data-lab="open" data-v="${g[0]}" data-k="${g[1]}" data-x="${esc((e.name||"").slice(0,60))}">📏 Medir con vídeo</button></div></div>`}}
+Object.assign(window,{hsSS,hsSSp,labOpen,labGuess,nxLab:{open:labOpen,close:labClose,state:()=>LB,calc:labCalc,seek:labSeek,mark:labMark,save:labSave}});
 
 /* ===== v41 · Videollamadas (enlace externo: Meet / Zoom / Teams) ===== */
 const VC={link:"",loaded:false,p:null,st:null};
@@ -4485,9 +4497,9 @@ Object.assign(window,{VC,vcCard,vcJoinH,vcNorm,vcSafe,vcSaveLink,vcLoadLink,vcAn
 
 /* ===== v42 · Interruptores de funciones (administración) ===== */
 const FNS=[
- {k:"lab",n:"Lab",i:"📏",d:"Medición por vídeo: saltos, velocidad, cambios de dirección y lanzamientos.",sel:['[data-act="tab"][data-v="lab"]','[data-lab]']},
+ {k:"lab",n:"Medición por vídeo",i:"📏",d:"Dentro de Herramientas › «Saltos y sprints»: saltos, sprints, cambios de dirección y lanzamientos con el vídeo del móvil.",sel:['[data-lab]']},
  {k:"rnk",n:"Ranking",i:"🏆",d:"Compara los tests de cada atleta con los de su grupo.",sel:['[data-act="tab"][data-v="rnk"]']},
- {k:"fcz",n:"Herramientas",i:"❤️",d:"Menú con zonas de FC, VAM y VO₂máx, 1RM por velocidad y (si Lab está activo) saltos y sprints.",sel:['[data-act="tab"][data-v="fcz"]']},
+ {k:"fcz",n:"Herramientas",i:"❤️",d:"Menú con zonas de FC, VAM y VO₂máx, 1RM por velocidad y (si la medición por vídeo está activa) saltos, sprints, cambios de dirección y lanzamientos.",sel:['[data-act="tab"][data-v="fcz"]']},
  {k:"cpo",n:"Cuerpo",i:"💪",d:"Mapa muscular: estímulo, fuerza relativa y recuperación.",sel:['[data-act="tab"][data-v="cpo"]']},
  {k:"logros",n:"Compartir logros",i:"📸",d:"Imagen de la semana, del entreno o del progreso para redes y la comunidad.",sel:['[data-v21="shs"]','[data-v18="share"]']},
  {k:"video",n:"Videollamadas",i:"📹",d:"Enlace de Meet o Zoom en los chats y en el calendario.",sel:['[data-ag="kd"]','.vcbar']}];
@@ -4502,7 +4514,7 @@ function fnStyle(){
  let e=document.getElementById("fnoff");if(!e){e=document.createElement("style");e.id="fnoff";document.head.appendChild(e)}
  e.textContent=off.map(f=>f.sel.join(",")+"{display:none!important}").join("\n")}
 /* si alguien estaba dentro de una sección que se apaga, se le lleva a la pantalla madre */
-{const _rn=render;render=function(){try{const g={lab:"tst",rnk:"tst",cpo:"tst",fcz:"rec"};if(g[tab]&&!fnOn(tab))tab=g[tab];if(!fnOn("video")&&AGF&&AGF.ag_k)AGF.ag_k="";fnStyle()}catch(e){}return _rn.apply(this,arguments)}}
+{const _rn=render;render=function(){try{if(tab==="lab"){tab="fcz";htl="ss"}const g={rnk:"tst",cpo:"tst",fcz:"rec"};if(g[tab]&&!fnOn(tab))tab=g[tab];if(!fnOn("video")&&AGF&&AGF.ag_k)AGF.ag_k="";fnStyle()}catch(e){}return _rn.apply(this,arguments)}}
 {const _so=shOpen;shOpen=function(){if(!fnOn("logros"))return;return _so.apply(this,arguments)}}
 /* panel de administración */
 function fnAdmin(){
