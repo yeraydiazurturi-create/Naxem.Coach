@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.85">
+<meta name="app-version" content="2026-11-15.86">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -1870,7 +1870,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.85";
+const APP_V="2026-11-15.86";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -2647,7 +2647,7 @@ function nlgH(){const me=CLI(),t=nlT(),d=nlD(),L=nlDay(d),T=nlSum(L),G=nlGoal(),
  const sum=`<div class="card nls"><div class="nlbig"><b>${nlK(T[0])}</b><span>${G?"de "+nlK(G.k)+" kcal":"kcal"}</span></div>${nlBar(T[0],G?G.k:0,"k")}<small>${kc}${G?(kc?" · ":"")+(G.src==="manual"?"objetivo fijado por ti":"objetivo calculado con tus datos"):""}</small>${mr}${sp>0?`<small>Reparto de la energía: P ${pc(4*T[1])} % · C ${pc(4*T[2])} % · G ${pc(9*T[3])} %</small>`:""}${G?"":`<small>Sin objetivo todavía: completa peso y altura (Progreso → Tests → Antropometría)${me?" o fíjalo tú":""}.</small>`}${me?`<div class="bar" style="margin:10px 0 0"><button data-nl="goal">${G?"Editar objetivo":"Fijar objetivo"}</button></div>`:""}</div>`;
  const cp=me&&!L.length&&nlLast(d)?`<div class="bar"><button data-nl="copy">📋 Copiar el último día registrado (${nlDS(nlLast(d))})</button></div>`:"";
  const meals=NM.map((m,i)=>{const E=L.filter(e=>(+e.m||0)===i),X=nlSum(E),mg=nlMG(i,G);
-  return`<div class="card nlml"><div class="row"><b>${m}</b><span class="nlmt">${E.length?`<b>${nlK(X[0])}</b> kcal`:""}${mg?`<small>${E.length?" · ":""}objetivo ≈ ${nlK(mg)}</small>`:""}</span></div>${E.length?`<small class="nlmm">${nlMac(X)} g</small>`:""}${E.map(e=>{const x=nlE(e),b=`<span class="nln"><b>${esc(e.n)}</b><small>${nlEL(e)}</small></span><span class="nlk"><b>${nlK(x[0])} kcal</b><small>${nlMac(x)}</small></span>`;return me?`<button class="nle" data-nl="edit" data-v="${esc(e.id)}">${b}</button>`:`<div class="nle">${b}</div>`}).join("")}${me?`<button class="nla" data-nl="add" data-v="${i}">＋ Añadir alimento</button>`:(E.length?"":`<small>Sin registros.</small>`)}</div>`}).join("");
+  return`<div class="card nlml"><div class="row"><b>${m}</b><span class="nlmt">${E.length?`<b>${nlK(X[0])}</b> kcal`:""}${mg?`<small>${E.length?" · ":""}objetivo ≈ ${nlK(mg)}</small>`:""}</span></div>${E.length?`<small class="nlmm">${nlMac(X)} g</small>`:""}${E.map(e=>{const x=nlE(e),b=`<span class="nln"><b>${esc(e.n)}</b><small>${nlEL(e)}${e.it&&e.it.length?" · "+e.it.length+" ingred.":""}</small></span><span class="nlk"><b>${nlK(x[0])} kcal</b><small>${nlMac(x)}</small></span>`;return me?`<button class="nle" data-nl="edit" data-v="${esc(e.id)}">${b}</button>`:`<div class="nle">${b}</div>`}).join("")}${me?`<button class="nla" data-nl="add" data-v="${i}">＋ Añadir alimento</button>`:(E.length?"":`<small>Sin registros.</small>`)}</div>`}).join("");
  const CK=[["k","Calorías"],["p","Proteína"],["c","Hidratos"],["f","Grasas"]],ci={k:0,p:1,c:2,f:3}[NL.ch]||0;
  const A=nlAvg(7),cb=`<div class="qch pfq">${CK.map(x=>`<button class="qc${x[0]===NL.ch?" on":""}" data-nl="ch" data-v="${x[0]}" aria-pressed="${x[0]===NL.ch}">${x[1]}</button>`).join("")}</div>`;
  const ev=`<div class="sec">Evolución <span class="script">de 14 días</span></div>${cb}<div class="charts">${ch(CK[ci][1]+" por día",nlSeries(ci,14),0,null,ci?"g":"kcal")}</div>`+(A?`<div class="card"><b>Media de tus últimos 7 días</b><small style="display:block;margin-top:2px">${A.c} día${A.c===1?"":"s"} con registro</small><div class="tiles" style="margin-top:8px"><div class="tile"><b>${nlK(A.v[0])}</b><small>kcal</small></div><div class="tile"><b>${nlF(A.v[1])}</b><small>Proteína g</small></div><div class="tile"><b>${nlF(A.v[2])}</b><small>Hidratos g</small></div><div class="tile"><b>${nlF(A.v[3])}</b><small>Grasas g</small></div></div></div>`:"");
@@ -2656,12 +2656,12 @@ function nlTodayH(){if(!CLI()||(typeof fnOn==="function"&&!fnOn("nlg")))return""
  return`<div class="card"><div class="row"><b>Nutrición de hoy</b><button class="on" data-act="tab" data-v="nlg">${L.length?"Abrir registro":"＋ Registrar"}</button></div>${L.length?`<div class="nlbig sm"><b>${nlK(T[0])}</b><span>${G?"de "+nlK(G.k)+" kcal":"kcal"}</span></div>${nlBar(T[0],G?G.k:0,"k")}<small>${nlMac(T)} g</small>`:`<small>Aún no has registrado comidas hoy. Apunta lo que comes y controla tus calorías y macros.</small>`}</div>`}
 
 /* ---- ventana (alimentos, cantidades, formularios) ---- */
-function nlShow(h){let o=$("nlov");if(!o){o=document.createElement("div");o.id="nlov";o.className="rcov";document.body.appendChild(o)}o.innerHTML=h;o.scrollTop=0;document.body.style.overflow="hidden"}
-function nlClose(r){const o=$("nlov");if(o)o.remove();document.body.style.overflow="";NL.sel=null;if(r!==false)render()}
+function nlShow(h){scStop();let o=$("nlov");if(!o){o=document.createElement("div");o.id="nlov";o.className="rcov";document.body.appendChild(o)}o.innerHTML=h;o.scrollTop=0;document.body.style.overflow="hidden"}
+function nlClose(r){scStop();const o=$("nlov");if(o)o.remove();document.body.style.overflow="";NL.sel=null;if(r!==false)render()}
 const nlWrap=(b,h)=>`<div class="rcw"><button class="rcx" data-nl="${b||"close"}">${b&&b!=="close"?"‹ Volver":"✕ Cerrar"}</button><div class="lbc nlc">${h}</div></div>`;
 const nlRowM=x=>x.ra?`${nlK(x.b[0])} kcal · ${nlMac(x.b)} <em>por ración</em>`:`${nlK(x.b[0])} kcal · ${nlMac(x.b)} <em>por 100 g</em>`;
 function nlRecent(){const seen=new Set(),o=[],days=Object.keys(nlLog()).sort().reverse();for(const d of days){const L=nlLog()[d].slice().sort((a,b)=>(b.t||0)-(a.t||0));for(const e of L){const k=e.n+"|"+e.u;if(seen.has(k))continue;seen.add(k);o.push({n:e.n,b:(e.b||[0,0,0,0]).slice(),u:e.u,un:e.un||"",ug:e.ug||0,q:e.q,ra:e.u==="r",rec:1});if(o.length>=30)return o}}return o}
-const nlOwnX=f=>({n:f.n,cat:-1,b:[+f.k||0,+f.p||0,+f.c||0,+f.f||0],un:f.un||"",ug:+f.ug||0,own:1,oid:f.id});
+const nlOwnX=f=>({n:f.n,cat:-1,b:[+f.k||0,+f.p||0,+f.c||0,+f.f||0],un:f.un||"",ug:+f.ug||0,own:1,oid:f.id,bc:f.bc||""});
 const nlRecX=r=>({n:r.t,ra:1,u:"r",q:1,b:[nlN(r.k),nlN(r.p),nlN(r.c),nlN(r.g)]});
 function nlRes(){const T=NRM(NL.q).split(" ").filter(Boolean),tab=NL.tab;let L;
  if(tab==="hist")L=nlRecent();else if(tab==="rec")L=nxPool().map(nlRecX);else if(tab==="own")L=(S.nfd||[]).map(nlOwnX);else L=(S.nfd||[]).map(nlOwnX).concat(ALX);
@@ -2673,28 +2673,29 @@ function nlRes(){const T=NRM(NL.q).split(" ").filter(Boolean),tab=NL.tab;let L;
  return NL.res.map((x,i)=>`<button class="lbr nlr" data-nl="pick" data-v="${i}"><div><b>${esc(x.n)}</b>${x.own?' <span class="nlpill">Mío</span>':""}<small>${x.rec?nlF(x.q)+(x.u==="u"?" × "+esc(x.un):x.u==="r"?" ración":" g")+" · ":""}${nlRowM(x)}</small></div><i>›</i></button>`).join("")+(L.length>60?`<small class="nlnote">Mostrando 60 de ${L.length}: afina la búsqueda.</small>`:"")}
 function nlList(){if(!CLI())return;const hs=nlRecent().length>0;if(NL.tab==="hist"&&!hs)NL.tab="all";
  const tabs=[["hist","Recientes"],["all","Alimentos"],["rec","Recetas"],["own","Míos"]].filter(x=>x[0]!=="hist"||hs);
- nlShow(nlWrap("close",`<div class="nlhd">Añadir a <b>${NM[NL.m]}</b></div><input id="nlq" data-nlq="s" placeholder="Buscar alimento o receta…" autocomplete="off" value="${esc(NL.q)}"><div class="qch nlt">${tabs.map(x=>`<button class="qc${NL.tab===x[0]?" on":""}" data-nl="tab" data-v="${x[0]}">${x[1]}</button>`).join("")}</div><div id="nllist">${nlRes()}</div><div class="bar" style="margin-top:12px"><button data-nl="own">＋ Alimento propio</button><button data-nl="quick">⚡ Entrada rápida</button></div>`))}
+ nlShow(nlWrap(NL.from==="plate"?"plate":"close",`<div class="nlhd">${NL.from==="plate"?"Añadir al plato":"Añadir a <b>"+NM[NL.m]+"</b>"}</div><div class="bar" style="margin:0 0 10px"><button class="on" data-nl="scan">📷 Escanear código</button>${NL.from==="plate"?"":`<button data-nl="plate">🍽 Armar plato</button>`}</div><input id="nlq" data-nlq="s" placeholder="Buscar alimento o receta…" autocomplete="off" value="${esc(NL.q)}"><div class="qch nlt">${tabs.map(x=>`<button class="qc${NL.tab===x[0]?" on":""}" data-nl="tab" data-v="${x[0]}">${x[1]}</button>`).join("")}</div><div id="nllist">${nlRes()}</div><div class="bar" style="margin-top:12px"><button data-nl="own">＋ Alimento propio</button>${NL.from==="plate"?"":`<button data-nl="quick">⚡ Entrada rápida</button>`}</div>`))}
 function nlOpen(m){if(!CLI())return;NL.from="pick";NL.m=m;NL.q="";NL.tab=nlRecent().length?"hist":"all";NL.sel=null;nlList()}
-function nlSel(x,m,edit){const mode=x.u||(x.ra?"r":"g");NL.sel={n:x.n,b:x.b.slice(),mode,un:x.un||"",ug:x.ug||0,q:x.q!=null?x.q:(mode==="g"?100:1),m,edit:edit||"",oid:x.oid||"",ra:!!x.ra}}
+function nlSel(x,m,edit){const mode=x.u||(x.ra?"r":"g");NL.sel={n:x.n,b:x.b.slice(),mode,un:x.un||"",ug:x.ug||0,q:x.q!=null?x.q:(mode==="g"?100:1),m,edit:edit||"",oid:x.oid||"",ra:!!x.ra,bc:x.bc||"",it:x.it||null,pi:-1,back:"",note:""}}
 const nlPvH=()=>{const s=NL.sel,f=nlFac({u:s.mode,q:s.q,ug:s.ug}),b=s.b;return`<div class="nlbig"><b>${nlK(b[0]*f)}</b><span>kcal</span></div><div class="nlpm"><span>P <b>${nlF(b[1]*f)}</b></span><span>C <b>${nlF(b[2]*f)}</b></span><span>G <b>${nlF(b[3]*f)}</b></span></div>`+(s.mode==="u"?`<small>${nlF(nlN(s.q)*s.ug)} g en total</small>`:"")};
 function nlQty(){const s=NL.sel;if(!s)return;const ro=!CLI(),QQ=s.mode==="g"?[50,100,150,200,250]:s.mode==="u"?[1,2,3,4]:[.5,1,1.5,2];
- nlShow(nlWrap(s.edit||NL.from==="lib"?"close":"list",`<div class="nlhd">${esc(s.n)}</div><small>${s.ra?"Por ración":"Por 100 g"}: ${nlK(s.b[0])} kcal · ${nlMac(s.b)}</small>${s.ug>0&&!s.ra?`<div class="qch nlt"><button class="qc${s.mode==="g"?" on":""}" data-nl="mode" data-v="g">Gramos</button><button class="qc${s.mode==="u"?" on":""}" data-nl="mode" data-v="u">${esc(s.un)} (${nlF(s.ug)} g)</button></div>`:""}<label>${s.mode==="g"?"Cantidad (gramos)":s.mode==="u"?"Cantidad ("+esc(s.un)+")":"Raciones"}</label><input id="nlqty" data-nlq="qty" type="number" inputmode="decimal" step="any" min="0" value="${esc(s.q)}"><div class="qch nlqq">${QQ.map(v=>`<button class="qc" data-nl="qq" data-v="${v}">${String(v).replace(".",",")}${s.mode==="g"?" g":""}</button>`).join("")}</div><div id="nlpv" class="nlpv">${nlPvH()}</div><div id="nlw" class="nlw"></div>${ro?"":`<label>Comida</label><div class="qch">${NM.map((m,i)=>`<button class="qc${s.m===i?" on":""}" data-nl="mm" data-v="${i}">${m}</button>`).join("")}</div>`}<div class="bar" style="margin-top:14px">${s.edit?`<button class="x" data-nl="del" data-v="${esc(s.edit)}">Eliminar</button>`:""}${s.oid&&CLI()&&!s.edit?`<button data-nl="ownEdit" data-v="${esc(s.oid)}">Editar alimento</button>`:""}${ro?"":`<button class="on w" data-nl="go">${s.edit?"Guardar cambios":"Añadir al registro"}</button>`}</div>`))}
+ nlShow(nlWrap(s.edit?"close":NL.from==="plate"&&s.pi>=0?"plate":s.back?s.back:NL.from==="lib"?"close":"list",`<div class="nlhd">${esc(s.n)}</div><small>${s.ra?"Por ración":"Por 100 g"}: ${nlK(s.b[0])} kcal · ${nlMac(s.b)}</small>${s.note||""}${s.it&&s.it.length?nlItH(s.it):""}${s.ug>0&&!s.ra?`<div class="qch nlt"><button class="qc${s.mode==="g"?" on":""}" data-nl="mode" data-v="g">Gramos</button><button class="qc${s.mode==="u"?" on":""}" data-nl="mode" data-v="u">${esc(s.un)} (${nlF(s.ug)} g)</button></div>`:""}<label>${s.mode==="g"?"Cantidad (gramos)":s.mode==="u"?"Cantidad ("+esc(s.un)+")":"Raciones"}</label><input id="nlqty" data-nlq="qty" type="number" inputmode="decimal" step="any" min="0" value="${esc(s.q)}"><div class="qch nlqq">${QQ.map(v=>`<button class="qc" data-nl="qq" data-v="${v}">${String(v).replace(".",",")}${s.mode==="g"?" g":""}</button>`).join("")}</div><div id="nlpv" class="nlpv">${nlPvH()}</div><div id="nlw" class="nlw"></div>${ro||NL.from==="plate"?"":`<label>Comida</label><div class="qch">${NM.map((m,i)=>`<button class="qc${s.m===i?" on":""}" data-nl="mm" data-v="${i}">${m}</button>`).join("")}</div>`}<div class="bar" style="margin-top:14px">${s.edit?`<button class="x" data-nl="del" data-v="${esc(s.edit)}">Eliminar</button>`:NL.from==="plate"&&s.pi>=0?`<button class="x" data-nl="plDel" data-v="${s.pi}">Quitar</button>`:""}${s.bc&&!s.oid&&CLI()&&!s.edit?`<button data-nl="scanSave">★ Guardar en Míos</button><button data-nl="scanFix">Corregir datos</button>`:""}${s.oid&&CLI()&&!s.edit?`<button data-nl="ownEdit" data-v="${esc(s.oid)}">Editar alimento</button>`:""}${ro?"":`<button class="on w" data-nl="go">${s.edit||NL.from==="plate"&&s.pi>=0?"Guardar cambios":NL.from==="plate"?"Añadir al plato":"Añadir al registro"}</button>`}</div>`))}
 function nlGo(){const s=NL.sel;if(!s||!CLI())return;if(!(nlN(s.q)>0)){const w=$("nlw");if(w)w.textContent="Indica una cantidad mayor que 0.";return}
  const e={m:s.m,n:s.n,u:s.mode,q:nlN(s.q),b:s.b.map(x=>Math.round(x*100)/100)};if(s.mode==="u"){e.ug=s.ug;e.un=s.un}
+ if(s.it)e.it=s.it;if(NL.from==="plate"){delete e.m;delete e.it;if(s.pi>=0)PL.items[s.pi]=e;else PL.items.push(e);nlPlate();return}
  if(s.edit){const o=nlGet(s.edit);if(o){Object.keys(o).forEach(k=>{if(k!=="id"&&k!=="t")delete o[k]});Object.assign(o,e);save()}}else{if(NL.from==="lib")NL.d="";nlPut(e);if(NL.from==="lib")setStat("Añadido a "+NM[s.m]+" ✓")}
  nlClose()}
 /* formulario: alimento propio */
 const nlFv=id=>nlN(($(id)||{}).value);
 function nlWarn(){const w=$("nlfw");if(!w)return;const k=nlFv("nlf_k"),p=nlFv("nlf_p"),c=nlFv("nlf_c"),f=nlFv("nlf_f"),a=4*p+4*c+9*f;w.textContent=k>0&&a>0&&Math.abs(k-a)>Math.max(20,k*.2)?"⚠ Con esos macros salen ≈ "+Math.round(a)+" kcal (4·P + 4·C + 9·G). Revisa la etiqueta: la fibra y el alcohol explican pequeñas diferencias.":""}
-function nlOwn(id){const o=id?(S.nfd||[]).find(x=>x.id===id):null;NL.own=id||"";const v=(k)=>o&&o[k]!=null?esc(o[k]):"";
+function nlOwn(id){const o=id?(S.nfd||[]).find(x=>x.id===id):null;NL.own=id||"";const pr=o||(!id&&NL.pre)||null;NL.pre=null;const v=(k)=>pr&&pr[k]!=null?esc(pr[k]):"";
  const fi=(k,l,x)=>`<div><label>${l}</label><input id="nlf_${k}" data-nlf="1" type="number" inputmode="decimal" step="any" min="0" value="${v(x)}"></div>`;
- nlShow(nlWrap(NL.from==="lib"?"close":"list",`<div class="nlhd">${o?"Editar alimento":"Alimento propio"}</div><small>Copia los valores de la etiqueta, siempre «por 100 g».</small><label>Nombre</label><input id="nlf_n" data-nlf="1" maxlength="60" value="${v("n")}" placeholder="Ej.: Pan de centeno"><div class="nlgr">${fi("k","Calorías (kcal)","k")}${fi("p","Proteína (g)","p")}${fi("c","Hidratos (g)","c")}${fi("f","Grasas (g)","f")}</div><details${o&&(o.un||o.ug)?" open":""}><summary>Unidad opcional (1 rebanada, 1 barrita…)</summary><div class="nlgr"><div><label>Nombre de la unidad</label><input id="nlf_un" data-nlf="1" maxlength="24" value="${v("un")}"></div>${fi("ug","Gramos por unidad","ug")}</div></details><div id="nlfw" class="nlw"></div><div id="nlw" class="nlw"></div><div class="bar" style="margin-top:14px">${o?`<button class="x" data-nl="ownDel" data-v="${esc(o.id)}">Eliminar</button>`:""}<button class="on w" data-nl="ownSave">${o?"Guardar":NL.from==="lib"?"Guardar alimento":"Guardar y elegir"}</button></div>`))}
+ nlShow(nlWrap(NL.from==="lib"?"close":"list",`<div class="nlhd">${o?"Editar alimento":"Alimento propio"}</div><small>Copia los valores de la etiqueta, siempre «por 100 g».</small><label>Nombre</label><input id="nlf_n" data-nlf="1" maxlength="60" value="${v("n")}" placeholder="Ej.: Pan de centeno"><label>Código de barras (opcional)</label><input id="nlf_bc" data-nlf="1" inputmode="numeric" maxlength="14" value="${v("bc")}" placeholder="Para encontrarlo al escanear"><div class="nlgr">${fi("k","Calorías (kcal)","k")}${fi("p","Proteína (g)","p")}${fi("c","Hidratos (g)","c")}${fi("f","Grasas (g)","f")}</div><details${pr&&(pr.un||pr.ug)?" open":""}><summary>Unidad opcional (1 rebanada, 1 barrita…)</summary><div class="nlgr"><div><label>Nombre de la unidad</label><input id="nlf_un" data-nlf="1" maxlength="24" value="${v("un")}"></div>${fi("ug","Gramos por unidad","ug")}</div></details><div id="nlfw" class="nlw"></div><div id="nlw" class="nlw"></div><div class="bar" style="margin-top:14px">${o?`<button class="x" data-nl="ownDel" data-v="${esc(o.id)}">Eliminar</button>`:""}<button class="on w" data-nl="ownSave">${o?"Guardar":NL.from==="lib"?"Guardar alimento":"Guardar y elegir"}</button></div>`))}
 function nlOwnSave(){if(!CLI())return;const n=(($("nlf_n")||{}).value||"").trim().slice(0,60),k=nlFv("nlf_k"),p=nlFv("nlf_p"),c=nlFv("nlf_c"),f=nlFv("nlf_f"),w=$("nlw");
  if(!n){w.textContent="Ponle un nombre al alimento.";return}
  const a=4*p+4*c+9*f,kk=k>0?k:Math.round(a);if(!(kk>0)&&!(p+c+f>0)){w.textContent="Indica las calorías o los macros.";return}
- const un=(($("nlf_un")||{}).value||"").trim().slice(0,24),ug=nlFv("nlf_ug"),r={id:NL.own||uid(),n,k:kk,p,c,f};if(un&&ug>0){r.un=un;r.ug=ug}
+ const un=(($("nlf_un")||{}).value||"").trim().slice(0,24),ug=nlFv("nlf_ug"),r={id:NL.own||uid(),n,k:kk,p,c,f};if(un&&ug>0){r.un=un;r.ug=ug}const bc=(($("nlf_bc")||{}).value||"").replace(/\D/g,"");if(bc){if(!bcOk(bc)){w.textContent="El código de barras no es válido (revisa las cifras).";return}r.bc=bc}
  S.nfd=S.nfd||[];const i=S.nfd.findIndex(x=>x.id===r.id);if(i>=0)S.nfd[i]=r;else{if(S.nfd.length>=300){w.textContent="Has llegado al máximo de 300 alimentos propios.";return}S.nfd.push(r)}save();
- if(NL.from==="pick"&&!NL.own){nlSel(nlOwnX(r),NL.m);nlQty()}else if(NL.from==="pick"){nlList()}else nlClose()}
+ if(nlIn()&&!NL.own){nlSel(nlOwnX(r),NL.m);nlQty()}else if(nlIn()){nlList()}else nlClose()}
 /* formulario: entrada rápida */
 function nlQuick(){const fi=(k,l)=>`<div><label>${l}</label><input id="nlx_${k}" type="number" inputmode="decimal" step="any" min="0"></div>`;
  nlShow(nlWrap("list",`<div class="nlhd">Entrada rápida</div><small>Para comidas fuera de casa o platos sin desglosar. Pon el total de lo que has comido en <b>${NM[NL.m]}</b>.</small><label>Nombre (opcional)</label><input id="nlx_n" maxlength="60" placeholder="Ej.: Menú del restaurante"><div class="nlgr">${fi("k","Calorías (kcal)")}${fi("p","Proteína (g)")}${fi("c","Hidratos (g)")}${fi("f","Grasas (g)")}</div><div id="nlw" class="nlw"></div><div class="bar" style="margin-top:14px"><button class="on w" data-nl="quickSave">Añadir al registro</button></div>`))}
@@ -2713,7 +2714,7 @@ const nlFdRows=()=>{const T=NRM(FD.q).split(" ").filter(Boolean),own=CLI()?(S.nf
 function nlFdList(){const L=nlFdRows().L;if(!L.length)return'<div class="empty">No hay alimentos con ese filtro.</div>';
  return FD.res.map((x,i)=>`<button class="lbr nlr" data-fd="open" data-v="${i}"><div><b>${esc(x.n)}</b>${x.own?' <span class="nlpill">Mío</span>':""}<small>${nlRowM(x)}</small></div><i>›</i></button>`).join("")+(L.length>80?`<small class="nlnote">Mostrando 80 de ${L.length}: afina la búsqueda.</small>`:"")}
 function nlFoodsH(){const own=CLI()&&(S.nfd||[]).length>0;
- return`<small class="nlnote" style="margin:6px 2px 10px">Catálogo de ${ALX.length} alimentos con valores medios por 100 g (USDA / BEDCA). Toca uno para calcular sus macros por cantidad${CLI()?" y registrarlo":""}.</small>${CLI()?`<div class="bar"><button class="w" data-fd="new">+ Alimento propio</button></div>`:""}<input id="fdq" data-fdq="1" placeholder="Buscar alimento…" value="${esc(FD.q)}"><label>Categoría</label><div class="qch" style="margin-bottom:10px"><button class="qc${FD.cat===-1?" on":""}" data-fd="cat" data-v="-1">Todas</button>${own?`<button class="qc${FD.cat===99?" on":""}" data-fd="cat" data-v="99">Míos</button>`:""}${ALC.map((c,i)=>`<button class="qc${FD.cat===i?" on":""}" data-fd="cat" data-v="${i}">${c}</button>`).join("")}</div><div id="fdlist">${nlFdList()}</div>`}
+ return`<small class="nlnote" style="margin:6px 2px 10px">Catálogo de ${ALX.length} alimentos con valores medios por 100 g (USDA / BEDCA). Toca uno para calcular sus macros por cantidad${CLI()?" y registrarlo":""}.</small><div class="bar"><button class="on" data-fd="scan">📷 Escanear código</button>${CLI()?`<button data-fd="new">+ Alimento propio</button>`:""}</div><input id="fdq" data-fdq="1" placeholder="Buscar alimento…" value="${esc(FD.q)}"><label>Categoría</label><div class="qch" style="margin-bottom:10px"><button class="qc${FD.cat===-1?" on":""}" data-fd="cat" data-v="-1">Todas</button>${own?`<button class="qc${FD.cat===99?" on":""}" data-fd="cat" data-v="99">Míos</button>`:""}${ALC.map((c,i)=>`<button class="qc${FD.cat===i?" on":""}" data-fd="cat" data-v="${i}">${c}</button>`).join("")}</div><div id="fdlist">${nlFdList()}</div>`}
 
 /* ---- selector deslizante Ejercicios ⇄ Alimentos ---- */
 const ICX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>';
@@ -2734,7 +2735,7 @@ document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.clos
  else if(a==="close")nlClose();
  else if(a==="list")nlList();
  else if(a==="add"){if(me)nlOpen(+v)}
- else if(a==="edit"){const e=me&&nlGet(v);if(e){NL.from="edit";nlSel({n:e.n,b:(e.b||[]).slice(),u:e.u,un:e.un,ug:e.ug,q:e.q,ra:e.u==="r"},+e.m||0,e.id);nlQty()}}
+ else if(a==="edit"){const e=me&&nlGet(v);if(e){NL.from="edit";nlSel({n:e.n,b:(e.b||[]).slice(),u:e.u,un:e.un,ug:e.ug,q:e.q,ra:e.u==="r",it:e.it},+e.m||0,e.id);nlQty()}}
  else if(a==="tab"){NL.tab=v;NL.q="";nlList()}
  else if(a==="pick"){const x=NL.res[+v];if(x){nlSel(x,NL.m);nlQty()}}
  else if(a==="mode"){const s=NL.sel;if(!s||s.mode===v||!(s.ug>0))return;const q=nlN(s.q);s.q=v==="u"?Math.round(q/s.ug*10)/10||1:Math.round(q*s.ug)||100;s.mode=v;nlQty()}
@@ -2761,6 +2762,121 @@ document.addEventListener("input",ev=>{const t=ev.target,d=t.dataset;if(!d)retur
  else if(d.nlq==="qty"){const s=NL.sel;if(!s)return;s.q=t.value;const p=$("nlpv");if(p)p.innerHTML=nlPvH();const w=$("nlw");if(w)w.textContent=""}
  else if(d.nlf!==undefined)nlWarn()
  else if(d.fdq!==undefined){FD.q=t.value;const l=$("fdlist");if(l)l.innerHTML=nlFdList()}});
+
+/* ===== v86 · Analizador de alimentos: código de barras (Open Food Facts) + creador de platos ===== */
+const OFFU="https://world.openfoodfacts.org/api/v2/product/",OFFF="code,product_name,product_name_es,brands,quantity,serving_size,serving_quantity,product_quantity,nutriments";
+const ZXU="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js";
+let SC={cam:null,t:0,det:null,seq:0,last:null},PL={n:"",items:[],ra:"1",eat:"1",w:"",m:-1};
+const NBC={};
+const nlIn=()=>NL.from==="pick"||NL.from==="plate";
+const nlItH=L=>`<details class="nlit"><summary>Ingredientes del plato (${L.length})</summary>${L.map(i=>`<small>${esc(i.n)} · ${nlEL(i)} · ${nlK(nlE(i)[0])} kcal</small>`).join("")}</details>`;
+/* ---- código de barras: validación (dígito de control GS1) y consulta ---- */
+const bcOk=c=>{if(!/^(\d{8}|\d{12,14})$/.test(c))return false;const d=c.split("").map(Number),k=d.pop();let s=0;d.reverse().forEach((x,i)=>{s+=x*(i%2?1:3)});return(10-s%10)%10===k};
+function scParse(P,code){const N=P.nutriments||{},g=k=>{const v=N[k];if(v==null||v==="")return null;const n=parseFloat(v);return isFinite(n)?n:null};
+ let k=g("energy-kcal_100g");if(k==null){const kj=g("energy_100g");if(kj!=null)k=kj/4.184}
+ const pr=g("proteins_100g"),ca=g("carbohydrates_100g"),fa=g("fat_100g"),has=k!=null||pr!=null||ca!=null||fa!=null;
+ const b=[k,pr,ca,fa].map(x=>x==null?0:Math.round(x*10)/10);
+ if(!(b[0]>0)&&b[1]+b[2]+b[3]>0)b[0]=Math.round(4*b[1]+4*b[2]+9*b[3]);
+ const nm=String(P.product_name_es||P.product_name||"").trim().slice(0,70),br=String(P.brands||"").split(",")[0].trim().slice(0,30);
+ const sv=parseFloat(P.serving_quantity),pq=parseFloat(P.product_quantity),a=4*b[1]+4*b[2]+9*b[3];
+ const bad=!has||(b[0]<=0&&b[1]+b[2]+b[3]<=0)||b[0]>950||b[1]+b[2]+b[3]>105||b.some(x=>x<0);
+ const warn=!bad&&a>0&&b[0]>0&&Math.abs(b[0]-a)>Math.max(20,b[0]*.2)?"Las calorías no cuadran con los macros (con 4·P + 4·C + 9·G salen ≈ "+Math.round(a)+" kcal). Compáralo con la etiqueta.":"";
+ return{code,n:nm,br,q:String(P.quantity||"").trim().slice(0,30),b,has:has&&!bad,bad:has&&bad,warn,sv:isFinite(sv)&&sv>0&&sv<=1500?sv:0,pq:isFinite(pq)&&pq>0&&pq<=5000?pq:0}}
+const scName=p=>(p.br&&p.n?p.br+" · "+p.n:p.n||p.br||"Producto "+p.code).slice(0,60);
+async function scLookup(code){
+ const o=CLI()?(S.nfd||[]).find(x=>x.bc===code):null;if(o)return{own:o};
+ if(NBC[code])return{p:NBC[code]};
+ const ctl=typeof AbortController==="function"?new AbortController():null,tm=setTimeout(()=>{try{ctl&&ctl.abort()}catch(e){}},12000);
+ const one=async c=>{const r=await fetch(OFFU+encodeURIComponent(c)+".json?fields="+OFFF+"&lc=es",ctl?{signal:ctl.signal}:{});if(r.status===404)return null;if(!r.ok)throw new Error("http");const j=await r.json();return j&&j.status===1&&j.product?j.product:null};
+ try{let P=await one(code);if(!P&&code.length===12)P=await one("0"+code);clearTimeout(tm);
+  if(!P)return{nf:1};const p=scParse(P,code);NBC[code]=p;return{p}}
+ catch(e){clearTimeout(tm);return{err:1}}}
+/* ---- cámara y lector ---- */
+function scStop(){if(SC.t){clearTimeout(SC.t);SC.t=0}if(SC.cam){try{SC.cam.getTracks().forEach(t=>t.stop())}catch(e){}SC.cam=null}}
+const scMsg=t=>{const e=$("scs");if(e)e.innerHTML=t};
+async function scDet(){if(SC.det)return SC.det;
+ if("BarcodeDetector" in window){try{const f=await BarcodeDetector.getSupportedFormats(),w=["ean_13","ean_8","upc_a","upc_e"].filter(x=>f.includes(x));
+  if(w.length){const d=new BarcodeDetector({formats:w});SC.det=async v=>{const r=await d.detect(v);return r&&r[0]?String(r[0].rawValue||""):""};return SC.det}}catch(e){}}
+ if(!window.ZXing)await new Promise((ok,ko)=>{const s=document.createElement("script");s.src=ZXU;s.onload=ok;s.onerror=()=>ko(new Error("zx"));document.head.appendChild(s)});
+ const Z=window.ZXing,h=new Map();h.set(Z.DecodeHintType.POSSIBLE_FORMATS,[Z.BarcodeFormat.EAN_13,Z.BarcodeFormat.EAN_8,Z.BarcodeFormat.UPC_A,Z.BarcodeFormat.UPC_E]);h.set(Z.DecodeHintType.TRY_HARDER,true);
+ const rd=new Z.MultiFormatReader();rd.setHints(h);const cv=document.createElement("canvas"),cx=cv.getContext("2d",{willReadFrequently:true});
+ SC.det=async v=>{const w=v.videoWidth,hh=v.videoHeight;if(!w||!hh)return"";const cw=Math.min(w,960),ch2=Math.round(hh*cw/w);cv.width=cw;cv.height=ch2;cx.drawImage(v,0,0,cw,ch2);
+  const d=cx.getImageData(0,0,cw,ch2).data,L=new Uint8ClampedArray(cw*ch2);for(let i=0,j=0;j<L.length;i+=4,j++)L[j]=(d[i]*306+d[i+1]*601+d[i+2]*117)>>10;
+  try{return String(rd.decode(new Z.BinaryBitmap(new Z.HybridBinarizer(new Z.RGBLuminanceSource(L,cw,ch2)))).getText()||"")}catch(e){return""}};
+ return SC.det}
+function scLoop(){const v=$("scv");if(!v||!SC.cam)return;let busy=false;
+ const tick=async()=>{if(!SC.cam||$("scv")!==v)return;
+  if(!busy&&v.readyState>=2){busy=true;try{const det=await scDet(),c=await det(v);if(SC.cam&&$("scv")===v&&c&&bcOk(c)){scFound(c);return}}
+   catch(e){scStop();const w=document.querySelector(".scv");if(w)w.classList.add("off");scMsg("No se pudo cargar el lector de la cámara. Escribe el número del código de barras.");return}busy=false}
+  SC.t=setTimeout(tick,220)};tick()}
+async function scStart(){scStop();const v=$("scv");
+ if(!v||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){const w=document.querySelector(".scv");if(w)w.classList.add("off");scMsg("Este navegador no permite usar la cámara aquí. Escribe el número del código de barras.");return}
+ try{const st=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}},audio:false});
+  if($("scv")!==v){st.getTracks().forEach(t=>t.stop());return}
+  SC.cam=st;v.srcObject=st;v.setAttribute("playsinline","");v.muted=true;try{await v.play()}catch(e){}
+  scMsg("Apunta al código de barras del envase y mantén el pulso.");scLoop()}
+ catch(e){const w=document.querySelector(".scv");if(w)w.classList.add("off");scMsg(e&&e.name==="NotAllowedError"?"Has denegado el permiso de la cámara. Puedes escribir el número del código.":"No se pudo abrir la cámara. Escribe el número del código de barras.")}}
+function scFound(c){try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}scStop();const i=$("scc");if(i)i.value=c;scSearch(c)}
+/* ---- pantalla del escáner ---- */
+function scOpen(){if(!NL.from)NL.from="pick";SC.last=null;
+ nlShow(nlWrap(NL.from==="lib"?"close":NL.from==="plate"?"plate":"list",`<div class="nlhd">Escanear código de barras</div><div class="scv"><video id="scv" playsinline muted autoplay></video><span class="scl"></span></div><small id="scs" class="nlnote" style="margin:0 2px 8px">Abriendo la cámara…</small><label>…o escribe el número del código</label><div class="scr"><input id="scc" data-sc="inp" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="Ej.: 3017620422003"><button class="on" data-sc="go">Buscar</button></div><div id="scr"></div><small class="nlnote">Se consulta Open Food Facts (base de datos colaborativa): solo se envía el número del código. Compara siempre con la etiqueta.</small>`));scStart()}
+async function scSearch(raw){const code=String(raw||"").replace(/\D/g,""),r=$("scr");if(!r)return;
+ if(!bcOk(code)){r.innerHTML=`<div class="nlw">${code.length<8?"Escribe el código completo (8 a 14 cifras).":"El dígito de control no cuadra: revisa el número."}</div>`;return}
+ scStop();r.innerHTML=`<div class="nlnote">Buscando ${esc(code)}…</div>`;const k=++SC.seq,res=await scLookup(code);if(SC.seq!==k||!$("scr"))return;
+ if(res.own){scUseOwn(res.own);return}
+ if(res.p&&res.p.has){scUse(res.p);return}
+ SC.last={bc:code,n:res.p?scName(res.p):""};
+ const msg=res.err?"No se pudo consultar Open Food Facts (¿sin conexión?). Puedes introducir los datos de la etiqueta a mano.":res.nf?"Ese código no está en Open Food Facts. Puedes crearlo como alimento propio con los datos de la etiqueta y la próxima vez saldrá al escanear.":res.p.bad?"Open Food Facts trae valores incoherentes para este producto. Introduce los de la etiqueta.":"Open Food Facts no tiene datos nutricionales de este producto. Introduce los de la etiqueta.";
+ r.innerHTML=`<div class="card nlscm"><b>${res.p&&scName(res.p)?esc(scName(res.p)):"Producto no encontrado"}</b><br><small>${msg}</small><div class="bar" style="margin-top:10px"><button class="on w" data-sc="fix">Crear alimento propio</button>${res.err?`<button data-sc="go">Reintentar</button>`:""}</div></div>`}
+function scUseOwn(o){NL.m=NL.from==="lib"?nlMealNow():NL.m;nlSel(nlOwnX(o),NL.m);NL.sel.back="scan";NL.sel.note=`<small class="nlnote scn">Ya lo tenías guardado en «Míos» · código ${esc(o.bc)}.</small>`;nlQty()}
+function scUse(p){const x={n:scName(p),b:p.b.slice(),bc:p.code};
+ if(p.sv>0){x.un="ración";x.ug=p.sv;x.u="u";x.q=1}else if(p.pq>0){x.un="envase";x.ug=p.pq}
+ if(NL.from==="lib")NL.m=nlMealNow();nlSel(x,NL.m);NL.sel.back="scan";
+ NL.sel.note=`<small class="nlnote scn">Datos de Open Food Facts (ODbL) · código ${esc(p.code)}${p.q?" · envase de "+esc(p.q):""}. Son colaborativos: compáralos con la etiqueta.</small>${p.warn?`<div class="nlw" style="display:block">⚠ ${esc(p.warn)}</div>`:""}`;nlQty()}
+function scPre(x){NL.pre=x;nlOwn("")}
+/* ---- creador de platos ---- */
+const plW=()=>{const w=nlN(PL.w);if(w>0)return w;let t=0;for(const e of PL.items){if(e.u==="r")return 0;t+=e.u==="u"?nlN(e.q)*nlN(e.ug):nlN(e.q)}return t};
+const plN=()=>Math.max(1,nlN(PL.ra)||1);
+function plPv(){const T=nlSum(PL.items),N=plN(),E=nlN(PL.eat),pr=T.map(x=>x/N),mi=pr.map(x=>x*E),W=plW();
+ return`<small>Tu parte${E>0?" ("+nlF(E)+(E===1?" ración":" raciones")+")":""}</small><div class="nlbig"><b>${nlK(mi[0])}</b><span>kcal</span></div><div class="nlpm"><span>P <b>${nlF(mi[1])}</b></span><span>C <b>${nlF(mi[2])}</b></span><span>G <b>${nlF(mi[3])}</b></span></div><small>Plato entero: ${nlK(T[0])} kcal · ${nlMac(T)}${N>1?"<br>Cada ración (÷ "+nlF(N)+"): "+nlK(pr[0])+" kcal · "+nlMac(pr):""}${W>0?"<br>Peso "+(nlN(PL.w)>0?"final":"de los ingredientes")+": "+nlF(W)+" g":""}</small>`}
+function nlPlate(){if(!CLI())return;NL.from="plate";if(PL.m<0)PL.m=NL.m>=0&&NL.m<5?NL.m:nlMealNow();
+ const rows=PL.items.map((e,i)=>{const x=nlE(e);return`<button class="nle" data-pl="edit" data-v="${i}"><span class="nln"><b>${esc(e.n)}</b><small>${nlEL(e)}</small></span><span class="nlk"><b>${nlK(x[0])} kcal</b><small>${nlMac(x)}</small></span></button>`}).join("");
+ nlShow(nlWrap("close",`<div class="nlhd">Armar plato</div><small>Añade los ingredientes con su peso y calcula las calorías y macros exactos de tu ración.</small><label>Nombre del plato</label><input id="pln" data-pl="n" maxlength="60" placeholder="Ej.: Arroz con pollo" value="${esc(PL.n)}"><div id="plit" style="margin-top:6px">${rows||`<div class="empty">Aún no hay ingredientes.</div>`}</div><div class="bar" style="margin-top:8px"><button class="on" data-pl="add">＋ Ingrediente</button><button data-pl="scan">📷 Escanear</button></div><div class="nlgr"><div><label>Raciones que salen</label><input id="plra" data-pl="ra" type="number" inputmode="decimal" step="any" min="1" value="${esc(PL.ra)}"></div><div><label>Yo como (raciones)</label><input id="pleat" data-pl="eat" type="number" inputmode="decimal" step="any" min="0" value="${esc(PL.eat)}"></div></div><label>Peso del plato terminado (g) · opcional</label><input id="plw" data-pl="w" type="number" inputmode="decimal" step="any" min="0" value="${esc(PL.w)}" placeholder="Si lo pesas ya cocinado"><div id="plpv" class="nlpv">${plPv()}</div><label>Comida</label><div class="qch">${NM.map((m,i)=>`<button class="qc${PL.m===i?" on":""}" data-pl="mm" data-v="${i}">${m}</button>`).join("")}</div><div id="nlw" class="nlw"></div><div class="bar" style="margin-top:14px"><button class="x" data-pl="clear">Vaciar</button><button data-pl="saveown">Guardar en Míos</button><button class="on w" data-pl="log">Añadir al registro</button></div>`))}
+function plCheck(){const w=$("nlw");if(!PL.items.length){w.textContent="Añade al menos un ingrediente.";return false}return true}
+function plLog(){if(!CLI()||!plCheck())return;const E=nlN(PL.eat);if(!(E>0)){$("nlw").textContent="Indica cuántas raciones te comes.";return}
+ const T=nlSum(PL.items),N=plN(),it=PL.items.slice(0,40).map(e=>{const o={n:e.n,u:e.u,q:e.q,b:e.b.slice()};if(e.u==="u"){o.ug=e.ug;o.un=e.un}return o});
+ nlPut({m:PL.m,n:(PL.n||"").trim().slice(0,60)||"Plato",u:"r",q:E,b:T.map(x=>Math.round(x/N*100)/100),it});PL={n:"",items:[],ra:"1",eat:"1",w:"",m:-1};nlClose()}
+function plSaveOwn(){if(!CLI()||!plCheck())return;const n=(PL.n||"").trim().slice(0,60),w=$("nlw");if(!n){w.textContent="Ponle un nombre al plato para guardarlo.";return}
+ const W=plW();if(!(W>0)){w.textContent="Indica el peso del plato terminado para guardarlo «por 100 g».";return}
+ const T=nlSum(PL.items),N=plN(),r=v=>Math.round(v*10)/10,f=100/W;
+ S.nfd=S.nfd||[];if(S.nfd.length>=300){w.textContent="Has llegado al máximo de 300 alimentos propios.";return}
+ S.nfd.push({id:uid(),n,k:Math.round(T[0]*f),p:r(T[1]*f),c:r(T[2]*f),f:r(T[3]*f),un:"ración",ug:r(W/N)});save();
+ w.style.color="#2f7d4f";w.textContent="Guardado en «Míos» ✓. Lo encontrarás al añadir alimentos."}
+/* ---- eventos del analizador ---- */
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-nl]");if(!b)return;const a=b.dataset.nl,v=b.dataset.v,me=CLI();
+ if(a==="scan"){scOpen()}
+ else if(a==="plate"){if(me){if(NL.from!=="plate"&&NL.m>=0&&NL.m<5)PL.m=NL.m;nlPlate()}}
+ else if(a==="plDel"){const i=+v;if(me&&i>=0&&i<PL.items.length){PL.items.splice(i,1);nlPlate()}}
+ else if(a==="scanFix"){const s=NL.sel;if(s&&me)scPre({n:s.n,k:s.b[0],p:s.b[1],c:s.b[2],f:s.b[3],bc:s.bc||"",un:s.un||"",ug:s.ug||""})}
+ else if(a==="scanSave"){const s=NL.sel;if(!s||!me)return;S.nfd=S.nfd||[];const w=$("nlw");
+  if(S.nfd.length>=300){if(w)w.textContent="Has llegado al máximo de 300 alimentos propios.";return}
+  const r={id:uid(),n:s.n.slice(0,60),k:Math.round(s.b[0]),p:s.b[1],c:s.b[2],f:s.b[3]};if(s.bc)r.bc=s.bc;if(s.un&&s.ug>0){r.un=s.un;r.ug=s.ug}
+  S.nfd.push(r);save();s.oid=r.id;nlQty();const w2=$("nlw");if(w2){w2.style.color="#2f7d4f";w2.textContent="Guardado en «Míos» ✓ (sale al escanear aunque no haya internet)"}}});
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-sc]");if(!b)return;const a=b.dataset.sc;
+ if(a==="go")scSearch(($("scc")||{}).value);
+ else if(a==="fix"){if(CLI()){const l=SC.last||{};scPre({n:l.n||"",bc:l.bc||"",k:"",p:"",c:"",f:""})}else scMsg("Solo los atletas pueden guardar alimentos propios.")}});
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-pl]");if(!b||!CLI())return;const a=b.dataset.pl,v=b.dataset.v;
+ if(a==="add"){NL.from="plate";NL.q="";NL.tab=nlRecent().length?"hist":"all";NL.sel=null;nlList()}
+ else if(a==="scan"){NL.from="plate";scOpen()}
+ else if(a==="edit"){const e=PL.items[+v];if(e){NL.from="plate";nlSel({n:e.n,b:e.b.slice(),u:e.u,un:e.un,ug:e.ug,q:e.q,ra:e.u==="r"},PL.m);NL.sel.pi=+v;nlQty()}}
+ else if(a==="mm"){PL.m=+v;b.parentNode.querySelectorAll(".qc").forEach(x=>x.classList.toggle("on",x===b))}
+ else if(a==="clear"){if(!PL.items.length&&!PL.n||confirm("¿Vaciar el plato?")){PL={n:"",items:[],ra:"1",eat:"1",w:"",m:-1};nlPlate()}}
+ else if(a==="log")plLog();
+ else if(a==="saveown")plSaveOwn()});
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-fd]");if(!b||b.dataset.fd!=="scan")return;NL.from="lib";NL.m=nlMealNow();scOpen()});
+document.addEventListener("input",ev=>{const t=ev.target,d=t.dataset;if(!d||d.pl===undefined)return;
+ if(d.pl==="n")PL.n=t.value;else if(d.pl==="ra"||d.pl==="eat"||d.pl==="w"){PL[d.pl]=t.value;const p=$("plpv");if(p)p.innerHTML=plPv()}});
+document.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&ev.target&&ev.target.id==="scc"){ev.preventDefault();scSearch(ev.target.value)}});
 
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
@@ -3267,6 +3383,15 @@ html[data-theme=light] #bnav .nvm button.on svg{stroke:#86222f}
 .nlr{width:100%;text-align:left;background:transparent;color:var(--black);border-radius:0;padding:10px 0;text-transform:none;letter-spacing:0;font-weight:500;border:0;border-bottom:1px solid #d6cfc2}
 .nlr small{display:block;color:#6f6a61;font-weight:400}.nlr em{font-style:normal;color:#9a9388}.nlr i{font-style:normal;font-size:20px;color:var(--champ)}
 .nlpill{font-size:10px;background:var(--wine);color:#fff;border-radius:999px;padding:1px 7px;vertical-align:middle;font-weight:600}
+
+/* v86 · escáner y creador de platos */
+.scv{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:4/3;margin:10px 0}.scv.off{display:none}
+.scv video{width:100%;height:100%;object-fit:cover;display:block}
+.scl{position:absolute;left:12%;right:12%;top:50%;height:2px;background:#e03a46;box-shadow:0 0 10px #e03a46;animation:scl 1.6s ease-in-out infinite alternate}
+@keyframes scl{from{transform:translateY(-34px)}to{transform:translateY(34px)}}
+.scr{display:flex;gap:8px;align-items:stretch}.scr input{flex:1;min-width:0}
+.scn{display:block;margin:6px 0 0}.nlscm{margin-top:12px}
+.nlit{margin:8px 0}.nlit summary{cursor:pointer;color:#6f6a61;font-size:13px}.nlit small{display:block;margin:3px 0 0 4px;color:#6f6a61}
 </style>
 <script>
 (function(){
