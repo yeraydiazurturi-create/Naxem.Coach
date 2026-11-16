@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.84">
+<meta name="app-version" content="2026-11-15.85">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -992,7 +992,7 @@ b.disabled=true;m("Guardando…");try{if(CLI()){const {data,error}=await SB.rpc(
 ["pw0","pw1","pw2"].forEach(i=>{if($(i))$(i).value=""});m("✓ Contraseña cambiada.")}catch(e){m("No se pudo cambiar: "+(e.message||e))}b.disabled=false});
 const accH=()=>(ROLE==="coach"&&!CL?coachAccH():(CLI()?avCard():"")+(CLI()?nameCard()+subCard()+wantCard()+invCardCl():"")+accH0()+pwCard())+(window.pushCard?window.pushCard():"");
 const accH0=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?(GATE&&GATE.suscrito?`<button data-act="stPortal">Mi suscripción</button>`:""):`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}${ROLE==="coach"&&CL?"":`<button data-sw="1">${ROLE==="client"?"Cambiar a modo entrenador":"Cambiar a modo atleta"}</button>`}<button data-act="logout">Salir</button></div></div>`;
-const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Perfil","tu cuenta"],ent:["Sesiones","tus entrenos"],cal:["Calendario","tu planificación"],car:["Carga","análisis"],rec:["Hábitos","racha y diario"],cin:["Check-in","sueño y ánimo"],dia:["Diario","de hábitos"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"],sal:["Salud","informes y pruebas"]};
+const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],nlg:["Registro","de comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Perfil","tu cuenta"],ent:["Sesiones","tus entrenos"],cal:["Calendario","tu planificación"],car:["Carga","análisis"],rec:["Hábitos","racha y diario"],cin:["Check-in","sueño y ánimo"],dia:["Diario","de hábitos"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"],sal:["Salud","informes y pruebas"]};
 const TABS=[["ini","Hoy"],["ent","Sesiones"],["cal","Agenda"],["car","Carga"],["rec","Diario"],["tst","Tests"]];
 const mt=(a,v,n,t,x,w)=>`<button class="mt${w?" wide":""}" data-act="${a}" data-v="${v}"><i>${/^\d+$/.test(String(n))?"":n}</i><span><b>${t}</b><small>${x}</small></span></button>`;
 function ydi(){const at=allT(),v=["Velocidad","Fuerza","Resistencia","Soporte"].map(p=>{const x=at.filter(t=>t.p===p).map(tsc).filter(y=>y!=null);return x.length?x.reduce((a,b)=>a+b)/x.length:null}).filter(y=>y!=null);return v.length?Math.round(v.reduce((a,b)=>a+b)/v.length):null}
@@ -1001,7 +1001,7 @@ const cal=(()=>{const d0=new Date(),y=d0.getFullYear(),mo=d0.getMonth(),off=(new
 for(let d=1;d<=n;d++){const k=ymd(new Date(y,mo,d)),q=sOn(k);c+=`<div class="mcd${k===today?" td":""}" data-mc="${k}"><b>${d}</b><span class="mdots">${q.slice(0,3).map(x=>`<i class="${x.done?"dn":""}"></i>`).join("")}</span></div>`}
 return`<div class="mcal" data-mc=""><div class="row"><b>${d0.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}</b><span class="mgo">${co?"Organizar":"Ver calendario"} ›</span></div><div class="cal">${c}</div></div>`})();
 const qk=(v,t,b)=>`<button class="qk" data-act="tab" data-v="${v}"><b>${t}</b>${b?`<em>${b}</em>`:""}</button>`;
-return `<div class="hero"><small style="color:#ccc;letter-spacing:.25em">PERFIL DEL ATLETA</small><div class="hh">${esc(P.n||"Tu nombre")}</div><div class="script">${esc(P.o||"rendimiento atlético")}</div></div>${cal}${todayH()}<div class="qrow">${qk("ent","Entrenar")}${qk("nut","Nutrición")}${qk("rec","Estado")}${qk("chat","Chat",nn||"")}</div>${trialBanner()}${ntfH()}${shareH()}${wvSt()}<div class="menu">`+mt("tab","tst","","Rendimiento","Tests · "+(S.hyOn||co?"Hybrid test · ":"")+"Progreso",1)+mt("tab","fcz","","Herramientas","Zonas de FC · VAM · VO₂máx · 1RM",1)+mt("tab","ini","","Mi perfil","Perfil · Cuenta",1)+"</div>"}
+return `<div class="hero"><small style="color:#ccc;letter-spacing:.25em">PERFIL DEL ATLETA</small><div class="hh">${esc(P.n||"Tu nombre")}</div><div class="script">${esc(P.o||"rendimiento atlético")}</div></div>${cal}${todayH()}<div class="qrow">${qk("ent","Entrenar")}${qk(CLI()&&(typeof fnOn!=="function"||fnOn("nlg"))?"nlg":"nut","Nutrición")}${qk("rec","Estado")}${qk("chat","Chat",nn||"")}</div>${trialBanner()}${ntfH()}${shareH()}${wvSt()}<div class="menu">`+mt("tab","tst","","Rendimiento","Tests · "+(S.hyOn||co?"Hybrid test · ":"")+"Progreso",1)+mt("tab","fcz","","Herramientas","Zonas de FC · VAM · VO₂máx · 1RM",1)+mt("tab","ini","","Mi perfil","Perfil · Cuenta",1)+"</div>"}
 function diaH(){const p=recH().split("<!--S-->");return p[0]+p[1]+p[2]}
 function recH2(){const p=recH().split("<!--S-->");return p[0]+p[1]+p[2]+recChH()}
 function cinH(){const p=recH().split("<!--S-->");return p[1]+p[3]+recChC()}
@@ -1507,7 +1507,7 @@ var NAVOK=false;
 const SVG=d=>`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const IC={rnk:'<path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4M9 20h6M10 17h4"/>',home:'<path d="M3.5 11.5 12 4l8.5 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',cal:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',car:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',fcz:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a6 6 0 0 1-8.26 7.06l-7.91 7.91a1 1 0 0 1-3-3l7.91-7.91A6 6 0 0 1 17.8 3.2z"/>',acc:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/>',dia:'<path d="M6 3.5h11.5a1 1 0 0 1 1 1v16H7.5a2.5 2.5 0 0 1-2.5-2.5V4.5a1 1 0 0 1 1-1z"/><path d="M5 18a2.5 2.5 0 0 1 2.5-2.5h11"/>',plus:'<path d="M12 5v14M5 12h14"/>',ent:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',nut:'<path d="M12 7c-2-2-6-1.5-7 2s1 8 4 10c1.2.8 2.2.2 3 0 .8.2 1.8.8 3 0 3-2 5-6.5 4-10s-5-4-7-2z"/><path d="M12 7c0-2 1-3.5 3-4"/>',rec:'<path d="M3.5 4v14.5a2 2 0 0 0 2 2H20.5"/><path d="m7.5 15.5 4-4.5 3 3 5-6.5"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',tst:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',cli:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16.5 5a3.2 3.2 0 0 1 0 6M18 14.3c2 .8 3.5 2.8 3.5 5.7"/>',lib:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',cq:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/>',cob:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',sw:'<path d="M4 8h14l-3-3M20 16H6l3 3"/>'};
 const NAV_C=[["menu","Perfil"],["cli","Clientes"],["chat","Chat"],["lib","Biblioteca"]],NAV_CM=[["cq","Cuestionario"],["cob","Cobros"]],NAV_A=[["menu","Hoy"],["cal","Agenda"],["tst","Eval."],["rec","Monitor"]],NAV_M=[["ent","Carga","car","car"],["nut","Nutrición"],["lib","Biblioteca"],["fcz","Herramientas"],["rnk","Ranking y cuerpo","rnk","rnk"],["chat","Chat"]];
-const NAV_G={adm:"menu",menu:"menu",ini:"menu",cal:"cal",crt:"cal",ent:"car",car:"car",tst:"tst",apx:"tst",pro:"tst",rnk:"rnk",cpo:"rnk",rev:"rec",rec:"rec",cin:"rec",cue:"rec",sal:"rec",nut:"nut",lib:"lib",fcz:"fcz",acc:"acc",hlp:"acc",dia:"rec",chat:"chat"};
+const NAV_G={adm:"menu",menu:"menu",ini:"menu",cal:"cal",crt:"cal",ent:"car",car:"car",tst:"tst",apx:"tst",pro:"tst",rnk:"rnk",cpo:"rnk",rev:"rec",rec:"rec",cin:"rec",cue:"rec",sal:"rec",nlg:"nut",nut:"nut",lib:"lib",fcz:"fcz",acc:"acc",hlp:"acc",dia:"rec",chat:"chat"};
 function render(){render0();navSync()}
 const coachName=()=>NUTRI?(NUN||""):COACH?`${COACH.nombre||""} ${COACH.apellidos||""}`.trim():"";
 const avGet=()=>ROLE==="client"?((S&&S.prof)||{}).photo||"":(lsG("nx_av_"+USER)||"");
@@ -1521,11 +1521,11 @@ function nvPaint(nav,L,M,cur,nn,co){
  ch=M.some(x=>x[0]==="chat");
  nav.innerHTML=`<div class="nvs"></div><div class="nvb" style="--n:${L.length}">${L.map(x=>it(x)).join("")}</div>${M.length?`<button class="nvx${M.some(x=>(x[3]||x[0])===cur)?" on":""}" data-nvx aria-label="Más secciones" aria-haspopup="menu" aria-controls="nvm" aria-expanded="${NVO}">${SVG(IC.plus)}${ch&&nn?`<i class="dot">${nn}</i>`:""}</button><div class="nvm" id="nvm" role="menu" aria-label="Más secciones">${M.map(x=>it(x,1)).join("")}</div>`:""}`;
  nav.classList.toggle("nvo",NVO&&M.length>0)}
-const nvFn=M=>{const fo=k=>typeof fnOn!=="function"||fnOn(k);return M.filter(x=>x[0]!=="rnk"||fo("rnk")||fo("cpo")).map(x=>x[0]==="rnk"&&!fo("rnk")?["cpo",x[1],x[2],x[3]]:x)};
+const nvFn=M=>{const fo=k=>typeof fnOn!=="function"||fnOn(k);return M.filter(x=>x[0]!=="rnk"||fo("rnk")||fo("cpo")).map(x=>x[0]==="rnk"&&!fo("rnk")?["cpo",x[1],x[2],x[3]]:x[0]==="nut"&&CLI()&&fo("nlg")?["nlg",x[1],"nut","nut"]:x)};
 function nvSet(v){NVO=!!v;const n=$("bnav");if(!n)return;n.classList.toggle("nvo",NVO);const x=n.querySelector("[data-nvx]");if(x)x.setAttribute("aria-expanded",String(NVO))}
 document.addEventListener("click",ev=>{const t=ev.target;if(!t||!t.closest)return;if(t.closest("[data-nvx]")){nvSet(!NVO);return}if(NVO&&(t.closest("#bnav .nvs")||t.closest("#nvm button")))nvSet(false)});
 document.addEventListener("keydown",ev=>{if(ev.key==="Escape"&&NVO)nvSet(false)});
-function navSync(){setTimeout(gtFix,0);if(nvRO())document.querySelectorAll("#app input,#app textarea,#app select").forEach(e=>{if(!NVID.includes(e.id))e.disabled=true});if($("app"))$("app").classList.toggle("nro",!!(NUTRI&&CL&&tab!=="nut"));if(RO&&NAVOK&&CL&&$("app")&&!$("robar"))$("app").insertAdjacentHTML("afterbegin",`<div id="robar" class="card" style="border-top-color:#d9a441"><b>👁 Modo solo lectura</b><br><small>${NUTRI?"Estás viendo a "+esc(CL.name)+" como nutricionista. Solo puedes editar la pestaña Nutrición.":"Estás viendo la cuenta de "+esc(CL.name)+" como administrador. No se guardará ningún cambio."}</small><div class="bar" style="margin:8px 0 0"><button ${NUTRI?'data-nu="back"':'data-ad="back"'}>${NUTRI?"‹ Mis atletas":"‹ Volver al panel"}</button></div></div>`);const nav=$("bnav"),rs=$("rsw"),av=$("avt");if(!nav||!rs||!av)return;const on=!!(NAVOK&&USER&&ready&&!(PW&&CLI()));document.body.classList.toggle("hasnav",on);
+function navSync(){setTimeout(gtFix,0);if(nvRO())document.querySelectorAll("#app input,#app textarea,#app select").forEach(e=>{if(!NVID.includes(e.id))e.disabled=true});if($("app"))$("app").classList.toggle("nro",!!(NUTRI&&CL&&tab!=="nut"&&tab!=="nlg"));if(RO&&NAVOK&&CL&&$("app")&&!$("robar"))$("app").insertAdjacentHTML("afterbegin",`<div id="robar" class="card" style="border-top-color:#d9a441"><b>👁 Modo solo lectura</b><br><small>${NUTRI?"Estás viendo a "+esc(CL.name)+" como nutricionista. Solo puedes editar la pestaña Nutrición.":"Estás viendo la cuenta de "+esc(CL.name)+" como administrador. No se guardará ningún cambio."}</small><div class="bar" style="margin:8px 0 0"><button ${NUTRI?'data-nu="back"':'data-ad="back"'}>${NUTRI?"‹ Mis atletas":"‹ Volver al panel"}</button></div></div>`);const nav=$("bnav"),rs=$("rsw"),av=$("avt");if(!nav||!rs||!av)return;const on=!!(NAVOK&&USER&&ready&&!(PW&&CLI()));document.body.classList.toggle("hasnav",on);
 if(!on){rs.hidden=true;av.hidden=true;nav.innerHTML="";return}
 const co=ROLE==="coach"&&!CL,L=co?(NUTRI?NAV_N:NAV_C):NAV_A,M=nvFn(co?(NUTRI?NAV_NM:NAV_CM):(NUTRI?NAV_M.filter(x=>x[0]!=="chat"&&x[0]!=="acc"):NAV_M)),cur=co?(CQE?"cq":(tab==="pat"?"menu":tab)):(NAV_G[tab]||""),nn=(NT.squad||0)+(NT.priv||0)+(NT.nutri||0)+(NUTRI?(NT.staff||0)+Object.keys(NT).filter(k=>k.slice(0,2)==="n_").reduce((a,k)=>a+NT[k],0):0);
 nvPaint(nav,L,M,cur,nn,co);
@@ -1550,7 +1550,7 @@ function avSet(d){if(ROLE==="client"&&S){S.prof=S.prof||{};S.prof.photo=d;save()
 document.addEventListener("change",ev=>{const t=ev.target;if(!t.dataset||t.dataset.av===undefined)return;const f=t.files&&t.files[0];t.value="";if(!f)return;const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const c=document.createElement("canvas"),z=192,r=Math.min(im.width,im.height);c.width=c.height=z;c.getContext("2d").drawImage(im,(im.width-r)/2,(im.height-r)/2,r,r,0,0,z,z);URL.revokeObjectURL(u);avSet(c.toDataURL("image/jpeg",.78))};im.onerror=()=>URL.revokeObjectURL(u);im.src=u});
 document.addEventListener("click",ev=>{if(ev.target.closest("[data-avrm]"))avSet("")});
 function profH(){const h=iniH(),k=h.indexOf("</div></div>")+12,p=avGet(),ph=`<div class="pavw"><span class="avt big">${p?`<img src="${esc(p)}" alt="">`:esc(avIni())}</span></div>`;
-const ex=avisoH()+trialBanner()+ntfH()+shareH()+wvSt()+todayH()+evcSoonH();
+const ex=avisoH()+trialBanner()+ntfH()+shareH()+wvSt()+todayH()+nlTodayH()+evcSoonH();
 return h.slice(0,k).replace('<div class="hero">','<div class="hero">'+avTop(ph))+ex+h.slice(k)}
 function coachHomeH(){const n=CLS.length,t=n*(+(COACH&&COACH.precio)||0),nn=Object.values(NT).reduce((a,b)=>a+b,0),p=avGet(),ph=`<div class="pavw"><span class="avt big">${p?`<img src="${esc(p)}" alt="">`:esc(avIni())}</span></div>`;
 return`<div class="hero">${avTop(ph)}<small style="color:#ccc;letter-spacing:.25em">${ISADM?"ADMINISTRADOR":"PERFIL DEL ENTRENADOR"}</small><div class="hh">${esc(coachName()||USER)}</div><div class="script">${esc((COACH&&COACH.empresa_nombre)||"tu empresa")}</div></div>`+avisoH()+(ISADM?`<div class="menu mini">${mt("tab","adm","00","Administración","Panel de control de Nexum")}</div>`:"")+trialCard()+`<div class="card"><div class="tiles"><div class="tile"><b>${n}</b><small>Atletas</small></div><div class="tile"><b>${CLS.filter(paidNow).length}</b><small>Al día</small></div><div class="tile"><b style="font-size:19px">${EUR(t*(1-COM))}</b><small>Recibes / mes</small></div><div class="tile"><b>${nn||"–"}</b><small>Mensajes nuevos</small></div></div></div>`+(COACH?`<div class="card"><b>Tu empresa</b><br><small>${esc(COACH.empresa_nombre||"")} · ${esc(COACH.empresa_localidad||"")}<br>NIF ${esc(COACH.nif||"–")} · IBAN ····${esc(COACH.iban_fin||"")}<br>Precio por atleta: ${EUR(+COACH.precio||0)} / mes</small><button data-act="cEdit" style="margin-top:8px">Editar datos</button></div><div class="card"><b>Tu presentación</b><br><small>${COACH.presentacion?"Tu vídeo, redes y cuestionario están enviados.":"Aún no la has completado."}</small><button data-px="edit" style="margin-top:8px">${COACH.presentacion?"Editar presentación":"Completar presentación"}</button></div>`:"")+`<div class="menu mini">`+mt("tab","cli","01","Clientes",n+(n===1?" atleta":" atletas"))+mt("tab","cob","02","Cobros y facturas",COACH&&(COACH.stripe_charges_enabled||COACH.cobra_directo)?"Stripe activo":"Conectar Stripe")+mt("tab","agd","03","Agenda","Equipo y atletas")+`</div>`}
@@ -1825,7 +1825,7 @@ function soUseR(id){const r=myRts().find(x=>x.id===id);if(!r)return;
  S.sessions.unshift(s);S.cur=s.id;et="fuerza";tab="ent";entV="edit";save();render();window.scrollTo(0,0)}
 const soMine=q=>{const L=myRts().filter(x=>NRM(x.name).includes(q||""));
  return`<div class="card"><b>Mis rutinas</b><br><small>${myRts().length?"Tus rutinas guardadas. Tócalas para crear un entrenamiento con un toque.":"Aún no tienes rutinas. Guárdalas desde un entrenamiento con «💾 Guardar como rutina»."}</small></div>`+L.map(x=>`<div class="card"><div class="row"><b>${esc(x.name)}</b><span><button class="on" data-solo="useR" data-v="${x.id}">Usar</button><button class="x" data-solo="delR" data-v="${x.id}">Eliminar</button></span></div><small>${((x.data||{}).items||[]).map(i=>esc(i.name||"")).filter(Boolean).join(" · ")||"Sin ejercicios"}</small></div>`).join("")};
-const _laList64=laList;laList=function(){return(SOLO()&&laT==="rt"?soMine(NRM(laQ)):"")+_laList64.apply(this,arguments)};
+const _laList64=laList;laList=function(){if(laT==="rt")return SOLO()?soMine(NRM(laQ)):"";return _laList64.apply(this,arguments)};
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-solo]");if(!b||!SOLO())return;ev.stopPropagation();const a=b.dataset.solo,v=b.dataset.v,id=b.dataset.id;
  if(a==="edit"){editEx.add(id);openEx.add(id);render()}
  else if(a==="done"){editEx.delete(id);save();render()}
@@ -1870,7 +1870,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.84";
+const APP_V="2026-11-15.85";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -1958,8 +1958,8 @@ return`<details class="tmd"><summary>Protocolo y base científica</summary><p><b
 function trefsH(){return`<div class="card"><b>Referencias de los tests</b><ol class="refs">${TREFS.map(r=>`<li>${esc(r[0])}${r[2]?" †":""}${r[1]?` <a href="https://doi.org/${r[1]}" target="_blank" rel="noopener">doi:${r[1]}</a>`:""}</li>`).join("")}</ol><small>† Cita escrita de memoria, sin comprobar en esta sesión: verifica el DOI antes de difundirla. Las referencias de base y élite del índice son criterios orientativos de rendimiento; no proceden de una tabla normativa publicada.</small></div>`}
 const verCard=()=>`<div class="card"><b>Versión de la web</b><br><small>Esta pantalla usa la versión <b>${APP_V}</b>.</small><p id="vermsg" class="qmsg" style="color:#1a1a1c"></p><button class="on" data-ver="1">Buscar actualización</button></div>`;
 document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-ver]");if(!b)return;const m=$("vermsg");if(m)m.textContent="Comprobando…";try{const r=await fetch(location.pathname+"?v="+Date.now(),{cache:"reload"}),t=await r.text(),x=(t.match(/name="app-version" content="([^"]+)"/)||[])[1];if(!m)return;if(!x){m.textContent="No he podido leer la versión del servidor.";return}if(x!==APP_V){m.textContent="Hay una versión nueva ("+x+"). Recargando…";setTimeout(()=>location.replace(location.pathname+"?v="+x),900)}else m.textContent="Ya tienes la última versión publicada en el servidor ("+x+")."}catch(e){if(m)m.textContent="No hay conexión con el servidor."}});
-const GRP=[["Carga",["ent","car"]],["Monitor",["rec","cin","rev","sal"]],["Eval.",["tst","apx","pro"]],["Ranking y cuerpo",["rnk","cpo"]],["Perfil",["acc","hlp"]]],GLB={lib:"Biblioteca",ent:"Sesiones",cal:"Calendario",car:"Análisis",rec:"Hábitos",cin:"Check-in",fcz:"Herramientas",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Hoy",cue:"Cuestionario",sal:"Salud",acc:"Cuenta",hlp:"Ayuda"};
-function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";const L=g[1].filter(k=>(k!=="sal"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&((k!=="rnk"&&k!=="cpo")||typeof fnOn!=="function"||fnOn(k)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${GLB[k]}</button>`).join("")}</div></div>`}
+const GRP=[["Carga",["ent","car"]],["Monitor",["rec","cin","rev","sal"]],["Eval.",["tst","apx","pro"]],["Ranking y cuerpo",["rnk","cpo"]],["Nutrición",["nlg","nut"]],["Perfil",["acc","hlp"]]],GLB={nlg:"Registro",nut:"Plan",lib:"Biblioteca",ent:"Sesiones",cal:"Calendario",car:"Análisis",rec:"Hábitos",cin:"Check-in",fcz:"Herramientas",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Hoy",cue:"Cuestionario",sal:"Salud",acc:"Cuenta",hlp:"Ayuda"};
+function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";const L=g[1].filter(k=>(k!=="sal"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&((k!=="rnk"&&k!=="cpo"&&k!=="nlg")||typeof fnOn!=="function"||fnOn(k)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${k==="nut"&&typeof SOLO==="function"&&SOLO()?"Recetas":GLB[k]}</button>`).join("")}</div></div>`}
 let WV=null,wvOk=false,wvBusy=false,wvErr="",wvLast=0,wvW=0;
 async function wvLoad(){if(wvBusy)return;wvBusy=true;try{if(ROLE==="client"&&CL){const r=await SB.rpc("welcome_video",{p_u:CL.usr,p_p:CL.pwd});if(r.error)throw r.error;WV=r.data||null}wvOk=true;wvErr=""}catch(e){wvErr=e.message||String(e)}wvBusy=false;render()}
 const wvCur=()=>ROLE==="coach"?((LIB.find(x=>x.kind==="welcome")||{}).data||null):WV,wvFmt=t=>Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0"),wvDate=d=>new Date(d).toLocaleDateString("es-ES");
@@ -2051,15 +2051,16 @@ if(laT==="rt"){const L=XV.filter(x=>x.kind==="routine"&&NRM(x.name).includes(q))
 const seen=new Set(),L=XV.filter(x=>x.kind==="exercise").sort((a,b)=>(b.coach?1:0)-(a.coach?1:0)).filter(x=>{const k=NRM(x.name);if(seen.has(k))return false;seen.add(k);return true}).filter(x=>NRM(x.name).includes(q)&&(!laC||xcN((x.data||{}).cat)===laC)).sort((a,b)=>a.name.localeCompare(b.name));
 return L.length?'<div class="exg">'+L.map(x=>{const d=x.data||{},th=exTh(d.video),hd=`<b>${esc(x.name)}</b>${th}<small>${esc(d.cat||"")}</small><small>${exSum(d)}</small>`,ex=(d.material?`<small>Material: ${esc(d.material)}</small>`:"")+(d.obs?`<p><small>${esc(d.obs)}</small></p>`:"")+(d.video&&!th?ytT({video:d.video}):"");return ex?`<details class="card exl"><summary>${hd}</summary>${ex}</details>`:`<div class="card exl">${hd}</div>`}).join("")+"</div>":'<div class="empty">No hay ejercicios con ese filtro.</div>'}
 function laH(){if(!xvOk&&!xvBusy&&!xvErr)xvLoad();
-const tb=`<div class="bar">${[["rec","Recetas"],["ex","Ejercicios"],["rt","Rutinas"]].map(t=>`<button class="${laT===t[0]?"on":""}" data-la="tab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div>`;
+if(!SOLO()&&laT==="rt")laT="ex";const tb=lwBar("client");if(laT==="fo")return tb+nlFoodsH();
 if(xvErr)return tb+`<div class="card"><b>No se pudo cargar la biblioteca</b><br><small>${esc(xvErr)}</small><div class="bar" style="margin:10px 0 0"><button class="on" data-la="retry">Reintentar</button></div></div>`;
 if(!xvOk)return tb+'<div class="empty">Cargando…</div>';
 const flt=laT==="rec"?`<label>Comida</label><div class="qch" style="margin-bottom:10px"><button class="qc${laM<0?" on":""}" data-la="mcat" data-v="-1">Todas</button>${NM.map((n,i)=>`<button class="qc${laM===i?" on":""}" data-la="mcat" data-v="${i}">${n}</button>`).join("")}</div>`:laT==="ex"?`<label>Categoría</label><div class="qch" style="margin-bottom:10px"><button class="qc${laC===""?" on":""}" data-la="cat" data-v="">Todas</button>${XC.map(c=>`<button class="qc${laC===c?" on":""}" data-la="cat" data-v="${c}">${c}</button>`).join("")}</div>`:"";
 return tb+`<small style="display:block;margin:6px 2px 10px;color:#b9b2a6">Biblioteca de Nexum. Solo el equipo de Nexum puede modificarla.</small><input id="laq" data-laq="1" placeholder="Buscar…" value="${esc(laQ)}">${flt}<div id="lalist">${laList()}</div>`}
 document.addEventListener("input",ev=>{const t=ev.target;if(!t.dataset||t.dataset.laq===undefined)return;laQ=t.value;const l=$("lalist");if(l)l.innerHTML=laList()});
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-la]");if(!b||ROLE!=="client")return;const a=b.dataset.la,v=b.dataset.v;if(a==="tab"){laT=v;laQ="";render()}else if(a==="cat"){laC=v;render()}else if(a==="mcat"){laM=+v;render()}else if(a==="retry"){xvErr="";xvLoad()}else if(a==="rc"){const r=(window.__LAR||laRecs())[+v];if(r)rcOpen(0,0,r)}});
-function libH(){if(NUTRI)libT="rec";if(ROLE==="client")return laH();if(ROLE!=="coach")return'<div class="empty">Solo el entrenador puede ver la biblioteca.</div>';if(!libOk&&!libBusy&&!libErr)libLoad();
-const tb=`<div class="bar"><button class="${libT==="rec"?"on":""}" data-lb="tab" data-v="rec">Recetas</button>${NUTRI?"":`<button class="${libT==="ex"?"on":""}" data-lb="tab" data-v="ex">Ejercicios</button><button class="${libT==="rt"?"on":""}" data-lb="tab" data-v="rt">Rutinas</button><button class="${libT==="wv"?"on":""}" data-lb="tab" data-v="wv">Bienvenida</button>`}</div>`;
+function libH(){if(NUTRI&&libT!=="fo")libT="rec";if(ROLE==="client")return laH();if(ROLE!=="coach")return'<div class="empty">Solo el entrenador puede ver la biblioteca.</div>';if(!libOk&&!libBusy&&!libErr)libLoad();
+const tb=lwBar("coach");
+if(libT==="fo")return tb+nlFoodsH();
 if(libErr)return tb+`<div class="card"><b>No se pudo cargar la biblioteca</b><br><small>${esc(libErr)}</small><div class="bar" style="margin:10px 0 0"><button class="on" data-lb="retry">Reintentar</button></div></div>`;
 if(!libOk)return tb+'<div class="empty">Cargando…</div>';if(libT==="wv")return tb+wvAdminH();
 const flt=libT==="rt"?rtChips():libT==="rec"?`<label>Comida</label><div class="qch" style="margin-bottom:8px"><button class="qc${libM<0?" on":""}" data-lb="mcat" data-v="-1">Todas</button>${NM.map((n,i)=>`<button class="qc${libM===i?" on":""}" data-lb="mcat" data-v="${i}">${n}</button>`).join("")}</div><label>Dieta</label><div class="qch" style="margin-bottom:10px">${NFL.map((f,i)=>`<button class="qc${libTg.has(i)?" on":""}" data-lb="tg" data-v="${i}">${f[0]}</button>`).join("")}</div>`:`<label>Categoría</label><div class="qch" style="margin-bottom:10px"><button class="qc${libC===""?" on":""}" data-lb="cat" data-v="">Todas</button>${XC.map(c=>`<button class="qc${libC===c?" on":""}" data-lb="cat" data-v="${c}">${c}</button>`).join("")}</div>`;
@@ -2200,7 +2201,7 @@ $("who").innerHTML=!USER||!ready?"":(ROLE==="coach"&&CL?(NUTRI?'<button data-nu=
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
 if(NUTRI&&!CL){nutriShell();return}if(ROLE==="coach"&&USER&&COACH&&COACH.suspendido&&!ISADM){susH();return}if(ROLE==="coach"&&USER&&!ISADM&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();NAVOK=true;return}if(CS&&ROLE==="coach"){regH();return}if(ROLE==="coach"&&USER&&!NUTRI&&!CL&&COACH&&(presEdit||(!ISADM&&!COACH.presentacion))){presH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
-NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,chat:chatH,nut:nutH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH()}[tab]()}
+NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():profH()):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,chat:chatH,nut:nutH,nlg:nlgH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH()}[tab]()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
 if(CLP()&&!(a==="newS"&&LG.includes(et))&&!(a==="delS"&&(d=>d&&canDel(d))(S.sessions.find(x=>x.id===(t.dataset.v||S.cur))))&&["addMob","delMob","newS","delS","addEx","delEx","dup","planS","addCT","undoT","bm","imp"].includes(a))return;
@@ -2586,9 +2587,180 @@ else if(a==="gen"){const r=await SB.rpc("nutri_gen_invoice",{p_mes:b.dataset.m})
 
 /* ===== Nutricionista: solo lectura en todo salvo la pestaña Nutrición ===== */
 const NVOK=["tab","tpil","pfr","pfc","rcc","rch","rsub","hsub","hgo","etp","selDay","cPrev","cNext","openS","toggEx","goDay","rPrev","rNext","home","pex"],NVID=["metric","per","rng","rdate"];
-const nvRO=()=>!!(NUTRI&&CL&&tab!=="nut");
+const nvRO=()=>!!(NUTRI&&CL&&tab!=="nut"&&tab!=="nlg");
 document.addEventListener("click",ev=>{if(!nvRO())return;const t=ev.target;if(!t.closest)return;if(t.closest("#bnav,#who,#rsw,#avt,[data-nu],a[href],video,audio,summary,[data-yt],.ytb"))return;const a=t.closest("[data-act]");if(a&&NVOK.includes(a.dataset.act))return;if(NVID.includes(t.id))return;
 if(t.closest("button,[data-act],[data-rt],[data-pl],[data-h],[data-ap],[data-fz],[data-w],[data-ex],[data-q],[data-rc],[data-lb],[data-pay],label,input,select,textarea")){ev.stopImmediatePropagation();ev.preventDefault();try{setStat("Vista de solo lectura");setTimeout(()=>setStat(""),1800)}catch(e){}}},true);
+
+/* ===== v85 · Registro de nutrición (kcal y macros exactos) · catálogo de alimentos · selector de la Biblioteca ===== */
+const ALC=["Carnes y aves","Pescados y mariscos","Huevos y lácteos","Cereales, pan y tubérculos","Legumbres y soja","Verduras","Frutas","Frutos secos y semillas","Aceites y grasas","Dulces y bebidas","Suplementos"];
+/* [nombre, categoría, kcal, proteína, hidratos, grasas, unidad, g por unidad, alcohol]  ·  valores medios por 100 g (USDA / BEDCA) */
+const ALM=[
+["Pechuga de pollo (cruda)",0,120,22.5,0,2.6,"filete",150],["Pechuga de pollo (cocinada)",0,165,31,0,3.6,"filete",120],["Muslo de pollo sin piel (cocinado)",0,179,24.8,0,8.2],["Pechuga de pavo (cocinada)",0,147,30,0,2.1],["Fiambre de pavo (lonchas)",0,100,17,1.5,2.5,"loncha",15],
+["Ternera magra (cruda)",0,125,21,0,4.5],["Ternera magra (cocinada)",0,175,29,0,6],["Carne picada de ternera, 10 % grasa (cruda)",0,176,20,0,10],["Lomo de cerdo (crudo)",0,143,21,0,5.7],["Jamón serrano",0,241,30.5,0,12.6,"loncha",15],["Jamón cocido (lonchas)",0,110,18,1,3.5,"loncha",15],["Bacon (crudo)",0,541,37,1.4,42,"loncha",12],
+["Salmón (crudo)",1,208,20.4,0,13.4,"lomo",150],["Salmón (cocinado)",1,206,22.1,0,12.4],["Merluza (cruda)",1,75,16,0,1],["Bacalao fresco (crudo)",1,82,17.8,0,0.7],["Lubina (cruda)",1,97,18.4,0,2],["Atún al natural (lata, escurrido)",1,116,25.5,0,0.8,"lata",56],["Atún en aceite (lata, escurrido)",1,198,29.1,0,8.2,"lata",56],["Sardinas en aceite (lata, escurridas)",1,208,24.6,0,11.5],["Gambas o langostinos (cocidos)",1,99,24,0.2,0.3],["Pulpo (cocido)",1,164,29.8,4.4,2.1],
+["Huevo entero (cocido)",2,155,12.6,1.1,10.6,"huevo",50],["Clara de huevo",2,52,10.9,0.7,0.2,"clara",33],["Yema de huevo",2,322,15.9,3.6,26.5,"yema",17],["Leche entera",2,61,3.2,4.8,3.3,"vaso (250 ml)",258],["Leche semidesnatada",2,46,3.3,4.8,1.6,"vaso (250 ml)",258],["Leche desnatada",2,34,3.4,5,0.1,"vaso (250 ml)",258],["Yogur natural",2,61,3.5,4.7,3.3,"yogur",125],["Yogur griego natural",2,97,9,4,5,"yogur",125],["Yogur griego 0 %",2,59,10.2,3.6,0.4,"yogur",125],["Skyr natural",2,63,11,4,0.2,"tarrina",150],["Queso fresco batido 0 %",2,46,8,4,0.2,"tarrina",125],["Queso cottage",2,98,11.1,3.4,4.3],["Queso fresco de Burgos",2,175,12,3,13],["Queso curado (manchego)",2,400,26,0.5,33,"porción",30],["Mozzarella",2,300,22.2,2.2,22.4,"bola",125],
+["Arroz blanco (crudo)",3,365,7.1,80,0.7],["Arroz blanco (cocido)",3,130,2.7,28.2,0.3],["Arroz integral (cocido)",3,123,2.7,25.6,1],["Pasta (cruda)",3,371,13,74.7,1.5],["Pasta (cocida)",3,158,5.8,30.9,0.9],["Pan blanco (barra)",3,265,9,49,3.2,"rebanada",30],["Pan integral",3,247,13,41,3.4,"rebanada",30],["Avena (copos)",3,379,13.2,67.7,6.5],["Cereales de maíz (corn flakes)",3,357,7.5,84,0.4],["Tortita de arroz",3,387,8.2,81.5,2.8,"tortita",9],["Galletas María",3,430,7,75,11.5,"galleta",6],["Patata (cocida)",3,87,1.9,20.1,0.1],["Patata (cruda)",3,77,2,17.5,0.1],["Boniato (cocido)",3,90,2,20.7,0.2],["Quinoa (cocida)",3,120,4.4,21.3,1.9],["Cuscús (cocido)",3,112,3.8,23.2,0.2],
+["Lentejas (cocidas)",4,116,9,20.1,0.4],["Garbanzos (cocidos)",4,164,8.9,27.4,2.6],["Alubias (cocidas)",4,140,8.2,26.3,0.6],["Tofu firme",4,144,17.3,2.8,8.7],["Hummus",4,166,7.9,14.3,9.6],
+["Brócoli",5,34,2.8,6.6,0.4],["Espinacas",5,23,2.9,3.6,0.4],["Tomate",5,18,0.9,3.9,0.2,"tomate",120],["Lechuga",5,15,1.4,2.9,0.2],["Zanahoria",5,41,0.9,9.6,0.2,"zanahoria",70],["Pepino",5,15,0.7,3.6,0.1],["Pimiento rojo",5,31,1,6,0.3,"pimiento",150],["Cebolla",5,40,1.1,9.3,0.1,"cebolla",110],["Calabacín",5,17,1.2,3.1,0.3],["Champiñón",5,22,3.1,3.3,0.3],["Judías verdes",5,31,1.8,7,0.2],["Coliflor",5,25,1.9,5,0.3],["Berenjena",5,25,1,5.9,0.2],["Espárragos",5,20,2.2,3.9,0.1],
+["Plátano",6,89,1.1,22.8,0.3,"plátano",120],["Manzana",6,52,0.3,13.8,0.2,"manzana",180],["Naranja",6,47,0.9,11.8,0.1,"naranja",130],["Mandarina",6,53,0.8,13.3,0.3,"mandarina",85],["Fresas",6,32,0.7,7.7,0.3],["Arándanos",6,57,0.7,14.5,0.3],["Uvas",6,69,0.7,18.1,0.2],["Kiwi",6,61,1.1,14.7,0.5,"kiwi",70],["Pera",6,57,0.4,15.2,0.1,"pera",170],["Piña",6,50,0.5,13.1,0.1],["Sandía",6,30,0.6,7.6,0.2],["Melón",6,34,0.8,8.2,0.2],["Melocotón",6,39,0.9,9.5,0.3,"melocotón",150],["Mango",6,60,0.8,15,0.4],["Aguacate",6,160,2,8.5,14.7,"aguacate",150],["Dátiles",6,277,1.8,75,0.2,"dátil",24],
+["Almendras",7,579,21.2,21.6,49.9,"puñado",30],["Nueces",7,654,15.2,13.7,65.2,"puñado",30],["Cacahuetes (tostados)",7,585,23.7,21.5,49.7,"puñado",30],["Anacardos",7,553,18.2,30.2,43.9,"puñado",30],["Pistachos",7,560,20.2,27.2,45.3,"puñado",30],["Crema de cacahuete (100 %)",7,588,25,20,50,"cucharada",16],["Semillas de chía",7,486,16.5,42.1,30.7,"cucharada",12],["Pipas de girasol (peladas)",7,584,20.8,20,51.5],
+["Aceite de oliva virgen extra",8,884,0,0,100,"cucharada",13],["Mantequilla",8,717,0.9,0.1,81,"cucharadita",5],["Mayonesa",8,680,1,0.6,75,"cucharada",15],
+["Chocolate negro (70–85 %)",9,579,7.8,45.9,42.6,"onza",10],["Miel",9,304,0.3,82.4,0,"cucharadita",7],["Azúcar",9,387,0,100,0,"cucharadita",5],["Mermelada",9,250,0.4,62,0.1,"cucharada",20],["Cerveza",9,43,0.5,3.6,0,"caña (200 ml)",200,1],["Vino tinto",9,85,0.1,2.6,0,"copa (150 ml)",150,1],["Refresco de cola",9,42,0,10.6,0,"lata (330 ml)",330],["Zumo de naranja",9,45,0.7,10.4,0.2,"vaso (250 ml)",250],["Café solo",9,1,0.1,0,0],["Bebida de avena",9,45,0.5,6.7,1.5,"vaso (250 ml)",250],["Bebida de soja (sin azúcar)",9,33,3.3,0.5,1.8,"vaso (250 ml)",250],["Bebida de almendras (sin azúcar)",9,13,0.4,0.1,1.1,"vaso (250 ml)",250],
+["Proteína whey (polvo)",10,400,78,6.7,6.7,"cacito (30 g)",30]
+];
+const ALX=ALM.map((a,i)=>({id:"c"+i,n:a[0],cat:a[1],b:[a[2],a[3],a[4],a[5]],un:a[6]||"",ug:a[7]||0,al:!!a[8]}));
+
+/* ---- cálculo ---- */
+const nlN=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isFinite(n)?n:0};
+const nlF=x=>String(Math.round(x*10)/10).replace(".",","),nlK=x=>String(Math.round(x));
+const nlFac=e=>e.u==="u"?nlN(e.q)*nlN(e.ug)/100:e.u==="r"?nlN(e.q):nlN(e.q)/100;
+const nlE=e=>{const f=nlFac(e),b=e.b||[0,0,0,0];return[b[0]*f,b[1]*f,b[2]*f,b[3]*f]};
+const nlSum=L=>L.reduce((a,e)=>{const x=nlE(e);return[a[0]+x[0],a[1]+x[1],a[2]+x[2],a[3]+x[3]]},[0,0,0,0]);
+const nlLog=()=>(S.nlog=S.nlog||{}),nlDay=d=>(S.nlog||{})[d]||[];
+const nlTot=d=>{const L=nlDay(d);if(L.length)return nlSum(L);const s=(S.nsum||{})[d];return s&&s.length===4?s.map(Number):null};
+const nlT=()=>ymd(new Date()),nlShift=(d,n)=>{const x=new Date(d+"T00:00");x.setDate(x.getDate()+n);return ymd(x)};
+let NL={d:"",ch:"k",m:0,tab:"all",q:"",sel:null,res:[],from:"",own:""},FD={q:"",cat:-1,res:[]},LWX="ex",LWF="rec";
+const nlD=()=>NL.d||nlT();
+function nlGoal(){const g=S.ngl;if(g&&nlN(g.k)>0)return{k:nlN(g.k),p:nlN(g.p),c:nlN(g.c),f:nlN(g.f),src:"manual"};try{const N=nxNeeds();if(N&&!N.err)return{k:N.kcal,p:N.p,c:N.c,f:N.g,src:"calc"}}catch(e){}return null}
+const nlMG=(i,G)=>{if(!G)return null;try{const s=nxSh()[i];return s>0?G.k*s:null}catch(e){return null}};
+const nlMealNow=()=>{const h=new Date().getHours()+new Date().getMinutes()/60;return h<10.5?0:h<12.5?1:h<16.5?2:h<19.5?3:4};
+function nlPrune(){const L=nlLog(),lim=ymd(new Date(Date.now()-120*864e5));Object.keys(L).forEach(d=>{if(!L[d]||!L[d].length){delete L[d];return}if(d<lim){S.nsum=S.nsum||{};S.nsum[d]=nlSum(L[d]).map(x=>Math.round(x*10)/10);delete L[d]}})}
+function nlPut(e){if(!CLI())return;nlLog();const d=nlD();(S.nlog[d]=S.nlog[d]||[]).push(Object.assign({id:uid(),t:Date.now()},e));nlPrune();save()}
+const nlGet=id=>nlDay(nlD()).find(x=>x.id===id);
+function nlRm(id){if(!CLI())return;const d=nlD(),L=nlDay(d).filter(x=>x.id!==id);if(L.length)S.nlog[d]=L;else delete S.nlog[d];save()}
+function nlLast(d){for(let j=1;j<=14;j++){const p=nlShift(d,-j);if(nlDay(p).length)return p}return""}
+function nlCopy(){if(!CLI())return;const d=nlD(),p=nlLast(d);if(!p||nlDay(d).length)return;nlLog();S.nlog[d]=nlDay(p).map(e=>Object.assign({},e,{id:uid(),t:Date.now(),b:(e.b||[]).slice()}));save()}
+function nlSeries(i,n){const o=[];for(let j=n-1;j>=0;j--){const k=nlShift(nlT(),-j),t=nlTot(k);o.push({l:k.slice(5),v:t&&t[0]>0?Math.round(t[i]*10)/10:null})}return o}
+function nlAvg(n){let a=[0,0,0,0],c=0;for(let j=0;j<n;j++){const t=nlTot(nlShift(nlT(),-j));if(t&&t[0]>0){a=a.map((v,i)=>v+t[i]);c++}}return c?{c,v:a.map(v=>v/c)}:null}
+const nlDL=d=>{const n=Math.round((new Date(d+"T00:00")-new Date(nlT()+"T00:00"))/864e5);return n===0?"Hoy":n===-1?"Ayer":n===1?"Mañana":new Date(d+"T00:00").toLocaleDateString("es-ES",{weekday:"long"}).replace(/^./,c=>c.toUpperCase())};
+const nlDS=d=>new Date(d+"T00:00").toLocaleDateString("es-ES",{day:"numeric",month:"long"});
+
+/* ---- pantalla «Registro» ---- */
+const nlBar=(v,g,k)=>{const p=g>0?Math.min(100,v/g*100):0,o=g>0&&v>g*1.05;return`<div class="nlbar"><i class="${k||""}${o?" ov":""}" style="width:${p.toFixed(1)}%"></i></div>`};
+const nlEL=e=>e.u==="u"?nlF(e.q)+" × "+esc(e.un||"ud")+" · "+nlF(nlN(e.q)*nlN(e.ug))+" g":e.u==="r"?nlF(e.q)+(nlN(e.q)===1?" ración":" raciones"):nlF(e.q)+" g";
+const nlMac=x=>"P "+nlF(x[1])+" · C "+nlF(x[2])+" · G "+nlF(x[3]);
+function nlgH(){const me=CLI(),t=nlT(),d=nlD(),L=nlDay(d),T=nlSum(L),G=nlGoal(),ro=!me&&!!CL;
+ const nv=`<div class="nld"><button class="nlnv" data-nl="d" data-v="-1" aria-label="Día anterior">‹</button><div class="nldt"><b>${nlDL(d)}</b><small>${nlDS(d)}</small></div><button class="nlnv" data-nl="d" data-v="1" aria-label="Día siguiente"${d>=t?" disabled":""}>›</button></div>`+(d!==t?`<div class="bar"><button data-nl="today">Ir a hoy</button></div>`:"");
+ const sp=4*T[1]+4*T[2]+9*T[3],pc=x=>sp>0?Math.round(x/sp*100):0;
+ const kc=G?(T[0]<=G.k?`Quedan <b>${nlK(G.k-T[0])}</b> kcal`:`Te has pasado <b>${nlK(T[0]-G.k)}</b> kcal`):"";
+ const mr=[["Proteína",1,"p","m1"],["Hidratos",2,"c","m2"],["Grasas",3,"f","m3"]].map(x=>`<div class="nlm"><div class="row"><span>${x[0]}</span><span><b>${nlF(T[x[1]])}</b> <small>${G?"/ "+nlF(G[x[2]])+" g":"g"}</small></span></div>${nlBar(T[x[1]],G?G[x[2]]:0,x[3])}</div>`).join("");
+ const sum=`<div class="card nls"><div class="nlbig"><b>${nlK(T[0])}</b><span>${G?"de "+nlK(G.k)+" kcal":"kcal"}</span></div>${nlBar(T[0],G?G.k:0,"k")}<small>${kc}${G?(kc?" · ":"")+(G.src==="manual"?"objetivo fijado por ti":"objetivo calculado con tus datos"):""}</small>${mr}${sp>0?`<small>Reparto de la energía: P ${pc(4*T[1])} % · C ${pc(4*T[2])} % · G ${pc(9*T[3])} %</small>`:""}${G?"":`<small>Sin objetivo todavía: completa peso y altura (Progreso → Tests → Antropometría)${me?" o fíjalo tú":""}.</small>`}${me?`<div class="bar" style="margin:10px 0 0"><button data-nl="goal">${G?"Editar objetivo":"Fijar objetivo"}</button></div>`:""}</div>`;
+ const cp=me&&!L.length&&nlLast(d)?`<div class="bar"><button data-nl="copy">📋 Copiar el último día registrado (${nlDS(nlLast(d))})</button></div>`:"";
+ const meals=NM.map((m,i)=>{const E=L.filter(e=>(+e.m||0)===i),X=nlSum(E),mg=nlMG(i,G);
+  return`<div class="card nlml"><div class="row"><b>${m}</b><span class="nlmt">${E.length?`<b>${nlK(X[0])}</b> kcal`:""}${mg?`<small>${E.length?" · ":""}objetivo ≈ ${nlK(mg)}</small>`:""}</span></div>${E.length?`<small class="nlmm">${nlMac(X)} g</small>`:""}${E.map(e=>{const x=nlE(e),b=`<span class="nln"><b>${esc(e.n)}</b><small>${nlEL(e)}</small></span><span class="nlk"><b>${nlK(x[0])} kcal</b><small>${nlMac(x)}</small></span>`;return me?`<button class="nle" data-nl="edit" data-v="${esc(e.id)}">${b}</button>`:`<div class="nle">${b}</div>`}).join("")}${me?`<button class="nla" data-nl="add" data-v="${i}">＋ Añadir alimento</button>`:(E.length?"":`<small>Sin registros.</small>`)}</div>`}).join("");
+ const CK=[["k","Calorías"],["p","Proteína"],["c","Hidratos"],["f","Grasas"]],ci={k:0,p:1,c:2,f:3}[NL.ch]||0;
+ const A=nlAvg(7),cb=`<div class="qch pfq">${CK.map(x=>`<button class="qc${x[0]===NL.ch?" on":""}" data-nl="ch" data-v="${x[0]}" aria-pressed="${x[0]===NL.ch}">${x[1]}</button>`).join("")}</div>`;
+ const ev=`<div class="sec">Evolución <span class="script">de 14 días</span></div>${cb}<div class="charts">${ch(CK[ci][1]+" por día",nlSeries(ci,14),0,null,ci?"g":"kcal")}</div>`+(A?`<div class="card"><b>Media de tus últimos 7 días</b><small style="display:block;margin-top:2px">${A.c} día${A.c===1?"":"s"} con registro</small><div class="tiles" style="margin-top:8px"><div class="tile"><b>${nlK(A.v[0])}</b><small>kcal</small></div><div class="tile"><b>${nlF(A.v[1])}</b><small>Proteína g</small></div><div class="tile"><b>${nlF(A.v[2])}</b><small>Hidratos g</small></div><div class="tile"><b>${nlF(A.v[3])}</b><small>Grasas g</small></div></div></div>`:"");
+ return(ro?`<div class="card"><small>Registro de <b>${esc(CL.name)}</b>. Solo lectura: lo apunta el atleta.</small></div>`:"")+nv+sum+cp+meals+ev+`<small class="nlnote">Los valores del catálogo son medias de referencia por 100 g (tablas USDA y BEDCA). Para un producto envasado, usa su etiqueta con «Alimento propio». Los datos son orientativos y no sustituyen la pauta de tu nutricionista.</small>`}
+function nlTodayH(){if(!CLI()||(typeof fnOn==="function"&&!fnOn("nlg")))return"";const L=nlDay(nlT()),T=nlSum(L),G=nlGoal();
+ return`<div class="card"><div class="row"><b>Nutrición de hoy</b><button class="on" data-act="tab" data-v="nlg">${L.length?"Abrir registro":"＋ Registrar"}</button></div>${L.length?`<div class="nlbig sm"><b>${nlK(T[0])}</b><span>${G?"de "+nlK(G.k)+" kcal":"kcal"}</span></div>${nlBar(T[0],G?G.k:0,"k")}<small>${nlMac(T)} g</small>`:`<small>Aún no has registrado comidas hoy. Apunta lo que comes y controla tus calorías y macros.</small>`}</div>`}
+
+/* ---- ventana (alimentos, cantidades, formularios) ---- */
+function nlShow(h){let o=$("nlov");if(!o){o=document.createElement("div");o.id="nlov";o.className="rcov";document.body.appendChild(o)}o.innerHTML=h;o.scrollTop=0;document.body.style.overflow="hidden"}
+function nlClose(r){const o=$("nlov");if(o)o.remove();document.body.style.overflow="";NL.sel=null;if(r!==false)render()}
+const nlWrap=(b,h)=>`<div class="rcw"><button class="rcx" data-nl="${b||"close"}">${b&&b!=="close"?"‹ Volver":"✕ Cerrar"}</button><div class="lbc nlc">${h}</div></div>`;
+const nlRowM=x=>x.ra?`${nlK(x.b[0])} kcal · ${nlMac(x.b)} <em>por ración</em>`:`${nlK(x.b[0])} kcal · ${nlMac(x.b)} <em>por 100 g</em>`;
+function nlRecent(){const seen=new Set(),o=[],days=Object.keys(nlLog()).sort().reverse();for(const d of days){const L=nlLog()[d].slice().sort((a,b)=>(b.t||0)-(a.t||0));for(const e of L){const k=e.n+"|"+e.u;if(seen.has(k))continue;seen.add(k);o.push({n:e.n,b:(e.b||[0,0,0,0]).slice(),u:e.u,un:e.un||"",ug:e.ug||0,q:e.q,ra:e.u==="r",rec:1});if(o.length>=30)return o}}return o}
+const nlOwnX=f=>({n:f.n,cat:-1,b:[+f.k||0,+f.p||0,+f.c||0,+f.f||0],un:f.un||"",ug:+f.ug||0,own:1,oid:f.id});
+const nlRecX=r=>({n:r.t,ra:1,u:"r",q:1,b:[nlN(r.k),nlN(r.p),nlN(r.c),nlN(r.g)]});
+function nlRes(){const T=NRM(NL.q).split(" ").filter(Boolean),tab=NL.tab;let L;
+ if(tab==="hist")L=nlRecent();else if(tab==="rec")L=nxPool().map(nlRecX);else if(tab==="own")L=(S.nfd||[]).map(nlOwnX);else L=(S.nfd||[]).map(nlOwnX).concat(ALX);
+ L=L.filter(x=>T.every(t=>NRM(x.n).includes(t)));
+ if(T.length)L.sort((a,b)=>(NRM(b.n).startsWith(T[0])?1:0)-(NRM(a.n).startsWith(T[0])?1:0));
+ else if(tab==="rec")L.sort((a,b)=>a.n<b.n?-1:1);
+ NL.res=L.slice(0,60);
+ if(!L.length)return`<div class="empty">${tab==="hist"?"Aún no tienes recientes: lo que añadas aparecerá aquí.":tab==="own"?"Aún no has creado alimentos propios.":"No hay nada con ese nombre. Prueba con otra palabra o crea un «Alimento propio»."}</div>`;
+ return NL.res.map((x,i)=>`<button class="lbr nlr" data-nl="pick" data-v="${i}"><div><b>${esc(x.n)}</b>${x.own?' <span class="nlpill">Mío</span>':""}<small>${x.rec?nlF(x.q)+(x.u==="u"?" × "+esc(x.un):x.u==="r"?" ración":" g")+" · ":""}${nlRowM(x)}</small></div><i>›</i></button>`).join("")+(L.length>60?`<small class="nlnote">Mostrando 60 de ${L.length}: afina la búsqueda.</small>`:"")}
+function nlList(){if(!CLI())return;const hs=nlRecent().length>0;if(NL.tab==="hist"&&!hs)NL.tab="all";
+ const tabs=[["hist","Recientes"],["all","Alimentos"],["rec","Recetas"],["own","Míos"]].filter(x=>x[0]!=="hist"||hs);
+ nlShow(nlWrap("close",`<div class="nlhd">Añadir a <b>${NM[NL.m]}</b></div><input id="nlq" data-nlq="s" placeholder="Buscar alimento o receta…" autocomplete="off" value="${esc(NL.q)}"><div class="qch nlt">${tabs.map(x=>`<button class="qc${NL.tab===x[0]?" on":""}" data-nl="tab" data-v="${x[0]}">${x[1]}</button>`).join("")}</div><div id="nllist">${nlRes()}</div><div class="bar" style="margin-top:12px"><button data-nl="own">＋ Alimento propio</button><button data-nl="quick">⚡ Entrada rápida</button></div>`))}
+function nlOpen(m){if(!CLI())return;NL.from="pick";NL.m=m;NL.q="";NL.tab=nlRecent().length?"hist":"all";NL.sel=null;nlList()}
+function nlSel(x,m,edit){const mode=x.u||(x.ra?"r":"g");NL.sel={n:x.n,b:x.b.slice(),mode,un:x.un||"",ug:x.ug||0,q:x.q!=null?x.q:(mode==="g"?100:1),m,edit:edit||"",oid:x.oid||"",ra:!!x.ra}}
+const nlPvH=()=>{const s=NL.sel,f=nlFac({u:s.mode,q:s.q,ug:s.ug}),b=s.b;return`<div class="nlbig"><b>${nlK(b[0]*f)}</b><span>kcal</span></div><div class="nlpm"><span>P <b>${nlF(b[1]*f)}</b></span><span>C <b>${nlF(b[2]*f)}</b></span><span>G <b>${nlF(b[3]*f)}</b></span></div>`+(s.mode==="u"?`<small>${nlF(nlN(s.q)*s.ug)} g en total</small>`:"")};
+function nlQty(){const s=NL.sel;if(!s)return;const ro=!CLI(),QQ=s.mode==="g"?[50,100,150,200,250]:s.mode==="u"?[1,2,3,4]:[.5,1,1.5,2];
+ nlShow(nlWrap(s.edit||NL.from==="lib"?"close":"list",`<div class="nlhd">${esc(s.n)}</div><small>${s.ra?"Por ración":"Por 100 g"}: ${nlK(s.b[0])} kcal · ${nlMac(s.b)}</small>${s.ug>0&&!s.ra?`<div class="qch nlt"><button class="qc${s.mode==="g"?" on":""}" data-nl="mode" data-v="g">Gramos</button><button class="qc${s.mode==="u"?" on":""}" data-nl="mode" data-v="u">${esc(s.un)} (${nlF(s.ug)} g)</button></div>`:""}<label>${s.mode==="g"?"Cantidad (gramos)":s.mode==="u"?"Cantidad ("+esc(s.un)+")":"Raciones"}</label><input id="nlqty" data-nlq="qty" type="number" inputmode="decimal" step="any" min="0" value="${esc(s.q)}"><div class="qch nlqq">${QQ.map(v=>`<button class="qc" data-nl="qq" data-v="${v}">${String(v).replace(".",",")}${s.mode==="g"?" g":""}</button>`).join("")}</div><div id="nlpv" class="nlpv">${nlPvH()}</div><div id="nlw" class="nlw"></div>${ro?"":`<label>Comida</label><div class="qch">${NM.map((m,i)=>`<button class="qc${s.m===i?" on":""}" data-nl="mm" data-v="${i}">${m}</button>`).join("")}</div>`}<div class="bar" style="margin-top:14px">${s.edit?`<button class="x" data-nl="del" data-v="${esc(s.edit)}">Eliminar</button>`:""}${s.oid&&CLI()&&!s.edit?`<button data-nl="ownEdit" data-v="${esc(s.oid)}">Editar alimento</button>`:""}${ro?"":`<button class="on w" data-nl="go">${s.edit?"Guardar cambios":"Añadir al registro"}</button>`}</div>`))}
+function nlGo(){const s=NL.sel;if(!s||!CLI())return;if(!(nlN(s.q)>0)){const w=$("nlw");if(w)w.textContent="Indica una cantidad mayor que 0.";return}
+ const e={m:s.m,n:s.n,u:s.mode,q:nlN(s.q),b:s.b.map(x=>Math.round(x*100)/100)};if(s.mode==="u"){e.ug=s.ug;e.un=s.un}
+ if(s.edit){const o=nlGet(s.edit);if(o){Object.keys(o).forEach(k=>{if(k!=="id"&&k!=="t")delete o[k]});Object.assign(o,e);save()}}else{if(NL.from==="lib")NL.d="";nlPut(e);if(NL.from==="lib")setStat("Añadido a "+NM[s.m]+" ✓")}
+ nlClose()}
+/* formulario: alimento propio */
+const nlFv=id=>nlN(($(id)||{}).value);
+function nlWarn(){const w=$("nlfw");if(!w)return;const k=nlFv("nlf_k"),p=nlFv("nlf_p"),c=nlFv("nlf_c"),f=nlFv("nlf_f"),a=4*p+4*c+9*f;w.textContent=k>0&&a>0&&Math.abs(k-a)>Math.max(20,k*.2)?"⚠ Con esos macros salen ≈ "+Math.round(a)+" kcal (4·P + 4·C + 9·G). Revisa la etiqueta: la fibra y el alcohol explican pequeñas diferencias.":""}
+function nlOwn(id){const o=id?(S.nfd||[]).find(x=>x.id===id):null;NL.own=id||"";const v=(k)=>o&&o[k]!=null?esc(o[k]):"";
+ const fi=(k,l,x)=>`<div><label>${l}</label><input id="nlf_${k}" data-nlf="1" type="number" inputmode="decimal" step="any" min="0" value="${v(x)}"></div>`;
+ nlShow(nlWrap(NL.from==="lib"?"close":"list",`<div class="nlhd">${o?"Editar alimento":"Alimento propio"}</div><small>Copia los valores de la etiqueta, siempre «por 100 g».</small><label>Nombre</label><input id="nlf_n" data-nlf="1" maxlength="60" value="${v("n")}" placeholder="Ej.: Pan de centeno"><div class="nlgr">${fi("k","Calorías (kcal)","k")}${fi("p","Proteína (g)","p")}${fi("c","Hidratos (g)","c")}${fi("f","Grasas (g)","f")}</div><details${o&&(o.un||o.ug)?" open":""}><summary>Unidad opcional (1 rebanada, 1 barrita…)</summary><div class="nlgr"><div><label>Nombre de la unidad</label><input id="nlf_un" data-nlf="1" maxlength="24" value="${v("un")}"></div>${fi("ug","Gramos por unidad","ug")}</div></details><div id="nlfw" class="nlw"></div><div id="nlw" class="nlw"></div><div class="bar" style="margin-top:14px">${o?`<button class="x" data-nl="ownDel" data-v="${esc(o.id)}">Eliminar</button>`:""}<button class="on w" data-nl="ownSave">${o?"Guardar":NL.from==="lib"?"Guardar alimento":"Guardar y elegir"}</button></div>`))}
+function nlOwnSave(){if(!CLI())return;const n=(($("nlf_n")||{}).value||"").trim().slice(0,60),k=nlFv("nlf_k"),p=nlFv("nlf_p"),c=nlFv("nlf_c"),f=nlFv("nlf_f"),w=$("nlw");
+ if(!n){w.textContent="Ponle un nombre al alimento.";return}
+ const a=4*p+4*c+9*f,kk=k>0?k:Math.round(a);if(!(kk>0)&&!(p+c+f>0)){w.textContent="Indica las calorías o los macros.";return}
+ const un=(($("nlf_un")||{}).value||"").trim().slice(0,24),ug=nlFv("nlf_ug"),r={id:NL.own||uid(),n,k:kk,p,c,f};if(un&&ug>0){r.un=un;r.ug=ug}
+ S.nfd=S.nfd||[];const i=S.nfd.findIndex(x=>x.id===r.id);if(i>=0)S.nfd[i]=r;else{if(S.nfd.length>=300){w.textContent="Has llegado al máximo de 300 alimentos propios.";return}S.nfd.push(r)}save();
+ if(NL.from==="pick"&&!NL.own){nlSel(nlOwnX(r),NL.m);nlQty()}else if(NL.from==="pick"){nlList()}else nlClose()}
+/* formulario: entrada rápida */
+function nlQuick(){const fi=(k,l)=>`<div><label>${l}</label><input id="nlx_${k}" type="number" inputmode="decimal" step="any" min="0"></div>`;
+ nlShow(nlWrap("list",`<div class="nlhd">Entrada rápida</div><small>Para comidas fuera de casa o platos sin desglosar. Pon el total de lo que has comido en <b>${NM[NL.m]}</b>.</small><label>Nombre (opcional)</label><input id="nlx_n" maxlength="60" placeholder="Ej.: Menú del restaurante"><div class="nlgr">${fi("k","Calorías (kcal)")}${fi("p","Proteína (g)")}${fi("c","Hidratos (g)")}${fi("f","Grasas (g)")}</div><div id="nlw" class="nlw"></div><div class="bar" style="margin-top:14px"><button class="on w" data-nl="quickSave">Añadir al registro</button></div>`))}
+function nlQuickSave(){if(!CLI())return;const g=id=>nlN(($(id)||{}).value),p=g("nlx_p"),c=g("nlx_c"),f=g("nlx_f");let k=g("nlx_k");if(!(k>0))k=Math.round(4*p+4*c+9*f);if(!(k>0)){$("nlw").textContent="Indica las calorías o los macros.";return}
+ nlPut({m:NL.m,n:(($("nlx_n")||{}).value||"").trim().slice(0,60)||"Entrada rápida",u:"r",q:1,b:[k,p,c,f]});nlClose()}
+/* objetivo diario */
+function nlGoalEd(){if(!CLI())return;const G=nlGoal()||{},fi=(k,l,x)=>`<div><label>${l}</label><input id="nlg_${k}" type="number" inputmode="decimal" step="any" min="0" value="${G[x]!=null?Math.round(G[x]):""}"></div>`;
+ nlShow(nlWrap("close",`<div class="nlhd">Objetivo diario</div><small>${S.ngl?"Estás usando un objetivo fijado por ti.":G.k?"Ahora usas el objetivo calculado con tus datos. Puedes fijar el tuyo (por ejemplo, el que te haya dado tu nutricionista).":"Fija tus calorías y macros diarios."}</small><div class="nlgr">${fi("k","Calorías (kcal)","k")}${fi("p","Proteína (g)","p")}${fi("c","Hidratos (g)","c")}${fi("f","Grasas (g)","f")}</div><div id="nlw" class="nlw"></div><div class="bar" style="margin-top:14px">${S.ngl?`<button data-nl="goalReset">Usar el calculado</button>`:""}<button class="on w" data-nl="goalSave">Guardar objetivo</button></div>`))}
+function nlGoalSave(){if(!CLI())return;const g=id=>nlN(($(id)||{}).value),k=g("nlg_k");if(!(k>0)){$("nlw").textContent="Indica las calorías diarias.";return}S.ngl={k,p:g("nlg_p"),c:g("nlg_c"),f:g("nlg_f")};save();nlClose()}
+
+/* ---- Biblioteca → Alimentos ---- */
+const nlFdRows=()=>{const T=NRM(FD.q).split(" ").filter(Boolean),own=CLI()?(S.nfd||[]).map(nlOwnX):[];
+ let L=(FD.cat===99?own:own.concat(ALX)).filter(x=>(FD.cat<0||FD.cat===99||x.cat===FD.cat)&&T.every(t=>NRM(x.n).includes(t)));
+ if(T.length)L.sort((a,b)=>(NRM(b.n).startsWith(T[0])?1:0)-(NRM(a.n).startsWith(T[0])?1:0));
+ FD.res=L.slice(0,80);return{L}};
+function nlFdList(){const L=nlFdRows().L;if(!L.length)return'<div class="empty">No hay alimentos con ese filtro.</div>';
+ return FD.res.map((x,i)=>`<button class="lbr nlr" data-fd="open" data-v="${i}"><div><b>${esc(x.n)}</b>${x.own?' <span class="nlpill">Mío</span>':""}<small>${nlRowM(x)}</small></div><i>›</i></button>`).join("")+(L.length>80?`<small class="nlnote">Mostrando 80 de ${L.length}: afina la búsqueda.</small>`:"")}
+function nlFoodsH(){const own=CLI()&&(S.nfd||[]).length>0;
+ return`<small class="nlnote" style="margin:6px 2px 10px">Catálogo de ${ALX.length} alimentos con valores medios por 100 g (USDA / BEDCA). Toca uno para calcular sus macros por cantidad${CLI()?" y registrarlo":""}.</small>${CLI()?`<div class="bar"><button class="w" data-fd="new">+ Alimento propio</button></div>`:""}<input id="fdq" data-fdq="1" placeholder="Buscar alimento…" value="${esc(FD.q)}"><label>Categoría</label><div class="qch" style="margin-bottom:10px"><button class="qc${FD.cat===-1?" on":""}" data-fd="cat" data-v="-1">Todas</button>${own?`<button class="qc${FD.cat===99?" on":""}" data-fd="cat" data-v="99">Míos</button>`:""}${ALC.map((c,i)=>`<button class="qc${FD.cat===i?" on":""}" data-fd="cat" data-v="${i}">${c}</button>`).join("")}</div><div id="fdlist">${nlFdList()}</div>`}
+
+/* ---- selector deslizante Ejercicios ⇄ Alimentos ---- */
+const ICX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>';
+const ICF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8.2C10.6 6.9 8.9 6.6 7.4 7.2 5.2 8.1 4.4 10.7 5 13.4c.7 3.2 2.6 6.6 5 6.6.9 0 1.3-.5 2-.5s1.1.5 2 .5c2.4 0 4.3-3.4 5-6.6.6-2.7-.2-5.3-2.4-6.2-1.5-.6-3.2-.3-4.6 1z"/><path d="M12 8.2c0-2 .9-3.6 2.6-4.4"/></svg>';
+function lwBar(who){const co=who==="coach",t=co?libT:laT,w=(t==="fo"||t==="rec")?"fd":"ex",only=co&&NUTRI;
+ const sl=only?"":`<div class="lws" data-w="${w}" role="group" aria-label="Biblioteca: ejercicios o alimentos"><span class="lwk"></span><button class="lwb" data-lw="ex" aria-label="Ejercicios" aria-pressed="${w==="ex"}">${ICX}</button><button class="lwb" data-lw="fd" aria-label="Alimentos" aria-pressed="${w==="fd"}">${ICF}</button></div>`;
+ let T;if(w==="fd")T=[["rec","Recetas"],["fo","Alimentos"]];else if(co)T=[["ex","Ejercicios"],["rt","Rutinas guardadas"],["wv","Bienvenida"]];else T=SOLO()?[["ex","Ejercicios"],["rt","Mis rutinas"]]:[["ex","Ejercicios"]];
+ const at=co?"data-lb":"data-la";
+ return(sl?`<div class="lwh">${sl}<span class="lwl script">${w==="fd"?"Alimentos":"Ejercicios"}</span></div>`:"")+(T.length>1?`<div class="bar">${T.map(x=>`<button class="${t===x[0]?"on":""}" ${at}="tab" data-v="${x[0]}">${x[1]}</button>`).join("")}</div>`:"")}
+
+/* ---- eventos ---- */
+document.addEventListener("click",ev=>{const w=ev.target.closest&&ev.target.closest("[data-lw]");if(!w)return;const v=w.dataset.lw,el=w.closest(".lws");if(el)el.dataset.w=v;
+ setTimeout(()=>{if(ROLE==="coach"){const cw=(libT==="fo"||libT==="rec")?"fd":"ex";if(cw===v)return;if(cw==="ex")LWX=libT;else LWF=libT;libT=v==="ex"?LWX:LWF;libQ=""}else{const cw=(laT==="fo"||laT==="rec")?"fd":"ex";if(cw===v)return;if(cw==="fd")LWF=laT;laT=v==="ex"?"ex":LWF;laQ=""}render()},170)});
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-nl]");if(!b)return;const a=b.dataset.nl,v=b.dataset.v,me=CLI();
+ if(a==="d"){const n=NL.d||nlT(),x=nlShift(n,+v);if(x>nlT())return;NL.d=x===nlT()?"":x;render()}
+ else if(a==="today"){NL.d="";render()}
+ else if(a==="ch"){NL.ch=v;render()}
+ else if(a==="close")nlClose();
+ else if(a==="list")nlList();
+ else if(a==="add"){if(me)nlOpen(+v)}
+ else if(a==="edit"){const e=me&&nlGet(v);if(e){NL.from="edit";nlSel({n:e.n,b:(e.b||[]).slice(),u:e.u,un:e.un,ug:e.ug,q:e.q,ra:e.u==="r"},+e.m||0,e.id);nlQty()}}
+ else if(a==="tab"){NL.tab=v;NL.q="";nlList()}
+ else if(a==="pick"){const x=NL.res[+v];if(x){nlSel(x,NL.m);nlQty()}}
+ else if(a==="mode"){const s=NL.sel;if(!s||s.mode===v||!(s.ug>0))return;const q=nlN(s.q);s.q=v==="u"?Math.round(q/s.ug*10)/10||1:Math.round(q*s.ug)||100;s.mode=v;nlQty()}
+ else if(a==="qq"){const s=NL.sel;if(!s)return;s.q=+v;const i=$("nlqty");if(i)i.value=s.q;const p=$("nlpv");if(p)p.innerHTML=nlPvH()}
+ else if(a==="mm"){const s=NL.sel;if(!s)return;s.m=+v;b.parentNode.querySelectorAll(".qc").forEach(x=>x.classList.toggle("on",x===b))}
+ else if(a==="go")nlGo();
+ else if(a==="del"){if(me&&confirm("¿Quitar este alimento del registro?")){nlRm(v);nlClose()}}
+ else if(a==="own"){if(me)nlOwn("")}
+ else if(a==="ownEdit"){if(me){NL.from=NL.from||"pick";nlOwn(v)}}
+ else if(a==="ownSave")nlOwnSave();
+ else if(a==="ownDel"){if(me&&confirm("¿Eliminar este alimento propio? Los registros que ya hiciste con él se conservan.")){S.nfd=(S.nfd||[]).filter(x=>x.id!==v);save();NL.from==="pick"?nlList():nlClose()}}
+ else if(a==="quick"){if(me)nlQuick()}
+ else if(a==="quickSave")nlQuickSave();
+ else if(a==="copy"){if(me){nlCopy();render()}}
+ else if(a==="goal")nlGoalEd();
+ else if(a==="goalSave")nlGoalSave();
+ else if(a==="goalReset"){if(me){delete S.ngl;save();nlClose()}}});
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-fd]");if(!b)return;const a=b.dataset.fd,v=b.dataset.v;
+ if(a==="cat"){FD.cat=+v;render()}
+ else if(a==="open"){const x=FD.res[+v];if(x){NL.from="lib";NL.m=nlMealNow();nlSel(x,NL.m);nlQty()}}
+ else if(a==="new"){if(CLI()){NL.from="lib";nlOwn("")}}});
+document.addEventListener("input",ev=>{const t=ev.target,d=t.dataset;if(!d)return;
+ if(d.nlq==="s"){NL.q=t.value;const l=$("nllist");if(l)l.innerHTML=nlRes()}
+ else if(d.nlq==="qty"){const s=NL.sel;if(!s)return;s.q=t.value;const p=$("nlpv");if(p)p.innerHTML=nlPvH();const w=$("nlw");if(w)w.textContent=""}
+ else if(d.nlf!==undefined)nlWarn()
+ else if(d.fdq!==undefined){FD.q=t.value;const l=$("fdlist");if(l)l.innerHTML=nlFdList()}});
 
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
@@ -3057,6 +3229,44 @@ html[data-theme=light] #bnav .nvm button.on svg{stroke:#86222f}
 .pfq{margin:0 0 10px}.pfq .qc{flex:0 0 auto;min-width:0;padding:9px 14px}
 
 .fnr.sub{margin-left:18px;padding-left:12px;border-left:2px solid var(--hair)}.fnr.sub .fni{width:26px;font-size:19px}.fnr.dim{opacity:.55}
+
+/* v85 · selector deslizante de la Biblioteca */
+.lwh{display:flex;align-items:center;gap:14px;margin:0 0 12px}
+.lws{position:relative;display:grid;grid-template-columns:1fr 1fr;width:120px;height:48px;padding:4px;border-radius:999px;background:var(--black);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);flex:none}
+.lwk{position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);border-radius:999px;background:var(--wine);box-shadow:0 2px 10px rgba(0,0,0,.4);transition:transform .28s cubic-bezier(.4,.1,.2,1)}
+.lws[data-w="fd"] .lwk{transform:translateX(100%)}
+.lws .lwb{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;background:transparent;border:0;border-radius:999px;padding:0;color:#8f887c;transition:color .2s}
+.lws .lwb svg{width:23px;height:23px}
+.lws[data-w="ex"] .lwb:nth-of-type(1),.lws[data-w="fd"] .lwb:nth-of-type(2){color:#fff}
+.lwl{font-size:26px;line-height:1}
+/* v85 · registro de nutrición */
+.nld{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+.nld .nlnv{width:46px;height:46px;border-radius:50%;padding:0;font-size:26px;line-height:1;background:#fff;color:var(--black);border:1px solid #d6cfc2}
+.nld .nlnv:disabled{opacity:.3;cursor:default}
+.nldt{text-align:center;flex:1}.nldt b{display:block;font-size:20px}.nldt small{color:#7a746a}
+.nlbig{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.nlbig b{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:46px;line-height:1;color:var(--wine)}
+.nlbig span{color:#6f6a61;font-size:15px}.nlbig.sm b{font-size:30px}
+.nlbar{height:9px;border-radius:999px;background:#e6e0d4;overflow:hidden;margin:6px 0}
+.nlbar i{display:block;height:100%;border-radius:999px;background:var(--wine);transition:width .35s}
+.nlbar i.m1{background:#2f6f8f}.nlbar i.m2{background:#c08a2e}.nlbar i.m3{background:#7d8a3c}.nlbar i.ov{background:#c4242f}
+.nlm{margin-top:10px}.nlm .row{font-size:14px}.nls>small{display:block;margin-top:4px}
+.nlml .row{align-items:baseline}.nlmt{text-align:right;font-size:14px}.nlmt small{color:#8a847a}
+.nlmm{display:block;color:#7a746a;margin:2px 0 6px}
+.nle,.nla{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;text-align:left;text-transform:none;letter-spacing:0;font-weight:500;background:#f3efe7;color:var(--black);border:1px solid #e0d9ca;border-radius:10px;padding:10px 12px;margin-top:6px}
+.nle .nln,.nle .nlk{display:flex;flex-direction:column;min-width:0}.nle .nlk{text-align:right;flex:none}
+.nle small{color:#6f6a61;font-size:12px;font-weight:400}
+.nla{justify-content:center;background:transparent;border:1.5px dashed var(--champ);color:var(--wine);font-weight:700}
+.nlnote{display:block;color:#8a847a;margin:10px 2px}
+.nlc .nlhd{font-size:20px;font-weight:700;margin:0 0 6px}
+.nlt{margin:10px 0}.nlqq{margin:8px 0}
+.nlpv{background:#fff;border:1px solid #e0d9ca;border-radius:12px;padding:12px;margin:12px 0;text-align:center}
+.nlpv .nlbig{justify-content:center}.nlpm{display:flex;justify-content:center;gap:16px;margin-top:4px;font-size:15px}
+.nlw{color:#b3261e;font-size:13px;margin-top:6px}.nlw:empty{display:none}
+.nlgr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nlr{width:100%;text-align:left;background:transparent;color:var(--black);border-radius:0;padding:10px 0;text-transform:none;letter-spacing:0;font-weight:500;border:0;border-bottom:1px solid #d6cfc2}
+.nlr small{display:block;color:#6f6a61;font-weight:400}.nlr em{font-style:normal;color:#9a9388}.nlr i{font-style:normal;font-size:20px;color:var(--champ)}
+.nlpill{font-size:10px;background:var(--wine);color:#fff;border-radius:999px;padding:1px 7px;vertical-align:middle;font-weight:600}
 </style>
 <script>
 (function(){
@@ -4562,6 +4772,7 @@ const FNS=[
  {k:"hrm",n:"1RM por velocidad",i:"🏋️",sub:1,d:"Herramientas › estima el 1RM a partir de la carga y la velocidad de la barra.",sel:['[data-act="hsub"][data-v="rm"]','[data-act="hgo"][data-v="rm"]']},
  {k:"lab",n:"Saltos y sprints",i:"📏",sub:1,d:"Herramientas › saltos, sprints, cambios de dirección y lanzamientos medidos con el vídeo del móvil.",sel:['[data-lab]','[data-act="hsub"][data-v="ss"]','[data-act="hgo"][data-v="ss"]']},
  {k:"logros",n:"Compartir logros",i:"📸",d:"Imagen de la semana, del entreno o del progreso para redes y la comunidad.",sel:['[data-v21="shs"]','[data-v18="share"]']},
+ {k:"nlg",n:"Registro de comidas",i:"🥗",d:"Nutrición › diario de comidas con calorías y macros exactos, y la tarjeta «Nutrición de hoy» en Hoy.",sel:['[data-act="tab"][data-v="nlg"]']},
  {k:"stories",n:"Historias",i:"⭕",d:"Círculos de stories de 24 h en Hoy y en el Chat: verlas, publicar y la pestaña «Publicaciones» del historial.",sel:['#sgbar','.hxt']},
  {k:"video",n:"Videollamadas",i:"📹",d:"Enlace de Meet o Zoom en los chats y en el calendario.",sel:['[data-ag="kd"]','.vcbar']}];
 let FNP=false,FNB=false,FNSIG="",FNT=0;
@@ -4575,7 +4786,7 @@ function fnStyle(){
  let e=document.getElementById("fnoff");if(!e){e=document.createElement("style");e.id="fnoff";document.head.appendChild(e)}
  e.textContent=off.map(f=>f.sel.join(",")+"{display:none!important}").join("\n")}
 /* si alguien estaba dentro de una sección que se apaga, se le lleva a la pantalla madre */
-{const _rn=render;render=function(){try{if(tab==="lab"){tab="fcz";htl="ss"}const g={rnk:fnOn("cpo")?"cpo":"tst",cpo:fnOn("rnk")?"rnk":"tst",fcz:"rec"};if(g[tab]&&(!fnOn(tab)||(tab==="fcz"&&typeof htlAny==="function"&&!htlAny())))tab=g[tab];if(!fnOn("video")&&AGF&&AGF.ag_k)AGF.ag_k="";fnStyle()}catch(e){}return _rn.apply(this,arguments)}}
+{const _rn=render;render=function(){try{if(tab==="lab"){tab="fcz";htl="ss"}const g={rnk:fnOn("cpo")?"cpo":"tst",cpo:fnOn("rnk")?"rnk":"tst",fcz:"rec",nlg:"nut"};if(g[tab]&&(!fnOn(tab)||(tab==="fcz"&&typeof htlAny==="function"&&!htlAny())))tab=g[tab];if(!fnOn("video")&&AGF&&AGF.ag_k)AGF.ag_k="";fnStyle()}catch(e){}return _rn.apply(this,arguments)}}
 {const _so=shOpen;shOpen=function(){if(!fnOn("logros"))return;return _so.apply(this,arguments)}}
 /* panel de administración */
 function fnAdmin(){
