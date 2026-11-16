@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.83">
+<meta name="app-version" content="2026-11-15.84">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -1870,7 +1870,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.83";
+const APP_V="2026-11-15.84";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -3055,6 +3055,8 @@ html[data-theme=light] #bnav .nvm button.on svg{stroke:#86222f}
 @media (prefers-reduced-motion:reduce){#bnav *{transition:none!important}}
 
 .pfq{margin:0 0 10px}.pfq .qc{flex:0 0 auto;min-width:0;padding:9px 14px}
+
+.fnr.sub{margin-left:18px;padding-left:12px;border-left:2px solid var(--hair)}.fnr.sub .fni{width:26px;font-size:19px}.fnr.dim{opacity:.55}
 </style>
 <script>
 (function(){
@@ -4029,7 +4031,7 @@ window.nxFx={i:el=>{const k=el.dataset.fxk;FX[k]=el.value;FX.sv="";
  hx:d=>{if(RO&&!NUTRI)return;S.aerH=fxHist().filter(x=>x.d!==d);save();const h=$("fxhist");if(h)h.innerHTML=fxHistH()}};
 /* Herramientas = menú de 4 tarjetas (Zonas de FC · VAM y VO₂máx · 1RM por velocidad · Saltos y sprints); hay que pinchar para ver cada una */
 const HTL=[["fc","Zonas de FC"],["vam","VAM y VO₂máx"],["rm","1RM por velocidad"],["ss","Saltos y sprints"]];
-const htlOk=k=>k!=="ss"||(!NUTRI&&fnOn("lab")&&typeof window.hsSS==="function");
+const htlOk=k=>k==="fc"?fnOn("hfc"):k==="vam"?fnOn("hvam"):k==="rm"?fnOn("hrm"):(!NUTRI&&fnOn("lab")&&typeof window.hsSS==="function"),htlAny=()=>HTL.some(x=>htlOk(x[0]));
 function htlPrev(k){
  if(k==="fc"){const c=fzCalc(fzGet());return c.ok?"Reposo "+c.rest+" · máx. "+c.max+" ppm":"Karvonen · tus 5 zonas"}
  if(k==="vam"){const e=fxHist()[0];return e&&FXT[e.t]?"VO₂máx "+fxK(+e.vo2>0?+e.vo2:3.5*+e.vam)+" · "+fxDf(e.d):"VAM · VO₂máx · MSS · perfil"}
@@ -4552,11 +4554,15 @@ Object.assign(window,{VC,vcCard,vcJoinH,vcNorm,vcSafe,vcSaveLink,vcLoadLink,vcAn
 
 /* ===== v42 · Interruptores de funciones (administración) ===== */
 const FNS=[
- {k:"lab",n:"Medición por vídeo",i:"📏",d:"Dentro de Herramientas › «Saltos y sprints»: saltos, sprints, cambios de dirección y lanzamientos con el vídeo del móvil.",sel:['[data-lab]']},
  {k:"rnk",n:"Ranking",i:"🏆",d:"Compara los tests de cada atleta con los de su grupo.",sel:['[data-act="tab"][data-v="rnk"]']},
- {k:"fcz",n:"Herramientas",i:"❤️",d:"Menú con zonas de FC, VAM y VO₂máx, 1RM por velocidad y (si la medición por vídeo está activa) saltos, sprints, cambios de dirección y lanzamientos.",sel:['[data-act="tab"][data-v="fcz"]']},
  {k:"cpo",n:"Cuerpo",i:"💪",d:"Mapa muscular: estímulo, fuerza relativa y recuperación.",sel:['[data-act="tab"][data-v="cpo"]']},
+ {k:"fcz",n:"Herramientas",i:"🧰",d:"Menú con las 4 herramientas. Si lo apagas, desaparece entero; si apagas las cuatro de abajo, también desaparece solo.",sel:['[data-act="tab"][data-v="fcz"]']},
+ {k:"hfc",n:"Zonas de FC",i:"❤️",sub:1,d:"Herramientas › calculadora con tus 5 zonas de frecuencia cardiaca (Karvonen).",sel:['[data-act="hsub"][data-v="fc"]','[data-act="hgo"][data-v="fc"]']},
+ {k:"hvam",n:"VAM y VO₂máx",i:"🏃",sub:1,d:"Herramientas › analizador de VAM y VO₂máx con veredicto, zonas e histórico.",sel:['[data-act="hsub"][data-v="vam"]','[data-act="hgo"][data-v="vam"]']},
+ {k:"hrm",n:"1RM por velocidad",i:"🏋️",sub:1,d:"Herramientas › estima el 1RM a partir de la carga y la velocidad de la barra.",sel:['[data-act="hsub"][data-v="rm"]','[data-act="hgo"][data-v="rm"]']},
+ {k:"lab",n:"Saltos y sprints",i:"📏",sub:1,d:"Herramientas › saltos, sprints, cambios de dirección y lanzamientos medidos con el vídeo del móvil.",sel:['[data-lab]','[data-act="hsub"][data-v="ss"]','[data-act="hgo"][data-v="ss"]']},
  {k:"logros",n:"Compartir logros",i:"📸",d:"Imagen de la semana, del entreno o del progreso para redes y la comunidad.",sel:['[data-v21="shs"]','[data-v18="share"]']},
+ {k:"stories",n:"Historias",i:"⭕",d:"Círculos de stories de 24 h en Hoy y en el Chat: verlas, publicar y la pestaña «Publicaciones» del historial.",sel:['#sgbar','.hxt']},
  {k:"video",n:"Videollamadas",i:"📹",d:"Enlace de Meet o Zoom en los chats y en el calendario.",sel:['[data-ag="kd"]','.vcbar']}];
 let FNP=false,FNB=false,FNSIG="",FNT=0;
 try{FNP=localStorage.getItem("nx_fn_prev")==="1"}catch(e){}
@@ -4565,16 +4571,16 @@ function fnVal(k){const f=CFG&&CFG.funciones;return!(f&&typeof f==="object"&&f[k
 /* ¿se muestra esta función a quien está usando la app? El administrador lo ve todo salvo que active "ver como los demás". */
 function fnOn(k){if(fnVal(k))return true;return!!(ISADM&&!RO&&!FNP)}
 function fnStyle(){
- const off=FNS.filter(f=>!fnOn(f.k)),sig=off.map(f=>f.k).join();if(sig===FNSIG)return;FNSIG=sig;
+ const off=FNS.filter(f=>!fnOn(f.k)||(f.k==="fcz"&&typeof htlAny==="function"&&!htlAny())),sig=off.map(f=>f.k).join();if(sig===FNSIG)return;FNSIG=sig;
  let e=document.getElementById("fnoff");if(!e){e=document.createElement("style");e.id="fnoff";document.head.appendChild(e)}
  e.textContent=off.map(f=>f.sel.join(",")+"{display:none!important}").join("\n")}
 /* si alguien estaba dentro de una sección que se apaga, se le lleva a la pantalla madre */
-{const _rn=render;render=function(){try{if(tab==="lab"){tab="fcz";htl="ss"}const g={rnk:fnOn("cpo")?"cpo":"tst",cpo:fnOn("rnk")?"rnk":"tst",fcz:"rec"};if(g[tab]&&!fnOn(tab))tab=g[tab];if(!fnOn("video")&&AGF&&AGF.ag_k)AGF.ag_k="";fnStyle()}catch(e){}return _rn.apply(this,arguments)}}
+{const _rn=render;render=function(){try{if(tab==="lab"){tab="fcz";htl="ss"}const g={rnk:fnOn("cpo")?"cpo":"tst",cpo:fnOn("rnk")?"rnk":"tst",fcz:"rec"};if(g[tab]&&(!fnOn(tab)||(tab==="fcz"&&typeof htlAny==="function"&&!htlAny())))tab=g[tab];if(!fnOn("video")&&AGF&&AGF.ag_k)AGF.ag_k="";fnStyle()}catch(e){}return _rn.apply(this,arguments)}}
 {const _so=shOpen;shOpen=function(){if(!fnOn("logros"))return;return _so.apply(this,arguments)}}
 /* panel de administración */
 function fnAdmin(){
  const n=FNS.filter(f=>fnVal(f.k)).length;
- const rows=FNS.map(f=>{const v=fnVal(f.k);return `<div class="fnr"><span class="fni">${f.i}</span><span class="fnt"><b>${esc(f.n)}</b><em class="fns${v?" on":""}">${v?"Activa":"Apagada"}</em><small>${esc(f.d)}</small></span><button type="button" class="fnsw${v?" on":""}" role="switch" aria-checked="${v}" aria-label="${esc(f.n)}" data-fnx="set" data-k="${f.k}"${FNB?" disabled":""}><i></i></button></div>`}).join("");
+ const rows=FNS.map(f=>{const v=fnVal(f.k);return `<div class="fnr${f.sub?" sub":""}${f.sub&&!fnVal("fcz")?" dim":""}"><span class="fni">${f.i}</span><span class="fnt"><b>${esc(f.n)}</b><em class="fns${v?" on":""}">${v?"Activa":"Apagada"}</em><small>${esc(f.d)}</small></span><button type="button" class="fnsw${v?" on":""}" role="switch" aria-checked="${v}" aria-label="${esc(f.n)}" data-fnx="set" data-k="${f.k}"${FNB?" disabled":""}><i></i></button></div>`}).join("");
  return `<div class="card"><div class="row"><b>Funciones de la app</b><small>${n} de ${FNS.length} activas</small></div><small>Activa o apaga secciones para todos los entrenadores y atletas. Lo que apagues desaparece de los menús; no se borra ningún dato y puedes volver a activarlo cuando quieras.</small><div class="fnl">${rows}</div><div class="bar" style="margin:6px 0 0"><button data-fnx="all" data-v="1"${FNB?" disabled":""}>Activar todas</button><button data-fnx="all" data-v="0"${FNB?" disabled":""}>Apagar todas</button></div><small style="display:block;margin-top:10px">Los demás verán el cambio al abrir la app o en unos minutos.</small></div>
 <div class="card"><b>Tu vista de administrador</b><div class="fnl"><div class="fnr"><span class="fni">👁</span><span class="fnt"><b>Ver la app como los demás</b><em class="fns${FNP?" on":""}">${FNP?"Activado":"Desactivado"}</em><small>${FNP?"Ahora ves solo lo que tienen activado el resto de cuentas.":"Ahora ves todas las funciones, también las apagadas, para poder probarlas antes de lanzarlas."}</small></span><button type="button" class="fnsw${FNP?" on":""}" role="switch" aria-checked="${FNP}" aria-label="Ver la app como los demás" data-fnx="prev"><i></i></button></div></div></div>`}
 async function fnSave(next){
@@ -4598,7 +4604,7 @@ async function fnRefresh(){
  if(JSON.stringify((CFG&&CFG.funciones)||{})!==a&&!typing())render()}
 setInterval(fnRefresh,240000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)fnRefresh()});
-Object.assign(window,{fnOn,fnAdmin,nxFn:{on:fnOn,val:fnVal,refresh:fnRefresh,style:fnStyle,flags:()=>FNS.map(f=>f.k)}});
+Object.assign(window,{fnOn,fnAdmin,nxFn:{on:fnOn,val:fnVal,refresh:fnRefresh,style:fnStyle,flags:()=>FNS.map(f=>f.k),htl:()=>htlAny()}});
 /* ===== v50 · biblioteca de hábitos ===== */
 const HLIB=[
 ["Sueño","sue",[["Acostarme antes de las 23:00","Una hora fija ayuda a regular el sueño","yn"],["Dormir 7-9 horas","Anota las horas que dormiste. Objetivo: 7 h","num","h",7],["Sin pantallas 60 min antes de dormir","Menos luz y estímulos para dormirte antes","yn"],["Rutina de desconexión nocturna","Lectura, estiramientos suaves o respiración antes de acostarte","yn"],["Habitación oscura, fresca y en silencio","Sin luces ni ruidos y con temperatura agradable","yn"],["Sin cafeína desde las 16:00","Café, té y bebidas energéticas tardan horas en irse","yn"]]],
@@ -5140,7 +5146,7 @@ function sgErr(e){const m=String(e&&e.message||e||"");
  if(/Failed to fetch|NetworkError|network|load failed/i.test(m))return"Sin conexión. Comprueba tu internet e inténtalo de nuevo.";
  return m||"No se pudo completar la operación."}
 const sgScr=()=>tab==="menu"||(tab==="chat"&&!chn&&!dmOn)||tab==="adm";
-async function sgLoad(f){sgEns();if(!sgOkR()||SG.lb)return;if(!f&&SG.list&&Date.now()-SG.t<45000)return;
+async function sgLoad(f){sgEns();if(!sgOkR()||SG.lb||!fnOn("stories"))return;if(!f&&SG.list&&Date.now()-SG.t<45000)return;
  const k=SG.key;SG.lb=true;let a,b,err=null;
  try{[a,b]=await Promise.all([SB.rpc("story_me",sgCr()),SB.rpc("story_feed",sgCr())]);if(a.error||b.error||!a.data)err=a.error||b.error||new Error("sin acceso")}catch(e){err=e}
  SG.lb=false;if(k!==SG.key)return;
@@ -5173,7 +5179,7 @@ function sgGroups(){const m=new Map();
  const rk=g=>g.mine?0:g.kind==="admin"?1:g.unseen?2:3;
  return a.sort((x,y)=>rk(x)-rk(y)||(y.last>x.last?1:y.last<x.last?-1:0))}
 function sgGrp(k){if(/^one:/.test(k)){const id=k.slice(4),s=(SG.list||[]).find(x=>x.id===id);return s?{key:k,name:s.name,kind:s.author_kind,mine:!!s.mine,aid:s.author_id,nx:s.scope==="nexum",items:[s]}:null}return sgGroups().find(g=>g.key===k)||null}
-function sgBar(){sgEns();const r=sgOkR();if(!r)return"";
+function sgBar(){sgEns();const r=sgOkR();if(!r||!fnOn("stories"))return"";
  if(!SG.list||(!SG.me&&!SG.err)){setTimeout(()=>sgLoad(),0);return""}
  if(!SG.me)return"";
  setTimeout(()=>sgLoad(),0);
@@ -5199,7 +5205,7 @@ const sgOv=()=>{let o=document.getElementById("sgov");if(!o){o=document.createEl
 function sgKill(){clearTimeout(SG.hold);const o=document.getElementById("sgov");if(o)o.remove();document.documentElement.style.overflow="";
  if(SG.c&&SG.c.prev){try{URL.revokeObjectURL(SG.c.prev)}catch(_){}}SG.v=null;SG.c=null}
 async function sgClose(){sgKill();await sgFlush();await sgLoad(true);if(sgScr())render()}
-function sgOpen(k){sgEns();const g=sgGrp(k);if(!g||!g.items.length)return;
+function sgOpen(k){if(!fnOn("stories"))return;sgEns();const g=sgGrp(k);if(!g||!g.items.length)return;
  const ks=/^one:/.test(k)?[k]:sgGroups().map(x=>x.key);
  let i=g.items.findIndex(x=>!x.seen);if(i<0||g.mine)i=0;
  SG.v={key:k,keys:ks,idx:i,panel:"",busy:false,msg:"",vw:null,tok:0};sgShow()}
@@ -5324,7 +5330,7 @@ function sgWire(){const w=document.getElementById("sgmw");if(!w)return;const m=w
  if(m.tagName==="IMG"){m.addEventListener("load",sgFit);if(m.complete&&m.naturalWidth)sgFit()}else{m.addEventListener("loadedmetadata",sgFit);if(m.readyState>=1)sgFit()}}
 
 /* ---------- creador ---------- */
-function sgNew(){sgEns();if(!SG.me||!SG.me.canpost)return;
+function sgNew(){if(!fnOn("stories"))return;sgEns();if(!SG.me||!SG.me.canpost)return;
  SG.c={kind:"media",mk:"",blob:null,ext:"",ctype:"",dur:0,prev:"",text:"",bg:"c1",scope:SG.me.grupo?"grupo":"comunidad",busy:false,pick:false,msg:"",ov:[],sel:-1,fnt:"n",mu:null,mul:"",mumsg:"",muq:"",mur:null,mus:"",mum:""};SG.ls=null;sgRC()}
 const sgScopes=()=>{const a=[];if(SG.me&&SG.me.grupo)a.push("grupo");a.push("comunidad");if(SG.me&&SG.me.admin)a.push("nexum");return a};
 const sgKeep=sc=>sc==="grupo";
@@ -5600,7 +5606,7 @@ function hxOpen(){const m=hxMode();if(!m)return;hxEns();hxScan();HX.tab="lg";HX.
  o.innerHTML='<div class="rcw"><button class="rcx" data-hx="x">‹ Cerrar</button><div class="rcc hxc" id="hxb"></div></div>';document.body.appendChild(o);document.body.style.overflow="hidden";
  if(m==="c"&&S.logros&&(+S.lgs||0)!==hxLogros().length){S.lgs=hxLogros().length;save()}
  hxPaint();if(m==="k")hxLoadK()}
-function hxPaint(){const b=document.getElementById("hxb");if(!b)return;const m=hxMode();if(!m){hxClose();return}
+function hxPaint(){const b=document.getElementById("hxb");if(!b)return;if(HX.tab==="pub"&&!fnOn("stories"))HX.tab="lg";const m=hxMode();if(!m){hxClose();return}
  const tabs=m==="v"?"":`<div class="hxt" role="tablist"><button role="tab" aria-selected="${HX.tab==="lg"}" class="${HX.tab==="lg"?"on":""}" data-hx="tab" data-v="lg">${m==="k"?"Hitos":"Logros"}</button><button role="tab" aria-selected="${HX.tab==="pub"}" class="${HX.tab==="pub"?"on":""}" data-hx="tab" data-v="pub">Publicaciones</button></div>`;
  const body=HX.tab==="pub"&&m!=="v"?hxPubH():m==="k"?hxKH():hxLgH();
  b.innerHTML=`<div class="hxh">${m==="v"?"Historial de "+esc(CL.name):"Mi historial"}</div>${tabs}<div id="hxbd">${body}</div>`}
