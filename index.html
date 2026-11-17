@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.90">
+<meta name="app-version" content="2026-11-15.92">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -1500,7 +1500,7 @@ render();window.scrollTo(0,0)});
 /* cuestionario: secciones estándar (QS_ALL) + preguntas propias de cada entrenador */
 /* ===== Biblioteca de recetas para atletas en prueba (sin entrenador) ===== */
 let rcM=-1;
-const soloNutH=()=>`<div class="card"><b>Biblioteca de recetas</b><br><small>Durante tu prueba tienes acceso a todas las recetas de Nexum. Toca una para ver ingredientes, macros y pasos.</small><div class="qch" style="margin-top:8px"><button class="qc${rcM<0?" on":""}" data-rcm="-1">Todas</button>${NM.map((m,i)=>`<button class="qc${rcM===i?" on":""}" data-rcm="${i}">${m}</button>`).join("")}</div></div>`+RCL.map((r,i)=>[r,i]).filter(x=>rcM<0||x[0].m===rcM).map(x=>`<button class="rcb" data-rcl="${x[1]}"><span><b>${esc(x[0].t)}</b><br><small>${esc(x[0].k)} kcal · P ${esc(x[0].p)} · C ${esc(x[0].c)} · G ${esc(x[0].g)}</small></span><i>›</i></button>`).join("");
+const soloNutH=()=>`<div class="card"><b>Biblioteca de recetas</b><br><small>Durante tu prueba tienes acceso a todas las recetas de Nexum. Toca una para ver ingredientes, macros y pasos.</small><div class="qch" style="margin-top:8px"><button class="qc${rcM<0?" on":""}" data-rcm="-1">Todas</button>${NM.map((m,i)=>`<button class="qc${rcM===i?" on":""}" data-rcm="${i}">${m}</button>`).join("")}</div></div>`+'<div class="exg">'+RCL.map((r,i)=>[r,i]).filter(x=>rcM<0||x[0].m===rcM).map(x=>rcCard(x[0],`<button class="on w" data-rcl="${x[1]}">Ver receta completa</button>`,"")).join("")+"</div>";
 document.addEventListener("click",ev=>{const a=ev.target.closest("[data-rcl]");if(a){rcOpen(0,0,RCL[+a.dataset.rcl]);return}const b=ev.target.closest("[data-rcm]");if(b){rcM=+b.dataset.rcm;render()}});
 /* ===== Navegación: perfil como inicio, barra inferior, foto y cambio de rol ===== */
 var NAVOK=false;
@@ -1870,7 +1870,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.90";
+const APP_V="2026-11-15.92";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -2038,15 +2038,15 @@ function libListH(){const q=NRM(libQ),L=LIB.filter(x=>x.kind===KD[libT]&&NRM(x.n
 if(libT==="rt")return rtList(L.filter(x=>(x.data.rt||"train")===libR));
 if(libT==="ex"){const L3=L.filter(x=>!libC||xcN(x.data.cat)===libC);if(!L3.length)return'<div class="empty">No hay ejercicios en esta categoría.'+(libCan("exercise")?' Guárdalos desde una sesión con "💾 Biblioteca" o créalos aquí.':"")+'</div>';return[...XC,""].map(c=>{const g=L3.filter(x=>xcN(x.data.cat)===c);return g.length?`<div class="mhd">${c?c.toUpperCase():"SIN CATEGORÍA"} · ${g.length}</div><div class="exg">`+g.map(x=>{const bt=x.pub?`<small>Nexum</small>${libCan("exercise")?`<span><button class="x" data-lb="editX" data-v="${x.id}">Editar</button></span>`:""}`:ed("editX",x.id);return`<div class="card exl">${exMd(x.name,x.data,exTh(x.data.video))}${bt?`<div class="exb">${bt}</div>`:""}</div>`}).join("")+"</div>":""}).join("")}
 const cn=new Map(LIB.filter(x=>x.kind==="recipe").map(x=>[NRM(x.name),x.data])),nf=RCL.filter(r=>{const d=cn.get(NRM(r.t));return d&&d.ph}).length;
-const L2=L.filter(x=>(libM<0||(+x.data.m||0)===libM)&&rcOk(x.data,libTg)),mine=L2.length?L2.map(x=>`<div class="card"><div class="row"><b>${esc(x.name)}</b>${ed("editR",x.id)||`<button class="x" data-lb="vwR" data-v="${x.id}">Ver</button>`}</div>${rcTh(x.data)}<small>${esc(NM[+x.data.m||0])} · ${esc(x.data.k||"–")} kcal${x.data.ph?" · 📷":""}</small></div>`).join(""):'<div class="empty">Aún no hay recetas guardadas en la biblioteca.</div>';
-const bi=RCL.map((r,i)=>[r,i]).filter(a=>NRM(a[0].t).includes(q)&&(libM<0||a[0].m===libM)&&rcOk(a[0],libTg)).map(a=>`<div class="lbr"><div><b>${esc(a[0].t)}</b>${rcTh(Object.assign({},a[0],{ph:(cn.get(NRM(a[0].t))||{}).ph||a[0].ph,si:(cn.get(NRM(a[0].t))||{}).si||a[0].si}))}<small>${esc(NM[a[0].m])}${cn.has(NRM(a[0].t))?" · editada"+(cn.get(NRM(a[0].t)).ph?" · con foto":""):""}</small></div>${libCan("recipe")?`<span style="display:flex;gap:6px;flex:none"><label class="tmb" style="margin:0;padding:9px 12px">📷<input type="file" accept="image/*" data-bp="${a[1]}" hidden></label><button data-lb="bi" data-v="${a[1]}">Editar</button></span>`:`<button data-lb="vwB" data-v="${a[1]}">Ver</button>`}</div>`).join("");
+const L2=L.filter(x=>(libM<0||(+x.data.m||0)===libM)&&rcOk(x.data,libTg)),mine=L2.length?'<div class="exg">'+L2.map(x=>rcCard(Object.assign({t:x.name},x.data),`<button class="on w" data-lb="vwR" data-v="${x.id}">Ver receta completa</button>`,ed("editR",x.id))).join("")+"</div>":'<div class="empty">Aún no hay recetas guardadas en la biblioteca.</div>';
+const bi='<div class="exg">'+RCL.map((r,i)=>[r,i]).filter(a=>NRM(a[0].t).includes(q)&&(libM<0||a[0].m===libM)&&rcOk(a[0],libTg)).map(a=>{const ex=cn.get(NRM(a[0].t)),r0=Object.assign({},a[0],ex||{});r0.t=a[0].t;r0.ph=(ex&&ex.ph)||a[0].ph;r0.si=(ex&&ex.si)||a[0].si;return rcCard(r0,`<button class="on w" data-lb="vwB" data-v="${a[1]}">Ver receta completa</button>`,libCan("recipe")?`<span><label class="tmb" style="margin:0;padding:9px 12px;flex:none">📷<input type="file" accept="image/*" data-bp="${a[1]}" hidden></label><button data-lb="bi" data-v="${a[1]}">Editar</button></span>`:"")}).join("")+"</div>";
 return mine+`<details class="card"${q?" open":""}><summary><b>Recetas predefinidas (${RCL.length}) · ${nf} con foto</b></summary><small>${libCan("recipe")?'Toca 📷 para subir la foto de portada al momento, o "Editar" para cambiar la receta y añadir fotos a los pasos. Los cambios los ven todos los entrenadores y atletas.':'Recetas base de Nexum. Puedes insertarlas en el plan de nutrición de tus atletas.'}</small>${bi}</details>`}
 /* ===== Biblioteca para el atleta (solo lectura; solo el entrenador asignado edita) ===== */
 let XV=[],xvOk=false,xvBusy=false,xvErr="",laT="ex",laQ="",laC="",laM=-1;
 async function xvLoad(){if(ROLE!=="client"||xvBusy||!CL)return;xvBusy=true;try{const r=await SB.rpc("library_view",{p_u:CL.usr,p_p:CL.pwd});if(r.error)throw r.error;XV=r.data||[];xvOk=true;xvErr=""}catch(e){xvErr=e.message||String(e)}xvBusy=false;render()}
 const laRecs=()=>{const own=XV.filter(x=>x.kind==="recipe").map(x=>Object.assign({t:x.name},x.data)),n=new Set(own.map(r=>NRM(r.t)));return own.concat(RCL.filter(r=>!n.has(NRM(r.t))))};
 function laList(){const q=NRM(laQ);
-if(laT==="rec"){const L=laRecs().map((r,i)=>[r,i]).filter(a=>NRM(a[0].t).includes(q)&&(laM<0||(+a[0].m||0)===laM));window.__LAR=laRecs();return L.length?L.map(a=>`<div class="lbr"><div><b>${esc(a[0].t)}</b>${rcTh(a[0])}<small>${esc(NM[+a[0].m||0])}${a[0].k?" · "+esc(a[0].k)+" kcal":""}</small></div><button data-la="rc" data-v="${a[1]}">Ver</button></div>`).join(""):'<div class="empty">No hay recetas con ese filtro.</div>'}
+if(laT==="rec"){const L=laRecs().map((r,i)=>[r,i]).filter(a=>NRM(a[0].t).includes(q)&&(laM<0||(+a[0].m||0)===laM));window.__LAR=laRecs();return L.length?'<div class="exg">'+L.map(a=>rcCard(a[0],`<button class="on w" data-la="rc" data-v="${a[1]}">Ver receta completa</button>`,"")).join("")+"</div>":'<div class="empty">No hay recetas con ese filtro.</div>'}
 if(laT==="rt"){const L=XV.filter(x=>x.kind==="routine"&&NRM(x.name).includes(q));return L.length?L.map(x=>{const d=x.data||{},it=(d.items||[]).map(i=>i.n||i.name||"").filter(Boolean);return`<details class="card"><summary><b>${esc(x.name)}</b> <small>· ${esc(RTN[d.rt||"train"]||"Rutina")}</small></summary><small>${it.length?it.map(esc).join(" · "):esc(rtSum(d))}</small></details>`}).join(""):'<div class="empty">Aún no hay rutinas en la biblioteca.</div>'}
 const seen=new Set(),L=XV.filter(x=>x.kind==="exercise").sort((a,b)=>(b.coach?1:0)-(a.coach?1:0)).filter(x=>{const k=NRM(x.name);if(seen.has(k))return false;seen.add(k);return true}).filter(x=>NRM(x.name).includes(q)&&(!laC||xcN((x.data||{}).cat)===laC)).sort((a,b)=>a.name.localeCompare(b.name));
 return L.length?'<div class="exg">'+L.map(x=>{const d=x.data||{},th=exTh(d.video),hd=dt=>exMd(x.name,d,th,dt),ex=(d.material?`<small>Material: ${esc(d.material)}</small>`:"")+(d.obs?`<p><small>${esc(d.obs)}</small></p>`:"")+(d.video&&!th?ytT({video:d.video}):"");return ex?`<details class="card exl"><summary>${hd(1)}</summary><div class="exd">${ex}</div></details>`:`<div class="card exl">${hd(0)}</div>`}).join("")+"</div>":'<div class="empty">No hay ejercicios con ese filtro.</div>'}
@@ -2712,7 +2712,7 @@ const nlFdRows=()=>{const T=NRM(FD.q).split(" ").filter(Boolean),own=CLI()?(S.nf
  if(T.length)L.sort((a,b)=>(NRM(b.n).startsWith(T[0])?1:0)-(NRM(a.n).startsWith(T[0])?1:0));
  FD.res=L.slice(0,80);return{L}};
 function nlFoodsH(){const own=CLI()&&(S.nfd||[]).length>0;
- return`<small class="nlnote" style="margin:6px 2px 10px">Catálogo de ${ALX.length} alimentos con valores medios por 100 g (USDA / BEDCA). Todos los valores son por 100 g. Toca uno para calcular sus macros por cantidad${CLI()?" y registrarlo":""}.</small><div class="bar"><button class="on" data-fd="scan">📷 Escanear código</button>${CLI()?`<button data-fd="new">+ Alimento propio</button>`:""}</div><input id="fdq" data-fdq="1" placeholder="Buscar alimento…" value="${esc(FD.q)}"><label>Categoría</label><div class="qch nlcat" style="margin-bottom:10px"><button class="qc${FD.cat===-1?" on":""}" data-fd="cat" data-v="-1">Todas</button>${own?`<button class="qc${FD.cat===99?" on":""}" data-fd="cat" data-v="99">Míos</button>`:""}${ALC.map((c,i)=>`<button class="qc${FD.cat===i?" on":""}" data-fd="cat" data-v="${i}">${c}</button>`).join("")}</div><div id="fdlist">${nlFdList()}</div>`}
+ return`<small class="nlnote" style="margin:6px 2px 10px">Catálogo de ${ALX.length} alimentos con valores medios por 100 g (USDA / BEDCA). Todos los valores son por 100 g. Toca uno para ver sus macros y calcular la cantidad${CLI()?" que vas a registrar":""}.</small><div class="bar"><button class="on" data-fd="scan">📷 Escanear código</button>${CLI()?`<button data-fd="new">+ Alimento propio</button>`:""}</div><input id="fdq" data-fdq="1" placeholder="Buscar alimento…" value="${esc(FD.q)}"><label>Categoría</label><div class="qch nlcat" style="margin-bottom:10px"><button class="qc${FD.cat===-1?" on":""}" data-fd="cat" data-v="-1">Todas</button>${own?`<button class="qc${FD.cat===99?" on":""}" data-fd="cat" data-v="99">Míos</button>`:""}${ALC.map((c,i)=>`<button class="qc${FD.cat===i?" on":""}" data-fd="cat" data-v="${i}">${c}</button>`).join("")}</div><div id="fdlist">${nlFdList()}</div>`}
 
 /* ---- selector deslizante Ejercicios ⇄ Alimentos ---- */
 const ICX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>';
@@ -2893,7 +2893,6 @@ document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.clos
  if(r){r.dataset.t=v;r.querySelectorAll(".hzs button").forEach(k=>{const o=k.dataset.ht===v;k.classList.toggle("on",o);k.setAttribute("aria-selected",o?"true":"false")})}});
 
 /* ===== v88 · Biblioteca → Alimentos en cuadrados con imagen ===== */
-const FDT=["#fbe0d0","#d6eaf6","#fdefc4","#f0e0be","#e2ecca","#d3eed0","#fbd8d8","#ead9c3","#f5eeb0","#f2d6e8","#dedaf4"];
 const FDE=[[/\b(jamon|bacon|fiambre)\b/,"🥓"],[/\bpollo\b/,"🍗"],[/\bpavo\b/,"🦃"],[/\b(ternera|cerdo|lomo|carne)\b/,"🥩"],[/\bpulpo\b/,"🐙"],[/\b(gambas?|langostinos?|marisco)\b/,"🦐"],[/\b(salmon|merluza|bacalao|lubina|atun|sardinas?|pescado)\b/,"🐟"],[/\b(huevo|clara|yema)\b/,"🥚"],
 [/\b(queso|mozzarella|cottage)\b/,"🧀"],[/\b(leche|yogur|skyr)\b/,"🥛"],[/\bmantequilla\b/,"🧈"],[/\b(bebida)\b/,"🥛"],[/\bpan\b/,"🍞"],[/\b(arroz|quinoa|cuscus)\b/,"🍚"],[/\b(pasta|macarrones|espaguetis)\b/,"🍝"],[/\b(avena|cereales)\b/,"🥣"],[/\b(tortita|galletas?)\b/,"🍪"],[/\bboniato\b/,"🍠"],[/\bpatata\b/,"🥔"],
 [/\b(lentejas|garbanzos|alubias)\b/,"🥘"],[/\btofu\b/,"🍢"],[/\b(hummus|soja)\b/,"🥙"],[/\b(brocoli|coliflor)\b/,"🥦"],[/\b(espinacas|lechuga)\b/,"🥬"],[/\btomate\b/,"🍅"],[/\bzanahoria\b/,"🥕"],[/\b(pepino|calabacin)\b/,"🥒"],[/\bpimiento\b/,"🫑"],[/\bcebolla\b/,"🧅"],[/\bchampinon\b/,"🍄"],[/\bjudias\b/,"🌿"],[/\bberenjena\b/,"🍆"],[/\besparragos\b/,"🌿"],
@@ -2902,9 +2901,8 @@ const FDE=[[/\b(jamon|bacon|fiambre)\b/,"🥓"],[/\bpollo\b/,"🍗"],[/\bpavo\b/
 [/\b(pizza)\b/,"🍕"],[/\b(hamburguesa)\b/,"🍔"],[/\b(helado)\b/,"🍨"],[/\b(barrita)\b/,"🍫"]];
 const FDC=["🍗","🐟","🥚","🍞","🥘","🥦","🍎","🥜","🫒","🍫","💪"];
 const fdEm=x=>{const n=NRM(x.n);for(const r of FDE)if(r[0].test(n))return r[1];return x.cat>=0?FDC[x.cat]||"🍽️":x.bc?"🛒":"🍽️"};
-const fdTile=(x,i)=>`<button class="card nlf" data-fd="open" data-v="${i}"><span class="nli" style="background:${x.cat>=0?FDT[x.cat]||"#ece6d6":"#ece6d6"}" aria-hidden="true">${fdEm(x)}${x.own?'<span class="nlpill">Mío</span>':""}</span><b>${esc(x.n)}</b><span class="nlkc">${nlK(x.b[0])} kcal</span><small>${nlMac(x.b)}</small></button>`;
 function nlFdList(){const L=nlFdRows().L;if(!L.length)return'<div class="empty">No hay alimentos con ese filtro.</div>';
- return'<div class="nlfg">'+FD.res.map(fdTile).join("")+"</div>"+(L.length>80?`<small class="nlnote">Mostrando 80 de ${L.length}: afina la búsqueda.</small>`:"")}
+ return'<div class="exg">'+FD.res.map(fdCard).join("")+"</div>"+(L.length>80?`<small class="nlnote">Mostrando 80 de ${L.length}: afina la búsqueda.</small>`:"")}
 
 /* ===== v88 · Mis deportes: cada atleta elige los suyos ===== */
 /* [clave, nombre, subtítulo, tipo, grupo]  tipo: c = resistencia (km y FC) · m = entrenos y partidos · o = registro libre · p = entrenos programados */
@@ -2982,6 +2980,23 @@ document.addEventListener("click",async ev=>{const b=ev.target.closest&&ev.targe
 /* ===== v90 · Biblioteca de ejercicios: tarjetas tipo póster (foto del vídeo a toda la tarjeta; solo categoría y nombre) ===== */
 const XEM={Fuerza:"🏋️",Soporte:"🛡️",Pliometría:"🦘",COD:"🔀",Velocidad:"⚡",Resistencia:"🫀",Lanzamientos:"🏐",Spinning:"🚴",Running:"🏃",Natación:"🏊"};
 const exMd=(n,d,th,dt)=>{const c=xcN((d||{}).cat),i=XC.indexOf(c);return`<div class="exm${th?" vd":""}${dt?" dt":""}" data-c="${i}">${th||`<span class="exph" aria-hidden="true">${XEM[c]||"🏋️"}</span>`}${c?`<span class="exc">${esc(c)}</span>`:""}<b>${esc(n)}</b>${dt?'<span class="exv" aria-hidden="true"></span>':""}</div>`};
+
+/* ===== v92 · Biblioteca de nutrición: recetas y alimentos en tarjetas tipo póster (como la de ejercicios). A la vista: categoría, nombre y kcal; macros e ingredientes, en el detalle ===== */
+const PZE=["🥣","🥪","🍽️","🍎","🥗"];
+const pzKc=v=>{const m=String(v==null?"":v).match(/\d+(?:[.,]\d+)?/);return m?String(Math.round(parseFloat(m[0].replace(",",".")))):"–"};
+const pzMd=o=>`<div class="exm pzm" data-${o.a}="${o.n}"><span class="exph" aria-hidden="true">${esc(o.em||"🍽️")}</span>${o.ph?`<img class="pzi" src="${esc(o.ph)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`:""}${o.cat?`<span class="exc">${esc(o.cat)}</span>`:""}<div class="pzt"><b>${esc(o.t)}</b><span class="pzk"><em>${esc(o.kc)}</em> kcal${o.per?`<i> · ${esc(o.per)}</i>`:""}</span></div><span class="exv" aria-hidden="true"></span></div>`;
+const pzG=v=>v==null||String(v).trim()===""?"–":esc(v)+" g";
+const pzMac=(p,c,g)=>`<div class="pzc"><div><i>Proteína</i><b>${pzG(p)}</b></div><div><i>Hidratos</i><b>${pzG(c)}</b></div><div><i>Grasas</i><b>${pzG(g)}</b></div></div>`;
+const rcPh=r=>r?(r.ph||Object.values(r.si||{}).find(Boolean)||""):"";
+/* receta: bt = botones de edición (siempre visibles bajo la tarjeta, solo para quien puede editar); btn = botón del detalle */
+function rcCard(r,btn,bt){const m=+r.m||0,md=pzMd({a:"n",n:m,t:r.t,cat:NM[m]||"Receta",kc:pzKc(r.k),em:r.e||PZE[m]||"🍽️",ph:rcPh(r)}),
+ ing=(r.ing||[]).filter(x=>x&&x[0]),
+ dt=`<div class="exd pzd">${pzMac(r.p,r.c,r.g)}<small class="pzr">${r.r?"Ración: <b>"+esc(r.r)+"</b> · ":""}Valores aproximados por ración</small>${ing.length?`<div class="pzh">Ingredientes</div><ul class="pzl">${ing.map(x=>`<li><span>${esc(x[0])}</span><em>${esc(x[1]||"")}</em></li>`).join("")}</ul>`:""}${btn||""}</div>`;
+ return bt?`<div class="card exl"><details class="exw"><summary>${md}</summary>${dt}</details><div class="exb">${bt}</div></div>`:`<details class="card exl"><summary>${md}</summary>${dt}</details>`}
+/* alimento del catálogo: valores por 100 g */
+const fdCard=(x,i)=>{const b=x.b||[],md=pzMd({a:"f",n:x.cat>=0?x.cat:"x",t:x.n,cat:x.own?"Mío":(ALC[x.cat]||"Alimento"),kc:nlK(b[0]),per:"100 g",em:fdEm(x)}),
+ pu=x.un&&x.ug>0?`<small class="pzr">1 ${esc(x.un)} ≈ ${nlF(x.ug)} g</small>`:"";
+ return`<details class="card exl"><summary>${md}</summary><div class="exd pzd">${pzMac(nlF(b[1]),nlF(b[2]),nlF(b[3]))}<small class="pzr">Valores por 100 g</small>${pu}<button class="on w" data-fd="open" data-v="${i}">${CLI()?"Calcular y registrar":"Calcular por cantidad"}</button></div></details>`};
 
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
@@ -3625,6 +3640,67 @@ html[data-theme=light] #sznx .szb{color:#3b1e5e}
 .exg .exd{padding:12px 14px 14px}
 .exg .exd p{margin:6px 0 0}
 .exg .exl>.exb{margin:0;padding:9px 10px 11px;flex:none}
+
+/* ===== v91 · Vademécum en Salud ===== */
+.vadc .vadsec{margin:16px 0 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6f685e;font-weight:700}
+.vadc .vadi{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:10px 0;border-top:1px solid #e3dccd;margin-top:0}
+.vadc .vadi:first-of-type{margin-top:10px}
+.vadc .vadi>span{flex:1;min-width:0}
+.vadc .vadi b{display:block;word-break:break-word}
+.vadc .vadi small{display:block;margin-top:2px;word-break:break-word}
+.vadc .vadi .x{flex:none}
+.vadc .vadr{border-top:1px solid #e3dccd}
+.vadc .vadr.on{background:rgba(var(--wine-rgb,150,30,40),.06);margin:0 -14px;padding:0 14px;border-left:3px solid var(--wine);padding-left:11px}
+.vadc .vadh{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:transparent;color:#1a1a1c;border:0;border-radius:0;padding:12px 0;font-size:14.5px;font-weight:600;letter-spacing:0;text-transform:none;box-shadow:none}
+.vadc .vadh:active{transform:none;opacity:.7}
+.vadc .vadn{flex:1;min-width:0;word-break:break-word}
+.vadc .vadt{flex:none;font-size:11.5px;font-weight:700;color:var(--wine);letter-spacing:.02em}
+.vadc .vadp{flex:none;width:22px;text-align:center;font-size:20px;line-height:1;color:#6f685e;font-weight:400}
+.vadc .vads{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 10px}
+.vadc .vadsrc{font-size:11.5px;line-height:1.3;background:#f3efe7;color:#4a443b;border-radius:999px;padding:3px 9px;word-break:break-word}
+.vadc .vadb{background:#f3efe7;border-radius:10px;padding:4px 12px 12px;margin:0 0 12px;font-size:13px;line-height:1.5;color:#1a1a1c}
+.vadc .vadb b{display:block;margin-top:10px;font-size:12px;letter-spacing:.02em;color:#5c564c}
+.vadc .vadb span{display:block;word-break:break-word}
+.vadc .vadm{display:block;margin-top:10px;font-size:12px;color:#6f685e}
+.vadc .vadu{border-top:1px solid #e3dccd;padding:10px 0}
+.vadc .vadu b{display:block;word-break:break-word}
+.vadc .vadu span{display:block;font-size:13px;word-break:break-word}
+.vadc .vadu small,.vadc .vadempty{display:block;margin-top:2px;line-height:1.4}
+.vadc .vadq{margin-top:12px}
+.vadc .vadg{margin:10px 0 6px}
+.vadc .vadg .qc{padding:7px 12px;font-size:12.5px}
+.vadc .vadnote{display:block;margin-top:14px;font-size:11.5px;line-height:1.4;color:#6f685e}
+.vadc a{color:var(--wine);text-decoration:underline}
+
+/* ===== v92 · Biblioteca de nutrición: recetas y alimentos como tarjetas póster (kcal visibles; macros e ingredientes en el detalle) ===== */
+.exg details.exw{display:block}
+.exg details.exw>summary{display:block;margin:0;list-style:none;cursor:pointer}
+.exg details.exw>summary::-webkit-details-marker{display:none}
+.exg details.exw>summary:after{content:none!important;display:none!important}
+.exg details.exw[open] .exm{aspect-ratio:16/9;flex:none}
+.exg details.exw[open] .exm .exv:after{transform:translate(-50%,-25%) rotate(225deg)}
+.exg>.card.exl:has(>details.exw[open]){grid-column:1/-1}
+.exg .exm.pzm[data-n="0"]{--e1:#d98a1f}.exg .exm.pzm[data-n="1"]{--e1:#5f8a3d}.exg .exm.pzm[data-n="2"]{--e1:#b8324a}.exg .exm.pzm[data-n="3"]{--e1:#6a58b0}.exg .exm.pzm[data-n="4"]{--e1:#3f6f8f}
+.exg .exm.pzm[data-f="0"]{--e1:#b8324a}.exg .exm.pzm[data-f="1"]{--e1:#2a8fa8}.exg .exm.pzm[data-f="2"]{--e1:#c99a1b}.exg .exm.pzm[data-f="3"]{--e1:#a8773a}.exg .exm.pzm[data-f="4"]{--e1:#cf6419}.exg .exm.pzm[data-f="5"]{--e1:#4f8f3d}
+.exg .exm.pzm[data-f="6"]{--e1:#c2445f}.exg .exm.pzm[data-f="7"]{--e1:#8a5a2b}.exg .exm.pzm[data-f="8"]{--e1:#8c8c2a}.exg .exm.pzm[data-f="9"]{--e1:#6a58b0}.exg .exm.pzm[data-f="10"]{--e1:#3f6f8f}
+.exg .exm .pzi{position:absolute;inset:0;width:100%;height:100%;max-width:none;margin:0;object-fit:cover;display:block;border-radius:0;pointer-events:none}
+.exg .exm .pzt{position:absolute;z-index:2;left:13px;right:46px;bottom:13px;display:flex;flex-direction:column;align-items:flex-start;gap:7px;pointer-events:none}
+.exg .exm .pzt b{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;padding:0;font-size:15px;line-height:1.2;font-weight:700;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.exg .exm .pzk{display:inline-block;max-width:100%;white-space:nowrap;font-size:12px;line-height:1.3;font-weight:600;color:#fff;background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.38);border-radius:999px;padding:3px 10px}
+.exg .exm .pzk em{font-style:normal;font-weight:800;font-size:13px}
+.exg .exm .pzk i{font-style:normal;font-weight:500;opacity:.9}
+.exg .pzd{padding:12px 14px 14px}
+.pzc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pzc>div{background:#f3efe7;border-radius:12px;padding:9px 6px;text-align:center}
+.pzc i{display:block;font-style:normal;font-size:10.5px;letter-spacing:.04em;color:#6f685e;font-weight:600}
+.pzc b{display:block;margin-top:2px;font-size:15px;color:#1a1a1c}
+.exg .exl .pzd small.pzr{display:block;margin-top:9px;font-size:11.5px;line-height:1.35;color:#6f685e}
+.pzh{margin:15px 0 3px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#6f685e}
+.pzl{list-style:none;margin:0;padding:0}
+.pzl li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid #e3dccd;font-size:13.5px;line-height:1.35;color:#1a1a1c}
+.pzl li span{min-width:0;overflow-wrap:anywhere}
+.pzl li em{flex:none;max-width:48%;font-style:normal;text-align:right;color:#6f685e;overflow-wrap:anywhere}
+.exg .pzd .w{display:block;width:100%;margin-top:14px}
 </style>
 <script>
 (function(){
@@ -5535,6 +5611,7 @@ setInterval(()=>{if(document.hidden||tab!=="chat"||dmOn||!PMS()||!GATE.premium)r
   const info=co?`<p><b>Privacidad.</b> Estos informes los ve solo ${nm} y tú como su entrenador. No los ven otros entrenadores, nutricionistas, el administrador ni otros atletas.</p><p>Úsalos para adaptar el entrenamiento: lesiones, limitaciones, medicación o pautas de otros profesionales.</p>`
    :`<p>Guarda aquí tus informes médicos, de fisioterapia, nutrición o psicología, en PDF o rellenando un cuestionario.</p><p><b>Privacidad.</b> ${solo?"Solo tú puedes verlos. Si en el futuro tienes un entrenador asignado, también él podrá verlos.":"Solo tú y tu entrenador podéis verlos. No los ve nadie más: ni otros entrenadores, nutricionistas, el administrador ni otros atletas. Si cambias de entrenador, el nuevo podrá verlos."} Puedes eliminarlos cuando quieras.</p><p>Tu entrenador recibe un aviso cuando añades uno (sin el contenido).</p>`;
   let h=`<div class="card">${ih(co?"Salud de "+nm:"Tus informes de salud",info)}<small class="salpriv">🔒 ${co?"Visible solo para el atleta y su entrenador":solo?"Privado: solo lo ves tú":"Privado: solo lo veis tú y tu entrenador"}</small></div>`;
+  h+=vdH(co,solo);
   if(!co&&!SAL.f)h+=`<div class="card"><button class="w" data-sal="new">＋ Añadir informe</button></div>`;
   if(!co&&SAL.f)h+=salForm();
   if(SAL.msg&&!SAL.f)h+=`<div class="card"><small class="qmsg">${esc(SAL.msg)}</small></div>`;
@@ -5594,6 +5671,323 @@ setInterval(()=>{if(document.hidden||tab!=="chat"||dmOn||!PMS()||!GATE.premium)r
   else if(t.dataset.salf==="consent"&&SAL.f){SAL.f.consent=!!t.checked}
  },true);
  document.addEventListener("input",ev=>{const t=ev.target;if(!t||!t.dataset||!SAL.f)return;const k=t.dataset.salf;if(k&&k!=="consent")SAL.f[k]=t.value},true);
+/* ===== v91 · Vademécum (solo entrenador) · datos =====
+   Información orientativa basada en fichas técnicas y prospectos de la AEMPS (CIMA) y MedlinePlus.
+   Campos: k clave · n nombre · g grupo · m marcas · a alias para reconocer lo que escribe el cliente (sin tildes, separados por |)
+           u para qué sirve · p efectos principales · s efectos secundarios                                              */
+const VDG=["Dolor e inflamación","Digestivo","Corazón y tensión","Diabetes y hormonas","Respiratorio y alergia","Salud mental y sueño","Neurología","Antibióticos","Otros"];
+const VAD=[
+{k:"paracetamol",n:"Paracetamol",g:0,m:"Gelocatil, Termalgin, Efferalgan, Dolocatil, Dafalgan",a:"paracetamol|gelocatil|termalgin|efferalgan|dolocatil|dafalgan|panadol",
+ u:"Dolor leve o moderado (cabeza, muscular, dental, menstrual) y fiebre.",
+ p:"Analgésico y antitérmico. No es antiinflamatorio.",
+ s:"A dosis normales suele tolerarse bien; rara vez erupciones en la piel. Con dosis altas o prolongadas, o junto con alcohol, puede dañar el hígado: es su riesgo principal."},
+{k:"ibuprofeno",n:"Ibuprofeno",g:0,m:"Dalsy, Espidifen, Neobrufen, Algidol, Nurofen",a:"ibuprofeno|dalsy|espidifen|neobrufen|algidol|nurofen|junifen|saetil",
+ u:"Dolor, inflamación y fiebre: dolores musculares y articulares, lesiones, dolor de cabeza o menstrual.",
+ p:"Antiinflamatorio no esteroideo (AINE): reduce dolor, inflamación y fiebre.",
+ s:"Frecuentes: molestias de estómago, ardor, náuseas, diarrea. Con dosis altas o uso prolongado: úlcera o sangrado digestivo, retención de líquidos, subida de la tensión y daño en el riñón."},
+{k:"naproxeno",n:"Naproxeno",g:0,m:"Naprosyn, Antalgin, Momendol",a:"naproxeno|naprosyn|antalgin|momendol",
+ u:"Dolor e inflamación musculoesquelética (artrosis, artritis, tendinitis, esguinces) y dolor menstrual.",
+ p:"AINE de acción más prolongada que el ibuprofeno: reduce dolor e inflamación.",
+ s:"Frecuentes: molestias digestivas, ardor, mareo, dolor de cabeza. Uso prolongado: úlcera o sangrado digestivo, retención de líquidos, subida de la tensión y afectación renal."},
+{k:"diclofenaco",n:"Diclofenaco",g:0,m:"Voltaren, Voltadol (gel), Diclofenaco Normon",a:"diclofenaco|voltaren|voltadol|dolotren",
+ u:"Dolor e inflamación musculoesquelética: contracturas, esguinces, artrosis. En gel, dolor localizado.",
+ p:"AINE potente: reduce dolor e inflamación.",
+ s:"Por vía oral: molestias digestivas, mareo, dolor de cabeza; con uso prolongado, mayor riesgo cardiovascular, de úlcera y de afectación renal o hepática. En gel suele dar solo irritación local de la piel."},
+{k:"dexketoprofeno",n:"Dexketoprofeno",g:0,m:"Enantyum, Ketesse",a:"dexketoprofeno|enantyum|ketesse",
+ u:"Dolor agudo leve o moderado: muscular, dental, menstrual, tras lesiones.",
+ p:"AINE de acción rápida: reduce dolor e inflamación.",
+ s:"Frecuentes: náuseas, dolor de estómago, diarrea, mareo. Como otros AINE: riesgo de úlcera o sangrado digestivo y afectación renal si se usa mucho tiempo."},
+{k:"metamizol",n:"Metamizol",g:0,m:"Nolotil",a:"metamizol|nolotil|dipirona",
+ u:"Dolor intenso y fiebre cuando otros analgésicos no bastan.",
+ p:"Analgésico y antitérmico potente, con efecto relajante sobre el músculo liso.",
+ s:"Frecuentes: bajada de tensión y mareo; reacciones alérgicas. Raro pero grave: agranulocitosis (bajada de defensas): fiebre, dolor de garganta o llagas en la boca obligan a parar y consultar."},
+{k:"tramadol",n:"Tramadol",g:0,m:"Adolonta, Zytram, Tramadol",a:"tramadol|adolonta|zytram|zaldiar|pontalsic",
+ u:"Dolor moderado o intenso, a menudo tras lesiones o cirugía.",
+ p:"Analgésico opioide de acción central.",
+ s:"Frecuentes: mareo, náuseas, somnolencia, estreñimiento, sudoración. Puede reducir la atención y los reflejos, crear dependencia y bajar el umbral de las convulsiones; interacciona con antidepresivos."},
+{k:"aas",n:"Ácido acetilsalicílico (AAS)",g:0,m:"Aspirina, Adiro",a:"acido acetilsalicilico|aas|aspirina|adiro|tromalyt",
+ u:"A dosis bajas (100 mg), prevención de infarto e ictus en personas con riesgo. A dosis altas, dolor, inflamación y fiebre.",
+ p:"Antiagregante plaquetario (dificulta que se formen coágulos) y antiinflamatorio.",
+ s:"Frecuentes: molestias de estómago y mayor facilidad para hematomas y sangrados (nariz, encías). A dosis altas o uso prolongado: úlcera y sangrado digestivo."},
+{k:"coxib",n:"Etoricoxib y celecoxib (COXIB)",g:0,m:"Arcoxia, Celebrex",a:"etoricoxib|celecoxib|arcoxia|celebrex|coxib",
+ u:"Artrosis, artritis y otros dolores inflamatorios crónicos.",
+ p:"AINE selectivos (COX-2): reducen dolor e inflamación con algo menos de agresión al estómago.",
+ s:"Frecuentes: hinchazón de piernas o retención de líquidos, subida de la tensión, dolor de cabeza, molestias digestivas. Riesgo cardiovascular y renal con uso prolongado."},
+
+{k:"omeprazol",n:"Omeprazol",g:1,m:"Losec, Mepral, Omeprazol",a:"omeprazol|losec|mepral|belmazol",
+ u:"Reflujo gastroesofágico (ardor), gastritis y úlcera; protección del estómago al tomar antiinflamatorios.",
+ p:"Inhibidor de la bomba de protones: reduce la producción de ácido en el estómago.",
+ s:"Frecuentes: dolor de cabeza, diarrea o estreñimiento, gases, náuseas. Con uso muy prolongado: menor absorción de vitamina B12, hierro y magnesio, y menor densidad ósea."},
+{k:"ibp",n:"Otros protectores del estómago: pantoprazol, esomeprazol, lansoprazol",g:1,m:"Pantecta, Nexium, Opiren",a:"pantoprazol|esomeprazol|lansoprazol|rabeprazol|pantecta|nexium|opiren|anagastra",
+ u:"Reflujo, gastritis, úlcera y protección del estómago con otros fármacos.",
+ p:"Inhibidores de la bomba de protones (igual que el omeprazol): reducen el ácido del estómago.",
+ s:"Frecuentes: dolor de cabeza, diarrea o estreñimiento, gases, náuseas. Uso prolongado: menor absorción de B12, hierro y magnesio."},
+{k:"procineticos",n:"Metoclopramida y domperidona",g:1,m:"Primperan, Motilium",a:"metoclopramida|domperidona|primperan|motilium",
+ u:"Náuseas, vómitos y digestiones lentas.",
+ p:"Aceleran el vaciado del estómago y calman las náuseas.",
+ s:"Frecuentes: somnolencia, cansancio, diarrea. La metoclopramida puede causar movimientos involuntarios y agitación (por eso se usa poco tiempo); la domperidona puede alterar el ritmo del corazón en personas de riesgo."},
+{k:"loperamida",n:"Loperamida",g:1,m:"Fortasec, Imodium",a:"loperamida|fortasec|imodium",
+ u:"Diarrea aguda sin fiebre ni sangre.",
+ p:"Frena el tránsito del intestino y reduce el número de deposiciones.",
+ s:"Frecuentes: estreñimiento, gases, mareo, dolor abdominal. No sustituye a reponer líquidos y sales."},
+
+{k:"ieca",n:"IECA: enalapril, ramipril, lisinopril",g:2,m:"Renitec, Acovil, Carace, Zestril",a:"ieca|enalapril|ramipril|lisinopril|captopril|renitec|acovil|carace|zestril|cardiopril|naprilene",
+ u:"Hipertensión, insuficiencia cardíaca y protección del riñón (por ejemplo, en diabetes).",
+ p:"Relajan los vasos sanguíneos y bajan la tensión arterial.",
+ s:"Frecuentes: tos seca persistente, mareo, bajada de tensión al levantarse y aumento de potasio. Raro pero grave: hinchazón de labios, cara o lengua (angioedema)."},
+{k:"ara2",n:"ARA-II: losartán, valsartán, olmesartán, telmisartán…",g:2,m:"Cozaar, Diovan, Openvas, Micardis, Atacand, Karvea",a:"ara ii|ara 2|losartan|valsartan|olmesartan|telmisartan|candesartan|irbesartan|cozaar|diovan|openvas|micardis|atacand|karvea|sartan|sartanes",
+ u:"Hipertensión, insuficiencia cardíaca y protección del riñón.",
+ p:"Bloquean la acción de la angiotensina: relajan los vasos y bajan la tensión (parecidos a los IECA, sin la tos).",
+ s:"Frecuentes: mareo, dolor de cabeza, cansancio, bajada de tensión al levantarse y aumento de potasio. Raro: hinchazón de cara o labios."},
+{k:"amlodipino",n:"Amlodipino",g:2,m:"Norvas, Astudal",a:"amlodipino|norvas|astudal|istin",
+ u:"Hipertensión y angina de pecho.",
+ p:"Antagonista del calcio: relaja las arterias y baja la tensión.",
+ s:"Frecuentes: hinchazón de tobillos, enrojecimiento de la cara, dolor de cabeza, palpitaciones y cansancio."},
+{k:"diureticos",n:"Diuréticos: hidroclorotiazida, furosemida, indapamida",g:2,m:"Esidrex, Seguril, Tertensif",a:"diuretico|diureticos|hidroclorotiazida|furosemida|indapamida|clortalidona|esidrex|seguril|tertensif|torasemida",
+ u:"Hipertensión, retención de líquidos (edemas) e insuficiencia cardíaca.",
+ p:"Aumentan la eliminación de agua y sal por la orina.",
+ s:"Frecuentes: orinar más, sed, mareo y bajada de tensión, calambres. Pueden alterar el potasio y el sodio y favorecer la deshidratación, sobre todo con calor o sudoración abundante."},
+{k:"betabloqueantes",n:"Betabloqueantes: bisoprolol, atenolol, metoprolol, propranolol…",g:2,m:"Emconcor, Tenormin, Beloken, Sumial, Coropres, Lobivon",a:"betabloqueante|betabloqueantes|bisoprolol|atenolol|metoprolol|propranolol|carvedilol|nebivolol|emconcor|tenormin|beloken|sumial|coropres|lobivon",
+ u:"Hipertensión, angina, arritmias, tras un infarto e insuficiencia cardíaca. El propranolol también se usa en temblor, migraña y nervios ante situaciones concretas.",
+ p:"Frenan el corazón y bajan la tensión: menor frecuencia cardíaca en reposo y durante el esfuerzo.",
+ s:"Frecuentes: cansancio, frecuencia cardíaca baja, manos y pies fríos, mareo, sueño alterado. Pueden provocar broncoespasmo en personas con asma y disminuir el deseo o la función sexual."},
+{k:"estatinas",n:"Estatinas: atorvastatina, simvastatina, rosuvastatina, pravastatina",g:2,m:"Zarator, Cardyl, Zocor, Crestor, Pravaselect",a:"estatina|estatinas|atorvastatina|simvastatina|rosuvastatina|pravastatina|zarator|cardyl|zocor|crestor|pravaselect",
+ u:"Colesterol alto y prevención de infarto e ictus.",
+ p:"Reducen la producción de colesterol en el hígado y bajan el colesterol LDL.",
+ s:"Frecuentes: dolor o debilidad muscular, molestias digestivas, dolor de cabeza; puede subir las enzimas del hígado. Raro pero grave: rabdomiólisis (dolor muscular intenso, debilidad y orina oscura)."},
+{k:"clopidogrel",n:"Clopidogrel",g:2,m:"Plavix, Iscover",a:"clopidogrel|plavix|iscover",
+ u:"Prevención de infartos, ictus y trombosis en personas con enfermedad cardiovascular o con stent.",
+ p:"Antiagregante plaquetario: dificulta que las plaquetas formen coágulos.",
+ s:"Frecuentes: hematomas, sangrado de nariz o encías, molestias digestivas. Mayor riesgo de sangrado ante golpes o cirugía."},
+{k:"avk",n:"Anticoagulantes: acenocumarol y warfarina",g:2,m:"Sintrom, Aldocumar",a:"acenocumarol|warfarina|sintrom|aldocumar|anticoagulante|anticoagulantes",
+ u:"Prevención de trombos: fibrilación auricular, válvulas cardíacas artificiales, trombosis venosa y embolia pulmonar.",
+ p:"Dificultan la coagulación de la sangre. Requieren análisis periódicos (INR).",
+ s:"Principal: sangrados y hematomas (encías, nariz, orina, heces oscuras). Interaccionan con muchos fármacos y con alimentos ricos en vitamina K."},
+{k:"aco",n:"Anticoagulantes orales directos: apixabán, rivaroxabán, edoxabán, dabigatrán",g:2,m:"Eliquis, Xarelto, Lixiana, Pradaxa",a:"apixaban|rivaroxaban|edoxaban|dabigatran|eliquis|xarelto|lixiana|pradaxa",
+ u:"Prevención de ictus en fibrilación auricular y tratamiento o prevención de trombosis venosa y embolia pulmonar.",
+ p:"Dificultan la coagulación de la sangre sin necesitar controles de INR.",
+ s:"Principal: sangrados y hematomas, más fáciles ante golpes. Otros: anemia, náuseas."},
+
+{k:"metformina",n:"Metformina",g:3,m:"Dianben, Metformina",a:"metformina|dianben|metformin|glucophage",
+ u:"Diabetes tipo 2; a veces también resistencia a la insulina o síndrome de ovario poliquístico.",
+ p:"Reduce la glucosa en sangre: disminuye la producción de glucosa en el hígado y mejora la sensibilidad a la insulina. Por sí sola no suele causar hipoglucemias.",
+ s:"Frecuentes al empezar: diarrea, náuseas, dolor abdominal, sabor metálico. Uso prolongado: déficit de vitamina B12. Muy raro: acidosis láctica."},
+{k:"insulina",n:"Insulina",g:3,m:"Lantus, Toujeo, Levemir, Tresiba, NovoRapid, Humalog, Humulin",a:"insulina|lantus|toujeo|levemir|tresiba|novorapid|humalog|humulin|apidra|fiasp|abasaglar",
+ u:"Diabetes tipo 1 y algunos casos de diabetes tipo 2.",
+ p:"Baja la glucosa en sangre: permite que las células utilicen la glucosa.",
+ s:"Principal: hipoglucemia (sudor frío, temblor, hambre, palpitaciones, confusión). También aumento de peso y alteraciones de la piel en los puntos de inyección."},
+{k:"sulfonilureas",n:"Sulfonilureas: gliclazida, glimepirida",g:3,m:"Diamicron, Amaryl",a:"gliclazida|glimepirida|glibenclamida|diamicron|amaryl|daonil",
+ u:"Diabetes tipo 2.",
+ p:"Estimulan al páncreas para producir más insulina.",
+ s:"Principal: hipoglucemia (sudor, temblor, hambre, mareo, confusión), sobre todo si se salta una comida o se hace más ejercicio de lo habitual. También aumento de peso."},
+{k:"isglt2",n:"iSGLT2: empagliflozina, dapagliflozina",g:3,m:"Jardiance, Forxiga",a:"empagliflozina|dapagliflozina|canagliflozina|jardiance|forxiga|xigduo|synjardy",
+ u:"Diabetes tipo 2, insuficiencia cardíaca y enfermedad renal crónica.",
+ p:"Eliminan glucosa por la orina y bajan ligeramente la tensión y el peso.",
+ s:"Frecuentes: infecciones genitales por hongos, infecciones urinarias, orinar más, sed. Pueden favorecer la deshidratación y la bajada de tensión. Raro pero grave: cetoacidosis."},
+{k:"gliptinas",n:"Gliptinas: sitagliptina, vildagliptina",g:3,m:"Januvia, Xelevia, Galvus",a:"sitagliptina|vildagliptina|linagliptina|januvia|xelevia|galvus|trajenta|janumet|eucreas",
+ u:"Diabetes tipo 2 (sola o con metformina).",
+ p:"Aumentan la insulina que libera el propio cuerpo tras las comidas. Poco riesgo de hipoglucemia por sí solas.",
+ s:"Frecuentes: dolor de cabeza, molestias de estómago, congestión nasal. Raro: dolor abdominal intenso por pancreatitis o dolores articulares."},
+{k:"levotiroxina",n:"Levotiroxina",g:3,m:"Eutirox, Levothroid",a:"levotiroxina|eutirox|levothroid|tiroxina|tirosint",
+ u:"Hipotiroidismo (tiroides poco activo) y tras operaciones del tiroides.",
+ p:"Hormona tiroidea de reposición: normaliza el metabolismo. Se toma en ayunas.",
+ s:"Con la dosis correcta, pocos efectos. Si la dosis es excesiva: palpitaciones, nerviosismo, insomnio, sudoración, temblor, pérdida de peso."},
+{k:"anticonceptivos",n:"Anticonceptivos hormonales (píldora, parche, anillo, DIU hormonal)",g:3,m:"Yasmin, Yaz, Diane 35, Belara, Gestinyl, Cerazet, Slinda, Mirena",a:"anticonceptivo|anticonceptivos|anticonceptiva|pildora|pildora anticonceptiva|yasmin|yaz|diane 35|belara|gestinyl|cerazet|slinda|mirena|anillo vaginal|nuvaring|implante anticonceptivo",
+ u:"Anticoncepción. También regular el ciclo, aliviar la regla dolorosa o abundante y tratar acné o síndrome de ovario poliquístico.",
+ p:"Hormonas (estrógeno y progestágeno, o solo progestágeno) que impiden la ovulación y regulan el ciclo.",
+ s:"Frecuentes: náuseas, sensibilidad en las mamas, dolor de cabeza, cambios de humor, manchado entre reglas, retención de líquidos. Raro pero grave: trombosis (dolor o hinchazón de una pierna, dolor torácico o falta de aire repentina)."},
+{k:"finasterida",n:"Finasterida",g:3,m:"Propecia, Proscar",a:"finasterida|propecia|proscar",
+ u:"Alopecia androgénica (caída de pelo masculina) y aumento benigno de la próstata.",
+ p:"Reduce la dihidrotestosterona (DHT).",
+ s:"Frecuentes: disminución del deseo sexual, dificultad de erección, menor cantidad de eyaculado. Raro: aumento de las mamas y alteraciones del ánimo, que conviene comunicar al médico."},
+{k:"isotretinoina",n:"Isotretinoína",g:3,m:"Roacutan",a:"isotretinoina|roacutan|accutane",
+ u:"Acné grave o resistente a otros tratamientos.",
+ p:"Reduce la producción de grasa de la piel y la inflamación.",
+ s:"Frecuentes: sequedad de piel, labios, nariz y ojos; sensibilidad al sol; dolores musculares y articulares. Puede subir colesterol, triglicéridos y enzimas del hígado, y afectar al ánimo. Es teratógena: no puede usarse en el embarazo."},
+
+{k:"salbutamol",n:"Salbutamol",g:4,m:"Ventolin",a:"salbutamol|ventolin|albuterol",
+ u:"Asma y broncoespasmo (inhalador de rescate), también el provocado por el ejercicio.",
+ p:"Broncodilatador de acción rápida y corta: abre las vías respiratorias.",
+ s:"Frecuentes: temblor de manos, palpitaciones, nerviosismo, dolor de cabeza. Con dosis altas puede bajar el potasio."},
+{k:"inhaladores",n:"Inhaladores de mantenimiento: budesonida/formoterol, fluticasona/salmeterol…",g:4,m:"Symbicort, Seretide, Foster, Relvar, Spiriva",a:"symbicort|seretide|foster|relvar|spiriva|budesonida|formoterol|fluticasona|salmeterol|beclometasona|tiotropio|inhalador de mantenimiento|inhalador corticoide",
+ u:"Control a largo plazo del asma y de la EPOC.",
+ p:"Combinan un corticoide inhalado (reduce la inflamación de los bronquios) con un broncodilatador de acción prolongada.",
+ s:"Frecuentes: ronquera, tos, candidiasis en la boca (conviene enjuagarse tras usarlos), temblor y palpitaciones."},
+{k:"montelukast",n:"Montelukast",g:4,m:"Singulair, Montelukast",a:"montelukast|singulair",
+ u:"Asma (también la provocada por el ejercicio) y rinitis alérgica.",
+ p:"Antileucotrieno: reduce la inflamación y el estrechamiento de los bronquios.",
+ s:"Frecuentes: dolor de cabeza, molestias de estómago. Se han descrito cambios neuropsiquiátricos (pesadillas, irritabilidad, ánimo bajo): hay que avisar al médico."},
+{k:"antihistaminicos",n:"Antihistamínicos: cetirizina, loratadina, desloratadina, bilastina…",g:4,m:"Zyrtec, Clarityne, Aerius, Bilaxten, Ebastel",a:"antihistaminico|antihistaminicos|cetirizina|loratadina|desloratadina|bilastina|ebastina|levocetirizina|zyrtec|clarityne|aerius|bilaxten|ebastel",
+ u:"Alergias: rinitis (estornudos, picor, mocos), conjuntivitis alérgica y urticaria.",
+ p:"Bloquean la histamina: reducen picor, estornudos y habones.",
+ s:"Frecuentes: somnolencia (algo más con cetirizina), boca seca, dolor de cabeza y cansancio."},
+{k:"corticoides",n:"Corticoides orales: prednisona, prednisolona, metilprednisolona, deflazacort",g:4,m:"Dacortin, Urbason, Zamene, Fortecortin",a:"corticoide|corticoides|corticosteroide|prednisona|prednisolona|metilprednisolona|deflazacort|dexametasona|dacortin|urbason|zamene|fortecortin|cortisona",
+ u:"Enfermedades inflamatorias y autoinmunes, alergias graves, brotes de asma o EPOC y otras inflamaciones intensas.",
+ p:"Potente antiinflamatorio e inmunosupresor.",
+ s:"Frecuentes: más apetito y peso, retención de líquidos, insomnio, cambios de humor, subida de azúcar y tensión. Con tratamientos largos: debilidad muscular, huesos frágiles, piel fina, y más infecciones; junto con fluoroquinolonas aumentan el riesgo de problemas en los tendones. No deben suspenderse de golpe."},
+
+{k:"isrs",n:"ISRS: sertralina, escitalopram, fluoxetina, paroxetina, citalopram",g:5,m:"Besitran, Aremis, Cipralex, Esertia, Prozac, Seroxat",a:"isrs|sertralina|escitalopram|fluoxetina|paroxetina|citalopram|fluvoxamina|besitran|aremis|cipralex|esertia|prozac|seroxat|seropram|antidepresivo|antidepresivos",
+ u:"Depresión, trastornos de ansiedad, ataques de pánico y trastorno obsesivo-compulsivo.",
+ p:"Aumentan la serotonina disponible en el cerebro y mejoran el ánimo y la ansiedad (efecto completo tras varias semanas).",
+ s:"Frecuentes: náuseas, diarrea, dolor de cabeza, insomnio o somnolencia, sudoración, menor deseo o respuesta sexual. Al inicio pueden aumentar la ansiedad. No deben suspenderse de golpe."},
+{k:"irsn",n:"IRSN: venlafaxina, duloxetina, desvenlafaxina",g:5,m:"Vandral, Dobupal, Cymbalta, Xeristar",a:"venlafaxina|duloxetina|desvenlafaxina|vandral|dobupal|cymbalta|xeristar|irsn",
+ u:"Depresión y ansiedad; la duloxetina también en dolor neuropático y fibromialgia.",
+ p:"Aumentan serotonina y noradrenalina en el cerebro.",
+ s:"Frecuentes: náuseas, sudoración, boca seca, insomnio, mareo, estreñimiento. La venlafaxina puede subir la tensión. No deben suspenderse de golpe."},
+{k:"bupropion",n:"Bupropión",g:5,m:"Elontril, Zyntabac",a:"bupropion|elontril|zyntabac|wellbutrin",
+ u:"Depresión y ayuda para dejar de fumar.",
+ p:"Actúa sobre dopamina y noradrenalina; mejora el ánimo y reduce el deseo de fumar.",
+ s:"Frecuentes: insomnio, boca seca, dolor de cabeza, ansiedad, náuseas. Puede bajar el umbral de las convulsiones."},
+{k:"amitriptilina",n:"Amitriptilina",g:5,m:"Tryptizol",a:"amitriptilina|tryptizol|nortriptilina",
+ u:"Depresión; a dosis bajas, dolor neuropático, prevención de migrañas e insomnio.",
+ p:"Antidepresivo tricíclico: actúa sobre serotonina y noradrenalina y tiene efecto sedante.",
+ s:"Frecuentes: boca seca, somnolencia, estreñimiento, mareo al levantarse, visión borrosa, aumento de peso, palpitaciones."},
+{k:"benzodiacepinas",n:"Benzodiazepinas: alprazolam, lorazepam, diazepam, lormetazepam, bromazepam, clonazepam",g:5,m:"Trankimazin, Orfidal, Valium, Noctamid, Lexatin, Rivotril",a:"benzodiazepina|benzodiazepinas|benzodiacepina|benzodiacepinas|alprazolam|lorazepam|diazepam|lormetazepam|bromazepam|clonazepam|trankimazin|orfidal|valium|noctamid|lexatin|rivotril|ansiolitico|ansioliticos",
+ u:"Ansiedad, insomnio, espasmos musculares y, en el caso del clonazepam, crisis epilépticas.",
+ p:"Sedantes y ansiolíticos: relajan y facilitan el sueño.",
+ s:"Frecuentes: somnolencia, mareo, torpeza y reflejos lentos, olvidos. Pueden provocar tolerancia y dependencia; no deben mezclarse con alcohol ni suspenderse de golpe."},
+{k:"zolpidem",n:"Zolpidem y zopiclona",g:5,m:"Stilnox, Dalparan, Limovan",a:"zolpidem|zopiclona|stilnox|dalparan|limovan",
+ u:"Insomnio, para periodos cortos.",
+ p:"Hipnóticos: facilitan conciliar el sueño.",
+ s:"Frecuentes: somnolencia o torpeza al día siguiente, mareo, sabor amargo (zopiclona). Raro: conductas automáticas durante el sueño; pueden crear dependencia."},
+{k:"metilfenidato",n:"Metilfenidato y lisdexanfetamina",g:5,m:"Concerta, Rubifen, Medikinet, Elvanse",a:"metilfenidato|lisdexanfetamina|concerta|rubifen|medikinet|elvanse|equasym",
+ u:"Trastorno por déficit de atención e hiperactividad (TDAH).",
+ p:"Estimulantes del sistema nervioso: mejoran la atención y reducen la impulsividad.",
+ s:"Frecuentes: menos apetito y pérdida de peso, insomnio, dolor de cabeza, nerviosismo, aumento de la frecuencia cardíaca y de la tensión. Son sustancias estimulantes prohibidas en competición según la lista antidopaje (se necesita autorización de uso terapéutico)."},
+{k:"pregabalina",n:"Pregabalina y gabapentina",g:6,m:"Lyrica, Neurontin",a:"pregabalina|gabapentina|lyrica|neurontin",
+ u:"Dolor neuropático y epilepsia; la pregabalina también en ansiedad generalizada.",
+ p:"Calman la hiperactividad de los nervios: reducen el dolor neuropático y las crisis.",
+ s:"Frecuentes: mareo, somnolencia, hinchazón de piernas, aumento de peso, visión borrosa, falta de coordinación."},
+{k:"antiepilepticos",n:"Antiepilépticos: lamotrigina, levetiracetam, valproato, carbamazepina",g:6,m:"Lamictal, Keppra, Depakine, Tegretol",a:"antiepileptico|antiepilepticos|lamotrigina|levetiracetam|valproato|carbamazepina|lamictal|keppra|depakine|tegretol",
+ u:"Epilepsia; algunos (lamotrigina, valproato) también el trastorno bipolar.",
+ p:"Reducen la excitabilidad del cerebro y previenen las crisis.",
+ s:"Frecuentes: mareo, somnolencia, cansancio, dolor de cabeza, náuseas; temblor con valproato. Con lamotrigina, avisar enseguida si aparece una erupción en la piel."},
+
+{k:"amoxicilina",n:"Amoxicilina y amoxicilina con ácido clavulánico",g:7,m:"Clamoxyl, Augmentine, Amoxicilina",a:"amoxicilina|clamoxyl|augmentine|amoxiclavulanico",
+ u:"Infecciones bacterianas: garganta, oído, respiratorias, urinarias y dentales.",
+ p:"Antibiótico del grupo de las penicilinas.",
+ s:"Frecuentes: diarrea, náuseas, erupción en la piel, candidiasis. Alergia a las penicilinas: urticaria o dificultad para respirar exigen atención médica urgente."},
+{k:"azitromicina",n:"Azitromicina",g:7,m:"Zitromax",a:"azitromicina|zitromax",
+ u:"Infecciones bacterianas respiratorias, de garganta, de oído y de transmisión sexual.",
+ p:"Antibiótico macrólido de pauta corta.",
+ s:"Frecuentes: náuseas, diarrea, dolor abdominal. Raro: alteraciones del ritmo del corazón (QT) en personas de riesgo."},
+{k:"quinolonas",n:"Fluoroquinolonas: ciprofloxacino, levofloxacino, moxifloxacino",g:7,m:"Baycip, Tavanic, Octegra",a:"quinolona|quinolonas|fluoroquinolona|fluoroquinolonas|ciprofloxacino|levofloxacino|moxifloxacino|baycip|tavanic|octegra|actira",
+ u:"Infecciones bacterianas, sobre todo urinarias y respiratorias, cuando otros antibióticos no son adecuados.",
+ p:"Antibióticos de amplio espectro.",
+ s:"Frecuentes: náuseas, diarrea, mareo, dolor de cabeza, sensibilidad al sol. Importante: pueden causar tendinitis y rotura de tendón (sobre todo el de Aquiles), con más riesgo junto a corticoides y en mayores; también dolor muscular y articular y alteraciones de los nervios (hormigueo, pérdida de sensibilidad), que pueden ser duraderos. Si aparece dolor en un tendón hay que parar y consultar."},
+
+{k:"alopurinol",n:"Alopurinol",g:8,m:"Zyloric",a:"alopurinol|zyloric",
+ u:"Prevención de crisis de gota, ácido úrico elevado y cálculos renales de ácido úrico.",
+ p:"Reduce la producción de ácido úrico.",
+ s:"Frecuentes: erupciones en la piel (si aparecen hay que avisar al médico), molestias digestivas. Al empezar puede desencadenar una crisis de gota."},
+{k:"relajantes",n:"Relajantes musculares: tiocolchicósido, ciclobenzaprina, tizanidina",g:8,m:"Muscoril, Yurelax, Sirdalud",a:"tiocolchicosido|ciclobenzaprina|tizanidina|relajante muscular|relajantes musculares|muscoril|yurelax|sirdalud|miorrelajante",
+ u:"Contracturas y espasmos musculares dolorosos.",
+ p:"Reducen el tono y los espasmos del músculo.",
+ s:"Frecuentes: somnolencia, mareo, náuseas, boca seca; la tizanidina puede bajar la tensión. Reducen los reflejos y la atención."},
+{k:"vitamina-d",n:"Vitamina D (colecalciferol, calcifediol)",g:8,m:"Hidroferol, Vitamina D3, Deltius",a:"vitamina d|colecalciferol|calcifediol|hidroferol|deltius|vitamina d3",
+ u:"Déficit de vitamina D y prevención o tratamiento de la osteoporosis (a menudo junto con calcio).",
+ p:"Favorece la absorción de calcio y fósforo y la salud de huesos y músculos.",
+ s:"A dosis adecuadas apenas da efectos. Un exceso mantenido puede subir el calcio en sangre: náuseas, sed, estreñimiento y cálculos renales."},
+{k:"hierro",n:"Hierro oral",g:8,m:"Ferrogradumet, Tardyferon, Fisiogen Ferro",a:"hierro|ferrogradumet|tardyferon|fisiogen|sulfato ferroso",
+ u:"Anemia por falta de hierro y déficit de hierro.",
+ p:"Repone el hierro necesario para producir hemoglobina.",
+ s:"Frecuentes: estreñimiento o diarrea, náuseas, molestias de estómago y heces oscuras. Se tolera mejor con comida, aunque se absorbe menos."}
+];
+/* ----- reconocimiento de lo que escribe el cliente ----- */
+const vdN=s=>" "+NRM(s).replace(/[^a-z0-9ñ]+/g," ").trim()+" ";
+const VDX=VAD.map(e=>({e,r:e.a.split("|").map(x=>" "+NRM(x).replace(/[^a-z0-9ñ]+/g," ").trim()+" ").filter(x=>x.length>=4)}));
+const vdFind=t=>{const q=vdN(t);return t&&String(t).trim()?VDX.filter(x=>x.r.some(a=>q.includes(a))).map(x=>x.e):[]};
+const VDNAMES=(()=>{const o=[],seen=new Set();VAD.forEach(e=>{e.a.split("|").forEach(x=>{x=x.trim();if(x.length<4||seen.has(x))return;seen.add(x);o.push(x.charAt(0).toUpperCase()+x.slice(1))})});return o.sort((a,b)=>a.localeCompare(b,"es"))})();
+
+ /* ===== v91 · VADEMÉCUM dentro de Salud: el atleta anota su medicación; el entrenador ve las fichas (solo él) ===== */
+ const VDS={list:null,err:"",busy:0,f:null,msg:"",key:"",t:0,loading:false,q:"",g:-1,all:false,open:{}};
+ VAD.forEach(e=>{e._n=NRM([e.n,e.m,e.a.split("|").join(" "),VDG[e.g]].join(" "));e._s=NRM(e._n+" "+e.u)});
+ function vdEns(){const k=salKey();if(VDS.key!==k){VDS.key=k;VDS.list=null;VDS.err="";VDS.f=null;VDS.msg="";VDS.t=0;VDS.busy=0;VDS.q="";VDS.g=-1;VDS.all=false;VDS.open={}}}
+ function vdErr(e){const m=String(e&&e.message||e||"");
+  if(/sin acceso/i.test(m))return"Solo el atleta y su entrenador pueden ver esta sección.";
+  if(/health_med|schema cache|could not find the function/i.test(m))return"La medicación todavía no está disponible. Inténtalo más tarde.";
+  if(/Failed to fetch|NetworkError|network|load failed/i.test(m))return"Sin conexión. Comprueba tu internet e inténtalo de nuevo.";
+  return m||"No se pudo completar la operación."}
+ async function vdLoad(force){vdEns();if(VDS.loading)return;if(!force&&VDS.list&&Date.now()-VDS.t<60000)return;
+  VDS.loading=true;
+  try{const r=salCoach()?await SB.rpc("health_med_list_coach",{p_client:CL.id}):await SB.rpc("health_med_list",{p_u:CL.usr,p_p:CL.pwd});
+   if(r.error)throw r.error;VDS.list=r.data||[];VDS.err="";VDS.t=Date.now()}
+  catch(e){VDS.err=vdErr(e);VDS.list=VDS.list||[];VDS.t=Date.now()}
+  VDS.loading=false;if(tab==="sal")render()}
+ /* ficha desplegable (solo entrenador) */
+ const vdBody=e=>`<div class="vadb"><b>Para qué sirve</b><span>${esc(e.u)}</span><b>Efectos principales</b><span>${esc(e.p)}</span><b>Efectos secundarios</b><span>${esc(e.s)}</span>${e.m?`<small class="vadm">Marcas habituales: ${esc(e.m)}</small>`:""}</div>`;
+ function vdRow(e,taken,chips,id){const op=!!VDS.open[id];
+  return`<div class="vadr${taken?" on":""}"><button class="vadh" data-vad="tg" data-id="${esc(id)}" aria-expanded="${op}"><span class="vadn">${esc(e.n)}</span>${taken?`<span class="vadt">✔ Lo toma</span>`:""}<span class="vadp" aria-hidden="true">${op?"−":"+"}</span></button>${chips&&chips.length?`<div class="vads">${chips.map(s=>`<span class="vadsrc">${esc(s)}</span>`).join("")}</div>`:""}${op?vdBody(e):""}</div>`}
+ /* qué toma el atleta: cuestionario (texto libre) + lo que ha añadido en Salud */
+ const vdCut=(t,n)=>{t=String(t||"").trim();return t.length>n?t.slice(0,n-1)+"…":t};
+ function vdTaken(){const M={},un=[],add=(e,c)=>{const m=M[e.k]||(M[e.k]={e,s:[]});if(!m.s.includes(c))m.s.push(c)};
+  (VDS.list||[]).forEach(m=>{const f=vdFind(m.nombre);if(f.length)f.forEach(e=>add(e,"Salud · «"+vdCut(m.nombre,40)+"»"));else un.push({n:m.nombre,note:m.nota,src:"Salud"})});
+  const a=(typeof S!=="undefined"&&S&&S.q&&S.q.a)||{},t=String(a.med2||"").trim();
+  if(t&&!/^(no|ninguna?|ningun[oa]?|nada|n\/?a|-+|no tomo nada|no tomo ninguna|ninguno)$/i.test(NRM(t))){const f=vdFind(t);if(f.length)f.forEach(e=>add(e,"Cuestionario · «"+vdCut(t,40)+"»"));else un.push({n:t,src:"Cuestionario"})}
+  return{L:Object.keys(M).map(k=>M[k]),un}}
+ function vdListH(){const q=NRM(VDS.q),tk=new Set(vdTaken().L.map(x=>x.e.k));
+  const L=VAD.filter(e=>(VDS.g<0||e.g===VDS.g)&&(!q||e._s.includes(q))).sort((a,b)=>(tk.has(b.k)?1:0)-(tk.has(a.k)?1:0)||(q?(b._n.includes(q)?1:0)-(a._n.includes(q)?1:0):0));
+  return L.length?L.map(e=>vdRow(e,tk.has(e.k),null,"a-"+e.k)).join(""):`<small class="vadempty">No hay ningún medicamento con ese nombre en el Vademécum. Búscalo en <a href="https://cima.aemps.es/" target="_blank" rel="noopener noreferrer">CIMA (AEMPS)</a>.</small>`}
+ function vdCoach(){const nm=esc(CL.name||"el atleta"),T=vdTaken();
+  const info=`<p>Ficha de cada medicamento: <b>para qué sirve</b>, <b>efectos principales</b> y <b>efectos secundarios</b>. Se marcan solos los que ${nm} ha escrito en el cuestionario o ha añadido en Salud.</p><p>El reconocimiento es por nombre: confirma siempre con el atleta qué toma y a qué dosis. La información es orientativa (fichas técnicas de la AEMPS y MedlinePlus) y no sustituye al médico ni al farmacéutico. No cambies ni sugieras cambiar un tratamiento: deriva siempre al médico.</p><p>El atleta no ve estas fichas.</p>`;
+  let h=`<div class="card vadc">${ih("💊 Vademécum",info)}<small class="salpriv">🔒 Solo lo ves tú: el atleta no ve las fichas</small><div class="vadsec">Medicación de ${nm}</div>`;
+  if(VDS.list===null)h+=`<small>Cargando…</small>`;
+  else{
+   if(VDS.err)h+=`<small class="qmsg" style="display:block;margin-bottom:6px">${esc(VDS.err)}</small><div class="sala"><button class="qc" data-vad="retry">Reintentar</button></div>`;
+   if(T.L.length)h+=T.L.map(x=>vdRow(x.e,true,x.s,"m-"+x.e.k)).join("");
+   T.un.forEach(u=>{h+=`<div class="vadu"><b>${esc(vdCut(u.n,120))}</b>${u.note?`<span>${esc(u.note)}</span>`:""}<small>${esc(u.src)} · no está en el Vademécum. Consúltalo en <a href="https://cima.aemps.es/" target="_blank" rel="noopener noreferrer">CIMA (AEMPS)</a>.</small></div>`});
+   if(!T.L.length&&!T.un.length&&!VDS.err)h+=`<small>${nm} no ha indicado medicación ni en el cuestionario ni en Salud.</small>`}
+  h+=`<div class="sala"><button class="qc${VDS.all?" on":""}" data-vad="all" aria-expanded="${VDS.all}">${VDS.all?"Ocultar el Vademécum":"Ver todo el Vademécum ("+VAD.length+")"}</button></div>`;
+  if(VDS.all){
+   h+=`<input class="vadq" data-vadq="1" type="search" placeholder="Buscar medicamento, marca o para qué sirve" aria-label="Buscar en el Vademécum" autocomplete="off" value="${esc(VDS.q)}">`;
+   h+=`<div class="qch vadg"><button class="qc${VDS.g<0?" on":""}" data-vad="g" data-v="-1">Todos</button>${VDG.map((g,i)=>`<button class="qc${VDS.g===i?" on":""}" data-vad="g" data-v="${i}">${esc(g)}</button>`).join("")}</div>`;
+   h+=`<div id="vadlist">${vdListH()}</div>`}
+  return h+`<small class="vadnote">Información orientativa. Fuentes: fichas técnicas y prospectos de la AEMPS (CIMA) y MedlinePlus.</small></div>`}
+ function vdAth(){const L=VDS.list,f=VDS.f;
+  const info=`<p>Anota aquí los medicamentos que tomes, también los de uso puntual. Puedes añadir o quitar los que quieras en cualquier momento.</p><p>Tu entrenador lo tendrá en cuenta al preparar tu entrenamiento. <b>Privacidad.</b> Solo tú y tu entrenador podéis verlos. No los ve nadie más. Tu entrenador recibe un aviso cuando añades uno (sin el nombre).</p>`;
+  let h=`<div class="card vadc">${ih("💊 Mi medicación",info)}<small class="salpriv">🔒 Privado: solo lo veis tú y tu entrenador</small>`;
+  if(L===null)h+=`<small>Cargando…</small>`;
+  else if(L.length)h+=L.map(m=>`<div class="vadi"><span><b>${esc(m.nombre)}</b>${m.nota?`<small>${esc(m.nota)}</small>`:""}</span><button class="x" data-vad="del" data-id="${esc(m.id)}" aria-label="Eliminar ${esc(m.nombre)}">Eliminar</button></div>`).join("");
+  else if(!VDS.err)h+=`<small>Todavía no has añadido ningún medicamento.</small>`;
+  if(VDS.err&&!f)h+=`<small class="qmsg" style="display:block;margin-top:8px">${esc(VDS.err)}</small><div class="sala"><button class="qc" data-vad="retry">Reintentar</button></div>`;
+  if(VDS.msg&&!f)h+=`<small class="qmsg" style="display:block;margin-top:8px">${esc(VDS.msg)}</small>`;
+  if(!f)return h+`<div class="sala"><button class="w" data-vad="new">＋ Añadir medicamento</button></div></div>`;
+  return h+`<label class="salql">Medicamento</label><input data-vadf="nombre" list="vadl" maxlength="80" autocomplete="off" placeholder="Ej.: Ibuprofeno" value="${esc(f.nombre||"")}"><datalist id="vadl">${VDNAMES.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
+   <label class="salql">Para qué lo tomas o desde cuándo (opcional)</label><input data-vadf="nota" maxlength="200" placeholder="Ej.: para la tensión, desde hace 2 años" value="${esc(f.nota||"")}">
+   <label class="salcon"><input type="checkbox" data-vadf="consent"${f.consent?" checked":""}><span>Autorizo que Nexum guarde esta información de salud. Solo yo y mi entrenador podemos verla.</span></label>
+   ${VDS.msg?`<small class="qmsg" style="display:block;margin-top:10px">${esc(VDS.msg)}</small>`:""}
+   <div class="bar" style="margin-top:14px;gap:8px"><button class="w" data-vad="save"${VDS.busy?" disabled":""}>${VDS.busy?"Guardando…":"Guardar medicamento"}</button>${VDS.busy?"":`<button data-vad="cancel">Cancelar</button>`}</div></div>`}
+ function vdH(co,solo){if(solo)return"";vdEns();if(VDS.list===null||Date.now()-VDS.t>60000)setTimeout(()=>vdLoad(),0);return co?vdCoach():vdAth()}
+ async function vdSave(){const f=VDS.f;if(!f||VDS.busy||salCoach())return;
+  const n=String(f.nombre||"").trim();
+  if(n.length<2){VDS.msg="Escribe el nombre del medicamento.";render();return}
+  if(!f.consent){VDS.msg="Marca la casilla de consentimiento para guardarlo.";render();return}
+  VDS.busy=1;VDS.msg="";render();
+  try{const r=await SB.rpc("health_med_add",{p_u:CL.usr,p_p:CL.pwd,p_name:n,p_note:String(f.nota||"").trim()||null,p_consent:true});
+   if(r.error)throw r.error;
+   VDS.f=null;VDS.msg="";VDS.busy=0;VDS.t=0;await vdLoad(true);if(tab==="sal")render();return}
+  catch(e){VDS.msg=vdErr(e)}
+  VDS.busy=0;render()}
+ async function vdDel(id){
+  try{const r=await SB.rpc("health_med_del",{p_u:CL.usr,p_p:CL.pwd,p_id:id});
+   if(r.error)throw r.error;
+   VDS.list=(VDS.list||[]).filter(x=>x.id!==id);VDS.msg="";VDS.t=Date.now();render()}
+  catch(e){VDS.msg=vdErr(e);render()}}
+ document.addEventListener("click",ev=>{const t=ev.target.closest("[data-vad]");if(!t||t.tagName==="INPUT")return;ev.stopPropagation();ev.preventDefault();
+  const a=t.dataset.vad,id=t.dataset.id;vdEns();
+  if(a==="new"&&!salCoach()){VDS.f={};VDS.msg="";render()}
+  else if(a==="cancel"){VDS.f=null;VDS.msg="";render()}
+  else if(a==="save")vdSave();
+  else if(a==="del"&&!salCoach()){if(confirm("¿Quitar este medicamento de tu lista?"))vdDel(id)}
+  else if(a==="tg"){VDS.open[id]=!VDS.open[id];render()}
+  else if(a==="all"&&salCoach()){VDS.all=!VDS.all;render()}
+  else if(a==="g"&&salCoach()){VDS.g=+t.dataset.v;render()}
+  else if(a==="retry"){VDS.msg="";vdLoad(true);render()}
+ },true);
+ document.addEventListener("input",ev=>{const t=ev.target;if(!t||!t.dataset)return;
+  if(t.dataset.vadq!==undefined){VDS.q=t.value;const e=$("vadlist");if(e)e.innerHTML=vdListH();return}
+  const k=t.dataset.vadf;if(VDS.f&&k&&k!=="consent")VDS.f[k]=t.value},true);
+ document.addEventListener("change",ev=>{const t=ev.target;if(t&&t.dataset&&t.dataset.vadf==="consent"&&VDS.f)VDS.f.consent=!!t.checked},true);
 
 
 /* ===== v67-v69 · Stories (24 h): barra en Inicio y Chat, visor, creador, denuncias, foto de perfil en el círculo, textos dentro de la foto (tipografías y colores) y música de Spotify ===== */
