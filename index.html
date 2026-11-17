@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.92">
+<meta name="app-version" content="2026-11-15.93">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -1507,7 +1507,7 @@ var NAVOK=false;
 const SVG=d=>`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const IC={rnk:'<path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4M9 20h6M10 17h4"/>',home:'<path d="M3.5 11.5 12 4l8.5 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',cal:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',car:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',fcz:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a6 6 0 0 1-8.26 7.06l-7.91 7.91a1 1 0 0 1-3-3l7.91-7.91A6 6 0 0 1 17.8 3.2z"/>',acc:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/>',dia:'<path d="M6 3.5h11.5a1 1 0 0 1 1 1v16H7.5a2.5 2.5 0 0 1-2.5-2.5V4.5a1 1 0 0 1 1-1z"/><path d="M5 18a2.5 2.5 0 0 1 2.5-2.5h11"/>',plus:'<path d="M12 5v14M5 12h14"/>',ent:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',nut:'<path d="M12 7c-2-2-6-1.5-7 2s1 8 4 10c1.2.8 2.2.2 3 0 .8.2 1.8.8 3 0 3-2 5-6.5 4-10s-5-4-7-2z"/><path d="M12 7c0-2 1-3.5 3-4"/>',rec:'<path d="M3.5 4v14.5a2 2 0 0 0 2 2H20.5"/><path d="m7.5 15.5 4-4.5 3 3 5-6.5"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',tst:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',cli:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16.5 5a3.2 3.2 0 0 1 0 6M18 14.3c2 .8 3.5 2.8 3.5 5.7"/>',lib:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',cq:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/>',cob:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',sw:'<path d="M4 8h14l-3-3M20 16H6l3 3"/>'};
 const NAV_C=[["menu","Perfil"],["cli","Clientes"],["chat","Chat"],["lib","Biblioteca"]],NAV_CM=[["cq","Cuestionario"],["cob","Cobros"]],NAV_A=[["menu","Hoy"],["cal","Agenda"],["tst","Eval."],["rec","Monitor"]],NAV_M=[["ent","Carga","car","car"],["nut","Nutrición"],["lib","Biblioteca"],["fcz","Herramientas"],["rnk","Ranking y cuerpo","rnk","rnk"],["chat","Chat"]];
-const NAV_G={adm:"menu",menu:"menu",ini:"menu",cal:"cal",crt:"cal",ent:"car",car:"car",tst:"tst",apx:"tst",pro:"tst",rnk:"rnk",cpo:"rnk",rev:"rec",rec:"rec",cin:"rec",cue:"rec",sal:"rec",nlg:"nut",nut:"nut",lib:"lib",fcz:"fcz",acc:"acc",hlp:"acc",dia:"rec",chat:"chat"};
+const NAV_G={adm:"menu",menu:"menu",ini:"menu",cal:"cal",crt:"cal",ent:"car",car:"car",tst:"tst",apx:"tst",pro:"tst",rnk:"rnk",cpo:"rnk",rev:"rec",rec:"rec",cin:"rec",cue:"rec",sal:"rec",nlg:"nut",nut:"nut",lib:"lib",fcz:"fcz",acc:"acc",hlp:"acc",dia:"rec",chat:"chat",stz:"stz"};
 function render(){if(tab!=="menu")HOYT="h";spReg();try{seasonApply()}catch(e){}render0();navSync()}
 const coachName=()=>NUTRI?(NUN||""):COACH?`${COACH.nombre||""} ${COACH.apellidos||""}`.trim():"";
 const avGet=()=>ROLE==="client"?((S&&S.prof)||{}).photo||"":(lsG("nx_av_"+USER)||"");
@@ -1527,7 +1527,7 @@ document.addEventListener("click",ev=>{const t=ev.target;if(!t||!t.closest)retur
 document.addEventListener("keydown",ev=>{if(ev.key==="Escape"&&NVO)nvSet(false)});
 function navSync(){setTimeout(gtFix,0);if(nvRO())document.querySelectorAll("#app input,#app textarea,#app select").forEach(e=>{if(!NVID.includes(e.id))e.disabled=true});if($("app"))$("app").classList.toggle("nro",!!(NUTRI&&CL&&tab!=="nut"&&tab!=="nlg"));if(RO&&NAVOK&&CL&&$("app")&&!$("robar"))$("app").insertAdjacentHTML("afterbegin",`<div id="robar" class="card" style="border-top-color:#d9a441"><b>👁 Modo solo lectura</b><br><small>${NUTRI?"Estás viendo a "+esc(CL.name)+" como nutricionista. Solo puedes editar la pestaña Nutrición.":"Estás viendo la cuenta de "+esc(CL.name)+" como administrador. No se guardará ningún cambio."}</small><div class="bar" style="margin:8px 0 0"><button ${NUTRI?'data-nu="back"':'data-ad="back"'}>${NUTRI?"‹ Mis atletas":"‹ Volver al panel"}</button></div></div>`);const nav=$("bnav"),rs=$("rsw"),av=$("avt");if(!nav||!rs||!av)return;const on=!!(NAVOK&&USER&&ready&&!(PW&&CLI()));document.body.classList.toggle("hasnav",on);
 if(!on){rs.hidden=true;av.hidden=true;nav.innerHTML="";return}
-const co=ROLE==="coach"&&!CL,L=co?(NUTRI?NAV_N:NAV_C):NAV_A,M=nvFn(co?(NUTRI?NAV_NM:NAV_CM):(NUTRI?NAV_M.filter(x=>x[0]!=="chat"&&x[0]!=="acc"):NAV_M)),cur=co?(CQE?"cq":(tab==="pat"?"menu":tab)):(NAV_G[tab]||""),nn=(NT.squad||0)+(NT.priv||0)+(NT.nutri||0)+(NUTRI?(NT.staff||0)+Object.keys(NT).filter(k=>k.slice(0,2)==="n_").reduce((a,k)=>a+NT[k],0):0);
+const co=ROLE==="coach"&&!CL,L=co?(NUTRI?NAV_N:NAV_C):NAV_A,M=nvFn(co?(NUTRI?NAV_NM:NAV_CM):(NUTRI?NAV_M.filter(x=>x[0]!=="chat"&&x[0]!=="acc"):(ROLE==="coach"&&CL?NAV_M.concat([["stz","Estadísticas"]]):NAV_M))),cur=co?(CQE?"cq":(tab==="pat"?"menu":tab)):(NAV_G[tab]||""),nn=(NT.squad||0)+(NT.priv||0)+(NT.nutri||0)+(NUTRI?(NT.staff||0)+Object.keys(NT).filter(k=>k.slice(0,2)==="n_").reduce((a,k)=>a+NT[k],0):0);
 nvPaint(nav,L,M,cur,nn,co);
 rs.hidden=!!NUTRI;rs.innerHTML=SVG(IC.sw)+(ROLE==="coach"&&CL?"":ROLE==="client"?"Entrenador":"Atleta");rs.title=ROLE==="client"?"Cambiar a modo entrenador":"Cambiar a modo atleta";
 av.hidden=false;av.className="avt"+(tab==="acc"?" on":"");av.setAttribute("data-act","tab");av.setAttribute("data-v","acc");av.setAttribute("aria-label","Ajustes de la cuenta");const p=avGet();av.innerHTML=p?`<img src="${esc(p)}" alt="">`:esc(avIni())}
@@ -1870,7 +1870,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.92";
+const APP_V="2026-11-15.93";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -2196,12 +2196,12 @@ function chatL(){const CM=CH.filter(m=>m.kind!=="pin"),PN=CH.filter(m=>m.kind===
 const nm=chatNm(m);if(window.cbOne&&(chn==="priv"||chn==="nutri"||chn==="cdm"))return window.cbOne(m,md);return `<div class="tw">${msgAv(m,nm)}<div style="flex:1;min-width:0"><div class="row"><span><b>${esc(nm)}</b> <small>${esc(chatRl(m,hd))} · ${new Date(m.created_at).toLocaleString("es-ES",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</small></span>${ROLE==="coach"?((chn==="squad"||chn==="staff")?`<button class="x" data-pin="${m.id}" title="Fijar mensaje">📌</button>`:"")+((chn==="cdm"?m.author_id===MYID:chn==="staff"?(m.author_id===MYID||ISADM):(chn==="nutri"?m.role==="nutri":true))?`<button class="x" data-act="cDelMsg" data-v="${m.id}">✕</button>`:""):""}</div>${m.body?`<div style="white-space:pre-wrap;word-break:break-word;margin-top:2px">${lk(m.body)}</div>`:""}${md?`<div style="margin-top:6px">${md}</div>`:""}</div></div>`}).join(""):"<small>Aún no hay mensajes.</small>")}
 const shareH=()=>ROLE==="coach"&&CL&&!RO?`<div class="card"><b>${esc(CL.name)}</b><br><small>${CL.usr?"Usuario: "+esc(CL.usr)+" · Contraseña: "+(CL.pwd_plain?(showP?esc(CL.pwd_plain):"••••••"):"no guardada"):"Aún sin usuario ni contraseña"} · tus cambios y los suyos se sincronizan solos.</small><div class="bar" style="margin:10px 0 0"><button class="on" data-act="wa">Enviar acceso por WhatsApp</button><button data-act="cp">Copiar enlace</button><button data-v21="mail">Enviar por email</button>${CL.pwd_plain?`<button data-act="verP">${showP?"Ocultar":"Ver"} contraseña</button>`:""}</div></div>`:"";
 function cliH(){return cliH0()}function cliH0(){return `<div class="sec" style="margin-top:4px">Clientes <span class="script">de entreno</span></div><div class="menu">`+CLS.map((c,i)=>mt("cOpen",c.id,String(i+1).padStart(2,"0"),esc(c.name),"Actualizado "+new Date(c.updated_at).toLocaleDateString("es-ES")+(paidNow(c)?" · Pagado":" · Pendiente de pago"))).join("")+`</div>`+(CLS.length?"":'<div class="empty">Crea tu primer cliente para empezar.</div>')+`<div class="bar" style="margin-top:12px"><button class="w" data-act="cNew">+ Nuevo cliente</button></div>`}
-function render0(){NAVOK=false;if(NUTRI&&CL&&["chat","cob","adm","acc","agd"].includes(tab))tab="menu";if(ROLE==="client"&&$("wvv")&&!$("wvv").paused&&!$("wvv").ended)return;const m=tab==="menu";if(ROLE==="coach"&&!CL&&!["menu","cli","chat","lib","cob","acc","agd","pat"].concat(ISADM?["adm"]:[]).includes(tab))tab="menu";
+function render0(){NAVOK=false;if(tab==="stz"&&ROLE!=="coach")tab="menu";if(NUTRI&&CL&&["chat","cob","adm","acc","agd","stz"].includes(tab))tab="menu";if(ROLE==="client"&&$("wvv")&&!$("wvv").paused&&!$("wvv").ended)return;const m=tab==="menu";if(ROLE==="coach"&&!CL&&!["menu","cli","chat","lib","cob","acc","agd","pat"].concat(ISADM?["adm"]:[]).includes(tab))tab="menu";
 $("who").innerHTML=!USER||!ready?"":(ROLE==="coach"&&CL?(NUTRI?'<button data-nu="back">‹ Mis atletas</button>':RO?'<button data-ad="back">‹ Panel</button>':'<button data-act="cList">‹ Clientes</button>'):"");
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
 if(NUTRI&&!CL){nutriShell();return}if(ROLE==="coach"&&USER&&COACH&&COACH.suspendido&&!ISADM){susH();return}if(ROLE==="coach"&&USER&&!ISADM&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();NAVOK=true;return}if(CS&&ROLE==="coach"){regH();return}if(ROLE==="coach"&&USER&&!NUTRI&&!CL&&COACH&&(presEdit||(!ISADM&&!COACH.presentacion))){presH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
-NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():hoyT(profH())):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,chat:chatH,nut:nutH,nlg:nlgH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH()}[tab]()}
+NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():hoyT(profH())):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,chat:chatH,nut:nutH,nlg:nlgH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH(),stz:()=>stzH()}[tab]()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
 if(CLP()&&!(a==="newS"&&LG.includes(et))&&!(a==="delS"&&(d=>d&&canDel(d))(S.sessions.find(x=>x.id===(t.dataset.v||S.cur))))&&["addMob","delMob","newS","delS","addEx","delEx","dup","planS","addCT","undoT","bm","imp"].includes(a))return;
@@ -2997,6 +2997,99 @@ function rcCard(r,btn,bt){const m=+r.m||0,md=pzMd({a:"n",n:m,t:r.t,cat:NM[m]||"R
 const fdCard=(x,i)=>{const b=x.b||[],md=pzMd({a:"f",n:x.cat>=0?x.cat:"x",t:x.n,cat:x.own?"Mío":(ALC[x.cat]||"Alimento"),kc:nlK(b[0]),per:"100 g",em:fdEm(x)}),
  pu=x.un&&x.ug>0?`<small class="pzr">1 ${esc(x.un)} ≈ ${nlF(x.ug)} g</small>`:"";
  return`<details class="card exl"><summary>${md}</summary><div class="exd pzd">${pzMac(nlF(b[1]),nlF(b[2]),nlF(b[3]))}<small class="pzr">Valores por 100 g</small>${pu}<button class="on w" data-fd="open" data-v="${i}">${CLI()?"Calcular y registrar":"Calcular por cantidad"}</button></div></details>`};
+/* v93 · Estadísticas del cliente (solo entrenador): tiempo, kg, series, repeticiones, kcal y entrenos por semana, con números y porcentajes */
+const STZ={p:4};
+const stzN=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isFinite(n)?n:0};
+const stzF=(n,d)=>{d=d||0;const q=Math.pow(10,d);return(Math.round(n*q)/q).toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:d,useGrouping:"always"})};
+const stzMes=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const stzDt=k=>{const x=new Date(k+"T00:00");return x.getDate()+" "+stzMes[x.getMonth()]};
+const stzAdd=(k,n)=>{const x=new Date(k+"T00:00");x.setDate(x.getDate()+n);return ymd(x)};
+const stzDur=m=>{m=Math.round(m);if(m<60)return m+" min";const h=Math.floor(m/60),r=m%60;return h+" h"+(r?" "+r+" min":"")};
+const stzPc=(a,b)=>b>0?Math.round(a/b*100):0;
+const stzMet=r=>{const n=stzN(r);return n<=0?null:n<5?3.3:n<8?4:8};
+const stzRg=(a,b)=>stzDt(a)+" – "+stzDt(b);
+const stzEn=n=>n+" "+(n===1?"entreno":"entrenos");
+const stzR=(l,v,s)=>`<div class="qa"><span>${l}</span><span class="stzv"><b>${v}</b>${s?`<small>${s}</small>`:""}</span></div>`;
+/* series, repeticiones y kg de una sesión hecha: lo registrado y, si no se registró, lo prescrito */
+function stzS(s){let sets=0,reps=0,kg=0,plan=0;
+ (s.ex||[]).forEach(e=>{const raw=(e.log||[]).filter(l=>stzN(l.r)>0||stzN(l.r2)>0);
+  if(raw.length){sets+=raw.length;logL(e).forEach(l=>{const r=stzN(l.r),w=stzN(l.w);if(r>0){reps+=r;kg+=r*w}})}
+  else{let x=e;try{x=pctEff(e)}catch(_){}const n=Math.round(stzN(x.series));if(n>0){plan++;sets+=n;for(let k=0;k<n;k++){const r=repAt(x,k);if(/["'″′]|\b(s|seg|min)\b/i.test(r))continue;const rr=stzN(r);reps+=rr;kg+=rr*stzN(ldAt(x,k))}}}});
+ return{sets,reps,kg,plan}}
+/* sesiones recurrentes que tocaban un día pasado y no se hicieron */
+function stzMiss(k){return S.sessions.filter(t=>t.rec&&(t.dow||[]).includes(dowOf(k))&&(t.start||"")<=k&&!S.sessions.some(x=>x.from===t.id&&x.date===k)).length}
+function stzAgg(a,b,peso){const o={n:0,min:0,kg:0,sets:0,reps:0,kcal:0,sinMin:0,sinRpe:0,plan:0,fz:0,pl:0,dn:0};
+ const all=S.sessions.filter(s=>!s.rec&&s.date&&s.date>=a&&s.date<=b);
+ all.forEach(s=>{if(s.done||s.date<today)o.pl++;if(!s.done)return;o.dn++;o.n++;const m=stzN(s.total);o.min+=m;if(!(m>0))o.sinMin++;
+  const q=stzS(s);o.kg+=q.kg;o.sets+=q.sets;o.reps+=q.reps;o.plan+=q.plan?1:0;if(q.sets>0)o.fz++;
+  const mt=stzMet(s.rpe);if(m>0&&mt&&peso>0)o.kcal+=mt*peso*m/60;else if(m>0&&!mt)o.sinRpe++});
+ for(let k=a;k<=b&&k<today;k=stzAdd(k,1))o.pl+=stzMiss(k);
+ return o}
+function stzNut(a,b){let s=0,n=0,d=0,hi=null,lo=null;for(let k=a;k<=b;k=stzAdd(k,1)){d++;let t=null;try{t=nlTot(k)}catch(_){}const v=t?Math.round(t[0]):0;if(v>0){s+=v;n++;if(!hi||v>hi.v)hi={k,v};if(!lo||v<lo.v)lo={k,v}}}return{avg:n?s/n:0,n,d,hi,lo}}
+function stzD(){
+ const done=S.sessions.filter(s=>!s.rec&&s.done&&s.date);let W=STZ.p;
+ if(!W){const f=done.map(s=>s.date).sort()[0];const dd=f?Math.round((new Date(today+"T00:00")-new Date(f+"T00:00"))/864e5)+1:28;W=Math.min(52,Math.max(1,Math.ceil(dd/7)))}
+ const from=stzAdd(today,-7*W+1),pF=stzAdd(from,-7*W),pT=stzAdd(from,-1);
+ let peso=0;try{peso=stzN((nxBody()||{}).peso)}catch(_){}
+ const cur=stzAgg(from,today,peso),prev=STZ.p?stzAgg(pF,pT,peso):null;
+ const wk=[];for(let j=0;j<W;j++){const e=stzAdd(today,-7*(W-1-j)),a=stzAdd(e,-6),w=S.sessions.filter(s=>!s.rec&&s.done&&s.date>=a&&s.date<=e);wk.push({a,e,n:w.length,min:w.reduce((x,s)=>x+stzN(s.total),0)})}
+ let mx=wk[0],mn=wk[0];wk.forEach(w=>{if(w.n>=mx.n)mx=w;if(w.n<mn.n)mn=w});
+ const ty={};S.sessions.filter(s=>!s.rec&&s.done&&s.date>=from&&s.date<=today).forEach(s=>{const t=sty(s),o=ty[t]||(ty[t]={t,n:0,min:0});o.n++;o.min+=stzN(s.total)});
+ const tys=Object.values(ty).sort((x,y)=>y.n-x.n||y.min-x.min);
+ const nut=stzNut(from,today),nutP=STZ.p?stzNut(pF,pT):null;let G=null;try{G=nlGoal()}catch(_){}
+ return{W,from,pF,pT,peso,cur,prev,wk,mx,mn,tys,nut,nutP,G,days:7*W}}
+/* variación respecto al periodo anterior */
+function stzDl(c,p,pts){if(p==null)return"";if(p===0&&c===0)return`<span class="stzd z">= igual</span>`;const d=pts?c-p:(p>0?Math.round((c-p)/p*100):null);if(d==null)return`<span class="stzd z">sin datos antes</span>`;
+ const u=pts?" pts":" %";return d>0?`<span class="stzd u">▲ ${stzF(d)}${u}</span>`:d<0?`<span class="stzd d">▼ ${stzF(Math.abs(d))}${u}</span>`:`<span class="stzd z">= igual</span>`}
+function stzH(){
+ if(ROLE!=="coach"||!CL||NUTRI)return"";
+ const d=stzD(),c=d.cur,p=d.prev,wks=d.W,per=n=>n/wks;
+ const chip=(v,t)=>`<button class="${STZ.p===v?"on":""}" data-stz="p" data-v="${v}">${t}</button>`;
+ const pcs=[["4 semanas",4],["8 semanas",8],["12 semanas",12],["Todo",0]].map(x=>chip(x[1],x[0])).join("");
+ const prevTxt=p?` · se compara con ${stzRg(d.pF,d.pT)}`:"";
+ const none=c.n===0;
+ const kcalV=c.kcal>0?`${stzF(c.kcal)} <small>kcal</small>`:`– <small>kcal</small>`;
+ const kcalS=d.peso>0?(c.kcal>0?`Estimadas con su peso (${stzF(d.peso,1)} kg) y el esfuerzo (RPE) de cada entreno${c.sinRpe?` · ${c.sinRpe} sin RPE no cuentan`:""}`:"Faltan minutos o RPE en los entrenos"):"Falta el peso del cliente: regístralo en Tests › Antropometría o en el cuestionario";
+ const gP=d.G&&d.G.k>0&&d.nut.avg>0?Math.round(d.nut.avg/d.G.k*100):null;
+ const K=(l,v,s,dl)=>`<div class="card stzk"><i>${l}</i><b>${v}</b><small>${s}</small>${dl||""}</div>`;
+ let h=`<div class="sec" style="margin-top:4px">Estadísticas <span class="script">de ${esc(CL.name||"tu cliente")}</span></div>
+<div class="stzp" role="group" aria-label="Periodo">${pcs}</div>
+<small class="stzr" id="stzrg">${esc(stzRg(d.from,today))} · ${d.days} días${esc(prevTxt)}</small>`;
+ if(none)h+=`<div class="card"><b>Sin entrenos hechos en este periodo</b><br><small>Cuando el cliente marque entrenamientos como realizados, aquí verás su tiempo, kilos, series y repeticiones.</small></div>`;
+ h+=`<div class="stzg">`+
+  K("Entrenos",stzF(c.n),`${stzF(per(c.n),1)} por semana`,stzDl(c.n,p&&p.n))+
+  K("Tiempo",c.min>0?stzDur(c.min):"–",c.n&&c.min>0?`${stzDur(c.min/Math.max(1,c.n-c.sinMin))} de media por entreno${c.sinMin?` · ${c.sinMin} sin duración`:""}`:"Sin duración registrada",stzDl(c.min,p&&p.min))+
+  K("Peso movido",`${stzF(c.kg)} <small>kg</small>`,c.fz?`${stzF(c.kg/c.fz)} kg de media por entreno de fuerza`:"Sin entrenos de fuerza",stzDl(c.kg,p&&p.kg))+
+  K("Series",stzF(c.sets),c.fz?`${stzF(c.sets/c.fz,1)} de media por entreno de fuerza`:"Sin entrenos de fuerza",stzDl(c.sets,p&&p.sets))+
+  K("Repeticiones",stzF(c.reps),c.sets?`${stzF(c.reps/c.sets,1)} de media por serie`:"Sin series",stzDl(c.reps,p&&p.reps))+
+  K("Kcal entrenando",kcalV,kcalS,stzDl(c.kcal,p&&p.kcal))+
+  K("Kcal comidas",d.nut.n?`${stzF(d.nut.avg)} <small>kcal/día</small>`:"– <small>kcal/día</small>",d.nut.n?`${gP!=null?gP+" % de su objetivo ("+stzF(d.G.k)+" kcal) · ":""}${d.nut.n} de ${d.days} días registrados`:"Aún no registra comidas en este periodo",stzDl(d.nut.avg,d.nutP&&d.nutP.avg))+
+  K("Cumplimiento",c.pl?`${stzPc(c.dn,c.pl)}&nbsp;<small>%</small>`:"–&nbsp;<small>%</small>",c.pl?`${c.dn} de ${c.pl} entrenos planificados`:"Sin entrenos planificados",p&&p.pl&&c.pl?stzDl(stzPc(c.dn,c.pl),stzPc(p.dn,p.pl),1):"")+
+  `</div>`;
+ /* entrenos por semana */
+ const tot=d.wk.reduce((a,w)=>a+w.n,0),top=Math.max(1,...d.wk.map(w=>w.n)),z=d.wk.filter(w=>w.n===0).length;
+ h+=`<div class="card" id="stzwk"><b>Entrenos por semana</b><small style="display:block;margin:2px 0 8px;color:#6f685e">Cada columna es una semana de 7 días contados hacia atrás desde hoy. Los porcentajes son sobre el total de entrenos del periodo.</small>
+<div class="stzw">${d.wk.map(w=>`<div title="${esc(stzRg(w.a,w.e))}"><span class="v">${w.n}</span><i class="b${w.n?"":" z"}" style="height:${Math.max(3,Math.round(w.n/top*72))}px"></i><small>${stzDt(w.a).replace(" "," ")}</small></div>`).join("")}</div>
+${stzR("Media",stzF(tot/wks,1)+" <span class=\"stzu\">por semana</span>")}
+${stzR("Semana con más entrenos",stzEn(d.mx.n)+" · "+stzPc(d.mx.n,tot)+" %",esc(stzRg(d.mx.a,d.mx.e)))}
+${stzR("Semana con menos entrenos",stzEn(d.mn.n)+" · "+stzPc(d.mn.n,tot)+" %",esc(stzRg(d.mn.a,d.mn.e)))}
+${stzR("Semanas sin entrenar",z+" de "+wks+" · "+stzPc(z,wks)+" %")}</div>`;
+ /* reparto por tipo */
+ if(d.tys.length){const tm=d.tys.reduce((a,x)=>a+x.min,0);
+  h+=`<div class="card" id="stzty"><b>Reparto por tipo de entreno</b>${d.tys.map(x=>{const nm=(ET.find(e=>e[0]===x.t)||[x.t,x.t])[1],pn=stzPc(x.n,c.n);return`<div class="stzt">${stzR(esc(nm),stzEn(x.n)+" · "+pn+" %",x.min>0?stzDur(x.min)+" · "+stzPc(x.min,tm)+" % del tiempo":"")}<i><u style="width:${pn}%"></u></i></div>`}).join("")}</div>`}
+ /* nutrición */
+ h+=`<div class="card" id="stzut"><b>Calorías de las comidas</b>`+(d.nut.n?`
+${stzR("Media diaria",stzF(d.nut.avg)+" kcal")}
+${d.G&&d.G.k>0?stzR("Objetivo diario",stzF(d.G.k)+" kcal",gP+" % cumplido de media"):""}
+${stzR("Días con comidas registradas",d.nut.n+" de "+d.days+" · "+stzPc(d.nut.n,d.days)+" %")}
+${stzR("Día con más kcal",stzF(d.nut.hi.v)+" kcal",stzDt(d.nut.hi.k))}
+${stzR("Día con menos kcal",stzF(d.nut.lo.v)+" kcal",stzDt(d.nut.lo.k))}`:`<br><small>Aún no registra comidas en este periodo.</small>`)+`</div>`;
+ h+=`<div class="card"><small>Cálculo: solo cuentan los entrenos marcados como hechos. Series, repeticiones y kilos salen de las series que el cliente registró; si en un entreno no registró nada se usa lo prescrito${c.plan?` (${c.plan} ${c.plan===1?"entreno":"entrenos"} del periodo)`:""}. Los kilos son repeticiones × carga. Las kcal de entreno son una estimación: METs según el RPE (hasta 4 → 3,3 · 5 a 7 → 4 · 8 o más → 8) × peso × horas. El cumplimiento compara los entrenos hechos con los planificados hasta hoy.</small></div>`;
+ return h.replace(/ %/g,"\u00a0%")}
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-stz]");if(!b)return;STZ.p=+b.dataset.v||0;render()});
+IC.stz='<path d="M5 20V11M12 20V4M19 20v-6"/><path d="M3.5 20.5h17"/>';
+/* tarjeta de acceso en «Hoy» del cliente (solo entrenador) */
+{const _p=profH;profH=function(){let h=_p.apply(this,arguments);try{if(ROLE==="coach"&&CL&&!NUTRI){const ins=`<div class="menu mini" id="stzacc">${mt("tab","stz","","Estadísticas","Tiempo · Kg · Series · Reps · Kcal",1)}</div>`;h=h.replace(/(<div class="hero">[\s\S]*?<\/div><\/div>)/,"$1"+ins)}}catch(e){console.error("v93",e)}return h}}
 
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
@@ -3701,6 +3794,34 @@ html[data-theme=light] #sznx .szb{color:#3b1e5e}
 .pzl li span{min-width:0;overflow-wrap:anywhere}
 .pzl li em{flex:none;max-width:48%;font-style:normal;text-align:right;color:#6f685e;overflow-wrap:anywhere}
 .exg .pzd .w{display:block;width:100%;margin-top:14px}
+/* v93 · Estadísticas del cliente */
+.stzp{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 10px}
+.stzp button{background:transparent;border:1px solid var(--hairl);color:var(--white);border-radius:99px;padding:9px 15px;font-size:13px;font-weight:600}
+.stzp button.on{background:var(--wine);border-color:var(--wine);color:#fff}
+.stzr{display:block;margin:0 2px 14px;font-size:12px;line-height:1.4;color:var(--champ)}
+.stzg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.stzg>.card{margin:0;padding:13px 13px 12px;min-width:0}
+.stzk i{display:block;font-style:normal;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#6f685e}
+.stzk b{display:block;margin-top:5px;font-size:25px;line-height:1.08;font-weight:800;color:#1a1a1c;overflow-wrap:anywhere}
+.stzk b small{font-size:12px;font-weight:600;color:#6f685e}
+.stzk>small{display:block;margin-top:5px;font-size:11.5px;line-height:1.3;color:#6f685e}
+.stzd{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,.07);color:#4d473e}
+.stzd.u{background:#dcebd3;color:#255a20}
+.stzd.d{background:#f4e3c2;color:#7d4a00}
+.stzw{display:flex;align-items:flex-end;gap:6px;height:118px;overflow-x:auto;padding-top:4px;margin-bottom:6px}
+.stzw>div{flex:1 0 30px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.stzw .v{font-size:12px;font-weight:700;color:#1a1a1c;margin-bottom:3px}
+.stzw .b{display:block;width:100%;max-width:34px;border-radius:6px 6px 2px 2px;background:var(--wine)}
+.stzw .b.z{background:#cfc7b8}
+.stzw small{margin-top:5px;font-size:9.5px;color:#6f685e;white-space:nowrap}
+#stzwk .qa span:last-child,#stzut .qa span:last-child,#stzty .qa span:last-child{max-width:62%}
+.stzv{display:block}
+.stzv b{font-weight:700;color:#1a1a1c}
+.stzv .stzu{font-weight:400}
+.stzv small{display:block;margin-top:1px;font-size:11.5px;line-height:1.3;color:#6f685e}
+.stzt{margin-top:4px}
+.stzt>i{display:block;height:6px;border-radius:99px;background:#d9d2c3;overflow:hidden;margin-bottom:6px}
+.stzt>i u{display:block;height:100%;background:var(--wine);border-radius:99px}
 </style>
 <script>
 (function(){
