@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.93">
+<meta name="app-version" content="2026-11-15.96">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -635,7 +635,7 @@ html[data-theme=light] #ptbar{background:rgba(250,247,242,.76);border-top:1px so
 <script>
 let KEY="entrenos_v1";const $=id=>document.getElementById(id);
 const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-const today=ymd(new Date()),pf=v=>parseFloat(v)||0,uid=()=>Math.random().toString(36).slice(2,9);
+let today=ymd(new Date()),pf=v=>parseFloat(v)||0,uid=()=>Math.random().toString(36).slice(2,9);
 const esc=v=>String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
 const DH=[["s1","Sueño","Sin pantallas antes de dormir","Sin dispositivos 1 h antes de acostarse","yn","",1],["s2","Sueño","Habitación oscura y fresca","Temperatura < 19 °C, sin luz","yn"],["s3","Sueño","Sin cafeína por la tarde","Nada de cafeína después de las 16:00","yn"],["r1","Recuperación","Estiramientos / movilidad","Sesión de flexibilidad y movilidad","num","min"],["h1","Hidratación & Nutrición","Hidratación diaria","Litros de agua consumidos","num","L"],["h2","Hidratación & Nutrición","Vaso de agua al despertar","Rehidratación tras la noche","yn"],["u1","Suplementación","Creatina","Monohidrato de creatina","num","g"],["u2","Suplementación","Magnesio","Glicinato, malato u otra forma","num","mg"],["m1","Mis hábitos","Sin lácteos","","yn"]].map(a=>({id:a[0],cat:a[1],name:a[2],desc:a[3],type:a[4],unit:a[5]||"",time:!!a[6]}));
 let S={sessions:[],cur:null,rec:{},habits:null};
@@ -810,7 +810,8 @@ let h=`<div class="bar"><select id="sel">${S.sessions.map(x=>`<option value="${x
 if(!s)return h+'<div class="empty">Aún no hay sesiones. Crea una o planifícala desde el calendario.</div>';
 if(isLog(s))return h+logH(s);
 const st=stats(s);
-return h+`<div class="card">${plBtn(s,1)}<div class="head"><div><label>Sesión</label><input data-s="name" ${CLP()?"disabled":""} value="${esc(s.name)}"></div>${s.rec?dowF(s):`<div><label>Fecha</label><input type="date" data-s="date" value="${esc(s.date)}"></div>`}<div><label>${s.rec?"Duración prevista (min)":"Tiempo total (min)"}</label><input type="number" data-s="total" value="${esc(s.total)}"></div>${s.rec?"":`<div><label>RPE sesión (1-10)</label><input type="number" min="1" max="10" data-s="rpe" value="${esc(s.rpe)}"></div>`}</div>
+if(CLI())return h+entRO(s,st)+s.ex.map((e,i)=>SOLO()?exS(e,i,gl(s)[i]):exC(e,i,gl(s)[i])).join("")+(SOLO()?soloBar():"");
+return h+`<div class="card">${plBtn(s,1)}<div class="head"><div><label>Sesión</label><input data-s="name" ${CLP()?"disabled":""} value="${esc(s.name)}"></div>${s.rec?dowF(s):`<div><label>Fecha</label><input type="date" data-s="date" value="${esc(s.date)}"></div>`}<div><label>${s.rec?"Duración prevista (min)":"Tiempo total (min)"}</label><input type="number" data-s="total" value="${esc(s.total)}"></div>${s.rec?"":`<div><label>RPE sesión (1-10)</label><input type="number" min="1" max="10" data-s="rpe" value="${esc(s.rpe)}"></div>`+hrF(s)+sysH(s)}</div>
 ${rptH(s)}${typeH(s)}${s.rec?'<small>🔁 Se repite cada semana. Cada vez que la termines se guarda en tu historial con su fecha, duración y esfuerzo.</small>':`<label style="display:flex;gap:8px;align-items:center;text-transform:none"><input type="checkbox" data-s="done" style="width:auto" ${s.done?"checked":""}> Sesión realizada</label>`}
 <div class="sum"><span>Carga (sRPE): <b id="sl">${st.load}</b> UA</span><span>Volumen: <b id="vol">${Math.round(st.vol)}</b> kg</span><span>Ejercicios: <b>${s.ex.length}</b></span></div>
 <small>Carga sRPE = minutos × RPE de sesión.</small></div>`+s.ex.map((e,i)=>SOLO()?exS(e,i,gl(s)[i]):CLI()?exC(e,i,gl(s)[i]):exH(e,i,gl(s)[i])).join("")+(SOLO()?soloBar():CLI()?"":`<button class="w" data-lb="pickX" style="width:100%">📚 Añadir desde mi biblioteca</button>${libCan("routine")?`<button data-rt="saveS" style="width:100%;margin-top:8px">💾 Guardar como rutina</button>`:""}`)}
@@ -1012,10 +1013,9 @@ const CLI=()=>ROLE==="client";
 function gl(s){let g=-1,k=0;const a=s.ex.map((e,i)=>{if(i&&e.ss)k++;else{g++;k=1}return[g,k]});return a.map(x=>String.fromCharCode(65+x[0])+(a.filter(y=>y[0]===x[0]).length>1?x[1]:""))}
 function exC(e,i,lb){const s0=cur(),pe=!!(s0&&s0.rec&&prgSt(e).length),pn=pe?occN(s0,today):0;e=exEff(e,pe?pn:-1);const L=e.log||[],n=Math.max(+e.series||0,L.length),ss=lb.length>1?" ss":"",dn=L.filter(l=>l.r!==""&&l.r!=null&&(!e.uni||(l.r2!==""&&l.r2!=null))).length;
 if(!openEx.has(e.id))return `<div class="card ex-s${ss}" data-i="${i}" data-act="toggEx" data-id="${e.id}"><div class="row"><b>${lb}. ${esc(e.name||"Ejercicio")}</b><small>${dn}/${n} series</small></div><small>${[e.uni?"⇆ unilateral":"",pe?"📈 sesión "+(pn+1):"",e.series&&e.reps?e.series+"×"+e.reps:"",loadShort(e),restTxt(e.rest)?"⏱ descanso "+restTxt(e.rest):""].filter(Boolean).map(esc).join(" · ")}</small></div>`;
-const VO=velOn(cur(),e),PY=isPly(e),rw=[...Array(n)].map((_,k)=>{const l=L[k]||{},ip=(f,ph,st)=>`<td><input type="number" inputmode="decimal" ${st||""} data-lg="${f}" data-k="${k}" value="${esc(l[f])}" placeholder="${esc(ph)}"></td>`;const rp=repAt(e,k),sw=PY?'step="any" style="min-width:42px"':'step="any"';return `<tr><td>${k+1}${e.uni?"<br><small>Izq.</small>":""}</td>${ip("r",rp)}${ip("w",ldAt(e,k),sw)}${VO?ip("v",velT(e,k)||"",sw):""}${PY?ip("h","cm",'step="any" style="min-width:52px"'):""}${ip("s",restSec(e.rest)||"")}<td><button data-act="rest" data-k="${k}">${rt.on===e.id+"_"+k?"⏹":"⏱"}</button></td></tr>`+(e.uni?`<tr><td><small>Der.</small></td>${ip("r2",rp)}${ip("w2",ldAt(e,k),sw)}<td colspan="${(VO?1:0)+(PY?1:0)+2}"></td></tr>`:"")}).join("");
-return `<div class="card${ss}" data-i="${i}"><div class="ex-top"><b>${lb}. ${esc(e.name||"Ejercicio")}</b><button class="x" data-act="toggEx" data-id="${e.id}">Cerrar</button></div>${ytT(e)}
-${pe?`<div class="prgi">📈 Progresión · sesión ${pn+1}: <b>${esc(prgTxt(e)||"valores base")}</b></div>`:""}${rstB(e,false)}<div class="sum"><span>Series <b>${esc(e.series)}</b></span><span>Reps <b>${esc(e.reps)}</b></span><span>Tempo <b>${e.t.map(esc).join("-")}</b></span><span>Carga <b>${esc(loadShort(e)||"–")}</b></span><span>${esc(e.effType)} <b>${esc(lstT(e.effVal,false))}</b></span></div>${pctB(e)}${setsH(e)}${e.uni?`<div class="prgi">⇆ Unilateral · anota cada lado por separado (Izq. y Der.): puedes usar pesos distintos.</div>`:""}${e.material?`<small>Material: ${esc(e.material)}</small>`:""}${e.obs?`<p><small>${esc(e.obs)}</small></p>`:""}
-<label>Mi registro</label><table${PY?' class="exlg"':""}><tr><th>Serie</th><th>Reps</th><th>Kg</th>${VO?"<th>m/s</th>":""}${PY?"<th>cm</th>":""}<th>Desc. s</th><th></th></tr>${rw}</table>${VO?velSum(e):""}${PY?jmpSum(e):""}<div class="bar" style="margin:8px 0 0"><button data-act="addSet">+ Serie</button><small id="rtl"></small></div></div>`}
+const VO=velOn(cur(),e);return `<div class="card${ss}" data-i="${i}"><div class="ex-top"><b>${lb}. ${esc(e.name||"Ejercicio")}</b><button class="x" data-act="toggEx" data-id="${e.id}">Cerrar</button></div>${ytT(e)}
+${pe?`<div class="prgi">📈 Progresión · sesión ${pn+1}: <b>${esc(prgTxt(e)||"valores base")}</b></div>`:""}${rstB(e,false)}<div class="sum"><span>Series <b>${esc(e.series)}</b></span><span>Reps <b>${esc(e.reps)}</b></span><span>Tempo <b>${e.t.map(esc).join("-")}</b></span><span>Carga <b>${esc(loadShort(e)||"–")}</b></span><span>${esc(e.effType)} <b>${esc(lstT(e.effVal,false))}</b></span></div>${pctB(e)}${setsH(e)}${VO?exVT(e,n):""}${e.uni?`<div class="prgi">⇆ Unilateral · se trabaja cada lado por separado (izquierdo y derecho), con pesos que pueden ser distintos.</div>`:""}${e.material?`<small>Material: ${esc(e.material)}</small>`:""}${e.obs?`<p><small>${esc(e.obs)}</small></p>`:""}
+${exLogRO(e)}</div>`}
 function progH(){const M={};S.sessions.forEach(s=>s.ex.forEach(e=>{const L=logL(e).filter(l=>pf(l.w)>0&&pf(l.r)>0),n=(e.name||"").trim();if(L.length&&n)(M[n]=M[n]||[]).push({d:s.date,L:L})}));const ns=Object.keys(M).sort();
 if(!pg||!M[pg])return ns.length?'<div class="menu">'+ns.map((n,i)=>mt("pex",encodeURIComponent(n),String(i+1).padStart(2,"0"),esc(n),M[n].length+" sesiones")).join("")+"</div>":'<div class="empty">Aquí verás las cargas de cada ejercicio cuando registres series en los entrenamientos.</div>';
 const H=M[pg].sort((a,b)=>a.d<b.d?-1:1),top=h=>Math.max(...h.L.map(l=>pf(l.w)));
@@ -1287,7 +1287,7 @@ const ATH=[{"w":1,"d":1,"t":"Tren inferior + salto","f":"BUILD 1 · Control corp
 const mkA=a=>({id:uid(),name:"Athlet S"+a.w+" · Día "+a.d+" · "+a.t,date:"",total:"60",rpe:"",done:false,type:"athlet",wk:a.w,ses:a.d,focus:a.f,esc:a.e,ex:a.x.map(e=>Object.assign(newEx(),{name:e.n,obs:e.o,series:e.s||"",reps:e.r||"",rest:e.rt||"",t:e.t||["","","",""],effType:e.et||"RPE",effVal:e.ev||"",ss:!!e.ss,blk:e.b||""}))});
 const logH=s=>{const t=sty(s),c=SPK(t)==="c",m=pf(s.total),d=pf(s.dist),pc=m&&d?m/d:0,n=t==="running"&&d?Math.min(Math.round(d),60):0,K=s.km||[];
 const f=(l,k,ph,ty)=>`<div><label>${l}</label><input ${ty?`type="${ty}" step="any" inputmode="decimal"`:""} data-s="${k}" value="${esc(s[k])}" placeholder="${ph||""}"></div>`;
-return `<div class="card"><div class="head">${f("Fecha","date","","date")}${f("Nombre","name")}${f("Duración (min)","total","60","number")}${f("Esfuerzo RPE (1-10)","rpe","7","number")}${c?f("Distancia (km)","dist","10","number")+f("FC media (ppm)","fc","145","number")+f("FC máx. (ppm)","fcm","170","number")+f("Calorías","kcal","600","number"):""}${t==="spinning"?f("Cadencia media (rpm)","cad","85","number")+f("Potencia media (W)","pot","180","number"):""}${t==="running"?f("Desnivel + (m)","des","50","number"):""}</div>${typeH(s)}${c&&pc?`<div class="sum"><span>Ritmo medio <b>${fmtT(pc*60)}</b> min/km</span><span>Velocidad <b>${r1(d/(m/60))}</b> km/h</span></div>`:""}${n?`<label>Minutos por km (mm:ss)</label><div class="grid">${[...Array(n)].map((_,i)=>`<div><small>km ${i+1}</small><input data-km="${i}" value="${esc(K[i])}" placeholder="5:30"></div>`).join("")}</div>`:""}<label>Notas</label><textarea data-s="obs" placeholder="Sensaciones, ruta, clima…">${esc(s.obs)}</textarea><div class="sum"><span>Carga: <b>${stats(s).load}</b> UA</span></div></div>`};
+return `<div class="card"><div class="head">${f("Fecha","date","","date")}${f("Nombre","name")}${f("Duración (min)","total","60","number")}${f("Esfuerzo RPE (1-10)","rpe","7","number")}${c?f("Distancia (km)","dist","10","number")+f("FC media (ppm)","fc","145","number")+f("FC máx. (ppm)","fcm","170","number")+f("Calorías","kcal","600","number"):""}${t==="spinning"?f("Cadencia media (rpm)","cad","85","number")+f("Potencia media (W)","pot","180","number"):""}${t==="running"?f("Desnivel + (m)","des","50","number"):""}${c?"":hrF(s)}${sysH(s)}</div>${typeH(s)}${c&&pc?`<div class="sum"><span>Ritmo medio <b>${fmtT(pc*60)}</b> min/km</span><span>Velocidad <b>${r1(d/(m/60))}</b> km/h</span></div>`:""}${n?`<label>Minutos por km (mm:ss)</label><div class="grid">${[...Array(n)].map((_,i)=>`<div><small>km ${i+1}</small><input data-km="${i}" value="${esc(K[i])}" placeholder="5:30"></div>`).join("")}</div>`:""}<label>Notas</label><textarea data-s="obs" placeholder="Sensaciones, ruta, clima…">${esc(s.obs)}</textarea><div class="sum"><span>Carga: <b>${stats(s).load}</b> UA</span></div></div>`};
 const NM=["Desayuno","Almuerzo","Comida","Merienda","Cena"];
 const RCL=[
 {t:"Tostadas con plátano y crema de cacahuete",m:0,e:"🍞",ph:"img/tostadas-platano/portada.jpg",k:"638",p:"23,6",c:"88,2",g:"17,8",r:"2",
@@ -1389,7 +1389,7 @@ function rcOpen(i,j,rr){const t=rr?rr.t:(((S.nut||[])[i]||[])[j])||"",r=rr||rcFi
 let h=`<div class="rcw"><button class="rcx" data-rcx>✕ Cerrar</button><div class="rcc"><div class="rck">${rr?esc(NM[rr.m]||"Receta"):esc(NM[i])+" · Opción "+(j+1)}</div><h2 class="rct">${esc(r?r.t:t)}</h2>${r?rcTagH(r):""}`;
 if(r)h+=`<div class="rci">${rcArt(r)}${r.ph?im(r.ph):""}</div><div class="rcm">${fx("Kcal",r.k)}${fx("P (g)",r.p)}${fx("C (g)",r.c)}${fx("G (g)",r.g)}</div><div class="rcr">Ración <b>${esc(r.r)}</b></div><table class="rcg"><tr><th>Ingredientes</th><th>Cantidad</th></tr>${r.ing.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td></tr>`).join("")}</table><h3 class="rcs">Pasos</h3>${r.st.map((x,n)=>`<div class="rcp"><b>${n+1}</b><div><p>${esc(x)}</p>${(r.si||{})[n]?im(r.si[n]):""}</div></div>`).join("")}<small class="rcn">Valores aproximados por ración. ¿Tienes alguna duda o sugerencia? Escríbela en el chat y te ayudamos.</small>`;
 else h+=`<p class="rcn">Tu entrenador aún no ha añadido la receta detallada de esta opción.</p>`;
-if(CLI()&&!rr)h+=`<button class="w rcb2" data-act="nsel" data-i="${i}" data-j="${j}" data-rcx>${on?"Quitar elección":"Elegir esta opción"}</button>`;
+if(CLI()&&!rr)h+=mnSheet(i,j);
 h+="</div></div>";let o=$("rcov");if(!o){o=document.createElement("div");o.id="rcov";o.className="rcov";document.body.appendChild(o)}o.innerHTML=h;o.scrollTop=0;document.body.style.overflow="hidden"}
 function rcClose(){const o=$("rcov");if(o)o.remove();document.body.style.overflow=""}
 document.addEventListener("click",ev=>{const a=ev.target.closest("[data-rc]");if(a){const q=a.dataset.rc.split("_");rcOpen(+q[0],+q[1]);return}if(ev.target.closest("[data-rcx]")||ev.target.id==="rcov")rcClose()});
@@ -1870,7 +1870,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.93";
+const APP_V="2026-11-15.96";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -2176,7 +2176,7 @@ const nxEmpty=()=>CLI()&&!nxHas()?`<div class="card"><small>${NXN.busy?"Preparan
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-nxn]");if(b&&b.dataset.nxn==="gen")nxGen(true)});
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-q]");if(b&&b.dataset.q==="fin"&&ROLE==="client")setTimeout(nxAutoChk,0)});
 Object.assign(window,{nxNeeds,nxFilt,nxPlan,nxPool,nxBody,nxGen,NXN});
-function nutH(){if(CLI()&&GATE&&GATE.sin_coach)return soloNutH();if(ROLE==="coach"){if(!libOk&&!libBusy&&!libErr)libLoad();rcSync()}const N=S.nut||[],L=(S.nl||{})[today]||{};return nxCard()+'<div class="card"><small>'+(CLI()?"Toca una opción para ver la receta. Dentro podrás elegirla cuando la vayas a hacer.":"Escribe hasta 7 opciones por comida (una para cada día) o insértalas desde la biblioteca de recetas.")+"</small>"+(CLI()?"":`<label style="margin-top:10px">Filtrar las recetas de la biblioteca</label><div class="qch">${tgChips(nfT,"nf")}</div>`)+"</div>"+NM.map((m,i)=>{const O=N[i]||[];if(CLI()&&!O.some(x=>x))return"";return `<div class="card"><b>${m}</b>${nxTag(i)}${[0,1,2,3,4,5,6].map(j=>{const t=O[j]||"";return CLI()?(t?`<button class="rcb ${L[i]==j?"on":""}" data-rc="${i}_${j}"><span><b>Opción ${j+1}</b> · ${esc(t)}${(()=>{const r=rcFind(t);return r?`<br><small>${rcBadges(r).slice(0,3).join(" · ")}${nxPor(i,r)}</small>`:""})()}</span><i>${L[i]==j?"✓":"›"}</i></button>`:""):`<label>Opción ${j+1}</label><textarea data-nu="${i}_${j}">${esc(t)}</textarea><select data-rcsel="${i}_${j}"><option value="">＋ Insertar receta de la biblioteca…</option>${recOpts(i)}</select>`}).join("")}</div>`}).join("")+nxEmpty()}
+function nutH(){if(CLI()&&GATE&&GATE.sin_coach)return soloNutH();if(ROLE==="coach"){if(!libOk&&!libBusy&&!libErr)libLoad();rcSync()}const N=S.nut||[],L=(S.nl||{})[today]||{};return nxCard()+'<div class="card"><small>'+(CLI()?"Toca una opción para ver la receta. Dentro puedes añadirla a tu registro o elegirla para comer hoy (o para otro día) y se arma tu menú y la lista de la compra.":"Escribe hasta 7 opciones por comida (una para cada día) o insértalas desde la biblioteca de recetas.")+"</small>"+(CLI()?"":`<label style="margin-top:10px">Filtrar las recetas de la biblioteca</label><div class="qch">${tgChips(nfT,"nf")}</div>`)+"</div>"+(CLI()?mnH():"")+NM.map((m,i)=>{const O=N[i]||[];if(CLI()&&!O.some(x=>x))return"";return `<div class="card"><b>${m}</b>${nxTag(i)}${[0,1,2,3,4,5,6].map(j=>{const t=O[j]||"";return CLI()?(t?`<button class="rcb ${L[i]==j?"on":""}" data-rc="${i}_${j}"><span><b>Opción ${j+1}</b> · ${esc(t)}${(()=>{const r=rcFind(t);return r?`<br><small>${rcBadges(r).slice(0,3).join(" · ")}${nxPor(i,r)}</small>`:""})()}${mnTags(i,j)}</span><i>${L[i]==j?"✓":"›"}</i></button>`:""):`<label>Opción ${j+1}</label><textarea data-nu="${i}_${j}">${esc(t)}</textarea><select data-rcsel="${i}_${j}"><option value="">＋ Insertar receta de la biblioteca…</option>${recOpts(i)}</select>`}).join("")}</div>`}).join("")+nxEmpty()}
 function movH(){const r=R(),M=S.mob||[];return (CLI()?"":'<div class="bar"><button class="w" data-act="addMob">+ Añadir rutina</button><button data-rt="pickMob">📚 Desde mi biblioteca</button>'+((S.mob||[]).length&&libCan("routine")?'<button data-rt="saveMob">💾 Guardar como rutina</button>':"")+'</div>')+(M.length?M.map(m=>{const ok=r.h["mob_"+m.id]==="si";return `<div class="hab ${ok?"ok":""}"><div style="flex:1"><b>${esc(m.n)}</b>${m.d?` <small>· ${esc(m.d)} min</small>`:""}<br><small>${esc(m.o)}</small>${m.v?`<div><a class="v" target="_blank" rel="noopener" href="${esc(m.v)}">▶ Ver vídeo</a></div>`:""}</div><button class="${ok?"on":""}" data-act="mobd" data-id="${m.id}">${ok?"Hecho":"Hacer"}</button>${CLI()?"":`<button class="x" data-act="delMob" data-id="${m.id}">✕</button>`}</div>`}).join(""):'<div class="empty">Aún no hay rutinas de movilidad ni estiramientos.</div>')}
 function spaH(){const r=R(),n=(k,l,u)=>`<div><label>${l}</label><input type="number" step="any" inputmode="decimal" data-h="${k}" value="${esc(r.h[k])}" placeholder="0"><small>${u}</small></div>`;return (CLI()?"":'<div class="bar"><button data-rt="pickCt">📚 Cargar circuito guardado</button>'+(libCan("routine")?'<button data-rt="saveCt">💾 Guardar como rutina</button>':"")+'</div>')+`<div class="card"><b>Circuito termal</b><div class="head" style="margin-top:8px">${n("sp_sau","Sauna","min")}${n("sp_frio","Baño frío","min")}${n("sp_turco","Baño turco","min")}${n("sp_nat","Natación","min")}${n("sp_natm","Natación","metros")}${n("sp_rond","Rondas","nº")}</div><label>Orden del recorrido</label><input data-h="sp_ord" value="${esc(r.h.sp_ord)}" placeholder="Sauna 10' → frío 2' → turco 10'"><label>Notas</label><textarea data-h="sp_nota">${esc(r.h.sp_nota)}</textarea></div>`}
 const wkK=()=>{const d=new Date();d.setDate(d.getDate()-(d.getDay()+6)%7);return ymd(d)};
@@ -2201,7 +2201,7 @@ $("who").innerHTML=!USER||!ready?"":(ROLE==="coach"&&CL?(NUTRI?'<button data-nu=
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
 if(NUTRI&&!CL){nutriShell();return}if(ROLE==="coach"&&USER&&COACH&&COACH.suspendido&&!ISADM){susH();return}if(ROLE==="coach"&&USER&&!ISADM&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();NAVOK=true;return}if(CS&&ROLE==="coach"){regH();return}if(ROLE==="coach"&&USER&&!NUTRI&&!CL&&COACH&&(presEdit||(!ISADM&&!COACH.presentacion))){presH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
-NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():hoyT(profH())):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+{ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,chat:chatH,nut:nutH,nlg:nlgH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH(),stz:()=>stzH()}[tab]()}
+NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():hoyT(profH())):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+({ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,chat:chatH,nut:nutH,nlg:nlgH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH(),stz:()=>stzH()}[tab]||nxBad)()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
 if(CLP()&&!(a==="newS"&&LG.includes(et))&&!(a==="delS"&&(d=>d&&canDel(d))(S.sessions.find(x=>x.id===(t.dataset.v||S.cur))))&&["addMob","delMob","newS","delS","addEx","delEx","dup","planS","addCT","undoT","bm","imp"].includes(a))return;
@@ -2997,25 +2997,37 @@ function rcCard(r,btn,bt){const m=+r.m||0,md=pzMd({a:"n",n:m,t:r.t,cat:NM[m]||"R
 const fdCard=(x,i)=>{const b=x.b||[],md=pzMd({a:"f",n:x.cat>=0?x.cat:"x",t:x.n,cat:x.own?"Mío":(ALC[x.cat]||"Alimento"),kc:nlK(b[0]),per:"100 g",em:fdEm(x)}),
  pu=x.un&&x.ug>0?`<small class="pzr">1 ${esc(x.un)} ≈ ${nlF(x.ug)} g</small>`:"";
  return`<details class="card exl"><summary>${md}</summary><div class="exd pzd">${pzMac(nlF(b[1]),nlF(b[2]),nlF(b[3]))}<small class="pzr">Valores por 100 g</small>${pu}<button class="on w" data-fd="open" data-v="${i}">${CLI()?"Calcular y registrar":"Calcular por cantidad"}</button></div></details>`};
-/* v93 · Estadísticas del cliente (solo entrenador): tiempo, kg, series, repeticiones, kcal y entrenos por semana, con números y porcentajes */
-const STZ={p:4};
+/* v93-94 · Estadísticas profesionales del cliente (solo entrenador): resumen con lectura automática, carga interna, fuerza, pulsaciones, nutrición, recuperación y cuerpo, con números y porcentajes */
+const STZ={p:4,s:"res"};
+const STZSEC=[["res","Resumen"],["ent","Entreno"],["fue","Fuerza"],["fc","Pulsaciones"],["nut","Nutrición"],["rec","Recuperación"],["cue","Cuerpo"]];
 const stzN=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isFinite(n)?n:0};
 const stzF=(n,d)=>{d=d||0;const q=Math.pow(10,d);return(Math.round(n*q)/q).toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:d,useGrouping:"always"})};
+const stzK=n=>n>=10000?stzF(n/1000,1)+"k":stzF(n);
+const stzSg=(n,d)=>(n>0?"+":n<0?"−":"")+stzF(Math.abs(n),d);
 const stzMes=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 const stzDt=k=>{const x=new Date(k+"T00:00");return x.getDate()+" "+stzMes[x.getMonth()]};
 const stzAdd=(k,n)=>{const x=new Date(k+"T00:00");x.setDate(x.getDate()+n);return ymd(x)};
+const stzDays=(a,b)=>Math.round((new Date(b+"T00:00")-new Date(a+"T00:00"))/864e5);
 const stzDur=m=>{m=Math.round(m);if(m<60)return m+" min";const h=Math.floor(m/60),r=m%60;return h+" h"+(r?" "+r+" min":"")};
 const stzPc=(a,b)=>b>0?Math.round(a/b*100):0;
 const stzMet=r=>{const n=stzN(r);return n<=0?null:n<5?3.3:n<8?4:8};
 const stzRg=(a,b)=>stzDt(a)+" – "+stzDt(b);
 const stzEn=n=>n+" "+(n===1?"entreno":"entrenos");
+const stzAvg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
 const stzR=(l,v,s)=>`<div class="qa"><span>${l}</span><span class="stzv"><b>${v}</b>${s?`<small>${s}</small>`:""}</span></div>`;
-/* series, repeticiones y kg de una sesión hecha: lo registrado y, si no se registró, lo prescrito */
+const stzC=(id,t,sub,body)=>`<div class="card" id="${id}"><b class="stzh">${t}</b>${sub?`<div class="stzsub">${sub}</div>`:""}${body}</div>`;
+const stzBars=(it,o)=>{o=o||{};const top=Math.max(1,...it.map(x=>x.v||0));return`<div class="stzw${o.c?" "+o.c:""}">${it.map(x=>`<div title="${esc(x.t||"")}"><span class="v">${x.v==null?"–":(o.f||stzF)(x.v)}</span><i class="b${x.v?"":" z"}" style="height:${Math.max(3,Math.round((x.v||0)/top*72))}px"></i><small>${x.l}</small></div>`).join("")}</div>`};
+const stzBar=p=>`<i class="stzb"><u style="width:${Math.max(0,Math.min(100,p))}%"></u></i>`;
+const stzNoc=t=>`<div class="stzn">${t}</div>`;
+/* explicación del cálculo: la app la recoge bajo «Cómo se calcula» (ⓘ) si empieza por «Cálculo» */
+const stzFoot=t=>`<div class="card"><small>Cálculo: ${t}</small></div>`;
+/* ---- series, repeticiones y kg de una sesión hecha: lo registrado y, si no se registró, lo prescrito ---- */
 function stzS(s){let sets=0,reps=0,kg=0,plan=0;
  (s.ex||[]).forEach(e=>{const raw=(e.log||[]).filter(l=>stzN(l.r)>0||stzN(l.r2)>0);
   if(raw.length){sets+=raw.length;logL(e).forEach(l=>{const r=stzN(l.r),w=stzN(l.w);if(r>0){reps+=r;kg+=r*w}})}
   else{let x=e;try{x=pctEff(e)}catch(_){}const n=Math.round(stzN(x.series));if(n>0){plan++;sets+=n;for(let k=0;k<n;k++){const r=repAt(x,k);if(/["'″′]|\b(s|seg|min)\b/i.test(r))continue;const rr=stzN(r);reps+=rr;kg+=rr*stzN(ldAt(x,k))}}}});
  return{sets,reps,kg,plan}}
+const stzDone=(a,b)=>S.sessions.filter(s=>!s.rec&&s.done&&s.date&&s.date>=a&&s.date<=b);
 /* sesiones recurrentes que tocaban un día pasado y no se hicieron */
 function stzMiss(k){return S.sessions.filter(t=>t.rec&&(t.dow||[]).includes(dowOf(k))&&(t.start||"")<=k&&!S.sessions.some(x=>x.from===t.id&&x.date===k)).length}
 function stzAgg(a,b,peso){const o={n:0,min:0,kg:0,sets:0,reps:0,kcal:0,sinMin:0,sinRpe:0,plan:0,fz:0,pl:0,dn:0};
@@ -3025,37 +3037,206 @@ function stzAgg(a,b,peso){const o={n:0,min:0,kg:0,sets:0,reps:0,kcal:0,sinMin:0,
   const mt=stzMet(s.rpe);if(m>0&&mt&&peso>0)o.kcal+=mt*peso*m/60;else if(m>0&&!mt)o.sinRpe++});
  for(let k=a;k<=b&&k<today;k=stzAdd(k,1))o.pl+=stzMiss(k);
  return o}
-function stzNut(a,b){let s=0,n=0,d=0,hi=null,lo=null;for(let k=a;k<=b;k=stzAdd(k,1)){d++;let t=null;try{t=nlTot(k)}catch(_){}const v=t?Math.round(t[0]):0;if(v>0){s+=v;n++;if(!hi||v>hi.v)hi={k,v};if(!lo||v<lo.v)lo={k,v}}}return{avg:n?s/n:0,n,d,hi,lo}}
+/* ---- pulsaciones y sistemas energéticos ---- */
+const STZSYS=[["aer","Aeróbico"],["lac","Anaerobio láctico"],["ala","Anaerobio aláctico"]],STZSK=STZSYS.map(x=>x[0]),STZNM=["movilidad","yoga","pilates"];
+const stzFc=v=>{const n=stzN(v);return n>=30&&n<=230?Math.round(n):0};
+/* referencia de FC del cliente: Zonas de FC (Karvonen) si tiene reposo y máxima; si no, solo la máxima */
+function stzRef(){let c=null,z4=80,Z=[];try{c=fzCalc(fzGet())}catch(_){}try{Z=fzGet().z;const z=Z.find(x=>x.id==="z4");if(z&&z.lo>0)z4=z.lo}catch(_){}
+ const max=c&&c.max>=100&&c.max<=230?c.max:0;return{ok:!!(c&&c.ok),rest:c&&c.ok?c.rest:0,max,z4,Z,lab:c&&c.ok?"FC de reserva":max?"FC máx.":""}}
+const stzPcFc=(fc,R)=>R.ok?Math.round((fc-R.rest)/(R.max-R.rest)*100):R.max?Math.round(fc/R.max*100):null;
+/* mediana de repeticiones por serie (registradas o, si no, prescritas) */
+function stzReps(s){const a=[];(s.ex||[]).forEach(e=>{const raw=(e.log||[]).filter(l=>stzN(l.r)>0||stzN(l.r2)>0);
+ if(raw.length)raw.forEach(l=>a.push(stzN(l.r)||stzN(l.r2)));
+ else{let x=e;try{x=pctEff(e)}catch(_){}const n=Math.round(stzN(x.series));for(let k=0;k<n;k++){const r=repAt(x,k);if(/["'″′]|\b(s|seg|min)\b/i.test(r))continue;const v=stzN(r);if(v>0)a.push(v)}}});
+ if(!a.length)return 0;a.sort((x,y)=>x-y);return a[Math.floor((a.length-1)/2)]}
+/* sistema energético: lo que marcó el entrenador o, si no, una asignación automática */
+function stzSys(s,R){if(STZSK.includes(s.sys))return{k:s.sys,auto:0};
+ const t=sty(s);if(STZNM.includes(t))return{k:"",auto:1};
+ if(t==="fuerza"||t==="athlet"){const m=stzReps(s);if(m>0)return{k:m<=5?"ala":"lac",auto:1}}
+ const fc=stzFc(s.fc);if(fc&&(R.ok||R.max)){const pc=stzPcFc(fc,R);return{k:pc>=(R.ok?R.z4:85)?"lac":"aer",auto:1}}
+ const r=stzN(s.rpe);return{k:r>=8?"lac":r>0?"aer":"",auto:1}}
+const stzMk=()=>({n:0,min:0,con:0,sum:0,pc:0,npc:0,mx:0});
+function stzHr(a,b,R){const o=Object.assign(stzMk(),{mxk:"",sys:{aer:stzMk(),lac:stzMk(),ala:stzMk(),"":stzMk()},sp:{},list:[]});
+ stzDone(a,b).forEach(s=>{
+  const fc=stzFc(s.fc),fm=Math.max(stzFc(s.fcm),fc),m=stzN(s.total),sy=stzSys(s,R),t=sty(s),pc=fc?stzPcFc(fc,R):null;
+  const add=x=>{x.n++;x.min+=m;if(fc){x.con++;x.sum+=fc;if(pc!=null){x.pc+=pc;x.npc++}}if(fm>x.mx)x.mx=fm};
+  if(fm>o.mx)o.mxk=s.date;add(o);add(o.sys[sy.k]);add(o.sp[t]||(o.sp[t]=stzMk()));
+  if(fc)o.list.push({d:s.date,name:s.name,t,fc,fm,pc,sy})});
+ o.list.sort((x,y)=>x.d<y.d?1:x.d>y.d?-1:0);return o}
+const stzAv=x=>x.con?Math.round(x.sum/x.con):0,stzAp=x=>x.npc?Math.round(x.pc/x.npc):null;
+const stzSn=t=>(ET.find(e=>e[0]===t)||[t,spNm(t)])[1];
+/* campos de pulsaciones y de sistema energético en las sesiones */
+const hrF=s=>`<div><label>FC media (ppm)</label><input type="number" inputmode="numeric" data-s="fc" value="${esc(s.fc)}" placeholder="145"></div><div><label>FC máx. (ppm)</label><input type="number" inputmode="numeric" data-s="fcm" value="${esc(s.fcm)}" placeholder="170"></div>`;
+const sysH=s=>ROLE!=="coach"||NUTRI?"":`<div><label>Sistema energético</label><select data-s="sys" style="width:100%"${RO?" disabled":""}><option value="">Automático</option>${STZSYS.map(x=>`<option value="${x[0]}"${s.sys===x[0]?" selected":""}>${x[1]}</option>`).join("")}</select></div>`;
+/* ---- carga interna (sRPE · Foster): minutos × RPE ---- */
+const stzUA=s=>{const m=stzN(s.total),r=stzN(s.rpe);return m>0&&r>0?m*r:0};
+function stzLoad(d){const all=S.sessions.filter(s=>!s.rec&&s.done&&s.date),day={};all.forEach(s=>{const u=stzUA(s);if(u)day[s.date]=(day[s.date]||0)+u});
+ const sum=(a,b)=>{let t=0;for(let k=a;k<=b;k=stzAdd(k,1))t+=day[k]||0;return t};
+ const ac=sum(stzAdd(today,-6),today),ch=sum(stzAdd(today,-27),today)/4,first=all.map(s=>s.date).sort()[0];
+ const L7=[];for(let i=6;i>=0;i--)L7.push(day[stzAdd(today,-i)]||0);const mu=stzAvg(L7),sd=Math.sqrt(stzAvg(L7.map(v=>(v-mu)*(v-mu))));
+ const mono=mu>0&&sd>0?mu/sd:null,dn=d.dn;
+ return{tot:sum(d.from,today),prev:STZ.p?sum(d.pF,d.pT):null,wk:d.wk.map(w=>sum(w.a,w.e)),ac,ch,acwr:ch>0?ac/ch:null,hist:first?stzDays(first,today)+1:0,mono,strain:mono!=null?ac*mono:null,
+  sinRpe:dn.filter(s=>stzN(s.total)>0&&!(stzN(s.rpe)>0)).length}}
+/* intensidad: RPE y reparto suave (1-4) · moderado (5-7) · intenso (8-10) */
+function stzInt(dn){const r=dn.filter(s=>stzN(s.rpe)>0),B=[{k:"Suave",d:"RPE 1-4",n:0,min:0},{k:"Moderado",d:"RPE 5-7",n:0,min:0},{k:"Intenso",d:"RPE 8-10",n:0,min:0}];
+ r.forEach(s=>{const v=stzN(s.rpe),b=B[v<5?0:v<8?1:2];b.n++;b.min+=stzN(s.total)});
+ const du=dn.filter(s=>stzN(s.total)>0).map(s=>({m:stzN(s.total),s})).sort((a,b)=>a.m-b.m);
+ const med=du.length?(du.length%2?du[(du.length-1)/2].m:(du[du.length/2-1].m+du[du.length/2].m)/2):0;
+ return{n:r.length,rpe:stzAvg(r.map(s=>stzN(s.rpe))),B,tm:B.reduce((a,b)=>a+b.min,0),med,mx:du.length?du[du.length-1]:null,mn:du.length?du[0]:null,nd:du.length}}
+/* constancia: días de la semana, pausas y rachas */
+const STZDW=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
+function stzDow(d){const dn=d.dn,c=[0,0,0,0,0,0,0],set=[...new Set(dn.map(s=>s.date))].sort();dn.forEach(s=>c[dowOf(s.date)]++);
+ let gap=0,g0=null;for(let i=1;i<set.length;i++){const g=stzDays(set[i-1],set[i])-1;if(g>gap){gap=g;g0=[set[i-1],set[i]]}}
+ const all=S.sessions.filter(s=>!s.rec&&s.done&&s.date&&s.date<=today).map(s=>s.date).sort(),last=all.length?all[all.length-1]:"";
+ let st=0;for(let j=d.wk.length-1;j>=0&&d.wk[j].n>0;j--)st++;
+ return{c,gap,g0,last,since:last?stzDays(last,today):null,st,w3:d.wk.filter(w=>w.n>=3).length}}
+/* series por grupo muscular (principal 1 · secundario 0,4), con lo registrado o, si no, lo prescrito */
+function stzMus(dn,W){const M={};MUS.forEach(m=>M[m[0]]=0);const un=new Set();
+ dn.forEach(s=>(s.ex||[]).forEach(e=>{const nm=(e.name||"").trim();if(!nm)return;const n=(e.log||[]).filter(l=>stzN(l.r)>0||stzN(l.r2)>0).length||stzN(e.series);if(n<=0)return;const mp=exMap(nm);if(!mp){un.add(nz(nm));return}mp.p.forEach(m=>{if(m in M)M[m]+=n});mp.s.forEach(m=>{if(m in M)M[m]+=.4*n})}));
+ const rows=MUS.map(m=>({k:m[0],n:m[1],s:M[m[0]],w:M[m[0]]/W})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s),tot=rows.reduce((a,x)=>a+x.s,0);
+ return{rows,tot,un:un.size,none:MUS.filter(m=>!(M[m[0]]>0)).map(m=>m[1])}}
+/* ejercicios: volumen (kg), mejor serie y progresión del 1RM estimado */
+function stzEx(d){const X={},sess=S.sessions.filter(s=>!s.rec&&s.done&&s.date&&s.date<=today).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);let tk=0;
+ sess.forEach(s=>(s.ex||[]).forEach(e=>{const nm=(e.name||"").trim();if(!nm)return;const k=nz(nm),o=X[k]||(X[k]={k,n:nm,kg:0,sets:0,ses:0,bef:0,pts:[],bw:0,br:0,be:0});
+  let best=0,bw=0,br=0,any=0,kg=0,sets=0;logL(e).forEach(l=>{const w=stzN(l.w),r=stzN(l.r);if(r>0){any=1;kg+=r*w;if(w>0&&r<=12){const v=rm1(w,r);if(v>best){best=v;bw=w;br=r}}}});
+  (e.log||[]).forEach(l=>{if(stzN(l.r)>0||stzN(l.r2)>0)sets++});
+  if(s.date<d.from){if(best>o.bef)o.bef=best;return}
+  if(!any)return;o.kg+=kg;o.sets+=sets;o.ses++;tk+=kg;if(best>0){o.pts.push({d:s.date,v:best});if(best>o.be){o.be=best;o.bw=bw;o.br=br}}}));
+ const rows=Object.values(X).filter(o=>o.ses>0);
+ const top=rows.slice().sort((a,b)=>b.kg-a.kg||b.sets-a.sets).slice(0,6);
+ const pr=rows.filter(o=>o.pts.length).map(o=>{const f=o.pts[0].v,l=o.pts[o.pts.length-1].v;return{n:o.n,f,l,pk:o.be,dl:o.pts.length>=2?(l-f)/f*100:null,np:o.pts.length,rec:o.bef>0&&o.be>o.bef,nw:o.bef===0,bef:o.bef,bw:o.bw,br:o.br}}).sort((a,b)=>b.np-a.np||(a.n<b.n?-1:1));
+ return{top,tk,pr,prs:pr.filter(x=>x.rec)}}
+function stzRep(dn){const B=[{k:"Fuerza",d:"1-5 repeticiones",n:0},{k:"Hipertrofia",d:"6-12 repeticiones",n:0},{k:"Resistencia muscular",d:"13 o más",n:0}];let t=0;
+ dn.forEach(s=>(s.ex||[]).forEach(e=>logL(e).forEach(l=>{const r=stzN(l.r);if(r>0){const b=B[r<=5?0:r<=12?1:2];b.n++;t++}})));return{B,t}}
+/* tipos de ejercicio: categoría de cada ejercicio en la biblioteca (Fuerza, Pliometría, Resistencia, Velocidad…) */
+function stzCat(dn){const C={};let tn=0,ts=0;
+ dn.forEach(s=>(s.ex||[]).forEach(e=>{if(!(e.name||"").trim())return;let c="";try{c=exCat(e)}catch(_){}c=c||"Sin categoría";
+  const o=C[c]||(C[c]={c,n:0,sets:0,kg:0,ses:new Set()}),n=(e.log||[]).filter(l=>stzN(l.r)>0||stzN(l.r2)>0).length||Math.max(0,Math.round(stzN(e.series)));
+  o.n++;o.sets+=n;o.ses.add(s.id||s.date);o.kg+=stzS({ex:[e]}).kg;tn++;ts+=n}));
+ const ord=(typeof XC!=="undefined"?XC:[]).concat(["Sin categoría"]);
+ return{rows:Object.values(C).sort((a,b)=>b.n-a.n||ord.indexOf(a.c)-ord.indexOf(b.c)),tn,ts}}
+/* tipos de alimentos: grupo del catálogo de la app (por nombre) o, si no está, por palabras clave del nombre */
+const STZFK=[[0,/pollo|pavo|ternera|cerdo|cordero|jamon|lomo|solomillo|chuleta|hamburguesa|salchicha|pechuga|conejo|bacon|panceta|chorizo|fiambre|carne/],[1,/atun|salmon|merluza|bacalao|gamba|langostino|pescado|sardina|anchoa|calamar|pulpo|mejillon|dorada|lubina|trucha|marisco/],[2,/huevo|leche|yogur|queso|requeson|kefir|nata\b|cuajada|skyr/],[4,/lenteja|garbanzo|alubia|judias? (blanca|pinta|negra)|soja|tofu|tempeh|hummus/],[3,/\bpan\b|arroz|pasta|macarr|espagueti|fideo|avena|cereal|patata|boniato|tortita|cuscus|quinoa|harina|tostada|muesli|granola/],[5,/ensalada|tomate|lechuga|brocoli|espinaca|zanahoria|calabacin|pimiento|cebolla|verdura|champi|berenjena|coliflor|pepino|esparrago|judias verdes/],[6,/manzana|platano|naranja|fresa|uva|pera|sandia|melon|kiwi|pina|mandarina|fruta|melocoton|arandano|cereza|mango/],[7,/almendra|nuez|nueces|cacahuete|pistacho|avellana|anacardo|semilla|chia/],[8,/aceite|mantequilla|aguacate|margarina/],[9,/chocolate|galleta|refresco|azucar|helado|bollo|dulce|zumo|cerveza|vino|cola\b|mermelada|miel|caramelo|tarta|donut|croissant/],[10,/proteina|whey|creatina|caseina|bcaa|suplemento|barrita/]];
+let STZFM=null;
+function stzFcat(n){if(!STZFM){STZFM={};try{ALX.forEach(a=>{STZFM[NRM(a.n)]=a.cat})}catch(_){}}const k=NRM(n||"");if(Object.prototype.hasOwnProperty.call(STZFM,k))return STZFM[k];const m=STZFK.find(x=>x[1].test(k));return m?m[0]:-1}
+function stzFood(a,b){const nm=(typeof ALC!=="undefined"?ALC:[]).concat(["Recetas y platos","Sin clasificar"]),RC=nm.length-2,SC=nm.length-1,C={},F={};let kc=0,ds=0;
+ const put=(k,name,x)=>{const o=C[k]||(C[k]={k,n:nm[k],kc:0,p:0,c:0,f:0,reg:0});o.kc+=x[0];o.p+=x[1];o.c+=x[2];o.f+=x[3];o.reg++;kc+=x[0];
+  const id=NRM(name),f=F[id]||(F[id]={n:name,k,g:nm[k],kc:0,reg:0});f.kc+=x[0];f.reg++};
+ const cat=n=>{const c=stzFcat(n);return c>=0?c:SC};
+ for(let k=a;k<=b;k=stzAdd(k,1)){let L=[];try{L=nlDay(k)}catch(_){}if(!L.length)continue;ds++;
+  L.forEach(e=>{let x;try{x=nlE(e)}catch(_){return}if(!(x[0]>0))return;
+   if(Array.isArray(e.it)&&e.it.length){let t=0;const q=e.it.map(y=>{let z=[0,0,0,0];try{z=nlE(y)}catch(_){}t+=z[0];return z});
+    if(t>0){e.it.forEach((y,i)=>{if(!(q[i][0]>0))return;const f=x[0]/t;put(cat(y.n),y.n||"Sin nombre",q[i].map(v=>v*f))});return}}
+   put(e.u==="r"?(NRM(e.n)==="entrada rapida"?SC:RC):cat(e.n),e.n||"Sin nombre",x)})}
+ return{rows:Object.values(C).sort((x,y)=>y.kc-x.kc),top:Object.values(F).sort((x,y)=>y.kc-x.kc).slice(0,8),kc,ds,sin:C[SC]?C[SC].kc:0}}
+/* zonas de FC según la FC media de cada entreno (solo con FC en reposo y máxima) */
+function stzZon(hr,R){if(!R.ok||!R.Z.length)return null;const Z=R.Z.map(z=>({id:z.id,n:z.n,t:z.t,lo:z.lo,k:0})),u={n:"< Z1",t:"Por debajo de la zona 1",k:0};
+ hr.list.forEach(x=>{let z=null;for(let i=Z.length-1;i>=0;i--)if(x.pc>=Z[i].lo){z=Z[i];break}(z||u).k++});return{Z,u,t:hr.list.length}}
+/* nutrición: macros, adherencia al objetivo y kcal por semana */
+function stzNut(a,b,wk){const days=[];for(let k=a;k<=b;k=stzAdd(k,1)){let t=null;try{t=nlTot(k)}catch(_){}if(t&&Math.round(t[0])>0)days.push({k,kc:Math.round(t[0]),p:+t[1]||0,c:+t[2]||0,f:+t[3]||0})}
+ const n=days.length,m=x=>n?stzAvg(days.map(y=>y[x])):0,o={n,d:stzDays(a,b)+1,avg:m("kc"),p:m("p"),c:m("c"),f:m("f"),hi:null,lo:null,days};
+ days.forEach(y=>{if(!o.hi||y.kc>o.hi.v)o.hi={k:y.k,v:y.kc};if(!o.lo||y.kc<o.lo.v)o.lo={k:y.k,v:y.kc}});
+ if(wk)o.wk=wk.map(w=>{const q=days.filter(y=>y.k>=w.a&&y.k<=w.e);return q.length?{v:Math.round(stzAvg(q.map(y=>y.kc))),n:q.length}:{v:null,n:0}});
+ return o}
+/* recuperación: check-ins diarios (sueño, calidad, ánimo, fatiga, agujetas y readiness) */
+function stzRec(a,b){const o={n:0,h:0,q:0,m:0,f:0,d:0,sc:0,h7:0,best:null,worst:null,sc_by:{}};
+ for(let k=a;k<=b;k=stzAdd(k,1)){const r=S.rec&&S.rec[k];if(!r||!r.saved||!r.ci)continue;const c=r.ci;let sc=c.score!=null?+c.score:null;if(sc==null||!isFinite(sc)){try{sc=score(c)}catch(_){sc=null}}if(sc==null||!isFinite(sc))continue;
+  o.n++;o.h+=stzN(c.h);o.q+=stzN(c.q);o.m+=stzN(c.m);o.f+=stzN(c.f);o.d+=stzN(c.d);o.sc+=sc;if(stzN(c.h)>=7)o.h7++;o.sc_by[k]=sc;
+  if(!o.best||sc>o.best.v)o.best={k,v:sc};if(!o.worst||sc<o.worst.v)o.worst={k,v:sc}}
+ return o}
+/* composición corporal: últimas medidas de los tests de antropometría */
+function stzBody(d){const ids=[["pes","Peso","kg",1],["gr","% de grasa","%",1],["mm","Masa magra","kg",1],["pcin","Cintura","cm",1]],out=[];
+ ids.forEach(x=>{const L=((S.tests||{})[x[0]]||[]).filter(e=>e&&e.d&&isFinite(+e.v)).slice().sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0).filter(e=>e.d<=today);if(!L.length)return;
+  const last=L[L.length-1],inn=L.filter(e=>e.d>=d.from),bef=L.filter(e=>e.d<d.from),base=bef.length?bef[bef.length-1]:(inn.length>1?inn[0]:null);
+  out.push({k:x[0],n:x[1],u:x[2],last,base,nin:inn.length,dl:base&&base!==last?+last.v-+base.v:null,pc:base&&base!==last&&+base.v?(+last.v-+base.v)/+base.v*100:null,fin:last.d>=d.from})});return out}
 function stzD(){
  const done=S.sessions.filter(s=>!s.rec&&s.done&&s.date);let W=STZ.p;
- if(!W){const f=done.map(s=>s.date).sort()[0];const dd=f?Math.round((new Date(today+"T00:00")-new Date(f+"T00:00"))/864e5)+1:28;W=Math.min(52,Math.max(1,Math.ceil(dd/7)))}
+ if(!W){const f=done.map(s=>s.date).sort()[0];const dd=f?stzDays(f,today)+1:28;W=Math.min(52,Math.max(1,Math.ceil(dd/7)))}
  const from=stzAdd(today,-7*W+1),pF=stzAdd(from,-7*W),pT=stzAdd(from,-1);
  let peso=0;try{peso=stzN((nxBody()||{}).peso)}catch(_){}
- const cur=stzAgg(from,today,peso),prev=STZ.p?stzAgg(pF,pT,peso):null;
- const wk=[];for(let j=0;j<W;j++){const e=stzAdd(today,-7*(W-1-j)),a=stzAdd(e,-6),w=S.sessions.filter(s=>!s.rec&&s.done&&s.date>=a&&s.date<=e);wk.push({a,e,n:w.length,min:w.reduce((x,s)=>x+stzN(s.total),0)})}
+ const cur=stzAgg(from,today,peso),prev=STZ.p?stzAgg(pF,pT,peso):null,dn=stzDone(from,today);
+ const wk=[];for(let j=0;j<W;j++){const e=stzAdd(today,-7*(W-1-j)),a=stzAdd(e,-6),w=stzDone(a,e);wk.push({a,e,n:w.length,min:w.reduce((x,s)=>x+stzN(s.total),0)})}
  let mx=wk[0],mn=wk[0];wk.forEach(w=>{if(w.n>=mx.n)mx=w;if(w.n<mn.n)mn=w});
- const ty={};S.sessions.filter(s=>!s.rec&&s.done&&s.date>=from&&s.date<=today).forEach(s=>{const t=sty(s),o=ty[t]||(ty[t]={t,n:0,min:0});o.n++;o.min+=stzN(s.total)});
+ const ty={};dn.forEach(s=>{const t=sty(s),o=ty[t]||(ty[t]={t,n:0,min:0});o.n++;o.min+=stzN(s.total)});
  const tys=Object.values(ty).sort((x,y)=>y.n-x.n||y.min-x.min);
- const nut=stzNut(from,today),nutP=STZ.p?stzNut(pF,pT):null;let G=null;try{G=nlGoal()}catch(_){}
- return{W,from,pF,pT,peso,cur,prev,wk,mx,mn,tys,nut,nutP,G,days:7*W}}
+ const nut=stzNut(from,today,wk),nutP=STZ.p?stzNut(pF,pT):null;let G=null;try{G=nlGoal()}catch(_){}
+ const R=stzRef(),hr=stzHr(from,today,R),hrP=STZ.p?stzHr(pF,pT,R):null;
+ const d={W,from,pF,pT,peso,cur,prev,wk,mx,mn,tys,nut,nutP,G,days:7*W,R,hr,hrP,dn};
+ d.ld=stzLoad(d);d.it=stzInt(dn);d.dw=stzDow(d);d.mu=stzMus(dn,W);d.ex=stzEx(d);d.rp=stzRep(dn);d.zo=stzZon(hr,R);
+ d.cat=stzCat(dn);d.fd=stzFood(from,today);d.rc=stzRec(from,today);d.rcP=STZ.p?stzRec(pF,pT):null;d.bd=stzBody(d);d.ins=stzIns(d);
+ return d}
 /* variación respecto al periodo anterior */
-function stzDl(c,p,pts){if(p==null)return"";if(p===0&&c===0)return`<span class="stzd z">= igual</span>`;const d=pts?c-p:(p>0?Math.round((c-p)/p*100):null);if(d==null)return`<span class="stzd z">sin datos antes</span>`;
- const u=pts?" pts":" %";return d>0?`<span class="stzd u">▲ ${stzF(d)}${u}</span>`:d<0?`<span class="stzd d">▼ ${stzF(Math.abs(d))}${u}</span>`:`<span class="stzd z">= igual</span>`}
+function stzDl(c,p,pts,unit){if(p==null)return"";if(p===0&&c===0)return`<span class="stzd z">= igual</span>`;const d=pts?c-p:(p>0?Math.round((c-p)/p*100):null);if(d==null)return`<span class="stzd z">sin datos antes</span>`;
+ const u=pts?(unit||" pts"):" %";return d>0?`<span class="stzd u">▲ ${stzF(d)}${u}</span>`:d<0?`<span class="stzd d">▼ ${stzF(Math.abs(d))}${u}</span>`:`<span class="stzd z">= igual</span>`}
+/* lectura automática del periodo */
+function stzIns(d){const I=[],c=d.cur,p=d.prev,W=d.W,ld=d.ld,hr=d.hr,nu=d.nut,rc=d.rc,A=(t,x)=>I.push({t,x});
+ if(c.n===0){A("info","Sin entrenos hechos en este periodo.");}
+ else{
+  if(c.pl>0){const q=stzPc(c.dn,c.pl);if(q>=90)A("ok",`Cumple el ${q} % de lo planificado (${c.dn} de ${c.pl} entrenos).`);else if(q>=70)A("info",`Cumplimiento del ${q} %: ${c.pl-c.dn} ${c.pl-c.dn===1?"entreno planificado sin hacer":"entrenos planificados sin hacer"}.`);else A("warn",`Cumplimiento bajo: solo el ${q} % de lo planificado (${c.dn} de ${c.pl} entrenos).`)}
+  if(p&&p.n>0){const ch=Math.round((c.n-p.n)/p.n*100);if(ch>=20)A("ok",`Entrena un ${ch} % más que en el periodo anterior (${c.n} frente a ${stzEn(p.n)}).`);else if(ch<=-20)A("warn",`Entrena un ${Math.abs(ch)} % menos que en el periodo anterior (${c.n} frente a ${stzEn(p.n)}).`)}
+  const z=d.wk.filter(w=>w.n===0).length;if(z>0)A("warn",`${z} de ${W} ${W===1?"semana":"semanas"} sin ningún entreno.`);
+  if(ld.acwr!=null){if(ld.hist<28)A("info",`Aún no hay 4 semanas de historial: el ratio de carga aguda/crónica (${stzF(ld.acwr,2)}) no es fiable.`);
+   else if(ld.acwr>1.5)A("warn",`Ratio de carga aguda/crónica de ${stzF(ld.acwr,2)}: la última semana supera con mucho su carga habitual (riesgo de sobrecarga).`);
+   else if(ld.acwr>1.3)A("info",`Ratio de carga aguda/crónica de ${stzF(ld.acwr,2)}: algo por encima de la zona óptima (0,8-1,3).`);
+   else if(ld.acwr>=0.8)A("ok",`Carga en la zona óptima: ratio aguda/crónica de ${stzF(ld.acwr,2)} (0,8-1,3).`);
+   else A("info",`Ratio de carga aguda/crónica de ${stzF(ld.acwr,2)}: semana de descarga o pérdida de estímulo (por debajo de 0,8).`)}
+  if(ld.mono!=null&&ld.mono>2)A("warn",`Monotonía de ${stzF(ld.mono,1)}: carga muy uniforme durante la semana (por encima de 2 se asocia a más fatiga y riesgo).`);
+  if(ld.sinRpe>0&&ld.sinRpe/c.n>=0.3)A("info",`Falta el RPE en ${ld.sinRpe} de ${c.n} entrenos: la carga interna es poco fiable.`);
+  if(d.dw.since!=null&&d.dw.since>=7)A("warn",`Lleva ${d.dw.since} días sin entrenar (último: ${stzDt(d.dw.last)}).`);
+  if(d.ex.prs.length)A("ok",`${d.ex.prs.length} ${d.ex.prs.length===1?"récord":"récords"} de 1RM estimado: ${d.ex.prs.slice(0,3).map(x=>x.n).join(", ")}${d.ex.prs.length>3?"…":""}.`);
+  if(c.fz>=2&&d.mu.rows.length){const lo=d.mu.rows.filter(x=>x.w<10),hi=d.mu.rows.filter(x=>x.w>20);
+   if(lo.length)A("info",`Por debajo de 10 series semanales: ${lo.slice(0,4).map(x=>x.n).join(", ")}${lo.length>4?"…":""}.`);
+   if(hi.length)A("info",`Por encima de 20 series semanales: ${hi.slice(0,4).map(x=>x.n).join(", ")}${hi.length>4?"…":""}.`)}
+  if(hr.n>0){if(hr.con/hr.n<0.5)A("info",`Solo ${hr.con} de ${hr.n} entrenos tienen pulsaciones: faltan datos para el análisis por sistemas energéticos.`);
+   const dom=STZSYS.map(x=>[x[1],hr.sys[x[0]].n]).sort((a,b)=>b[1]-a[1])[0];if(dom[1]>0)A("info",`Sistema energético predominante: ${dom[0].toLowerCase()} (${stzPc(dom[1],hr.n)} % de los entrenos).`)}}
+ if(nu.n>0){if(nu.d>0&&nu.n/nu.d<0.5)A("info",`Solo registra comidas el ${stzPc(nu.n,nu.d)} % de los días.`);
+  const G=d.G;if(nu.n>=7&&G&&G.k>0){const ok=nu.days.filter(y=>Math.abs(y.kc-G.k)/G.k<=0.1).length,q=stzPc(ok,nu.n);if(q>=70)A("ok",`Ajusta las calorías al objetivo (±10 %) el ${q} % de los días registrados.`);else A("warn",`Solo ajusta las calorías al objetivo (±10 %) el ${q} % de los días registrados.`)}
+  if(nu.n>=7&&d.peso>0&&nu.p>0){const g=nu.p/d.peso;if(g<1.6)A("info",`Proteína media de ${stzF(g,1)} g/kg al día (referencia de 1,6 a 2,2 g/kg para fuerza e hipertrofia).`)}}
+ if(rc.n>0){const h=rc.h/rc.n;if(h<6.5)A("warn",`Duerme de media ${stzF(h,1)} h (por debajo de 6,5 h).`);else if(h<7)A("info",`Duerme de media ${stzF(h,1)} h (por debajo de 7 h).`);else if(h>=7.5)A("ok",`Duerme de media ${stzF(h,1)} h.`);
+  const pr=d.rcP;if(pr&&pr.n>0){const df=Math.round(rc.sc/rc.n-pr.sc/pr.n);if(df<=-10)A("warn",`Su readiness medio baja ${Math.abs(df)} puntos respecto al periodo anterior.`);else if(df>=10)A("ok",`Su readiness medio sube ${df} puntos respecto al periodo anterior.`)}}
+ const o={warn:0,ok:1,info:2};return I.sort((a,b)=>o[a.t]-o[b.t])}
+/* resumen en texto para copiar o enviar */
+function stzTxt(d){const c=d.cur,p=d.prev,l=[];l.push(`ESTADÍSTICAS DE ${(CL.name||"").toUpperCase()} · ${stzRg(d.from,today)} (${d.W} ${d.W===1?"semana":"semanas"})`);
+ const dl=(a,b)=>p&&b>0?` (${stzSg(Math.round((a-b)/b*100))} % vs periodo anterior)`:"";
+ l.push(`Entrenos: ${c.n} · ${stzF(c.n/d.W,1)} por semana${dl(c.n,p&&p.n)}`);if(c.min>0)l.push(`Tiempo: ${stzDur(c.min)}${dl(c.min,p&&p.min)}`);
+ if(c.kg>0)l.push(`Peso movido: ${stzF(c.kg)} kg · ${stzF(c.sets)} series · ${stzF(c.reps)} repeticiones`);
+ if(d.ld.tot>0)l.push(`Carga interna: ${stzF(d.ld.tot)} UA · ratio aguda/crónica ${d.ld.acwr!=null?stzF(d.ld.acwr,2):"–"}`);
+ if(c.pl>0)l.push(`Cumplimiento: ${stzPc(c.dn,c.pl)} % (${c.dn} de ${c.pl})`);
+ if(d.hr.con)l.push(`FC media: ${stzAv(d.hr)} ppm (${d.hr.con} de ${d.hr.n} entrenos) · FC máx. ${d.hr.mx} ppm`);
+ if(d.nut.n)l.push(`Comidas: ${stzF(d.nut.avg)} kcal/día${d.G&&d.G.k>0?" ("+Math.round(d.nut.avg/d.G.k*100)+" % del objetivo)":""} · P ${stzF(d.nut.p)} g · C ${stzF(d.nut.c)} g · G ${stzF(d.nut.f)} g`);
+ if(d.cat.tn)l.push("Tipos de ejercicio: "+d.cat.rows.map(r=>r.c+" "+stzPc(r.n,d.cat.tn)+" %").join(" · "));
+ if(d.fd.kc>0)l.push("Tipos de alimentos: "+d.fd.rows.slice(0,6).map(r=>r.n+" "+stzPc(r.kc,d.fd.kc)+" %").join(" · "));
+ if(d.rc.n)l.push(`Recuperación: sueño ${stzF(d.rc.h/d.rc.n,1)} h · readiness ${Math.round(d.rc.sc/d.rc.n)}/100`);
+ if(d.ins.length){l.push("");l.push("Lectura del periodo:");d.ins.forEach(x=>l.push((x.t==="warn"?"⚠ ":x.t==="ok"?"✔ ":"• ")+x.x))}
+ return l.join("\n")}
+/* ---------------- pantalla ---------------- */
 function stzH(){
  if(ROLE!=="coach"||!CL||NUTRI)return"";
- const d=stzD(),c=d.cur,p=d.prev,wks=d.W,per=n=>n/wks;
+ const d=stzD(),c=d.cur,p=d.prev,wks=d.W,per=n=>n/wks,hr=d.hr,ld=d.ld,rc=d.rc,S_=STZ.s;
  const chip=(v,t)=>`<button class="${STZ.p===v?"on":""}" data-stz="p" data-v="${v}">${t}</button>`;
  const pcs=[["4 semanas",4],["8 semanas",8],["12 semanas",12],["Todo",0]].map(x=>chip(x[1],x[0])).join("");
+ const scs=STZSEC.map(x=>`<button class="${S_===x[0]?"on":""}" data-stz="s" data-v="${x[0]}">${x[1]}</button>`).join("");
  const prevTxt=p?` · se compara con ${stzRg(d.pF,d.pT)}`:"";
- const none=c.n===0;
- const kcalV=c.kcal>0?`${stzF(c.kcal)} <small>kcal</small>`:`– <small>kcal</small>`;
- const kcalS=d.peso>0?(c.kcal>0?`Estimadas con su peso (${stzF(d.peso,1)} kg) y el esfuerzo (RPE) de cada entreno${c.sinRpe?` · ${c.sinRpe} sin RPE no cuentan`:""}`:"Faltan minutos o RPE en los entrenos"):"Falta el peso del cliente: regístralo en Tests › Antropometría o en el cuestionario";
- const gP=d.G&&d.G.k>0&&d.nut.avg>0?Math.round(d.nut.avg/d.G.k*100):null;
  const K=(l,v,s,dl)=>`<div class="card stzk"><i>${l}</i><b>${v}</b><small>${s}</small>${dl||""}</div>`;
+ const gP=d.G&&d.G.k>0&&d.nut.avg>0?Math.round(d.nut.avg/d.G.k*100):null;
  let h=`<div class="sec" style="margin-top:4px">Estadísticas <span class="script">de ${esc(CL.name||"tu cliente")}</span></div>
 <div class="stzp" role="group" aria-label="Periodo">${pcs}</div>
+<div class="stzs" role="tablist" aria-label="Apartados">${scs}</div>
 <small class="stzr" id="stzrg">${esc(stzRg(d.from,today))} · ${d.days} días${esc(prevTxt)}</small>`;
- if(none)h+=`<div class="card"><b>Sin entrenos hechos en este periodo</b><br><small>Cuando el cliente marque entrenamientos como realizados, aquí verás su tiempo, kilos, series y repeticiones.</small></div>`;
+ if(S_==="res")h+=stzSecRes(d,K,gP,per);
+ else if(S_==="ent")h+=stzSecEnt(d,K,per);
+ else if(S_==="fue")h+=stzSecFue(d,K);
+ else if(S_==="fc")h+=stzSecFc(d,K);
+ else if(S_==="nut")h+=stzSecNut(d,K,gP);
+ else if(S_==="rec")h+=stzSecRec(d,K);
+ else h+=stzSecCue(d);
+ return h.replace(/ %/g," %")}
+function stzSecRes(d,K,gP,per){const c=d.cur,p=d.prev,wks=d.W,ld=d.ld,rc=d.rc;let h="";
+ const icon={warn:"⚠",ok:"✔",info:"ℹ"};
+ h+=`<div class="card" id="stzin"><b>Lectura del periodo</b>`+(d.ins.length?`<div class="stzi">${d.ins.map(x=>`<div class="stzi-${x.t}"><i aria-hidden="true">${icon[x.t]}</i><span>${esc(x.x)}</span></div>`).join("")}</div>`:`<br><small>Todavía no hay datos suficientes para sacar conclusiones.</small>`)+`</div>`;
+ if(c.n===0)h+=`<div class="card"><b>Sin entrenos hechos en este periodo</b><br><small>Cuando el cliente marque entrenamientos como realizados, aquí verás su tiempo, kilos, series y repeticiones.</small></div>`;
+ const kcalV=c.kcal>0?`${stzF(c.kcal)} <small>kcal</small>`:`– <small>kcal</small>`;
+ const kcalS=d.peso>0?(c.kcal>0?`Estimadas con su peso (${stzF(d.peso,1)} kg) y el esfuerzo (RPE) de cada entreno${c.sinRpe?` · ${c.sinRpe} sin RPE no cuentan`:""}`:"Faltan minutos o RPE en los entrenos"):"Falta el peso del cliente: regístralo en Tests › Antropometría o en el cuestionario";
  h+=`<div class="stzg">`+
   K("Entrenos",stzF(c.n),`${stzF(per(c.n),1)} por semana`,stzDl(c.n,p&&p.n))+
   K("Tiempo",c.min>0?stzDur(c.min):"–",c.n&&c.min>0?`${stzDur(c.min/Math.max(1,c.n-c.sinMin))} de media por entreno${c.sinMin?` · ${c.sinMin} sin duración`:""}`:"Sin duración registrada",stzDl(c.min,p&&p.min))+
@@ -3065,31 +3246,237 @@ function stzH(){
   K("Kcal entrenando",kcalV,kcalS,stzDl(c.kcal,p&&p.kcal))+
   K("Kcal comidas",d.nut.n?`${stzF(d.nut.avg)} <small>kcal/día</small>`:"– <small>kcal/día</small>",d.nut.n?`${gP!=null?gP+" % de su objetivo ("+stzF(d.G.k)+" kcal) · ":""}${d.nut.n} de ${d.days} días registrados`:"Aún no registra comidas en este periodo",stzDl(d.nut.avg,d.nutP&&d.nutP.avg))+
   K("Cumplimiento",c.pl?`${stzPc(c.dn,c.pl)}&nbsp;<small>%</small>`:"–&nbsp;<small>%</small>",c.pl?`${c.dn} de ${c.pl} entrenos planificados`:"Sin entrenos planificados",p&&p.pl&&c.pl?stzDl(stzPc(c.dn,c.pl),stzPc(p.dn,p.pl),1):"")+
+  K("Carga interna",ld.tot>0?`${stzF(ld.tot)} <small>UA</small>`:"– <small>UA</small>",ld.tot>0?`${stzF(ld.tot/wks)} UA por semana (minutos × RPE)`:"Faltan minutos o RPE en los entrenos",stzDl(ld.tot,ld.prev))+
+  K("Recuperación",rc.n?`${Math.round(rc.sc/rc.n)} <small>/ 100</small>`:"– <small>/ 100</small>",rc.n?`Readiness medio · ${rc.n} check-ins · sueño ${stzF(rc.h/rc.n,1)} h`:"Aún no hay check-ins en este periodo",d.rcP&&rc.n&&d.rcP.n?stzDl(Math.round(rc.sc/rc.n),Math.round(d.rcP.sc/d.rcP.n),1," pts"):"")+
   `</div>`;
- /* entrenos por semana */
- const tot=d.wk.reduce((a,w)=>a+w.n,0),top=Math.max(1,...d.wk.map(w=>w.n)),z=d.wk.filter(w=>w.n===0).length;
- h+=`<div class="card" id="stzwk"><b>Entrenos por semana</b><small style="display:block;margin:2px 0 8px;color:#6f685e">Cada columna es una semana de 7 días contados hacia atrás desde hoy. Los porcentajes son sobre el total de entrenos del periodo.</small>
-<div class="stzw">${d.wk.map(w=>`<div title="${esc(stzRg(w.a,w.e))}"><span class="v">${w.n}</span><i class="b${w.n?"":" z"}" style="height:${Math.max(3,Math.round(w.n/top*72))}px"></i><small>${stzDt(w.a).replace(" "," ")}</small></div>`).join("")}</div>
-${stzR("Media",stzF(tot/wks,1)+" <span class=\"stzu\">por semana</span>")}
-${stzR("Semana con más entrenos",stzEn(d.mx.n)+" · "+stzPc(d.mx.n,tot)+" %",esc(stzRg(d.mx.a,d.mx.e)))}
-${stzR("Semana con menos entrenos",stzEn(d.mn.n)+" · "+stzPc(d.mn.n,tot)+" %",esc(stzRg(d.mn.a,d.mn.e)))}
-${stzR("Semanas sin entrenar",z+" de "+wks+" · "+stzPc(z,wks)+" %")}</div>`;
- /* reparto por tipo */
+ const tot=d.wk.reduce((a,w)=>a+w.n,0),z=d.wk.filter(w=>w.n===0).length;
+ h+=stzC("stzwk","Entrenos por semana","Cada columna es una semana de 7 días contados hacia atrás desde hoy. Los porcentajes son sobre el total de entrenos del periodo.",
+  stzBars(d.wk.map(w=>({v:w.n,l:stzDt(w.a).replace(" ","\u00a0"),t:stzRg(w.a,w.e)})))+
+  stzR("Media",stzF(tot/wks,1)+" <span class=\"stzu\">por semana</span>")+
+  stzR("Semana con más entrenos",stzEn(d.mx.n)+" · "+stzPc(d.mx.n,tot)+" %",esc(stzRg(d.mx.a,d.mx.e)))+
+  stzR("Semana con menos entrenos",stzEn(d.mn.n)+" · "+stzPc(d.mn.n,tot)+" %",esc(stzRg(d.mn.a,d.mn.e)))+
+  stzR("Semanas sin entrenar",z+" de "+wks+" · "+stzPc(z,wks)+" %"));
  if(d.tys.length){const tm=d.tys.reduce((a,x)=>a+x.min,0);
-  h+=`<div class="card" id="stzty"><b>Reparto por tipo de entreno</b>${d.tys.map(x=>{const nm=(ET.find(e=>e[0]===x.t)||[x.t,x.t])[1],pn=stzPc(x.n,c.n);return`<div class="stzt">${stzR(esc(nm),stzEn(x.n)+" · "+pn+" %",x.min>0?stzDur(x.min)+" · "+stzPc(x.min,tm)+" % del tiempo":"")}<i><u style="width:${pn}%"></u></i></div>`}).join("")}</div>`}
- /* nutrición */
- h+=`<div class="card" id="stzut"><b>Calorías de las comidas</b>`+(d.nut.n?`
-${stzR("Media diaria",stzF(d.nut.avg)+" kcal")}
-${d.G&&d.G.k>0?stzR("Objetivo diario",stzF(d.G.k)+" kcal",gP+" % cumplido de media"):""}
-${stzR("Días con comidas registradas",d.nut.n+" de "+d.days+" · "+stzPc(d.nut.n,d.days)+" %")}
-${stzR("Día con más kcal",stzF(d.nut.hi.v)+" kcal",stzDt(d.nut.hi.k))}
-${stzR("Día con menos kcal",stzF(d.nut.lo.v)+" kcal",stzDt(d.nut.lo.k))}`:`<br><small>Aún no registra comidas en este periodo.</small>`)+`</div>`;
- h+=`<div class="card"><small>Cálculo: solo cuentan los entrenos marcados como hechos. Series, repeticiones y kilos salen de las series que el cliente registró; si en un entreno no registró nada se usa lo prescrito${c.plan?` (${c.plan} ${c.plan===1?"entreno":"entrenos"} del periodo)`:""}. Los kilos son repeticiones × carga. Las kcal de entreno son una estimación: METs según el RPE (hasta 4 → 3,3 · 5 a 7 → 4 · 8 o más → 8) × peso × horas. El cumplimiento compara los entrenos hechos con los planificados hasta hoy.</small></div>`;
- return h.replace(/ %/g,"\u00a0%")}
-document.addEventListener("click",ev=>{const b=ev.target.closest("[data-stz]");if(!b)return;STZ.p=+b.dataset.v||0;render()});
+  h+=stzC("stzty","Reparto por tipo de entreno","Tipo de sesión (fuerza, running, spinning…): número de entrenos y tiempo.",d.tys.map(x=>{const nm=stzSn(x.t),pn=stzPc(x.n,c.n);return`<div class="stzt">${stzR(esc(nm),stzEn(x.n)+" · "+pn+" %",x.min>0?stzDur(x.min)+" · "+stzPc(x.min,tm)+" % del tiempo":"")}${stzBar(pn)}</div>`}).join(""))}
+ h+=`<div class="stza"><button data-stz="copy" id="stzcp">Copiar resumen</button><button data-stz="print">Imprimir o guardar en PDF</button></div>`;
+ h+=stzFoot(`solo cuentan los entrenos marcados como hechos. Series, repeticiones y kilos salen de las series que el cliente registró; si en un entreno no registró nada se usa lo prescrito${c.plan?` (${c.plan} ${c.plan===1?"entreno":"entrenos"} del periodo)`:""}. Los kilos son repeticiones × carga. Las kcal de entreno son una estimación: METs según el RPE (hasta 4 → 3,3 · 5 a 7 → 4 · 8 o más → 8) × peso × horas. El cumplimiento compara los entrenos hechos con los planificados hasta hoy. Lectura automática: avisos con umbrales orientativos (cumplimiento, frecuencia, ratio de carga aguda/crónica de 0,8 a 1,3, monotonía de Foster, series semanales por grupo, adherencia calórica, proteína, sueño y readiness); sirven para priorizar qué revisar, no sustituyen tu criterio.`);
+ return h}
+function stzSecEnt(d,K,per){const c=d.cur,ld=d.ld,it=d.it,dw=d.dw,wks=d.W;let h="";
+ const st=ld.acwr==null?"":ld.hist<28?"stzd z":ld.acwr>1.5?"stzd d":ld.acwr>1.3?"stzd z":ld.acwr>=0.8?"stzd u":"stzd z";
+ const stT=ld.acwr==null?"":ld.hist<28?"Poco historial":ld.acwr>1.5?"Riesgo alto":ld.acwr>1.3?"Algo elevado":ld.acwr>=0.8?"Zona óptima":"Por debajo";
+ h+=stzC("stzld","Carga interna (minutos × RPE)","Unidades arbitrarias (UA) de cada semana y estado actual de carga.",
+  stzBars(d.wk.map((w,j)=>({v:ld.wk[j]||0,l:stzDt(w.a).replace(" "," "),t:stzRg(w.a,w.e)})),{f:stzK,c:"wd"})+
+  stzR("Total del periodo",stzF(ld.tot)+" UA",ld.prev!=null?`${stzF(ld.prev)} UA en el periodo anterior`:"")+
+  stzR("Media semanal",stzF(ld.tot/wks)+" UA",c.n?`${stzF(ld.tot/Math.max(1,c.n))} UA de media por entreno`:"")+
+  (()=>{const w=ld.wk,r=w.map((v,i)=>i&&w[i-1]>0?(v-w[i-1])/w[i-1]*100:null).filter(x=>x!=null);return r.length?stzR("Mayor subida semanal",stzSg(Math.round(Math.max(...r)))+" %","Respecto a la semana anterior"):""})()+
+  stzR("Ratio aguda/crónica",ld.acwr!=null?stzF(ld.acwr,2):"–",ld.acwr!=null?`Última semana ${stzF(ld.ac)} UA frente a una media de ${stzF(ld.ch)} UA en 4 semanas · <span class="${st}">${stT}</span>`:"Faltan datos de las últimas 4 semanas")+
+  stzR("Monotonía (7 días)",ld.mono!=null?stzF(ld.mono,1):"–",ld.mono!=null?(ld.mono>2?"Alta: poca variación entre días":"Normal (por debajo de 2)"):"Se necesitan varios días con carga distinta")+
+  stzR("Tensión (carga × monotonía)",ld.strain!=null?stzF(ld.strain):"–",ld.strain!=null?"Última semana":"")+
+  (ld.sinRpe?stzNoc(`${ld.sinRpe} ${ld.sinRpe===1?"entreno sin RPE no suma":"entrenos sin RPE no suman"} carga.`):""));
+ const tm=it.tm,pol=tm>0?it.B.map(b=>stzPc(b.min,tm)).join(" : "):"";
+ h+=stzC("stzin2","Intensidad del esfuerzo","Reparto de los entrenos según su RPE y duración.",
+  stzR("RPE medio",it.n?stzF(it.rpe,1)+" / 10":"–",it.n?`En ${it.n} de ${c.n} entrenos con RPE`:"Sin RPE registrado")+
+  it.B.map(b=>`<div class="stzt">${stzR(esc(b.k),it.n?stzEn(b.n)+" · "+stzPc(b.n,it.n)+" %":"–",it.n?`${esc(b.d)}${b.min>0?" · "+stzDur(b.min)+" · "+stzPc(b.min,tm)+" % del tiempo":""}`:esc(b.d))}${stzBar(it.n?stzPc(b.n,it.n):0)}</div>`).join("")+
+  (pol?stzR("Tiempo suave : moderado : intenso",pol,"En porcentaje del tiempo con RPE"):"")+
+  stzR("Duración media",it.nd?stzDur(c.min/Math.max(1,it.nd)):"–",it.nd?`Mediana ${stzDur(it.med)} · de ${stzDur(it.mn.m)} a ${stzDur(it.mx.m)}`:"Sin duración registrada"));
+ const ca=d.cat;
+ h+=stzC("stzcat","Tipos de ejercicio","Reparto de los ejercicios hechos según su categoría en la biblioteca (fuerza, pliometría, resistencia…).",
+  ca.tn?ca.rows.map(r=>`<div class="stzt">${stzR(esc(r.c),stzPc(r.n,ca.tn)+" %",`${r.n} ${r.n===1?"ejercicio":"ejercicios"} · ${r.sets} ${r.sets===1?"serie":"series"}${ca.ts?" · "+stzPc(r.sets,ca.ts)+" % de las series":""}${r.kg>0?" · "+stzF(r.kg)+" kg":""}`)}${stzBar(stzPc(r.n,ca.tn))}</div>`).join("")+stzNoc(`Total: ${ca.tn} ${ca.tn===1?"ejercicio":"ejercicios"} y ${ca.ts} series.${ca.rows.some(r=>r.c==="Sin categoría")?" «Sin categoría» son ejercicios que no están en la biblioteca con categoría.":""} Las sesiones sin ejercicios cargados (una carrera, por ejemplo) aparecen en «Reparto por tipo de entreno», en Resumen.`):"<div class=stzn>Todavía no hay ejercicios cargados en los entrenos hechos de este periodo.</div>");
+ const mxd=Math.max(1,...dw.c);
+ h+=stzC("stzcn","Constancia","Días de la semana en que entrena y pausas entre entrenos.",
+  dw.c.map((n,i)=>`<div class="stzt">${stzR(STZDW[i],stzEn(n)+" · "+stzPc(n,c.n)+" %")}${stzBar(n/mxd*100)}</div>`).join("")+
+  stzR("Día más habitual",c.n?STZDW[dw.c.indexOf(Math.max(...dw.c))]:"–",c.n?stzEn(Math.max(...dw.c))+" · "+stzPc(Math.max(...dw.c),c.n)+" %":"")+
+  stzR("Pausa más larga",c.n>1?dw.gap+" "+(dw.gap===1?"día":"días"):"–",dw.g0?esc(stzRg(dw.g0[0],dw.g0[1])):"Entre dos entrenos seguidos")+
+  stzR("Semanas con 3 o más entrenos",dw.w3+" de "+wks+" · "+stzPc(dw.w3,wks)+" %")+
+  stzR("Racha de semanas entrenando",dw.st+" "+(dw.st===1?"semana":"semanas"),"Seguidas hasta hoy, con al menos un entreno")+
+  stzR("Último entreno",dw.last?stzDt(dw.last):"–",dw.since!=null?(dw.since===0?"Hoy":"Hace "+dw.since+(dw.since===1?" día":" días")):""));
+ return h+stzFoot("Carga interna (Foster): minutos × RPE de cada entreno. El ratio aguda/crónica compara la carga de los últimos 7 días con la media semanal de los últimos 28 (zona óptima de 0,8 a 1,3; por encima de 1,5, riesgo alto). La monotonía es la carga media diaria entre su desviación en 7 días, y la tensión es esa carga semanal por la monotonía. Intensidad: RPE 1-4 suave, 5-7 moderado, 8-10 intenso.")}
+function stzSecFue(d,K){const c=d.cur,mu=d.mu,ex=d.ex,rp=d.rp,wks=d.W;let h="";
+ if(!c.fz)return stzC("stzfz","Fuerza","",`<div class="stzn">Sin entrenos de fuerza en este periodo.</div>`)+stzNoc("Aquí se analizan las series, kilos y repeticiones de los entrenos con ejercicios.");
+ const stt=w=>w<10?["Bajo","stzd z"]:w<=20?["Óptimo","stzd u"]:["Alto","stzd d"],mxs=Math.max(1,...mu.rows.map(x=>x.s));
+ h+=`<div class="stzg">`+K("Peso movido",`${stzF(c.kg)} <small>kg</small>`,`${stzF(c.kg/c.fz)} kg de media por entreno de fuerza`,stzDl(c.kg,d.prev&&d.prev.kg))+K("Series",stzF(c.sets),`${stzF(c.sets/wks,1)} por semana`,stzDl(c.sets,d.prev&&d.prev.sets))+K("Repeticiones",stzF(c.reps),c.sets?`${stzF(c.reps/c.sets,1)} de media por serie`:"",stzDl(c.reps,d.prev&&d.prev.reps))+K("Récords 1RM",String(ex.prs.length),ex.prs.length?ex.prs.slice(0,3).map(x=>esc(x.n)).join(", "):"Ningún ejercicio supera su mejor marca anterior",ex.prs.length?"":"")+`</div>`;
+ h+=stzC("stzmu","Series semanales por grupo muscular","Principal cuenta 1 serie y secundario 0,4. Referencia: de 10 a 20 series por grupo y semana.",
+  mu.rows.map(x=>{const s=stt(x.w);return`<div class="stzt">${stzR(esc(x.n),stzF(x.w,1)+" series/sem",`${stzF(x.s,1)} en el periodo · ${stzPc(x.s,mu.tot)} % del total · <span class="${s[1]}">${s[0]}</span>`)}${stzBar(x.s/mxs*100)}</div>`}).join("")+
+  (mu.none.length?stzNoc("Sin trabajo en el periodo: "+esc(mu.none.join(", "))+"."):"")+(mu.un?stzNoc(`${mu.un} ${mu.un===1?"ejercicio sin grupo muscular asignado no cuenta":"ejercicios sin grupo muscular asignado no cuentan"}.`):""));
+ h+=stzC("stztp","Ejercicios con más volumen","Kilos totales (repeticiones × carga) de las series registradas.",
+  ex.top.length?ex.top.map(o=>stzR(esc(o.n),o.kg>0?stzF(o.kg)+" kg":o.sets+" "+(o.sets===1?"serie":"series"),`${o.kg>0?stzPc(o.kg,ex.tk)+" % del total · "+o.sets+" "+(o.sets===1?"serie":"series"):"Sin carga externa"} en ${o.ses} ${o.ses===1?"sesión":"sesiones"}${o.be>0?` · mejor serie ${stzF(o.bw)} kg × ${o.br}`:""}`)).join(""):"<div class=stzn>Aún no hay series registradas con repeticiones.</div>");
+ h+=stzC("stzpr","Progresión del 1RM estimado","Mejor serie de la primera y de la última sesión de cada ejercicio en el periodo (media de seis fórmulas).",
+  ex.pr.length?ex.pr.slice(0,8).map(o=>stzR(esc(o.n),o.dl!=null?stzSg(Math.round(o.dl))+" %":"–",`${stzF(o.f)} → ${stzF(o.l)} kg${o.np<2?" · una sola sesión":""}${o.rec?" · récord":o.nw?" · primera vez":""}`)).join(""):"<div class=stzn>Hacen falta series con peso y de 1 a 12 repeticiones.</div>");
+ h+=stzC("stzrp","Zonas de repeticiones","Series registradas según su número de repeticiones.",
+  rp.t?rp.B.map(b=>`<div class="stzt">${stzR(esc(b.k),b.n+" "+(b.n===1?"serie":"series")+" · "+stzPc(b.n,rp.t)+" %",esc(b.d))}${stzBar(stzPc(b.n,rp.t))}</div>`).join(""):"<div class=stzn>Aún no hay series registradas.</div>");
+ return h+stzFoot("1RM estimado: media de seis fórmulas (Epley, Brzycki, Lombardi, O'Connor, Mayhew y Wathan) con series de 1 a 12 repeticiones. «Récord» es una mejor marca del periodo por encima de todo lo anterior. Las series por grupo muscular usan lo registrado y, si no hay registro, lo prescrito.")}
+function stzSecFc(d,K){const hr=d.hr,R=d.R,lab=R.lab,p=d.hrP;let h="";
+ h+=`<div class="stzg">`+
+  K("FC media",hr.con?`${stzF(stzAv(hr))} <small>ppm</small>`:"– <small>ppm</small>",hr.con?`En ${hr.con} de ${hr.n} entrenos (${stzPc(hr.con,hr.n)} %)${stzAp(hr)!=null?` · ${stzAp(hr)} % de su ${lab}`:""}`:"Sin pulsaciones registradas en este periodo",p&&hr.con?(p.con?stzDl(stzAv(hr),stzAv(p),1," ppm"):`<span class="stzd z">sin datos antes</span>`):"")+
+  K("FC máxima",hr.mx?`${stzF(hr.mx)} <small>ppm</small>`:"– <small>ppm</small>",hr.mx?`Pico en un entreno · ${stzDt(hr.mxk)}`:"Sin pulsaciones registradas en este periodo",p&&hr.mx?(p.mx?stzDl(hr.mx,p.mx,1," ppm"):`<span class="stzd z">sin datos antes</span>`):"")+`</div>`;
+ if(!hr.n)return h+stzC("stzhs","Pulsaciones","",`<div class="stzn">Sin entrenos hechos en este periodo.</div>`);
+ const sr=(nm,x,tot)=>{const pn=stzPc(x.n,tot);return`<div class="stzt">${stzR(esc(nm),x.con?stzF(stzAv(x))+" ppm":"–",stzEn(x.n)+" · "+pn+" % del total<br>"+(x.con?x.con+" con FC"+(stzAp(x)!=null?" · "+stzAp(x)+" % "+lab:"")+" · máx. "+stzF(x.mx)+" ppm":"Sin pulsaciones registradas"))}${stzBar(pn)}</div>`};
+ h+=stzC("stzhs","Pulsaciones por sistema energético","FC media de los entrenos de cada sistema. Lo marca el entrenador en cada sesión; si no, se asigna solo (mira «Cómo se calcula»).",STZSYS.map(x=>sr(x[1],hr.sys[x[0]],hr.n)).join("")+(hr.sys[""].n?sr("Sin clasificar",hr.sys[""],hr.n):""));
+ const zo=d.zo;
+ if(zo&&zo.t)h+=stzC("stzhz","Zonas de FC de cada entreno","Zona en la que cae la FC media de cada entreno (según las zonas del cliente).",zo.Z.map(z=>`<div class="stzt">${stzR(esc(z.n+" · "+z.t),z.k+" "+(z.k===1?"entreno":"entrenos")+" · "+stzPc(z.k,zo.t)+" %",z.lo+" % de la FC de reserva o más")}${stzBar(stzPc(z.k,zo.t))}</div>`).join("")+(zo.u.k?`<div class="stzt">${stzR(esc(zo.u.n+" · "+zo.u.t),zo.u.k+" "+(zo.u.k===1?"entreno":"entrenos")+" · "+stzPc(zo.u.k,zo.t)+" %")}${stzBar(stzPc(zo.u.k,zo.t))}</div>`:""));
+ const sp=(S.sp||[]).slice(),keys=["fuerza"].concat(sp.filter(k=>k!=="fuerza"),Object.keys(hr.sp).filter(k=>k!=="fuerza"&&!sp.includes(k))),rows=keys.filter((k,i)=>keys.indexOf(k)===i&&(hr.sp[k]||sp.includes(k)));
+ h+=stzC("stzhp","Pulsaciones por deporte",`Fuerza y los deportes que ${esc((CL.name||"el cliente").split(" ")[0])} ha elegido.`,rows.map(k=>{const x=hr.sp[k];return x?stzR(esc(stzSn(k)),x.con?stzF(stzAv(x))+" ppm":"–",stzEn(x.n)+(x.con?" · "+x.con+" con FC"+(stzAp(x)!=null?" · "+stzAp(x)+" % "+lab:"")+"<br>máx. "+stzF(x.mx)+" ppm":" · sin pulsaciones")):stzR(esc(stzSn(k)),"–","Sin entrenos en este periodo")}).join(""));
+ h+=stzC("stzhl","Pulsaciones por entreno",hr.list.length?`Los últimos ${Math.min(8,hr.list.length)} entrenos con pulsaciones. «Auto» indica que el sistema se asignó solo.`:"",hr.list.length?hr.list.slice(0,8).map(x=>stzR(esc(stzDt(x.d)+" · "+x.name),stzF(x.fc)+" ppm",esc(stzSn(x.t))+" · "+(x.sy.k?STZSYS.find(y=>y[0]===x.sy.k)[1]+(x.sy.auto?" (auto)":""):"Sin clasificar")+(x.pc!=null?" · "+x.pc+" % "+lab:"")+(x.fm>x.fc?" · máx. "+stzF(x.fm)+" ppm":""))).join(""):`<div class="stzn">Aún no hay pulsaciones registradas. Se anotan en cada entreno («FC media» y «FC máx.») y aparecerán aquí.</div>`);
+ if(!R.max)h+=stzNoc("Para clasificar por pulsaciones y ver el % de FC de reserva falta la FC en reposo y máxima del cliente (Herramientas › Zonas de FC).");
+ return h+stzFoot(`Pulsaciones: la FC media de cada entreno se anota en la sesión; la del periodo es la media de esas FC medias. El sistema energético lo marca el entrenador en cada sesión; si no, se asigna solo: en fuerza y Athlet por las repeticiones (mediana de 5 o menos por serie → aláctico; más → láctico); en el resto por las pulsaciones (desde la zona 4, ${R.z4} % de la ${R.ok?"FC de reserva":"FC de reserva, o 85 % de la FC máx. si falta la FC en reposo"} → láctico; por debajo → aeróbico); y sin pulsaciones por el RPE (8 o más → láctico, menos → aeróbico). Movilidad, yoga y pilates quedan sin clasificar.`)}
+function stzSecNut(d,K,gP){const nu=d.nut,G=d.G,wks=d.W;let h="";
+ if(!nu.n)return stzC("stzut","Calorías de las comidas","",`<div class="stzn">Aún no registra comidas en este periodo.</div>`);
+ const ps=nu.p*4,cs=nu.c*4,fs=nu.f*9,ts=ps+cs+fs,pg=d.peso>0?nu.p/d.peso:null;
+ h+=stzC("stzut","Calorías de las comidas","",
+  stzR("Media diaria",stzF(nu.avg)+" kcal",d.nutP&&d.nutP.n?`${stzF(d.nutP.avg)} kcal en el periodo anterior`:"")+
+  (G&&G.k>0?stzR("Objetivo diario",stzF(G.k)+" kcal",gP+" % cumplido de media"):"")+
+  stzR("Días con comidas registradas",nu.n+" de "+nu.d+" · "+stzPc(nu.n,nu.d)+" %")+
+  stzR("Día con más kcal",stzF(nu.hi.v)+" kcal",stzDt(nu.hi.k))+
+  stzR("Día con menos kcal",stzF(nu.lo.v)+" kcal",stzDt(nu.lo.k)));
+ h+=stzC("stzmc","Macronutrientes","Media diaria de los días registrados y su reparto sobre las calorías de los macros.",
+  [["Proteína",nu.p,ps,G&&G.p,4],["Hidratos",nu.c,cs,G&&G.c,4],["Grasas",nu.f,fs,G&&G.f,9]].map(m=>`<div class="stzt">${stzR(m[0],stzF(m[1])+" g",`${ts>0?stzPc(m[2],ts):0} % de las kcal${m[3]>0?` · ${stzPc(m[1],m[3])} % de su objetivo (${stzF(m[3])} g)`:""}`)}${stzBar(ts>0?stzPc(m[2],ts):0)}</div>`).join("")+
+  (pg!=null?stzR("Proteína por kilo",stzF(pg,1)+" g/kg",`Con ${stzF(d.peso,1)} kg de peso · referencia de 1,6 a 2,2 g/kg`):""));
+ const fd=d.fd;
+ if(fd.kc>0){h+=stzC("stzfd","Tipos de alimentos","Reparto de las calorías registradas según el grupo del alimento.",
+   fd.rows.map(r=>`<div class="stzt">${stzR(esc(r.n),stzPc(r.kc,fd.kc)+" %",`${stzF(r.kc/fd.ds)} kcal al día · ${stzF(r.p/fd.ds)} g de proteína al día · ${r.reg} ${r.reg===1?"registro":"registros"}`)}${stzBar(stzPc(r.kc,fd.kc))}</div>`).join("")+
+   (fd.ds<nu.n?stzNoc(`Desglose de ${fd.ds} de los ${nu.n} días con comidas: los días de hace más de 120 días solo conservan el total.`):"")+(fd.sin>0?stzNoc(`${stzPc(fd.sin,fd.kc)} % de las kcal sin clasificar (productos escaneados, alimentos propios o entradas rápidas sin grupo).`):""));
+  h+=stzC("stzft","Alimentos más consumidos","Los que más calorías aportan en el periodo.",fd.top.map(f=>stzR(esc(f.n),stzPc(f.kc,fd.kc)+" %",`${stzF(f.kc)} kcal · ${f.reg} ${f.reg===1?"vez":"veces"} · ${esc(f.g)}`)).join(""))}
+ if(G&&G.k>0){const ok=nu.days.filter(y=>Math.abs(y.kc-G.k)/G.k<=0.1).length,hi=nu.days.filter(y=>(y.kc-G.k)/G.k>0.1).length,lo=nu.days.filter(y=>(G.k-y.kc)/G.k>0.1).length;
+  h+=stzC("stzad","Adherencia al objetivo de calorías","Días registrados según su distancia al objetivo diario (margen del 10 %).",
+   [["Dentro del objetivo (±10 %)",ok],["Por encima (más del 10 %)",hi],["Por debajo (más del 10 %)",lo]].map(r=>`<div class="stzt">${stzR(r[0],r[1]+" "+(r[1]===1?"día":"días")+" · "+stzPc(r[1],nu.n)+" %")}${stzBar(stzPc(r[1],nu.n))}</div>`).join(""))}
+ h+=stzC("stzkw","Calorías medias por semana",G&&G.k>0?`Objetivo diario: ${stzF(G.k)} kcal.`:"Media de los días registrados de cada semana.",stzBars(d.wk.map((w,j)=>({v:nu.wk[j].v,l:stzDt(w.a).replace(" "," "),t:stzRg(w.a,w.e)})),{f:stzK,c:"wd"}));
+ return h+stzFoot("Los tipos de alimentos usan el grupo del catálogo de la app; lo que no está en el catálogo se clasifica por su nombre y, si no se reconoce, queda sin clasificar. Los platos se reparten entre sus ingredientes y las recetas cuentan como «Recetas y platos». Los macros se convierten a calorías con 4 kcal por gramo de proteína e hidratos y 9 kcal por gramo de grasa. Las semanas sin ningún día registrado aparecen vacías. El objetivo es el que tiene fijado el cliente o el calculado a partir de sus datos.")}
+function stzSecRec(d,K){const rc=d.rc,p=d.rcP,n=rc.n;if(!n)return stzC("stzrc","Recuperación","",`<div class="stzn">Aún no hay check-ins en este periodo. El cliente los rellena cada día en «Check-in».</div>`);
+ const m=x=>rc[x]/n,pm=x=>p&&p.n?p[x]/p.n:null;let h="";
+ const dl=(x,u)=>p&&p.n?stzDl(Math.round(m(x)*10)/10,Math.round(pm(x)*10)/10,1,u):"";
+ h+=`<div class="stzg">`+K("Readiness",`${Math.round(rc.sc/n)} <small>/ 100</small>`,`Media de ${n} check-ins (${stzPc(n,d.days)} % de los días)`,p&&p.n?stzDl(Math.round(rc.sc/n),Math.round(p.sc/p.n),1," pts"):"")+K("Sueño",`${stzF(m("h"),1)} <small>h</small>`,`${stzPc(rc.h7,n)} % de las noches con 7 h o más`,dl("h"," h"))+K("Fatiga mental",`${stzF(m("f"),1)} <small>/ 10</small>`,"Más alto = más fatiga",dl("f"," pts"))+K("Agujetas",`${stzF(m("d"),1)} <small>/ 10</small>`,"Más alto = más dolor muscular",dl("d"," pts"))+`</div>`;
+ const wsc=d.wk.map(w=>{const v=[];for(let k=w.a;k<=w.e;k=stzAdd(k,1))if(rc.sc_by[k]!=null)v.push(rc.sc_by[k]);return v.length?Math.round(stzAvg(v)):null});
+ h+=stzC("stzrw","Readiness medio por semana","Media de los check-ins de cada semana (0 a 100).",stzBars(d.wk.map((w,j)=>({v:wsc[j],l:stzDt(w.a).replace(" "," "),t:stzRg(w.a,w.e)})),{c:"wd"}));
+ h+=stzC("stzrc","Recuperación en detalle","",
+  stzR("Check-ins",n+" de "+d.days+" · "+stzPc(n,d.days)+" %")+
+  stzR("Sueño medio",stzF(m("h"),1)+" h",`${rc.h7} de ${n} noches con 7 h o más`)+
+  stzR("Calidad del sueño",stzF(m("q"),1)+" / 10")+
+  stzR("Ánimo",stzF(m("m"),1)+" / 10")+
+  stzR("Mejor día",rc.best.v+" / 100",stzDt(rc.best.k))+
+  stzR("Peor día",rc.worst.v+" / 100",stzDt(rc.worst.k)));
+ return h+stzFoot("Readiness: puntuación de 0 a 100 que combina sueño (25), calidad del sueño (25), ánimo (20), fatiga (15) y agujetas (15), calculada en cada check-in diario.")}
+function stzSecCue(d){const bd=d.bd;if(!bd.length)return stzC("stzbd","Composición corporal","",`<div class="stzn">Aún no hay medidas de antropometría. Se registran en Tests › Antropometría.</div>`);
+ return stzC("stzbd","Composición corporal","Última medida y cambio desde el inicio del periodo.",bd.map(x=>stzR(esc(x.n),stzF(+x.last.v,1)+" "+x.u,(x.dl!=null?`${stzSg(x.dl,1)} ${x.u}${x.pc!=null?" · "+stzSg(x.pc,1)+" %":""} desde ${stzDt(x.base.d)} · `:"")+`medido el ${stzDt(x.last.d)}`+(x.fin?"":" (antes del periodo)"))).join(""))+stzFoot("El cambio compara la última medida con la última anterior al periodo (o, si no hay, con la primera del periodo).")}
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-stz]");if(!b)return;const k=b.dataset.stz;
+ if(k==="p"){STZ.p=+b.dataset.v||0;render()}else if(k==="s"){STZ.s=b.dataset.v||"res";render()}
+ else if(k==="print"){window.print()}
+ else if(k==="copy"){let t="";try{t=stzTxt(stzD())}catch(_){}const ok=()=>{const e=$("stzcp");if(e){e.textContent="✓ Copiado";setTimeout(()=>{const f=$("stzcp");if(f)f.textContent="Copiar resumen"},1800)}};
+  const fb=()=>{try{const a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();ok()}catch(_){}};
+  try{navigator.clipboard.writeText(t).then(ok,fb)}catch(_){fb()}}});
 IC.stz='<path d="M5 20V11M12 20V4M19 20v-6"/><path d="M3.5 20.5h17"/>';
 /* tarjeta de acceso en «Hoy» del cliente (solo entrenador) */
 {const _p=profH;profH=function(){let h=_p.apply(this,arguments);try{if(ROLE==="coach"&&CL&&!NUTRI){const ins=`<div class="menu mini" id="stzacc">${mt("tab","stz","","Estadísticas","Tiempo · Kg · Series · Reps · Kcal",1)}</div>`;h=h.replace(/(<div class="hero">[\s\S]*?<\/div><\/div>)/,"$1"+ins)}}catch(e){console.error("v93",e)}return h}}
+
+/* ===== v95: correcciones de la revisión general ===== */
+/* pestaña que no existe para este rol → vuelve al menú en vez de dejar la pantalla rota */
+function nxBad(){setTimeout(()=>{if(tab!=="menu"){tab="menu";render()}},0);return""}
+/* cambio de día con la app abierta: «hoy» y los selectores que estaban en hoy pasan al día nuevo */
+function nxDayRoll(){const n=ymd(new Date());if(n===today)return false;const o=today;today=n;
+ try{
+  if(selDay===o)selDay=n;
+  if(rd===o)rd=n;
+  if(typeof agSel!=="undefined"&&agSel===o)agSel=n;
+  const oy=+o.slice(0,4),om=+o.slice(5,7)-1;
+  if(cm&&cm.getFullYear()===oy&&cm.getMonth()===om)cm=new Date();
+  if(typeof agM!=="undefined"&&agM&&agM.getFullYear()===oy&&agM.getMonth()===om)agM=new Date();
+ }catch(e){}
+ return true}
+function nxDayChk(){if(!nxDayRoll())return;try{if(typeof USER!=="undefined"&&USER)render()}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)nxDayChk()});
+window.addEventListener("focus",nxDayChk);
+window.addEventListener("pageshow",nxDayChk);
+setInterval(()=>{const a=document.activeElement;if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return;nxDayChk()},60000);
+
+/* ===== v96: entreno del cliente en solo lectura fuera de «Comenzar entrenamiento» ===== */
+const roF=(l,v)=>v?`<div><label>${l}</label><div class="prgi rov">${esc(v)}</div></div>`:"";
+const typeR=s=>{const t=sty(s);if(SPK(t)==="m")return`<div class="head" style="margin-top:8px">${roF("Tipo",s.sub||"Entrenamiento")}${s.sub==="Partido"?roF("Rival",s.rival)+roF("Resultado",s.res):""}</div>`;return t==="athlet"?typeH(s):""};
+function entRO(s,st){const sl=SOLO(),mn=v=>v?v+" min":"",dd=d=>{try{return new Date(d+"T00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short"})}catch(e){return d}};
+ const nm=sl?`<div><label>Sesión</label><input data-s="name" value="${esc(s.name)}"></div>`:roF("Sesión",s.name||"Sesión");
+ const dt=s.rec?(sl?dowF(s):roF("Se repite",dowTxt(s.dow))):(sl?`<div><label>Fecha</label><input type="date" data-s="date" value="${esc(s.date)}"></div>`:roF("Fecha",s.date?dd(s.date):""));
+ const tm=s.rec?(sl?`<div><label>Duración prevista (min)</label><input type="number" data-s="total" value="${esc(s.total)}"></div>`:roF("Duración prevista",mn(s.total))):(s.done?roF("Tiempo total",mn(s.total)):"");
+ const rs=s.done&&!s.rec?roF("RPE de la sesión",s.rpe)+roF("FC media",s.fc?s.fc+" ppm":"")+roF("FC máx.",s.fcm?s.fcm+" ppm":""):"";
+ const nt=s.done?`<div class="prgi">✅ Sesión realizada</div>`:`<div class="prgi">🔒 ${sl?"Para apuntar tus series y terminar la sesión, pulsa":"Los datos de los ejercicios los edita tu entrenador. Para apuntar tus series, pulsa"} «Comenzar entrenamiento».</div>`;
+ return `<div class="card">${plBtn(s,1)}<div class="head">${nm}${dt}${tm}${rs}</div>${sl?rptH(s):""}${sl?typeH(s):typeR(s)}${nt}<div class="sum"><span>Ejercicios: <b>${s.ex.length}</b></span>${s.done?`<span>Carga (sRPE): <b>${st.load}</b> UA</span><span>Volumen: <b>${Math.round(st.vol)}</b> kg</span>`:""}</div></div>`}
+function exVT(e,n){if(!(e.vel||[]).some(x=>velN(x)!=null))return"";const L=[...Array(n)].map((_,k)=>velT(e,k)).filter(Boolean);return L.length?`<div class="prgi">Velocidad objetivo por serie: <b>${L.join(" · ")}</b> m/s</div>`:""}
+function exLogRO(e){const F=["r","w","r2","w2","v","h","s"],L=e.log||[];if(!L.some(l=>F.some(f=>l[f]!==""&&l[f]!=null)))return"";
+ const VO=velOn(cur(),e),PY=isPly(e),c=v=>esc(v===""||v==null?"–":String(v).replace(".",","));
+ const row=(l,k)=>`<tr><td>${k+1}${e.uni?"<br><small>Izq.</small>":""}</td><td>${c(l.r)}</td><td>${c(l.w)}</td>${VO?`<td>${c(l.v)}</td>`:""}${PY?`<td>${c(l.h)}</td>`:""}<td>${c(l.s)}</td></tr>`+(e.uni?`<tr><td><small>Der.</small></td><td>${c(l.r2)}</td><td>${c(l.w2)}</td>${VO?"<td></td>":""}${PY?"<td></td>":""}<td></td></tr>`:"");
+ return `<label>Lo que registraste</label><table class="exro${PY?" exlg":""}"><tr><th>Serie</th><th>Reps</th><th>Kg</th>${VO?"<th>m/s</th>":""}${PY?"<th>cm</th>":""}<th>Desc. s</th></tr>${L.map(row).join("")}</table>${VO?velSum(e):""}${PY?jmpSum(e):""}`}
+
+/* ===== v96: menú del día, registro desde el plan y lista de la compra ===== */
+const MN={d:0,v:"all"};
+const mnDays=()=>[...Array(7)].map((_,k)=>nlShift(today,k));
+const mnLbl=(d,k)=>k===0?"Hoy":k===1?"Mañana":new Date(d+"T00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric"}).replace(/[.,]/g,"");
+const mnLong=d=>new Date(d+"T00:00").toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"});
+const mnChosen=(d,i)=>{const v=((S.nl||{})[d]||{})[i];return v===undefined||v===null||v===""?-1:+v};
+const mnTitle=(i,j)=>(((S.nut||[])[i]||[])[j])||"";
+const mnKey=(i,j)=>i+"_"+j+"|"+NRM(mnTitle(i,j));
+const mnLog=(i,j,d)=>nlDay(d).find(e=>e.pl===mnKey(i,j));
+const mnB=r=>[nlN(r.k),nlN(r.p),nlN(r.c),nlN(r.g)];
+function mnFac(i,r){try{const N=nxNeeds(),s=nxSh()[i],k=nxN(r&&r.k);if(N.err||!s||!k)return 1;const f=nxFac(N.kcal*s,k);return Math.abs(f-1)<.1?1:Math.round(f*100)/100}catch(e){return 1}}
+function mnPrune(){const o=S.nl;if(!o)return;const lim=nlShift(today,-14);Object.keys(o).forEach(d=>{if(d<lim||!Object.values(o[d]||{}).some(v=>v!==""&&v!=null))delete o[d]})}
+function mnSelTog(i,j,d){if(!CLI())return;const o=(S.nl=S.nl||{});o[d]=o[d]||{};o[d][i]=String(o[d][i])===String(j)?"":String(j);mnPrune();save()}
+function mnSelRm(i,d){if(!CLI())return;const o=S.nl||{};if(o[d])o[d][i]="";mnPrune();save()}
+function mnLogAdd(i,j){const t=mnTitle(i,j);if(!CLI()||!t)return false;const d=nlT();if(mnLog(i,j,d))return false;const r=rcFind(t),b=r?mnB(r):[0,0,0,0],f=r?mnFac(i,r):1;nlLog();(S.nlog[d]=S.nlog[d]||[]).push({id:uid(),t:Date.now(),m:i,n:t.slice(0,80),u:"r",q:f,b:b,pl:mnKey(i,j)});nlPrune();save();return true}
+function mnLogTog(i,j){if(!CLI())return;const d=nlT(),k=mnKey(i,j);if(mnLog(i,j,d)){nlLog();const R=nlDay(d).filter(e=>e.pl!==k);if(R.length)S.nlog[d]=R;else delete S.nlog[d];save()}else mnLogAdd(i,j)}
+function mnTags(i,j){if(!CLI())return"";const P=[],D=mnDays().map((d,n)=>mnChosen(d,i)===j?mnLbl(d,n).toLowerCase():null).filter(Boolean);if(D.length)P.push("Elegida para "+D.join(", "));if(mnLog(i,j,nlT()))P.push("en tu registro");return P.length?`<br><small>✓ ${P.map(esc).join(" · ")}</small>`:""}
+/* hoja de la receta: dos opciones + otros días */
+function mnSheet(i,j){const D=mnDays(),lg=mnLog(i,j,nlT()),on0=mnChosen(D[0],i)===j,r=rcFind(mnTitle(i,j)),f=r?mnFac(i,r):1;
+ const chips=D.slice(1).map((d,n)=>`<button class="qc${mnChosen(d,i)===j?" on":""}" data-mn="sel" data-i="${i}" data-j="${j}" data-d="${d}">${esc(mnLbl(d,n+1))}</button>`).join("");
+ return `<div class="mnsh"><button class="w rcb2${lg?" mnon":""}" data-mn="log" data-i="${i}" data-j="${j}">${lg?"✓ En tu registro de hoy · Quitar":"Añadir al registro"}</button><small>Se guarda ahora en tu registro de hoy con sus calorías y macros${f!==1?" (ración ×"+nxF(f)+")":""}.</small><button class="w rcb2${on0?" mnon":""}" data-mn="sel" data-i="${i}" data-j="${j}" data-d="${D[0]}">${on0?"✓ Elegida para hoy · Quitar":"Comer hoy"}</button><small>Se añade a tu menú del día y a la lista de la compra.</small><div class="mnod"><b>¿Prefieres otro día?</b><div class="qch">${chips}</div></div></div>`}
+/* tarjeta «Mi menú» */
+function mnH(){if(!CLI()||!nxHas())return"";const D=mnDays(),k=Math.min(6,Math.max(0,MN.d)),d=D[k],G=nlGoal(),T=[0,0,0,0];let n=0,pend=0;
+ const chips=D.map((x,q)=>`<button class="qc${q===k?" on":""}" data-mn="day" data-v="${q}">${esc(mnLbl(x,q))}${NM.some((m,i)=>mnChosen(x,i)>=0)?" ●":""}</button>`).join("");
+ const rows=NM.map((m,i)=>{const j=mnChosen(d,i);if(j<0)return"";const t=mnTitle(i,j);if(!t)return"";n++;const r=rcFind(t),f=r?mnFac(i,r):1,b=r?mnB(r).map(x=>x*f):null,lg=k===0&&!!mnLog(i,j,d);if(b)b.forEach((x,q)=>T[q]+=x);if(k===0&&!lg)pend++;
+  return `<div class="mnr"><div class="mnt"><small>${m}</small><b>${esc(t)}</b>${b?`<small>${nlK(b[0])} kcal · P ${nlF(b[1])} · C ${nlF(b[2])} · G ${nlF(b[3])}${f!==1?" · ración ×"+nxF(f):""}</small>`:""}</div><div class="mnb">${k===0?`<button class="${lg?"on":""}" data-mn="log" data-i="${i}" data-j="${j}">${lg?"✓ Registrada":"Registrar"}</button>`:""}<button data-rc="${i}_${j}">Ver</button><button class="x" data-mn="rm" data-i="${i}" data-d="${d}" aria-label="Quitar del menú">✕</button></div></div>`}).join("");
+ const tot=n?`<div class="mntt">Total del menú · <b>${nlK(T[0])}</b> kcal · P ${nlF(T[1])} g · C ${nlF(T[2])} g · G ${nlF(T[3])} g${G?` <span>(objetivo ${nlK(G.k)} kcal)</span>`:""}</div>`:"";
+ return `<div class="card" id="mnc"><b>Mi menú</b><div class="qch mnd" style="margin:10px 0 4px">${chips}</div><div class="mnn">${esc(k===0?"Hoy":mnLong(d))}${n?` · ${n} ${n===1?"comida":"comidas"}`:""}</div>${rows||`<div class="mnn">Aún no has elegido nada ${k===0?"para hoy":"para este día"}. Abre una opción del plan y pulsa «${k===0?"Comer hoy":"¿Prefieres otro día?"}».</div>`}${tot}<div class="bar" style="margin:12px 0 0">${k===0&&pend?`<button class="on" data-mn="all">Añadir el menú al registro</button>`:""}<button data-mn="shop">🛒 Lista de la compra</button></div></div>`}
+/* lista de la compra */
+const cpNum=v=>{const t=String(v).trim().replace(",","."),x=t.match(/^(\d+)\s+(\d+)\s*\/\s*(\d+)$/);if(x)return +x[3]?+x[1]+x[2]/x[3]:+x[1];const m=t.match(/^(\d+)\s*\/\s*(\d+)$/);if(m)return +m[2]?+m[1]/+m[2]:0;const n=parseFloat(t);return isFinite(n)?n:0};
+const cpRg=v=>v.replace(/^(\d+(?:[.,]\d+)?)\s*[-–]\s*(\d+(?:[.,]\d+)?)/,"$2");
+function cpQty(x){const t=cpRg(String(x==null?"":x).replace(/(\d)\s*½/g,"$1 1/2").replace(/(\d)\s*¼/g,"$1 1/4").replace(/(\d)\s*¾/g,"$1 3/4").replace(/½/g,"1/2").replace(/¼/g,"1/4").replace(/¾/g,"3/4").replace(/\s+/g," ").trim()),o={w:0,ml:0,c:0,cu:"",raw:""};if(!t)return o;
+ let m=t.match(/^(\d+(?:[.,]\d+)?)\s*(kg|g|gr|grs|gramos?|ml|cl|l|litros?)\b\.?\s*(.*)$/i);
+ if(m){const n=cpNum(m[1]),u=m[2].toLowerCase();if(u==="kg")o.w=n*1000;else if(/^g/.test(u))o.w=n;else if(u==="l"||/^litro/.test(u))o.ml=n*1000;else if(u==="cl")o.ml=n*10;else o.ml=n;
+  const rest=cpRg(m[3].replace(/^\((.*)\)\.?$/,"$1").trim()),q=rest.match(/^(\d+\s+\d+\s*\/\s*\d+|\d+\s*\/\s*\d+|\d+(?:[.,]\d+)?)\s*(.*)$/);if(q){o.c=cpNum(q[1]);o.cu=q[2].toLowerCase().trim()}return o}
+ m=t.match(/^(\d+\s+\d+\s*\/\s*\d+|\d+\s*\/\s*\d+|\d+(?:[.,]\d+)?)\s*(.*)$/);if(m){o.c=cpNum(m[1]);o.cu=m[2].toLowerCase().trim();return o}
+ o.raw=t;return o}
+function cpAgg(E){const M=new Map();E.forEach(e=>(e.r.ing||[]).forEach(x=>{const name=String(Array.isArray(x)?x[0]:x||"").trim();if(!name)return;const q=cpQty(Array.isArray(x)?x[1]:""),k=NRM(name);let a=M.get(k);if(!a){a={n:name,k,w:0,ml:0,cn:{},tx:[]};M.set(k,a)}
+  a.w+=q.w*e.f;a.ml+=q.ml*e.f;if(q.c)a.cn[q.cu]=(a.cn[q.cu]||0)+q.c*e.f;if(q.raw&&!q.w&&!q.ml&&!a.tx.includes(q.raw))a.tx.push(q.raw)}));
+ return[...M.values()].sort((a,b)=>a.n.localeCompare(b.n,"es"))}
+const cpR=v=>v>=50?Math.round(v/5)*5:Math.round(v);
+const cpFw=w=>w>=1000?nlF(w/1000)+" kg":cpR(w)+" g",cpFm=v=>v>=1000?nlF(v/1000)+" l":cpR(v)+" ml";
+function cpTxt(a){const p=[];if(a.w>0)p.push(cpFw(a.w));if(a.ml>0)p.push(cpFm(a.ml));const C=Object.entries(a.cn).filter(x=>x[1]>0).map(x=>nlF(x[1])+(x[0]?" "+x[0]:""));
+ if(C.length)p.push((a.w>0||a.ml>0?"≈ ":"")+C.join(" + "));if(!p.length&&a.tx.length)p.push(a.tx.join(" · "));return p.join(" · ")}
+function cpData(){const days=[],all=[],miss=[];mnDays().forEach((d,n)=>{const E=[],meals=[];NM.forEach((m,i)=>{const j=mnChosen(d,i);if(j<0)return;const t=mnTitle(i,j);if(!t)return;meals.push({m,t});const r=rcFind(t);if(r&&(r.ing||[]).length){const e={r,f:mnFac(i,r)};E.push(e);all.push(e)}else if(!miss.includes(t))miss.push(t)});if(meals.length)days.push({d,n,meals,items:cpAgg(E)})});return{days,items:cpAgg(all),miss}}
+const cpDay=x=>x.n===0?"Hoy · "+mnLong(x.d):x.n===1?"Mañana · "+mnLong(x.d):mnLong(x.d);
+function cpH(){const C=cpData(),T=S.cmpk||{},nM=C.days.reduce((a,x)=>a+x.meals.length,0),
+ row=a=>{const q=cpTxt(a),on=!!T[a.k];return `<button class="cpr${on?" on":""}" data-mn="chk" data-k="${esc(a.k)}"><i>${on?"☑":"☐"}</i><span><b>${esc(a.n)}</b>${q?`<em>${esc(q)}</em>`:""}</span></button>`};
+ let h=`<div class="rcw"><button class="rcx" data-rcx>✕ Cerrar</button><div class="rcc"><div class="rck">Lista de la compra</div><h2 class="rct">Lo que tienes que comprar</h2>`;
+ if(!C.days.length)return h+`<p class="rcn">Todavía no has elegido comidas del plan. Abre una opción y pulsa «Comer hoy» (o elige otro día): aquí aparecerá la lista con las cantidades.</p></div></div>`;
+ h+=`<div class="qch" style="justify-content:center;margin-bottom:10px"><button class="qc${MN.v==="all"?" on":""}" data-mn="cv" data-v="all">Todo junto</button><button class="qc${MN.v==="day"?" on":""}" data-mn="cv" data-v="day">Por día</button></div><p class="rcn" style="margin:0 0 10px">${nM} ${nM===1?"comida elegida":"comidas elegidas"} en ${C.days.length} ${C.days.length===1?"día":"días"} · cantidades ya ajustadas a tu ración.</p>`;
+ if(MN.v==="all")h+=`<div class="cpl">${C.items.map(row).join("")||'<p class="rcn">Las comidas elegidas no tienen ingredientes detallados.</p>'}</div>`;
+ else h+=C.items.length?C.days.map(x=>`<h3 class="rcs" style="margin-top:16px">${esc(cpDay(x))}</h3><p class="rcn" style="margin:0 0 6px">${x.meals.map(m=>esc(m.m)+": "+esc(m.t)).join(" · ")}</p><div class="cpl">${x.items.map(row).join("")}</div>`).join(""):'<p class="rcn">Las comidas elegidas no tienen ingredientes detallados.</p>';
+ if(C.miss.length)h+=`<p class="rcn" style="margin-top:14px">Sin ingredientes detallados (tu entrenador aún no ha añadido la receta): ${C.miss.map(esc).join(", ")}.</p>`;
+ return h+`<div class="cpa"><button data-mn="ccopy">Copiar lista</button>${navigator.share?'<button data-mn="cshare">Compartir</button>':""}${Object.keys(T).length?'<button data-mn="cclr">Borrar marcas</button>':""}</div></div></div>`}
+function cpText(){const C=cpData(),L=["🛒 Lista de la compra"],ln=a=>{const q=cpTxt(a);return "• "+a.n+(q?": "+q:"")};
+ if(MN.v==="all")C.items.forEach(a=>L.push(ln(a)));else C.days.forEach(x=>{L.push("","— "+cpDay(x)+" —");x.items.forEach(a=>L.push(ln(a)))});
+ if(C.miss.length)L.push("","Sin ingredientes detallados: "+C.miss.join(", "));return L.join("\n")}
+function cpOpen(){let o=$("rcov");const sc=o?o.scrollTop:0;if(!o){o=document.createElement("div");o.id="rcov";o.className="rcov";document.body.appendChild(o)}o.innerHTML=cpH();o.scrollTop=sc;document.body.style.overflow="hidden"}
+function mnRef(i,j){const o=$("rcov"),sc=o?o.scrollTop:0;rcOpen(i,j);const n=$("rcov");if(n)n.scrollTop=sc}
+const mnSt=t=>{try{setStat(t);setTimeout(()=>setStat(""),1800)}catch(e){}};
+document.addEventListener("click",async ev=>{const b=ev.target.closest&&ev.target.closest("[data-mn]");if(!b||!CLI())return;ev.stopPropagation();const a=b.dataset.mn,i=+b.dataset.i,j=+b.dataset.j,inSheet=!!b.closest("#rcov");
+ if(a==="log"){const was=!!mnLog(i,j,nlT());mnLogTog(i,j);mnSt(was?"Quitado del registro":"Añadido a tu registro de hoy ✓");if(inSheet)mnRef(i,j);render()}
+ else if(a==="sel"){mnSelTog(i,j,b.dataset.d);if(inSheet)mnRef(i,j);render()}
+ else if(a==="day"){MN.d=+b.dataset.v;render()}
+ else if(a==="rm"){mnSelRm(i,b.dataset.d);render()}
+ else if(a==="all"){let c=0;NM.forEach((m,q)=>{const x=mnChosen(nlT(),q);if(x>=0&&mnLogAdd(q,x))c++});if(c)mnSt(c+(c===1?" comida añadida":" comidas añadidas")+" a tu registro ✓");render()}
+ else if(a==="shop")cpOpen();
+ else if(a==="cv"){MN.v=b.dataset.v==="day"?"day":"all";cpOpen()}
+ else if(a==="chk"){const o=(S.cmpk=S.cmpk||{}),k=b.dataset.k;if(o[k])delete o[k];else o[k]=1;save();cpOpen()}
+ else if(a==="cclr"){S.cmpk={};save();cpOpen()}
+ else if(a==="ccopy"){const t=cpText();let ok=false;try{await navigator.clipboard.writeText(t);ok=true}catch(e){try{const x=document.createElement("textarea");x.value=t;x.style.position="fixed";x.style.opacity="0";document.body.appendChild(x);x.select();ok=document.execCommand("copy");x.remove()}catch(e2){}}mnSt(ok?"Lista copiada ✓":"No se pudo copiar")}
+ else if(a==="cshare"){try{await navigator.share({title:"Lista de la compra",text:cpText()})}catch(e){}}
+},true);
 
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
@@ -3794,7 +4181,7 @@ html[data-theme=light] #sznx .szb{color:#3b1e5e}
 .pzl li span{min-width:0;overflow-wrap:anywhere}
 .pzl li em{flex:none;max-width:48%;font-style:normal;text-align:right;color:#6f685e;overflow-wrap:anywhere}
 .exg .pzd .w{display:block;width:100%;margin-top:14px}
-/* v93 · Estadísticas del cliente */
+/* v93-94 · Estadísticas profesionales del cliente */
 .stzp{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 10px}
 .stzp button{background:transparent;border:1px solid var(--hairl);color:var(--white);border-radius:99px;padding:9px 15px;font-size:13px;font-weight:600}
 .stzp button.on{background:var(--wine);border-color:var(--wine);color:#fff}
@@ -3814,7 +4201,7 @@ html[data-theme=light] #sznx .szb{color:#3b1e5e}
 .stzw .b{display:block;width:100%;max-width:34px;border-radius:6px 6px 2px 2px;background:var(--wine)}
 .stzw .b.z{background:#cfc7b8}
 .stzw small{margin-top:5px;font-size:9.5px;color:#6f685e;white-space:nowrap}
-#stzwk .qa span:last-child,#stzut .qa span:last-child,#stzty .qa span:last-child{max-width:62%}
+.card[id^=stz] .qa span:last-child{max-width:62%;text-align:right}
 .stzv{display:block}
 .stzv b{font-weight:700;color:#1a1a1c}
 .stzv .stzu{font-weight:400}
@@ -3822,6 +4209,72 @@ html[data-theme=light] #sznx .szb{color:#3b1e5e}
 .stzt{margin-top:4px}
 .stzt>i{display:block;height:6px;border-radius:99px;background:#d9d2c3;overflow:hidden;margin-bottom:6px}
 .stzt>i u{display:block;height:100%;background:var(--wine);border-radius:99px}
+.stzs{display:flex;gap:6px;overflow-x:auto;margin:0 -2px 10px;padding:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.stzs::-webkit-scrollbar{display:none}
+.stzs button{flex:none;background:transparent;border:0;border-bottom:2px solid transparent;color:var(--champ);border-radius:0;padding:9px 11px;font-size:13.5px;font-weight:700;white-space:nowrap}
+.stzs button.on{color:var(--white);border-bottom-color:var(--wine)}
+.stzi{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.stzi>div{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;line-height:1.4;color:#1a1a1c}
+.stzi i{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800;background:rgba(0,0,0,.07);color:#4d473e}
+.stzi-warn i{background:#f4e3c2;color:#7d4a00}
+.stzi-ok i{background:#dcebd3;color:#255a20}
+.stza{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 12px}
+.stza button{flex:1 1 150px;background:transparent;border:1px solid var(--hairl);color:var(--white);border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700}
+.stzn{display:block;margin:6px 2px 14px;font-size:11.5px;line-height:1.45;color:var(--champ)}
+.card .stzn{color:#6f685e;margin:8px 0 0}
+.stzw.wd{height:132px}
+.stzw.wd>div{flex:1 0 38px}
+@media print{.stzp,.stzs,.stza{display:none!important}body{background:#fff!important}}
+.stzh{display:block}
+.stzsub{margin:2px 0 8px;font-size:12px;line-height:1.4;color:#6f685e}
+html[data-theme=light] .stzs button.on,.stzs button.on{color:var(--white);background:transparent}
+html[data-theme=light] .stzs button:not(.on){color:#6b5226}
+.stzs button:focus-visible,.stza button:focus-visible,.stzp button:focus-visible{outline:2px solid var(--champ);outline-offset:2px}
+.stzp{flex-wrap:nowrap;gap:6px}
+.stzp button{flex:1 1 auto;padding:9px 8px;font-size:12.5px;white-space:nowrap;text-align:center}
+
+/* v95 · desplegables y títulos largos nunca se salen de la pantalla */
+select{max-width:100%;box-sizing:border-box}
+.stzh,.stzsub,.stzt,#app h1,#app h2,#app h3,#app .sec{overflow-wrap:anywhere}
+.menu{grid-template-columns:repeat(2,minmax(0,1fr))}
+.menu.hs{grid-template-columns:minmax(0,1fr)}
+.mt b{overflow-wrap:break-word}
+
+/* v96 · entreno del cliente: datos en solo lectura */
+.rov{margin:0;min-height:38px;display:flex;align-items:center;font-weight:600;font-size:14px;overflow-wrap:anywhere}
+html[data-theme=light] .rov{color:#1a1a1c}
+.exro td,.exro th{text-align:center}
+
+/* v96 · menú del día, registro desde el plan y lista de la compra */
+.mnsh{margin-top:4px;text-align:center}
+.mnsh>small{display:block;margin:6px 0 0;font-size:12px;color:#6f685e}
+.mnsh .rcb2.mnon{background:#f3efe7;color:#1a1a1c;border:1px solid #cdc5b6}
+.mnod{margin-top:20px}
+.mnod b{display:block;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#6f685e;margin-bottom:8px}
+.mnod .qch{justify-content:center}
+.qch.mnd .qc{flex:0 0 auto;white-space:nowrap;min-width:0;padding:9px 14px}
+.qch.mnd{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-16px;padding-right:16px}
+.mnn{margin:6px 0 4px;font-size:13px;color:#6f685e;text-transform:capitalize}
+.mnn:not(:first-of-type){text-transform:none}
+.mnr{display:block;padding:10px 0;border-top:1px solid rgba(26,26,28,.12)}
+.mnt{min-width:0;flex:1}
+.mnt b{display:block;font-size:15px;overflow-wrap:anywhere}
+.mnt small{display:block;color:#6f685e;margin-top:2px}
+.mnb{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-start;align-items:center;margin-top:8px}
+.mnb button{padding:8px 10px;font-size:12px}
+.mntt{margin-top:8px;padding:10px 12px;border-radius:10px;background:#f3efe7;border:1px solid #d6cfc2;color:#1a1a1c;font-size:13px}
+.mntt span{color:#6f685e}
+.cpl{text-align:left}
+.cpr{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;text-transform:none;letter-spacing:0;font-weight:400;margin-top:6px;padding:10px 12px;background:#f3efe7;color:#1a1a1c;border:1px solid #d6cfc2;border-radius:10px;font-size:14px}
+.cpr i{font-style:normal;font-size:18px;line-height:1.1}
+.cpr span{flex:1;min-width:0;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.cpr b{font-weight:600;overflow-wrap:anywhere}
+.cpr em{font-style:normal;font-weight:600;color:#86222f;text-align:right}
+.cpr.on{opacity:.55}
+.cpr.on b{text-decoration:line-through}
+.cpa{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+html[data-theme=light] .mnsh .rcb2.mnon{color:#1a1a1c}
+html[data-theme=light] .cpr{color:#1a1a1c;background:#f4f0e8}
 </style>
 <script>
 (function(){
@@ -4065,6 +4518,7 @@ const EXM=[[/triceps|frances|skull|jm press|press cerrado|extension de codo|pata
 [/press|banca|bench|flexion|push.?up|apertura|cruce|pec/,["pecho"],["triceps","hombros"]]];
 const nz=s=>String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim();
 function exMap(name){const k=nz(name);if(!k)return null;const o=S.mx&&S.mx[k];if(o)return{p:o.p||[],s:o.s||[],c:1};const m=EXM.find(x=>x[0].test(k));return m?{p:m[1],s:m[2]}:null}
+Object.assign(window,{MUS,MN,exMap,nz});
 const pn21=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:0};
 const TM={pb:["pecho","triceps","hombros"],ss:["cuadriceps","gluteos","aductores"],doml:["dorsales","biceps","antebrazos"],dom:["dorsales","biceps","antebrazos"],pmh:["isquios","gluteos","lumbar","trapecio","antebrazos"],hip:["gluteos","isquios"]};
 const LTX=[["pb",/press banca|bench/],["ss",/sentadilla/],["pmh",/peso muerto/],["hip",/hip.?thrust/]];
