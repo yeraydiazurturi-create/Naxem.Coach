@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.96">
+<meta name="app-version" content="2026-11-15.97">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -805,8 +805,8 @@ ${fld("Material necesario","material",e.material,"Barra, discos, rack…")}
 ${velEd(e)}<div class="grid"><div><label>Tempo (x-x-x-x)</label><div class="tempo">${e.t.map((x,k)=>`<input data-t="${k}" value="${esc(x)}" placeholder="${["3","1","X","0"][k]}" maxlength="2">`).join("")}</div></div>${fld("Carga (kg)","load",e.load,"80")}${fld("% del 1RM","pct",e.pct,"85")}</div>${spH(e)}${rmH(e)}
 <div class="eff"><div><label>Nivel de esfuerzo</label><select data-f="effType" style="width:100%">${["RPE","RIR","Zona cardíaca","Velocidad (%)","Cadencia (rpm)","Potencia (W)"].map(o=>`<option ${o===e.effType?"selected":""}>${o}</option>`).join("")}</select></div>${fld("Valor","effVal",e.effVal,"8 · 2 · Z3 · 75%")}</div>${prgH(e,s0)}</div>`}
 
-function entH(){if(ROLE==="coach"&&CL){if(!libOk&&!libBusy&&!libErr)libLoad();catSync()}if(entV==="home")return homeT();const s=cur();
-let h=`<div class="bar"><select id="sel">${S.sessions.map(x=>`<option value="${x.id}" ${x.id===S.cur?"selected":""}>${x.rec?"🔁 "+dowTxt(x.dow):esc(x.date)} · ${esc(x.name)}</option>`).join("")}</select>${CLP()?"":'<button class="w" data-act="tab" data-v="crt">+ Crear entrenamiento</button>'+(LG.includes(et)?'<button data-act="newS">+ Registro rápido</button>':"")}<button data-act="home">‹ Mis entrenos</button>${s&&CLI()?'<button data-v21="shs" data-id="'+s.id+'">Compartir</button>':""}${s&&canDel(s)?'<button data-act="delS">Eliminar</button>':""}</div>`;
+function entH(){if(ROLE==="coach"&&CL){if(!libOk&&!libBusy&&!libErr)libLoad();catSync()}if(entV==="home")return homeT();if(entV==="reg")return rgView();const s=cur();
+let h=`<div class="bar"><select id="sel">${S.sessions.filter(x=>!x.done||x.id===S.cur).map(x=>`<option value="${x.id}" ${x.id===S.cur?"selected":""}>${x.rec?"🔁 "+dowTxt(x.dow):esc(x.date)} · ${esc(x.name)}</option>`).join("")}</select>${CLP()?"":'<button class="w" data-act="tab" data-v="crt">+ Crear entrenamiento</button>'+(LG.includes(et)?'<button data-act="newS">+ Registro rápido</button>':"")}<button data-act="home">‹ Mis entrenos</button>${rgBar(s)}${s&&CLI()?'<button data-v21="shs" data-id="'+s.id+'">Compartir</button>':""}${s&&canDel(s)?'<button data-act="delS">Eliminar</button>':""}</div>`;
 if(!s)return h+'<div class="empty">Aún no hay sesiones. Crea una o planifícala desde el calendario.</div>';
 if(isLog(s))return h+logH(s);
 const st=stats(s);
@@ -890,8 +890,8 @@ return h+[...Array(12)].map((_,i)=>{const w=i+1;return `<div class="card"><div c
 const canDel=s=>!CLI()||!!(GATE&&GATE.sin_coach)||isLog(s);
 function homeT(){spReg();if(!et)return spGridH();if(et==="__sp")return'<div class="bar"><button data-act="etp" data-v="">‹ Tipos</button></div>'+spPickH();
 return '<div class="bar"><button data-act="etp" data-v="">‹ Tipos</button></div>'+(et==="athlet"?athletH():homeH())}
-function homeH(){const c=S.sessions.filter(s=>sty(s)===et).map(s=>{const t=stats(s);return `<div class="card"><div class="row"><b>${esc(s.name)}</b><small>${s.done?"✅ Realizada":s.rec?"🔁 Semanal":"🗓️ Plan"}</small></div><small>${s.rec?"Cada "+dowTxt(s.dow):esc(s.date)} · ${isLog(s)?(s.dist?s.dist+" km":"registro"):s.ex.length+" ejercicios"}${t.m?" · "+t.m+" min":""}</small><div class="sum"><span>sRPE <b>${t.load}</b></span><span><b>${Math.round(t.vol)}</b> kg</span></div><div class="ex">${s.ex.filter(e=>e.name).slice(0,4).map(e=>esc(e.name)).join(" · ")}</div><div class="bar" style="margin:8px 0 0"><button class="on" data-act="openS" data-v="${s.id}">Abrir</button>${CLI()?`<button data-v21="shs" data-id="${s.id}">Compartir</button>`:""}${plBtn(s)}${CLP()?"":`<button data-act="dup" data-v="${s.id}">Duplicar</button>`}${canDel(s)?`<button data-act="delS" data-v="${s.id}">Eliminar</button>`:""}</div></div>`}).join("");
-return ((CLP()&&et==="fuerza"&&!LG.includes(et))?"":`<div class="bar">${CLP()&&et==="fuerza"?"":'<button class="w" data-act="tab" data-v="crt">+ Crear entrenamiento</button>'}${LG.includes(et)?'<button data-act="newS">+ Registro rápido</button>':""}</div>`)+(c?`<div class="charts">${c}</div>`:'<div class="empty">Aquí aparecerán los entrenamientos que crees.</div>')}
+function homeH(){const c=S.sessions.filter(s=>sty(s)===et&&!s.done).map(s=>{const t=stats(s);return `<div class="card"><div class="row"><b>${esc(s.name)}</b><small>${s.done?"✅ Realizada":s.rec?"🔁 Semanal":"🗓️ Plan"}</small></div><small>${s.rec?"Cada "+dowTxt(s.dow):esc(s.date)} · ${isLog(s)?(s.dist?s.dist+" km":"registro"):s.ex.length+" ejercicios"}${t.m?" · "+t.m+" min":""}</small><div class="sum"><span>sRPE <b>${t.load}</b></span><span><b>${Math.round(t.vol)}</b> kg</span></div><div class="ex">${s.ex.filter(e=>e.name).slice(0,4).map(e=>esc(e.name)).join(" · ")}</div><div class="bar" style="margin:8px 0 0"><button class="on" data-act="openS" data-v="${s.id}">Abrir</button>${rgBar(s)}${CLI()?`<button data-v21="shs" data-id="${s.id}">Compartir</button>`:""}${plBtn(s)}${CLP()?"":`<button data-act="dup" data-v="${s.id}">Duplicar</button>`}${canDel(s)?`<button data-act="delS" data-v="${s.id}">Eliminar</button>`:""}</div></div>`}).join("");
+return ((CLP()&&et==="fuerza"&&!LG.includes(et))?"":`<div class="bar">${CLP()&&et==="fuerza"?"":'<button class="w" data-act="tab" data-v="crt">+ Crear entrenamiento</button>'}${LG.includes(et)?'<button data-act="newS">+ Registro rápido</button>':""}</div>`)+rgSecH()+(c?`<div class="charts">${c}</div>`:'<div class="empty">'+(rgLoose(et).length?'No tienes entrenamientos pendientes. Los que ya hiciste están en «Registros».':'Aquí aparecerán los entrenamientos que crees.')+'</div>')}
 const TP=["Velocidad","Fuerza","Resistencia","Soporte","Antropometría"];
 const TC=[["s10","Velocidad","Sprint 10 m","s","min"],["s40","Velocidad","Sprint 40 m","s","min"],["t5105","Velocidad","Prueba 5-10-5","s","min"],["sj","Velocidad","Squat jump","cm"],["cmj","Velocidad","CMJ","cm"],["cmja","Velocidad","CMJ con brazos","cm"],["dj","Velocidad","Drop jump","cm"],["depj","Velocidad","Depth jump","cm"],
 ["pb","Fuerza","Press banca con barra","kg","","w"],["ss","Fuerza","Sentadilla con barra alta","kg","","w"],["dom","Fuerza","Dominadas máx. reps","reps"],["doml","Fuerza","Dominadas lastradas","kg","","w"],["pmh","Fuerza","Peso muerto hexagonal","kg","","w"],["hip","Fuerza","Hip-thrust","kg","","w"],
@@ -1221,7 +1221,7 @@ const L=PW.L,fill=e=>[...Array(Math.max(1,parseInt(e.series)||1))].map((_,k)=>{c
 if(s.rec){t=JSON.parse(JSON.stringify(s));t.id=uid();t.from=s.id;delete t.rec;delete t.dow;delete t.start;t.ex=s.ex.map(e=>{const c=JSON.parse(JSON.stringify(e));c.id=uid();c.log=fill(e);delete c.prg;delete c.prgI;delete c.rm;delete c.pct;return c});if(prgOn(S.sessions.find(x=>x.id===s.id)))t.prgN=PW.n||0;S.sessions.unshift(t)}
 else{t=S.sessions.find(x=>x.id===s.id)||s;t.ex.forEach((e,i)=>{e.log=fill(s.ex[i]||e)})}
 t.date=today;t.done=true;t.total=String(m);t.rpe=String(r);if(ob)t.obs=(t.obs?t.obs+"\n":"")+ob;
-S.cur=t.id;et=sty(t);PW=null;plSave();plWake(false);tab="ent";entV="edit";save();setStat("Entrenamiento guardado ✓");setTimeout(()=>setStat(""),3500);render();window.scrollTo(0,0)}
+S.cur=t.id;et=sty(t);RG.t=t.from||"";RG.ty=sty(t);RG.cur=t.id;PW=null;plSave();plWake(false);tab="ent";entV="edit";save();setStat("Entrenamiento guardado ✓");setTimeout(()=>setStat(""),3500);render();window.scrollTo(0,0)}
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-pl]");if(!b)return;const a=b.dataset.pl;
 if(a==="start"){plStart(b.dataset.v);return}
 if(!PW)return;const s=plS();if(!s){PW=null;plSave();render();return}
@@ -1870,7 +1870,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.96";
+const APP_V="2026-11-15.97";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -3398,10 +3398,10 @@ function entRO(s,st){const sl=SOLO(),mn=v=>v?v+" min":"",dd=d=>{try{return new D
  const nt=s.done?`<div class="prgi">✅ Sesión realizada</div>`:`<div class="prgi">🔒 ${sl?"Para apuntar tus series y terminar la sesión, pulsa":"Los datos de los ejercicios los edita tu entrenador. Para apuntar tus series, pulsa"} «Comenzar entrenamiento».</div>`;
  return `<div class="card">${plBtn(s,1)}<div class="head">${nm}${dt}${tm}${rs}</div>${sl?rptH(s):""}${sl?typeH(s):typeR(s)}${nt}<div class="sum"><span>Ejercicios: <b>${s.ex.length}</b></span>${s.done?`<span>Carga (sRPE): <b>${st.load}</b> UA</span><span>Volumen: <b>${Math.round(st.vol)}</b> kg</span>`:""}</div></div>`}
 function exVT(e,n){if(!(e.vel||[]).some(x=>velN(x)!=null))return"";const L=[...Array(n)].map((_,k)=>velT(e,k)).filter(Boolean);return L.length?`<div class="prgi">Velocidad objetivo por serie: <b>${L.join(" · ")}</b> m/s</div>`:""}
-function exLogRO(e){const F=["r","w","r2","w2","v","h","s"],L=e.log||[];if(!L.some(l=>F.some(f=>l[f]!==""&&l[f]!=null)))return"";
- const VO=velOn(cur(),e),PY=isPly(e),c=v=>esc(v===""||v==null?"–":String(v).replace(".",","));
+function exLogRO(e,s0,nl){const F=["r","w","r2","w2","v","h","s"],L=e.log||[];if(!L.some(l=>F.some(f=>l[f]!==""&&l[f]!=null)))return"";
+ const VO=velOn(s0||cur(),e),PY=isPly(e),c=v=>esc(v===""||v==null?"–":String(v).replace(".",","));
  const row=(l,k)=>`<tr><td>${k+1}${e.uni?"<br><small>Izq.</small>":""}</td><td>${c(l.r)}</td><td>${c(l.w)}</td>${VO?`<td>${c(l.v)}</td>`:""}${PY?`<td>${c(l.h)}</td>`:""}<td>${c(l.s)}</td></tr>`+(e.uni?`<tr><td><small>Der.</small></td><td>${c(l.r2)}</td><td>${c(l.w2)}</td>${VO?"<td></td>":""}${PY?"<td></td>":""}<td></td></tr>`:"");
- return `<label>Lo que registraste</label><table class="exro${PY?" exlg":""}"><tr><th>Serie</th><th>Reps</th><th>Kg</th>${VO?"<th>m/s</th>":""}${PY?"<th>cm</th>":""}<th>Desc. s</th></tr>${L.map(row).join("")}</table>${VO?velSum(e):""}${PY?jmpSum(e):""}`}
+ return `${nl?"":"<label>Lo que registraste</label>"}<table class="exro${PY?" exlg":""}"><tr><th>Serie</th><th>Reps</th><th>Kg</th>${VO?"<th>m/s</th>":""}${PY?"<th>cm</th>":""}<th>Desc. s</th></tr>${L.map(row).join("")}</table>${VO?velSum(e):""}${PY?jmpSum(e):""}`}
 
 /* ===== v96: menú del día, registro desde el plan y lista de la compra ===== */
 const MN={d:0,v:"all"};
@@ -3477,6 +3477,36 @@ document.addEventListener("click",async ev=>{const b=ev.target.closest&&ev.targe
  else if(a==="ccopy"){const t=cpText();let ok=false;try{await navigator.clipboard.writeText(t);ok=true}catch(e){try{const x=document.createElement("textarea");x.value=t;x.style.position="fixed";x.style.opacity="0";document.body.appendChild(x);x.select();ok=document.execCommand("copy");x.remove()}catch(e2){}}mnSt(ok?"Lista copiada ✓":"No se pudo copiar")}
  else if(a==="cshare"){try{await navigator.share({title:"Lista de la compra",text:cpText()})}catch(e){}}
 },true);
+/* ===== v97: «Registros» — los entrenos hechos salen de la lista y viven dentro de su rutina ===== */
+const RG={t:"",ty:"",cur:""};
+const rgDn=s=>!!s&&!!s.done&&!s.rec;
+const rgByDate=(a,b)=>(b.date||"").localeCompare(a.date||"");
+const rgOf=t=>S.sessions.filter(x=>rgDn(x)&&x.from===t.id).sort(rgByDate);
+const rgLoose=ty=>S.sessions.filter(x=>sty(x)===ty&&rgDn(x)&&!S.sessions.some(t=>t.rec&&t.id===x.from)).sort(rgByDate);
+const rgD=d=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(d||""))return d||"Sin fecha";try{return new Date(d+"T00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short",year:"numeric"})}catch(e){return d}};
+const rgT=m=>m>=60?Math.floor(m/60)+" h "+Math.round(m%60)+" min":Math.round(m)+" min";
+/* botón «Registros» de una rutina semanal, o «‹ Registros» al abrir uno desde la lista */
+const rgBar=s=>{if(!s)return"";if(s.rec)return `<button class="rgb" data-rg="tpl" data-id="${s.id}">📒 Registros (${rgOf(s).length})</button>`;return rgDn(s)&&RG.cur===s.id?'<button class="on" data-rg="back">‹ Registros</button>':""};
+/* entrenos hechos que no pertenecen a ninguna rutina semanal (registros rápidos, sesiones sueltas, rutinas borradas) */
+const rgSecH=()=>{const n=rgLoose(et).length;if(!n)return"";const some=S.sessions.some(x=>x.rec&&sty(x)===et);return `<div class="bar"><button class="rgb" data-rg="sec" data-ty="${esc(et)}">📒 ${some?"Otros registros":"Registros"} (${n})</button></div>`};
+function rgSet(){const t=RG.t&&S.sessions.find(x=>x.id===RG.t&&x.rec);
+ if(t)return{t:t,ty:sty(t),L:rgOf(t),ttl:t.name||"Rutina",sub:"🔁 Cada "+dowTxt(t.dow)+" · todos los entrenos hechos de esta rutina"};
+ const ty=RG.ty||et||"fuerza",nm=(ET.find(x=>x[0]===ty)||["",ty])[1],some=S.sessions.some(x=>x.rec&&sty(x)===ty);
+ return{t:null,ty:ty,L:rgLoose(ty),ttl:nm,sub:some?"Entrenos hechos que no son de ninguna rutina semanal":"Todos los entrenos hechos"}}
+function rgCard(s,nm){const t=stats(s),X=(s.ex||[]).filter(e=>e.name),
+ meta=[t.m?t.m+" min":"",s.rpe?"RPE "+s.rpe:"",t.load?t.load+" UA":"",t.vol?Math.round(t.vol)+" kg":"",pf(s.dist)?s.dist+" km":"",s.fc?s.fc+" ppm":""].filter(Boolean).join(" · "),
+ det=X.map(e=>`<div class="rgx"><b>${esc(e.name)}</b>${exLogRO(e,s,1)||"<small>Sin series registradas</small>"}</div>`).join(""),ob=(s.obs||"").trim();
+ return `<div class="card rgc"><div class="row"><b>${esc(rgD(s.date))}</b><small>✅ ${nm?esc(s.name||"Sesión"):"Realizado"}</small></div>${meta?`<div class="rgm">${esc(meta)}</div>`:""}${X.length?`<div class="ex">${X.slice(0,4).map(e=>esc(e.name)).join(" · ")}${X.length>4?" · +"+(X.length-4):""}</div>`:""}${ob?`<div class="rgo">${esc(ob.slice(0,200))}${ob.length>200?"…":""}</div>`:""}${det?`<details class="rgd"><summary>Ver series</summary>${det}</details>`:""}<div class="bar" style="margin:8px 0 0"><button class="on" data-rg="open" data-id="${s.id}">Abrir</button>${CLI()?`<button data-v21="shs" data-id="${s.id}">Compartir</button>`:""}${canDel(s)?`<button data-rg="del" data-id="${s.id}">Eliminar</button>`:""}</div></div>`}
+function rgView(){const R=rgSet(),L=R.L;let m=0,v=0,k=0;L.forEach(s=>{const t=stats(s);m+=t.m;v+=t.vol;k+=pf(s.dist)});
+ const hd=`<div class="bar"><button data-act="home">‹ Mis entrenos</button>${R.t?`<button data-act="openS" data-v="${R.t.id}">Ver rutina</button>`:""}</div><div class="sec rgt">Registros <span class="script">${esc(R.ttl)}</span></div><div class="rgsub">${esc(R.sub)}</div>`;
+ if(!L.length)return hd+`<div class="empty">Aún no hay entrenamientos registrados ${R.t?"en esta rutina":"aquí"}. Cuando se complete uno (con «Comenzar entrenamiento»${LG.includes(R.ty)?" o «+ Registro rápido»":""}) aparecerá en este apartado.</div>`;
+ return hd+`<div class="card"><div class="sum"><span>Entrenos <b>${L.length}</b></span><span>Tiempo <b>${m?rgT(m):"–"}</b></span>${v>0?`<span>Volumen <b>${Math.round(v)}</b> kg</span>`:""}${k>0?`<span>Distancia <b>${Math.round(k*10)/10}</b> km</span>`:""}</div></div><div class="charts">${L.map(s=>rgCard(s,!R.t)).join("")}</div>`}
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-rg]");if(!b)return;ev.stopPropagation();const a=b.dataset.rg,id=b.dataset.id,go=()=>{tab="ent";window.scrollTo(0,0);render()};
+ if(a==="tpl"){const t=S.sessions.find(x=>x.id===id);if(!t)return;RG.t=t.id;RG.ty=sty(t);RG.cur="";et=sty(t);entV="reg";go()}
+ else if(a==="sec"){RG.t="";RG.ty=b.dataset.ty||et;RG.cur="";et=RG.ty;entV="reg";go()}
+ else if(a==="open"){const o=S.sessions.find(x=>x.id===id);if(!o)return;S.cur=o.id;et=sty(o);RG.cur=o.id;entV="edit";go()}
+ else if(a==="back"){entV="reg";go()}
+ else if(a==="del"){const d=S.sessions.find(x=>x.id===id);if(!d||!canDel(d)||!confirm("¿Eliminar este registro («"+d.name+"», "+rgD(d.date)+")? No se puede deshacer."))return;S.sessions=S.sessions.filter(x=>x.id!==id);if(S.cur===id)S.cur=S.sessions[0]?S.sessions[0].id:null;save();render()}},true);
 
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
@@ -4275,6 +4305,20 @@ html[data-theme=light] .rov{color:#1a1a1c}
 .cpa{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
 html[data-theme=light] .mnsh .rcb2.mnon{color:#1a1a1c}
 html[data-theme=light] .cpr{color:#1a1a1c;background:#f4f0e8}
+/* v97 · registros */
+.rgb{border-color:var(--champ)!important}
+.rgsub{font-size:13px;color:#6f685e;margin:-2px 2px 12px}
+.rgc .row{align-items:baseline;gap:8px}
+.rgc .row b{text-transform:capitalize}
+.rgm{font-size:13px;margin-top:4px}
+.rgo{font-size:12px;color:#6f685e;margin-top:6px;white-space:pre-line}
+.rgd{margin-top:8px}
+.rgd>summary{cursor:pointer;font-size:13px;font-weight:600;padding:6px 0}
+.rgx{margin-top:8px}
+.rgx>b{display:block;font-size:13px}
+.rgx .exro{margin-top:4px}
+.rgc .bar button{padding:8px 12px;font-size:13px}
+html[data-theme=light] .rgsub,html[data-theme=light] .rgo{color:#5d564c}
 </style>
 <script>
 (function(){
