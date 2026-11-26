@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.103">
+<meta name="app-version" content="2026-11-15.104">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -644,7 +644,7 @@ if(!S.habits)S.habits=[];
 S.sessions.forEach(s=>{if(s.rpe==null)s.rpe="";if(s.done==null)s.done=false});
 if(!S.cur&&S.sessions[0])S.cur=S.sessions[0].id;
 let et="",tp="",rs="",htl="",pg="",rt={},openEx=new Set();let entV="home",rng=30,tab="menu",cm=new Date(),selDay=today,rd=today,metric="load",per="d";
-function save(){if(!USER||!CL||(RO&&!NUTRI))return;push()}
+function save(){if(!USER||!CL||(RO&&!NUTRI))return;try{rzBust()}catch(e){}push()}
 const cur=()=>S.sessions.find(s=>s.id===S.cur);
 const R=()=>S.rec[rd]||(S.rec[rd]={h:{},ci:{h:7,q:5,m:5,f:3,d:3,c:""}});
 const pfc=v=>parseFloat(String(v==null?"":v).replace(",","."))||0;
@@ -693,7 +693,8 @@ const rmAuto=n=>{const q=String(n||"");const r=RMX.find(x=>x[1].test(q)&&!(x[2]&
 const rmTests=()=>allT().filter(t=>t.k==="w"||(t.p==="Fuerza"&&t.k==="n"&&/kg/i.test(t.u||"")));
 const rmTid=e=>(e&&e.rmT)||rmAuto(e&&e.name);
 const rmName=id=>{const t=allT().find(x=>x.id===id);return t?t.n:""};
-function rmRef(id){if(!id)return null;const L=(S.tests||{})[id];if(!L||!L.length)return null;const t=allT().find(x=>x.id===id);if(!t)return null;
+function rmRef(id){const r=rmRef0(id);if(r)return r;try{return typeof rzRef==="function"?rzRef(id):null}catch(e){return null}}
+function rmRef0(id){if(!id)return null;const L=(S.tests||{})[id];if(!L||!L.length)return null;const t=allT().find(x=>x.id===id);if(!t)return null;
 const o=L.map((e,i)=>({e,i})).sort((a,b)=>(a.e.d||"")<(b.e.d||"")?-1:(a.e.d||"")>(b.e.d||"")?1:a.i-b.i),e=o[o.length-1].e,v=t.k==="w"?met(t,e):(+e.v);return v>0?{v,d:e.d||"",n:t.n}:null}
 const pctN=v=>{const p=parseFloat(String(v==null?"":v).replace(",","."));return p>0?p:0};
 const fmtKg=v=>String(Math.round(v*10)/10).replace(".",",");
@@ -727,13 +728,13 @@ const exEff=(e,n)=>pctEff(n<0?e:prgAt(e,n));
 const pctOn=s=>!!s&&(s.ex||[]).some(e=>pctOnE(e)||prgPct(e));
 const loadShort=e=>{if(pctOnE(e))return lstT(e.pct)+" % 1RM"+(e.rm&&e.load?" · "+lstT(e.load)+" kg":"");return e.load?lstT(e.load)+" kg":""};
 const pctB=e=>{if(!pctOnE(e))return"";const id=rmTid(e),tn=id?rmName(id):"",pc=esc(lstT(e.pct));
-if(e.rm)return`<div class="prgi">🎯 <b>${pc} %</b> de tu 1RM de «${esc(e.rm.n)}» (${fmtKg(e.rm.v)} kg${e.rm.d?", test del "+esc(e.rm.d.slice(8)+"/"+e.rm.d.slice(5,7)):""}) → <b>${esc(lstT(e.load))} kg</b></div>`;
+if(e.rm)return`<div class="prgi">🎯 <b>${pc} %</b> de tu 1RM de «${esc(e.rm.n)}» (${fmtKg(e.rm.v)} kg${e.rm.d?(e.rm.a?", estimado con tus series del ":", test del ")+esc(e.rm.d.slice(8)+"/"+e.rm.d.slice(5,7)):""}) → <b>${esc(lstT(e.load))} kg</b></div>`;
 return`<div class="prgi">🎯 <b>${pc} %</b> de tu 1RM. ${tn?"Aún no hay test de «"+esc(tn)+"»: regístralo en Tests para ver los kg.":"Este ejercicio no tiene un test de 1RM asignado: díselo a tu entrenador."}</div>`};
 const rmHint=e=>{const pO=pctOnE(e),pm=prgPct(e),id=rmTid(e),r=rmRef(id),tn=id?rmName(id):"";
 if(!pO&&!pm)return"Para prescribir la carga en % del 1RM escribe el porcentaje en «% del 1RM» (o elige % en la progresión). Por serie: «70, 75, 80».";
 if(!id)return"Elige el test que sirve de referencia: este ejercicio no se ha podido asociar a ninguno.";
 if(!r)return"No hay test de «"+tn+"» registrado en esta ficha: registra uno en Tests para calcular los kg.";
-return"1RM de referencia: "+fmtKg(r.v)+" kg («"+r.n+"»"+(r.d?", test del "+r.d.slice(8)+"/"+r.d.slice(5,7):"")+")"+(pO?" · "+lstT(e.pct)+" % = "+kgL(e.pct,r.v).join(" / ").replace(/\./g,",")+" kg":"")+". Se redondea a 0,5 kg."};
+return"1RM de referencia: "+fmtKg(r.v)+" kg («"+r.n+"»"+(r.d?(r.a?", estimado con las series del ":", test del ")+r.d.slice(8)+"/"+r.d.slice(5,7):"")+")"+(pO?" · "+lstT(e.pct)+" % = "+kgL(e.pct,r.v).join(" / ").replace(/\./g,",")+" kg":"")+". Se redondea a 0,5 kg."};
 const rmH=e=>{if(CLP())return"";const id=rmTid(e),au=rmAuto(e.name);return`<div class="rmr"><label>1RM de referencia para el %</label><select data-rmt style="width:100%"><option value="">Automático${au?" ("+esc(rmName(au))+")":" (no detectado)"}</option>${rmTests().map(t=>`<option value="${t.id}"${e.rmT===t.id?" selected":""}>${esc(t.n)}</option>`).join("")}</select><small data-rmh>${esc(rmHint(e))}</small></div>`};
 document.addEventListener("change",ev=>{const t=ev.target;if(!t.dataset||t.dataset.rmt===undefined||CLP())return;ev.stopPropagation();const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i];if(!e)return;if(t.value)e.rmT=t.value;else delete e.rmT;if(ROLE==="coach")S.pu=Date.now();save();render()},true);
 document.addEventListener("input",ev=>{const t=ev.target;if(!t.dataset||t.dataset.f!=="pct"||CLP())return;const s=cur(),c=t.closest("[data-i]"),e=s&&c&&s.ex[+c.dataset.i],h=c&&c.querySelector("[data-rmh]");if(e&&h)h.textContent=rmHint(Object.assign({},e,{pct:t.value}));if(e&&ROLE==="coach")S.pu=Date.now()});
@@ -811,7 +812,7 @@ if(!s)return h+'<div class="empty">Aún no hay sesiones. Crea una o planifícala
 if(isLog(s))return h+logH(s);
 const st=stats(s);
 if(CLI())return h+entRO(s,st)+s.ex.map((e,i)=>SOLO()?exS(e,i,gl(s)[i]):exC(e,i,gl(s)[i])).join("")+(SOLO()?soloBar():"");
-return h+`<div class="card">${plBtn(s,1)}<div class="head"><div><label>Sesión</label><input data-s="name" ${CLP()?"disabled":""} value="${esc(s.name)}"></div>${s.rec?dowF(s):`<div><label>Fecha</label><input type="date" data-s="date" value="${esc(s.date)}"></div>`}<div><label>${s.rec?"Duración prevista (min)":"Tiempo total (min)"}</label><input type="number" data-s="total" value="${esc(s.total)}"></div>${s.rec?"":`<div><label>RPE sesión (1-10)</label><input type="number" min="1" max="10" data-s="rpe" value="${esc(s.rpe)}"></div>`+hrF(s)+sysH(s)}</div>
+return h+rzBan(s)+`<div class="card">${plBtn(s,1)}<div class="head"><div><label>Sesión</label><input data-s="name" ${CLP()?"disabled":""} value="${esc(s.name)}"></div>${s.rec?dowF(s):`<div><label>Fecha</label><input type="date" data-s="date" value="${esc(s.date)}"></div>`}<div><label>${s.rec?"Duración prevista (min)":"Tiempo total (min)"}</label><input type="number" data-s="total" value="${esc(s.total)}"></div>${s.rec?"":`<div><label>RPE sesión (1-10)</label><input type="number" min="1" max="10" data-s="rpe" value="${esc(s.rpe)}"></div>`+hrF(s)+rzDF(s)+sysH(s)}</div>
 ${rptH(s)}${typeH(s)}${s.rec?'<small>🔁 Se repite cada semana. Cada vez que la termines se guarda en tu historial con su fecha, duración y esfuerzo.</small>':`<label style="display:flex;gap:8px;align-items:center;text-transform:none"><input type="checkbox" data-s="done" style="width:auto" ${s.done?"checked":""}> Sesión realizada</label>`}
 <div class="sum"><span>Carga (sRPE): <b id="sl">${st.load}</b> UA</span><span>Volumen: <b id="vol">${Math.round(st.vol)}</b> kg</span><span>Ejercicios: <b>${s.ex.length}</b></span></div>
 <small>Carga sRPE = minutos × RPE de sesión.</small></div>`+s.ex.map((e,i)=>SOLO()?exS(e,i,gl(s)[i]):CLI()?exC(e,i,gl(s)[i]):exH(e,i,gl(s)[i])).join("")+(SOLO()?soloBar():CLI()?"":`<button class="w" data-lb="pickX" style="width:100%">📚 Añadir desde mi biblioteca</button>${libCan("routine")?`<button data-rt="saveS" style="width:100%;margin-top:8px">💾 Guardar como rutina</button>`:""}`)}
@@ -994,7 +995,7 @@ b.disabled=true;m("Guardando…");try{if(CLI()){const {data,error}=await SB.rpc(
 ["pw0","pw1","pw2"].forEach(i=>{if($(i))$(i).value=""});m("✓ Contraseña cambiada.")}catch(e){m("No se pudo cambiar: "+(e.message||e))}b.disabled=false});
 const accH=()=>(ROLE==="coach"&&!CL?coachAccH():(CLI()?avCard():"")+(CLI()?nameCard()+subCard()+wantCard()+invCardCl():"")+accH0()+pwCard())+(window.pushCard?window.pushCard():"");
 const accH0=()=>`<div class="card"><b>${esc(CL?CL.name:USER)}</b>${ROLE==="coach"&&CL?`<div class="bar" style="margin:10px 0 0"><button data-act="cDel">Eliminar este cliente</button></div>`:""}</div>${mailCard()}${payCard()}${verCard()}<div class="card"><b>Datos</b><div class="bar" style="margin:10px 0 0">${CLI()?(GATE&&GATE.suscrito?`<button data-act="stPortal">Mi suscripción</button>`:""):`<button data-act="exp">Exportar datos</button><button data-act="imp">Importar datos</button>`}${ROLE==="coach"&&CL?"":`<button data-sw="1">${ROLE==="client"?"Cambiar a modo entrenador":"Cambiar a modo atleta"}</button>`}<button data-act="logout">Salir</button></div></div>`;
-const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],nlg:["Registro","de comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],acc:["Perfil","tu cuenta"],ent:["Sesiones","tus entrenos"],cal:["Calendario","tu planificación"],car:["Carga","análisis"],rec:["Hábitos","racha y diario"],cin:["Check-in","sueño y ánimo"],dia:["Diario","de hábitos"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"],sal:["Salud","informes y pruebas"]};
+const TT={lib:["Biblioteca","del entrenador"],nut:["Nutrición","5 comidas"],nlg:["Registro","de comidas"],rev:["Revisión","semanal"],chat:["Chat","tus conversaciones"],pro:["Progreso","de cargas"],per:["Rendimiento","estimado"],acc:["Perfil","tu cuenta"],ent:["Sesiones","tus entrenos"],cal:["Calendario","tu planificación"],car:["Carga","análisis"],rec:["Hábitos","racha y diario"],cin:["Check-in","sueño y ánimo"],dia:["Diario","de hábitos"],tst:["Tests","rendimiento"],rnk:["Ranking","del equipo"],cpo:["Cuerpo","por músculos"],sal:["Salud","informes y pruebas"]};
 const TABS=[["ini","Hoy"],["ent","Sesiones"],["cal","Agenda"],["car","Carga"],["rec","Diario"],["tst","Tests"]];
 const mt=(a,v,n,t,x,w)=>`<button class="mt${w?" wide":""}" data-act="${a}" data-v="${v}"><i>${/^\d+$/.test(String(n))?"":n}</i><span><b>${t}</b><small>${x}</small></span></button>`;
 function ydi(){const at=allT(),v=["Velocidad","Fuerza","Resistencia","Soporte"].map(p=>{const x=at.filter(t=>t.p===p).map(tsc).filter(y=>y!=null);return x.length?x.reduce((a,b)=>a+b)/x.length:null}).filter(y=>y!=null);return v.length?Math.round(v.reduce((a,b)=>a+b)/v.length):null}
@@ -1198,7 +1199,7 @@ function plStart(id){const s=S.sessions.find(x=>x.id===id);if(!s)return;if(!(s.e
 if(PW&&PW.sid!==id&&!confirm("Ya tienes un entrenamiento en marcha. ¿Descartarlo y empezar este?"))return;
 if(!PW||PW.sid!==id)PW={sid:id,t0:Date.now(),pt:0,pz:0,i:0,rest:null,fin:false,L:{},v:2,n:s.rec?occN(s,today):0};plSave();plWake(true);document.body.classList.add("plon");plRender(true);window.scrollTo(0,0)}
 function plH(s,sig){const st=plSteps(s),c=st[Math.min(PW.i,st.length-1)],e=s.ex[c.ei],last=PW.i>=st.length-1,nx=st[PW.i+1];
-if(PW.fin)return`<div id="pl" class="pl" data-sig="${sig}"><div class="card"><h2 class="plx">Entrenamiento terminado</h2><small>Has entrenado <b>${plF(PW.fe)}</b>. Ajusta la duración si hace falta y valora el esfuerzo.</small><div class="grid" style="margin-top:10px"><div><label>Duración (min)</label><input id="plmin" type="number" inputmode="numeric" min="1" value="${PW.fm}"></div><div><label>RPE sesión (1-10)</label><input id="plrpe" type="number" inputmode="numeric" min="1" max="10" placeholder="7"></div></div><label>Notas</label><textarea id="plobs" placeholder="Sensaciones, ruta, clima…"></textarea><div class="plb"><button data-pl="back">Seguir entrenando</button><button class="plgo" data-pl="save">Guardar entrenamiento</button></div></div></div>`;
+if(PW.fin)return`<div id="pl" class="pl" data-sig="${sig}"><div class="card"><h2 class="plx">Entrenamiento terminado</h2><small>Has entrenado <b>${plF(PW.fe)}</b>. Ajusta la duración si hace falta y valora el esfuerzo.</small><div class="grid" style="margin-top:10px"><div><label>Duración (min)</label><input id="plmin" type="number" inputmode="numeric" min="1" value="${PW.fm}"></div><div><label>RPE sesión (1-10)</label><input id="plrpe" type="number" inputmode="numeric" min="1" max="10" placeholder="7"></div></div>${rzFin(s)}<label>Notas</label><textarea id="plobs" placeholder="Sensaciones, ruta, clima…"></textarea><div class="plb"><button data-pl="back">Seguir entrenando</button><button class="plgo" data-pl="save">Guardar entrenamiento</button></div></div></div>`;
 const l=plDef(e,c.k),chips=[e.uni?"⇆ Unilateral":"",e.prgI!=null?"📈 Sesión "+((PW.n||0)+1):"",e.reps?schT(e," × "):"",multi(e)?"Serie "+(c.k+1)+": "+setT(e,c.k):"",loadShort(e),(e.t||[]).some(x=>x)?"Tempo "+e.t.join("-"):"",effT(e),velT(e,c.k)?"Vel. objetivo "+velT(e,c.k)+" m/s":""].filter(Boolean);
 const LB=gl(s),nxt=last?"Terminar entrenamiento ✓":(nx.ei===c.ei?"Siguiente serie ›":(c.sup&&nx.g===c.g&&nx.r>c.r?"Siguiente ronda ›":"Siguiente ejercicio ›")),
 up=nx?(nx.sup?(c.sup&&nx.g===c.g&&nx.r===c.r?"":"Ronda "+(nx.r+1)+" · ")+LB[nx.ei]+" · "+esc(s.ex[nx.ei].name||"Ejercicio"):esc(s.ex[nx.ei].name||"Ejercicio")+(nx.ei===c.ei?" · serie "+(nx.k+1)+" de "+nx.n:"")):"",
@@ -1222,7 +1223,7 @@ if(!(m>0)){alert("Indica la duración en minutos.");return}if(!(r>=1&&r<=10)){al
 const L=PW.L,fill=e=>[...Array(Math.max(1,parseInt(e.series)||1))].map((_,k)=>{const l=L[e.id+"_"+k];return l?Object.assign({r:l.r||"",w:l.w||"",s:"",v:l.v||"",h:l.h||""},e.uni?{r2:l.r2||"",w2:l.w2||""}:{}):{r:"",w:"",s:"",v:"",h:""}});let t;
 if(s.rec){t=JSON.parse(JSON.stringify(s));t.id=uid();t.from=s.id;delete t.rec;delete t.dow;delete t.start;t.ex=s.ex.map(e=>{const c=JSON.parse(JSON.stringify(e));c.id=uid();c.log=fill(e);delete c.prg;delete c.prgI;delete c.rm;delete c.pct;return c});if(prgOn(S.sessions.find(x=>x.id===s.id)))t.prgN=PW.n||0;S.sessions.unshift(t)}
 else{t=S.sessions.find(x=>x.id===s.id)||s;t.ex.forEach((e,i)=>{e.log=fill(s.ex[i]||e)})}
-t.date=today;t.done=true;t.total=String(m);t.rpe=String(r);if(ob)t.obs=(t.obs?t.obs+"\n":"")+ob;
+t.date=today;t.done=true;t.total=String(m);t.rpe=String(r);try{rzFinSave(t);rzNote(t)}catch(e){}if(ob)t.obs=(t.obs?t.obs+"\n":"")+ob;
 S.cur=t.id;et=sty(t);RG.t=t.from||"";RG.ty=sty(t);RG.cur=t.id;PW=null;plSave();plWake(false);tab="ent";entV="edit";save();setStat("Entrenamiento guardado ✓");setTimeout(()=>setStat(""),3500);render();window.scrollTo(0,0)}
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-pl]");if(!b)return;const a=b.dataset.pl;
 if(a==="start"){plStart(b.dataset.v);return}
@@ -1289,7 +1290,7 @@ const ATH=[{"w":1,"d":1,"t":"Tren inferior + salto","f":"BUILD 1 · Control corp
 const mkA=a=>({id:uid(),name:"Athlet S"+a.w+" · Día "+a.d+" · "+a.t,date:"",total:"60",rpe:"",done:false,type:"athlet",wk:a.w,ses:a.d,focus:a.f,esc:a.e,ex:a.x.map(e=>Object.assign(newEx(),{name:e.n,obs:e.o,series:e.s||"",reps:e.r||"",rest:e.rt||"",t:e.t||["","","",""],effType:e.et||"RPE",effVal:e.ev||"",ss:!!e.ss,blk:e.b||""}))});
 const logH=s=>{const t=sty(s),c=SPK(t)==="c",m=pf(s.total),d=pf(s.dist),pc=m&&d?m/d:0,n=t==="running"&&d?Math.min(Math.round(d),60):0,K=s.km||[];
 const f=(l,k,ph,ty)=>`<div><label>${l}</label><input ${ty?`type="${ty}" step="any" inputmode="decimal"`:""} data-s="${k}" value="${esc(s[k])}" placeholder="${ph||""}"></div>`;
-return `<div class="card"><div class="head">${f("Fecha","date","","date")}${f("Nombre","name")}${f("Duración (min)","total","60","number")}${f("Esfuerzo RPE (1-10)","rpe","7","number")}${c?f("Distancia (km)","dist","10","number")+f("FC media (ppm)","fc","145","number")+f("FC máx. (ppm)","fcm","170","number")+f("Calorías","kcal","600","number"):""}${t==="spinning"?f("Cadencia media (rpm)","cad","85","number")+f("Potencia media (W)","pot","180","number"):""}${t==="running"?f("Desnivel + (m)","des","50","number"):""}${c?"":hrF(s)}${sysH(s)}</div>${typeH(s)}${c&&pc?`<div class="sum"><span>Ritmo medio <b>${fmtT(pc*60)}</b> min/km</span><span>Velocidad <b>${r1(d/(m/60))}</b> km/h</span></div>`:""}${n?`<label>Minutos por km (mm:ss)</label><div class="grid">${[...Array(n)].map((_,i)=>`<div><small>km ${i+1}</small><input data-km="${i}" value="${esc(K[i])}" placeholder="5:30"></div>`).join("")}</div>`:""}<label>Notas</label><textarea data-s="obs" placeholder="Sensaciones, ruta, clima…">${esc(s.obs)}</textarea><div class="sum"><span>Carga: <b>${stats(s).load}</b> UA</span></div></div>`};
+return `<div class="card"><div class="head">${f("Fecha","date","","date")}${f("Nombre","name")}${f("Duración (min)","total","60","number")}${f("Esfuerzo RPE (1-10)","rpe","7","number")}${c?f("Distancia (km)","dist","10","number")+f("FC media (ppm)","fc","145","number")+f("FC máx. (ppm)","fcm","170","number")+f("Calorías","kcal","600","number"):""}${t==="spinning"||t==="ciclismo"?f("Cadencia media (rpm)","cad","85","number")+f("Potencia media (W)","pot","180","number"):""}${t==="running"?f("Desnivel + (m)","des","50","number"):""}${c?"":hrF(s)}${sysH(s)}</div>${typeH(s)}${c&&pc?`<div class="sum"><span>Ritmo medio <b>${fmtT(pc*60)}</b> min/km</span><span>Velocidad <b>${r1(d/(m/60))}</b> km/h</span></div>`:""}${n?`<label>Minutos por km (mm:ss)</label><div class="grid">${[...Array(n)].map((_,i)=>`<div><small>km ${i+1}</small><input data-km="${i}" value="${esc(K[i])}" placeholder="5:30"></div>`).join("")}</div>`:""}<label>Notas</label><textarea data-s="obs" placeholder="Sensaciones, ruta, clima…">${esc(s.obs)}</textarea><div class="sum"><span>Carga: <b>${stats(s).load}</b> UA</span></div></div>`};
 const NM=["Desayuno","Almuerzo","Comida","Merienda","Cena"];
 const RCL=[
 {t:"Tostadas con plátano y crema de cacahuete",m:0,e:"🍞",ph:"img/tostadas-platano/portada.jpg",k:"638",p:"23,6",c:"88,2",g:"17,8",r:"2",
@@ -1509,7 +1510,7 @@ var NAVOK=false;
 const SVG=d=>`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const IC={rnk:'<path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4M9 20h6M10 17h4"/>',home:'<path d="M3.5 11.5 12 4l8.5 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',cal:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',car:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',fcz:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a6 6 0 0 1-8.26 7.06l-7.91 7.91a1 1 0 0 1-3-3l7.91-7.91A6 6 0 0 1 17.8 3.2z"/>',acc:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/>',dia:'<path d="M6 3.5h11.5a1 1 0 0 1 1 1v16H7.5a2.5 2.5 0 0 1-2.5-2.5V4.5a1 1 0 0 1 1-1z"/><path d="M5 18a2.5 2.5 0 0 1 2.5-2.5h11"/>',plus:'<path d="M12 5v14M5 12h14"/>',ent:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',nut:'<path d="M12 7c-2-2-6-1.5-7 2s1 8 4 10c1.2.8 2.2.2 3 0 .8.2 1.8.8 3 0 3-2 5-6.5 4-10s-5-4-7-2z"/><path d="M12 7c0-2 1-3.5 3-4"/>',rec:'<path d="M3.5 4v14.5a2 2 0 0 0 2 2H20.5"/><path d="m7.5 15.5 4-4.5 3 3 5-6.5"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',tst:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',cli:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16.5 5a3.2 3.2 0 0 1 0 6M18 14.3c2 .8 3.5 2.8 3.5 5.7"/>',lib:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',cq:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/>',cob:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',sw:'<path d="M4 8h14l-3-3M20 16H6l3 3"/>'};
 const NAV_C=[["menu","Perfil"],["cli","Clientes"],["chat","Chat"],["lib","Biblioteca"]],NAV_CM=[["cq","Cuestionario"],["cob","Cobros"]],NAV_A=[["menu","Hoy"],["cal","Agenda"],["tst","Eval."],["rec","Monitor"]],NAV_M=[["ent","Carga","car","car"],["nut","Nutrición"],["lib","Biblioteca"],["fcz","Herramientas"],["rnk","Ranking y cuerpo","rnk","rnk"],["chat","Chat"]];
-const NAV_G={adm:"menu",menu:"menu",ini:"menu",cal:"cal",crt:"cal",ent:"car",car:"car",tst:"tst",apx:"tst",pro:"tst",rnk:"rnk",cpo:"rnk",rev:"rec",rec:"rec",cin:"rec",cue:"rec",sal:"rec",nlg:"nut",nut:"nut",lib:"lib",fcz:"fcz",acc:"acc",hlp:"acc",dia:"rec",chat:"chat",stz:"stz"};
+const NAV_G={adm:"menu",menu:"menu",ini:"menu",cal:"cal",crt:"cal",ent:"car",car:"car",tst:"tst",apx:"tst",pro:"tst",per:"tst",rnk:"rnk",cpo:"rnk",rev:"rec",rec:"rec",cin:"rec",cue:"rec",sal:"rec",nlg:"nut",nut:"nut",lib:"lib",fcz:"fcz",acc:"acc",hlp:"acc",dia:"rec",chat:"chat",stz:"stz"};
 function render(){if(tab!=="menu")HOYT="h";spReg();try{seasonApply()}catch(e){}render0();navSync()}
 const coachName=()=>NUTRI?(NUN||""):COACH?`${COACH.nombre||""} ${COACH.apellidos||""}`.trim():"";
 const avGet=()=>ROLE==="client"?((S&&S.prof)||{}).photo||"":(lsG("nx_av_"+USER)||"");
@@ -1872,7 +1873,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.103";
+const APP_V="2026-11-15.104";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -1960,8 +1961,8 @@ return`<details class="tmd"><summary>Protocolo y base científica</summary><p><b
 function trefsH(){return`<div class="card"><b>Referencias de los tests</b><ol class="refs">${TREFS.map(r=>`<li>${esc(r[0])}${r[2]?" †":""}${r[1]?` <a href="https://doi.org/${r[1]}" target="_blank" rel="noopener">doi:${r[1]}</a>`:""}</li>`).join("")}</ol><small>† Cita escrita de memoria, sin comprobar en esta sesión: verifica el DOI antes de difundirla. Las referencias de base y élite del índice son criterios orientativos de rendimiento; no proceden de una tabla normativa publicada.</small></div>`}
 const verCard=()=>`<div class="card"><b>Versión de la web</b><br><small>Esta pantalla usa la versión <b>${APP_V}</b>.</small><p id="vermsg" class="qmsg" style="color:#1a1a1c"></p><button class="on" data-ver="1">Buscar actualización</button></div>`;
 document.addEventListener("click",async ev=>{const b=ev.target.closest("[data-ver]");if(!b)return;const m=$("vermsg");if(m)m.textContent="Comprobando…";try{const r=await fetch(location.pathname+"?v="+Date.now(),{cache:"reload"}),t=await r.text(),x=(t.match(/name="app-version" content="([^"]+)"/)||[])[1];if(!m)return;if(!x){m.textContent="No he podido leer la versión del servidor.";return}if(x!==APP_V){m.textContent="Hay una versión nueva ("+x+"). Recargando…";setTimeout(()=>location.replace(location.pathname+"?v="+x),900)}else m.textContent="Ya tienes la última versión publicada en el servidor ("+x+")."}catch(e){if(m)m.textContent="No hay conexión con el servidor."}});
-const GRP=[["Carga",["ent","car"]],["Monitor",["rec","cin","rev","sal"]],["Eval.",["tst","apx","pro"]],["Ranking y cuerpo",["rnk","cpo"]],["Nutrición",["nlg","nut"]],["Perfil",["acc","hlp"]]],GLB={nlg:"Registro",nut:"Plan",lib:"Biblioteca",ent:"Sesiones",cal:"Calendario",car:"Análisis",rec:"Hábitos",cin:"Check-in",fcz:"Herramientas",tst:"Tests",apx:"Hybrid test",pro:"Progreso",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Hoy",cue:"Cuestionario",sal:"Salud",acc:"Cuenta",hlp:"Ayuda"};
-function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";const L=g[1].filter(k=>(k!=="sal"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&((k!=="rnk"&&k!=="cpo"&&k!=="nlg")||typeof fnOn!=="function"||fnOn(k)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${k==="nut"&&typeof SOLO==="function"&&SOLO()?"Recetas":GLB[k]}</button>`).join("")}</div></div>`}
+const GRP=[["Carga",["ent","car"]],["Monitor",["rec","cin","rev","sal"]],["Eval.",["tst","apx","pro","per"]],["Ranking y cuerpo",["rnk","cpo"]],["Nutrición",["nlg","nut"]],["Perfil",["acc","hlp"]]],GLB={nlg:"Registro",nut:"Plan",lib:"Biblioteca",ent:"Sesiones",cal:"Calendario",car:"Análisis",rec:"Hábitos",cin:"Check-in",fcz:"Herramientas",tst:"Tests",apx:"Hybrid test",pro:"Progreso",per:"Rendimiento",rnk:"Ranking",cpo:"Cuerpo",rev:"Revisión",ini:"Hoy",cue:"Cuestionario",sal:"Salud",acc:"Cuenta",hlp:"Ayuda"};
+function gtBar(t){const g=GRP.find(x=>x[1].includes(t));if(!g)return"";const L=g[1].filter(k=>(k!=="sal"||!NUTRI)&&(k!=="per"||!NUTRI)&&(k!=="apx"||S.hyOn||ROLE==="coach")&&(k!=="hlp"||ROLE!=="coach")&&((k!=="rnk"&&k!=="cpo"&&k!=="nlg")||typeof fnOn!=="function"||fnOn(k)));return`<div class="gtb"><div class="gtt">${g[0]}</div><div class="gtr">${L.map(k=>`<button class="gtp${k===t?" on":""}" data-act="tab" data-v="${k}">${k==="nut"&&typeof SOLO==="function"&&SOLO()?"Recetas":GLB[k]}</button>`).join("")}</div></div>`}
 let WV=null,wvOk=false,wvBusy=false,wvErr="",wvLast=0,wvW=0;
 async function wvLoad(){if(wvBusy)return;wvBusy=true;try{if(ROLE==="client"&&CL){const r=await SB.rpc("welcome_video",{p_u:CL.usr,p_p:CL.pwd});if(r.error)throw r.error;WV=r.data||null}wvOk=true;wvErr=""}catch(e){wvErr=e.message||String(e)}wvBusy=false;render()}
 const wvCur=()=>ROLE==="coach"?((LIB.find(x=>x.kind==="welcome")||{}).data||null):WV,wvFmt=t=>Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0"),wvDate=d=>new Date(d).toLocaleDateString("es-ES");
@@ -2202,12 +2203,12 @@ function chatL(){const CM=CH.filter(m=>m.kind!=="pin"),PN=CH.filter(m=>m.kind===
 const nm=chatNm(m);if(window.cbOne&&(chn==="priv"||chn==="nutri"||chn==="cdm"))return window.cbOne(m,md);return `<div class="tw">${msgAv(m,nm)}<div style="flex:1;min-width:0"><div class="row"><span><b>${esc(nm)}</b> <small>${esc(chatRl(m,hd))} · ${new Date(m.created_at).toLocaleString("es-ES",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</small></span>${ROLE==="coach"?((chn==="squad"||chn==="staff")?`<button class="x" data-pin="${m.id}" title="Fijar mensaje">📌</button>`:"")+((chn==="cdm"?m.author_id===MYID:chn==="staff"?(m.author_id===MYID||ISADM):(chn==="nutri"?m.role==="nutri":true))?`<button class="x" data-act="cDelMsg" data-v="${m.id}">✕</button>`:""):""}</div>${m.body?`<div style="white-space:pre-wrap;word-break:break-word;margin-top:2px">${lk(m.body)}</div>`:""}${md?`<div style="margin-top:6px">${md}</div>`:""}</div></div>`}).join(""):"<small>Aún no hay mensajes.</small>")}
 const shareH=()=>ROLE==="coach"&&CL&&!RO?`<div class="card"><b>${esc(CL.name)}</b><br><small>${CL.usr?"Usuario: "+esc(CL.usr)+" · Contraseña: "+(CL.pwd_plain?(showP?esc(CL.pwd_plain):"••••••"):"no guardada"):"Aún sin usuario ni contraseña"} · tus cambios y los suyos se sincronizan solos.</small><div class="bar" style="margin:10px 0 0"><button class="on" data-act="wa">Enviar acceso por WhatsApp</button><button data-act="cp">Copiar enlace</button><button data-v21="mail">Enviar por email</button>${CL.pwd_plain?`<button data-act="verP">${showP?"Ocultar":"Ver"} contraseña</button>`:""}</div></div>`:"";
 function cliH(){return cliH0()}function cliH0(){return `<div class="sec" style="margin-top:4px">Clientes <span class="script">de entreno</span></div><div class="menu">`+CLS.map((c,i)=>mt("cOpen",c.id,String(i+1).padStart(2,"0"),esc(c.name),"Actualizado "+new Date(c.updated_at).toLocaleDateString("es-ES")+(paidNow(c)?" · Pagado":" · Pendiente de pago"))).join("")+`</div>`+(CLS.length?"":'<div class="empty">Crea tu primer cliente para empezar.</div>')+`<div class="bar" style="margin-top:12px"><button class="w" data-act="cNew">+ Nuevo cliente</button></div>`}
-function render0(){NAVOK=false;if(tab==="stz"&&ROLE!=="coach")tab="menu";if(NUTRI&&CL&&["chat","cob","adm","acc","agd","stz"].includes(tab))tab="menu";if(ROLE==="client"&&$("wvv")&&!$("wvv").paused&&!$("wvv").ended)return;const m=tab==="menu";if(ROLE==="coach"&&!CL&&!["menu","cli","chat","lib","cob","acc","agd","pat"].concat(ISADM?["adm"]:[]).includes(tab))tab="menu";
+function render0(){NAVOK=false;if(tab==="stz"&&ROLE!=="coach")tab="menu";if(NUTRI&&CL&&["chat","cob","adm","acc","agd","stz","per"].includes(tab))tab="menu";if(ROLE==="client"&&$("wvv")&&!$("wvv").paused&&!$("wvv").ended)return;const m=tab==="menu";if(ROLE==="coach"&&!CL&&!["menu","cli","chat","lib","cob","acc","agd","pat"].concat(ISADM?["adm"]:[]).includes(tab))tab="menu";
 $("who").innerHTML=!USER||!ready?"":(ROLE==="coach"&&CL?(NUTRI?'<button data-nu="back">‹ Mis atletas</button>':RO?'<button data-ad="back">‹ Panel</button>':'<button data-act="cList">‹ Clientes</button>'):"");
 if(!ready){$("app").innerHTML='<div class="empty">Cargando…</div>';return}
 if(cfgBad()){$("app").innerHTML='<div class="card"><b>Falta conectar la base de datos</b><br><small>Pega tu URL y tu clave de Supabase en SUPA_URL y SUPA_KEY, al principio del script de este archivo.</small></div>';return}
 if(NUTRI&&!CL){nutriShell();return}if(ROLE==="coach"&&USER&&COACH&&COACH.suspendido&&!ISADM){susH();return}if(ROLE==="coach"&&USER&&!ISADM&&vidNeed("coach")){vidScreen("coach");return}if(ROLE==="coach"&&USER&&CQE&&!CL&&!CS){if(!($("cqf")&&$("cqf").contains(document.activeElement)))cqeH();NAVOK=true;return}if(CS&&ROLE==="coach"){regH();return}if(ROLE==="coach"&&USER&&!NUTRI&&!CL&&COACH&&(presEdit||(!ISADM&&!COACH.presentacion))){presH();return}if(!USER){loginH();return}if(ROLE==="client"&&GATE&&!GATE.ok){payGateH();return}if(CLI()&&S&&vidNeed("client")){vidScreen("client");return}if(cqNeed()){cqGate();return}if(CLI()&&S&&!okMail((S.prof||{}).email)){mailH();return}if(CLI()&&S&&!S.wv){if(!wvOk&&!wvBusy&&!wvErr)wvLoad();if(!wvOk&&!wvErr){$("who").innerHTML="";$("app").innerHTML='<div class="empty">Cargando…</div>';return}if(WV&&WV.u){if(!$("wvv"))wvGate();return}}if(CLI()&&S){const g=gateNext();if(g){gateH(g);return}}document.body.classList.toggle("plon",!!(PW&&CLI()));if(PW&&CLI()){plRender();return}
-NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():hoyT(profH())):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+({ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,chat:chatH,nut:nutH,nlg:nlgH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH(),stz:()=>stzH()}[tab]||nxBad)()}
+NAVOK=true;$("app").innerHTML=tab==="agd"&&ROLE==="coach"&&!CL?'<div class="sec" style="margin-top:4px">Agenda <span class="script">equipo y atletas</span></div>'+agendaH():tab==="cli"?cliH():m?(ROLE==="coach"&&!CL?coachHomeH():hoyT(profH())):gtBar(tab)+(TT[tab]?'<div class="sec" style="margin-top:4px">'+TT[tab][0]+' <span class="script">'+TT[tab][1]+'</span></div>':"")+({ini:iniH,ent:entH,cal:calH,car:carH,rec:recH2,cin:cinH,dia:diaH,tst:tstH2,pro:progH,per:()=>rzPage(),chat:chatH,nut:nutH,nlg:nlgH,rev:revH,acc:accH,lib:libH,cue:cueH,apx:apxH,crt:crtH,hlp:hlpH,fcz:fczH,cob:cobH,adm:adH,rnk:()=>window.rnkH(),cpo:()=>window.cpoH(),sal:()=>window.salH(),pat:()=>window.patH(),stz:()=>stzH()}[tab]||nxBad)()}
 
 document.addEventListener("click",ev=>{const t=ev.target.closest("[data-act]");if(!t)return;const a=t.dataset.act,v=t.dataset.v,s=cur();if(["cLogin","logout","cOpen","cNew","cList","cDel","wa","cp","cSend","cDelMsg","mic","pick","pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)){(["pRole","cRole","cReg","cRegBack","cReg1","cReg2","cEdit",...GA].includes(a)?xact:cact)(a,v);return}
 if(CLP()&&!(a==="newS"&&LG.includes(et))&&!(a==="delS"&&(d=>d&&canDel(d))(S.sessions.find(x=>x.id===(t.dataset.v||S.cur))))&&["addMob","delMob","newS","delS","addEx","delEx","dup","planS","addCT","undoT","bm","imp"].includes(a))return;
@@ -3000,7 +3001,7 @@ const fdCard=(x,i)=>{const b=x.b||[],md=pzMd({a:"f",n:x.cat>=0?x.cat:"x",t:x.n,c
  return`<details class="card exl"><summary>${md}</summary><div class="exd pzd">${pzMac(nlF(b[1]),nlF(b[2]),nlF(b[3]))}<small class="pzr">Valores por 100 g</small>${pu}<button class="on w" data-fd="open" data-v="${i}">${CLI()?"Calcular y registrar":"Calcular por cantidad"}</button></div></details>`};
 /* v93-94 · Estadísticas profesionales del cliente (solo entrenador): resumen con lectura automática, carga interna, fuerza, pulsaciones, nutrición, recuperación y cuerpo, con números y porcentajes */
 const STZ={p:4,s:"res"};
-const STZSEC=[["res","Resumen"],["ent","Entreno"],["fue","Fuerza"],["fc","Pulsaciones"],["nut","Nutrición"],["rec","Recuperación"],["cue","Cuerpo"]];
+const STZSEC=[["res","Resumen"],["ent","Entreno"],["fue","Fuerza"],["fc","Pulsaciones"],["nut","Nutrición"],["rec","Recuperación"],["cue","Cuerpo"],["per","Rendimiento"]];
 const stzN=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isFinite(n)?n:0};
 const stzF=(n,d)=>{d=d||0;const q=Math.pow(10,d);return(Math.round(n*q)/q).toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:d,useGrouping:"always"})};
 const stzK=n=>n>=10000?stzF(n/1000,1)+"k":stzF(n);
@@ -3230,6 +3231,7 @@ function stzH(){
  else if(S_==="fc")h+=stzSecFc(d,K);
  else if(S_==="nut")h+=stzSecNut(d,K,gP);
  else if(S_==="rec")h+=stzSecRec(d,K);
+ else if(S_==="per")h+=rzPage();
  else h+=stzSecCue(d);
  return h.replace(/ %/g," %")}
 function stzSecRes(d,K,gP,per){const c=d.cur,p=d.prev,wks=d.W,ld=d.ld,rc=d.rc;let h="";
@@ -3395,9 +3397,9 @@ function entRO(s,st){const sl=SOLO(),mn=v=>v?v+" min":"",dd=d=>{try{return new D
  const nm=sl?`<div><label>Sesión</label><input data-s="name" value="${esc(s.name)}"></div>`:roF("Sesión",s.name||"Sesión");
  const dt=s.rec?(sl?dowF(s):roF("Se repite",dowTxt(s.dow))):(sl?`<div><label>Fecha</label><input type="date" data-s="date" value="${esc(s.date)}"></div>`:roF("Fecha",s.date?dd(s.date):""));
  const tm=s.rec?(sl?`<div><label>Duración prevista (min)</label><input type="number" data-s="total" value="${esc(s.total)}"></div>`:roF("Duración prevista",mn(s.total))):(s.done?roF("Tiempo total",mn(s.total)):"");
- const rs=s.done&&!s.rec?roF("RPE de la sesión",s.rpe)+roF("FC media",s.fc?s.fc+" ppm":"")+roF("FC máx.",s.fcm?s.fcm+" ppm":""):"";
+ const rs=s.done&&!s.rec?roF("RPE de la sesión",s.rpe)+roF("FC media",s.fc?s.fc+" ppm":"")+roF("FC máx.",s.fcm?s.fcm+" ppm":"")+rzRO(s):"";
  const nt=s.done?`<div class="prgi">✅ Sesión realizada</div>`:`<div class="prgi">🔒 ${sl?"Para apuntar tus series y terminar la sesión, pulsa":"Los datos de los ejercicios los edita tu entrenador. Para apuntar tus series, pulsa"} «Comenzar entrenamiento».</div>`;
- return `<div class="card">${plBtn(s,1)}<div class="head">${nm}${dt}${tm}${rs}</div>${sl?rptH(s):""}${sl?typeH(s):typeR(s)}${nt}<div class="sum"><span>Ejercicios: <b>${s.ex.length}</b></span>${s.done?`<span>Carga (sRPE): <b>${st.load}</b> UA</span><span>Volumen: <b>${Math.round(st.vol)}</b> kg</span>`:""}</div></div>`}
+ return rzBan(s)+`<div class="card">${plBtn(s,1)}<div class="head">${nm}${dt}${tm}${rs}</div>${sl?rptH(s):""}${sl?typeH(s):typeR(s)}${nt}<div class="sum"><span>Ejercicios: <b>${s.ex.length}</b></span>${s.done?`<span>Carga (sRPE): <b>${st.load}</b> UA</span><span>Volumen: <b>${Math.round(st.vol)}</b> kg</span>`:""}</div></div>`}
 function exVT(e,n){if(!(e.vel||[]).some(x=>velN(x)!=null))return"";const L=[...Array(n)].map((_,k)=>velT(e,k)).filter(Boolean);return L.length?`<div class="prgi">Velocidad objetivo por serie: <b>${L.join(" · ")}</b> m/s</div>`:""}
 function exLogRO(e,s0,nl){const F=["r","w","r2","w2","v","h","s"],L=e.log||[];if(!L.some(l=>F.some(f=>l[f]!==""&&l[f]!=null)))return"";
  const VO=velOn(s0||cur(),e),PY=isPly(e),c=v=>esc(v===""||v==null?"–":String(v).replace(".",","));
@@ -3533,6 +3535,156 @@ const RCL0=RCL.slice();
 function rcHide(rows){const h=new Set((rows||[]).filter(x=>x&&x.kind==="recipe_hidden"&&!x.coach).map(x=>NRM(x.name))),v=RCL0.filter(r=>!h.has(NRM(r.t)));if(v.length!==RCL.length||v.some((r,i)=>r!==RCL[i])){RCL.length=0;for(const r of v)RCL.push(r)}}
 const lxHid=()=>{if(!ISADM)return"";const H=LIB.filter(x=>x.kind==="recipe_hidden"&&!x.coach);return H.length?`<div class="mhd" style="margin-top:14px">ELIMINADAS · ${H.length}</div>`+H.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b></div><button class="x" data-lb="unhR" data-v="${x.id}">Restaurar</button></div>`).join(""):""};
 
+/* ===== v104 · Rendimiento: RM y VO₂máx estimados con los entrenos hechos ===== */
+/* Todo se calcula al vuelo con las sesiones hechas (done): no hay datos nuevos que guardar y vale para el historial que ya existe. */
+let rzM=null;
+const rzBust=()=>{rzM=null};
+const rzN=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isFinite(n)?n:0};
+const rzTimed=v=>/["'″′]|\b(s|seg|min)\b/i.test(String(v==null?"":v));
+const rzDone=()=>((typeof S==="object"&&S&&S.sessions)||[]).filter(s=>s&&!s.rec&&s.done&&/^\d{4}-\d\d-\d\d$/.test(s.date||""));
+const rzMed=a=>{if(!a.length)return 0;const b=a.slice().sort((x,y)=>x-y),m=b.length>>1;return b.length%2?b[m]:(b[m-1]+b[m])/2};
+const rzAgo=d=>stzDays(d,today);
+const rzMemo=()=>{if(!rzM||Date.now()-rzM.t>2000)rzM={t:Date.now()};return rzM};
+const rzPeso=()=>{try{return(nxBody()||{}).peso||0}catch(e){return 0}};
+const RZCW={alta:3,media:2,baja:1};
+
+/* ---------- Fuerza: 1RM estimado por ejercicio (media de 6 fórmulas, series de 1 a 12 repeticiones) ---------- */
+function rzSets(e){const o=[];(e.log||[]).forEach(l=>{[[l.r,l.w],[l.r2,l.w2]].forEach(a=>{if(a[0]==null||a[0]===""||rzTimed(a[0]))return;const r=rzN(a[0]),w=rzN(a[1]);if(r>=1&&r<=12&&w>0)o.push({w,r})})});return o}
+function rzRM(){const M=rzMemo();if(M.rm)return M.rm;const K={};
+ rzDone().forEach(s=>{(s.ex||[]).forEach(e=>{if(!e)return;let c="";try{c=exCat(e)}catch(x){}if(c&&c!=="Fuerza")return;
+  const nm=String(e.name||"").trim();if(!nm)return;let tid="";try{tid=rmTid(e)||""}catch(x){}
+  let b=null;rzSets(e).forEach(x=>{const v=rm1(x.w,x.r);if(!b||v>b.v)b={v,w:x.w,r:x.r}});if(!b)return;
+  const key=tid?"t:"+tid:"n:"+NRM(nm),o=K[key]||(K[key]={key,tid,name:tid?(rmName(tid)||nm):nm,pts:{}}),p=o.pts[s.date];
+  if(!p||b.v>p.v)o.pts[s.date]={d:s.date,v:b.v,w:b.w,r:b.r,ex:nm}})});
+ M.rm=Object.values(K).map(o=>{const P=Object.values(o.pts).sort((a,b)=>a.d<b.d?-1:1),last=P[P.length-1];
+  let pr=P[0];P.forEach(p=>{if(p.v>=pr.v)pr=p});
+  const best=L=>L.reduce((a,p)=>!a||p.v>a.v?p:a,null),cur=best(P.filter(p=>rzAgo(p.d)<=56)),prev=best(P.filter(p=>{const g=rzAgo(p.d);return g>56&&g<=112}));
+  const prevPr=P.length>1?Math.max(...P.slice(0,-1).map(p=>p.v)):0,rc=P.length>1&&last===pr&&last.v>prevPr*1.004&&rzAgo(last.d)<=14;
+  const q=cur||last;return{key:o.key,tid:o.tid,name:o.name,P,last,pr,cur,prev,rec:rc,n:P.length,conf:q.r<=5?"alta":q.r<=8?"media":"baja"}})
+  .sort((a,b)=>a.last.d<b.last.d?1:a.last.d>b.last.d?-1:b.n-a.n);
+ return M.rm}
+/* respaldo del % del 1RM: si no hay test manual, la estimación con las series (solo si es fiable: mejor serie de 8 reps o menos) */
+function rzRef(id){const o=rzRM().find(x=>x.tid===id);if(!o)return null;const p=o.cur||(rzAgo(o.last.d)<=180?o.last:null);if(!p||p.r>8)return null;return{v:Math.round(p.v*10)/10,d:p.d,n:o.name,a:1}}
+
+/* ---------- Resistencia: VO₂máx, VAM, potencia, ritmo, eficiencia ---------- */
+function rzHrCfg(){let max=0,rest=0,src="";
+ try{const c=fzCalc(fzGet());rest=c.rest>=30&&c.rest<=130?c.rest:0;max=c.max>=100&&c.max<=230?c.max:0;src=c.ok?"zonas":max?"edad":""}catch(e){}
+ let ob=0;rzDone().forEach(s=>{const m=rzN(s.fcm);if(m>=100&&m<=230&&m>ob)ob=m});
+ const hint=ob&&max&&ob>max+2?{ob,max}:null;if(ob>max){max=ob;src=src?src+" y observada":"observada"}
+ if(max&&rest&&max<rest+20)rest=0;
+ return{max,rest,ob,src,hint,ok:!!(max&&rest)}}
+const rzFrac=(fc,H)=>{if(!H.max||!(fc>0))return null;let f;if(H.rest)f=(fc-H.rest)/(H.max-H.rest);else f=(fc/H.max*100-37)/64;return f>=.55&&f<=1?{f,rest:!!H.rest}:null};
+const rzIv=s=>(s.ex||[]).some(e=>rzN(e.series)>=2&&String(e.rest||"").trim()!=="");
+const rzRace=s=>/carrera|\brace\b|\btest\b|cooper|\b5\s?k\b|\b10\s?k\b|marat|contrarreloj|crono|time ?trial/i.test(String(s.name||""));
+function rzVdot(m,d){const v=d*1000/m,vo=-4.6+0.182258*v+0.000104*v*v,p=0.8+0.1894393*Math.exp(-0.012778*m)+0.2989558*Math.exp(-0.1932605*m);return vo/p}
+function rzEst(s,H,peso){const t=sty(s),m=rzN(s.total),d=rzN(s.dist),fc=rzN(s.fc),pot=rzN(s.pot),des=rzN(s.des),iv=rzIv(s),o={d:s.date,t,s};
+ if(m<=0)return o;
+ if(fc>0&&H.max&&m>0&&fc<=H.max+5&&fc/H.max>=.7)o.hi=m;
+ const sub=(vo,r,conf)=>{const x=r.rest?3.5+(vo-3.5)/r.f:vo/r.f;if(x>=20&&x<=90)o.sub={v:x,f:r.f,conf}};
+ if(t==="running"&&d>0){const v=d*1000/m;
+  if(v>=100&&v<=420){o.v=v;if(!iv&&fc>0&&m>=10){o.ef=v/fc;o.efK="run"}
+   const named=rzRace(s),hard=rzN(s.rpe)>=9&&m<=60;
+   if((named||hard)&&d>=1.5&&m>=4&&m<=180&&v>=130&&(!iv||named)){const x=rzVdot(m,d);if(x>=20&&x<=85)o.vdot={v:x,conf:named?"alta":"media"}}
+   if(!o.vdot&&!iv&&fc>0&&H.max&&m>=10&&m<=120&&v>=130){const g=Math.min(.15,Math.max(0,des)/(d*1000)),r=rzFrac(fc,H);if(r)sub(.2*v+.9*v*g+3.5,r,H.rest&&r.f>=.65&&m>=15?"media":"baja")}}}
+ else if((t==="ciclismo"||t==="spinning")&&pot>=40&&pot<=500){
+  if(m>=15)o.pw={w:pot,m};if(fc>0&&m>=15){o.ef=pot/fc;o.efK="bike"}
+  if(fc>0&&H.max&&peso&&m>=15&&m<=180){const r=rzFrac(fc,H);if(r)sub(10.8*pot/peso+7,r,t==="ciclismo"&&r.rest&&r.f>=.65?"media":"baja")}}
+ else if(t==="senderismo"&&d>0){const v=d*1000/m;
+  if(v>=40&&v<=110&&fc>0&&H.max&&m>=30&&m<=480){const g=Math.min(.25,Math.max(0,des)/(d*1000)),r=rzFrac(fc,H);if(r)sub(.1*v+1.8*v*g+3.5,r,"baja")}}
+ else if(t==="natacion"&&d>0){const p=m*60/(d*10);if(p>=50&&p<=400){o.sw={p};if(fc>0){o.ef=d*1000/m/fc;o.efK="swim"}}}
+ return o}
+function rzWin(P,a,b){const W=P.filter(p=>{const g=rzAgo(p.d);return g>=a&&g<=b});if(!W.length)return null;
+ const med=rzMed(W.map(p=>p.v)),K=W.filter(p=>Math.abs(p.v-med)<=.12*med),w=K.reduce((x,p)=>x+RZCW[p.c],0);
+ return{v:K.reduce((x,p)=>x+p.v*RZCW[p.c],0)/w,lo:Math.min(...K.map(p=>p.v)),hi:Math.max(...K.map(p=>p.v)),n:K.length,c:K.some(p=>p.c==="alta")?"alta":K.some(p=>p.c==="media")?"media":"baja"}}
+function rzHist(P){const o=[];for(let w=25;w>=0;w--){const W=P.filter(p=>{const g=rzAgo(p.d);return g>=w*7&&g<=w*7+6});if(W.length){const ws=W.reduce((x,p)=>x+RZCW[p.c],0);o.push({l:stzDt(W[W.length-1].d),v:W.reduce((x,p)=>x+p.v*RZCW[p.c],0)/ws})}}return o}
+function rzSum(P){if(!P.length)return null;let cur=rzWin(P,0,56),stale=false;if(!cur){cur=rzWin(P,57,180);stale=!!cur}
+ const last=P[P.length-1];if(!cur)return{cur:null,last,n:P.length};
+ const prev=stale?null:rzWin(P,57,112);return{cur,prev,stale,d:prev?cur.v-prev.v:null,last,n:P.length,hist:rzHist(P)}}
+const rzEf=L=>{const a=L.filter(o=>rzAgo(o.d)<=28).map(o=>o.ef),b=L.filter(o=>{const g=rzAgo(o.d);return g>28&&g<=56}).map(o=>o.ef);if(!a.length||!b.length)return null;const A=stzAvg(a),B=stzAvg(b);return{a:A,b:B,ch:(A/B-1)*100}};
+function rzEnd(){const M=rzMemo();if(M.en)return M.en;const H=rzHrCfg(),peso=rzPeso(),dn=rzDone(),E=dn.map(s=>rzEst(s,H,peso)).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+ const pt=(f,g)=>E.filter(f).map(g);
+ const run=pt(o=>o.t==="running"&&(o.vdot||o.sub),o=>o.vdot?{d:o.d,v:o.vdot.v,c:o.vdot.conf,src:"carrera"}:{d:o.d,v:o.sub.v,c:o.sub.conf,src:"ritmo y FC"}),
+  bike=pt(o=>(o.t==="ciclismo"||o.t==="spinning")&&o.sub,o=>({d:o.d,v:o.sub.v,c:o.sub.conf,src:"potencia y FC"})),
+  walk=pt(o=>o.t==="senderismo"&&o.sub,o=>({d:o.d,v:o.sub.v,c:o.sub.conf,src:"ritmo, desnivel y FC"}));
+ const pw=E.filter(o=>o.pw&&o.pw.m>=20),pwR=pw.filter(o=>rzAgo(o.d)<=56),pwO=pw.filter(o=>rzAgo(o.d)>56);
+ const mx=L=>L.length?Math.max(...L.map(o=>o.pw.w)):0;
+ const sw=E.filter(o=>o.sw),swA=sw.filter(o=>rzAgo(o.d)<=28).map(o=>o.sw.p),swB=sw.filter(o=>{const g=rzAgo(o.d);return g>28&&g<=56}).map(o=>o.sw.p);
+ const d28=dn.filter(s=>rzAgo(s.date)<=28),con=d28.filter(s=>rzN(s.fc)>0).length,hi=E.filter(o=>rzAgo(o.d)<=28&&o.hi).reduce((a,o)=>a+o.hi,0);
+ const nRun=dn.filter(s=>sty(s)==="running"),nRunF=nRun.filter(s=>!(rzN(s.dist)>0&&rzN(s.fc)>0));
+ const miss=[];
+ if(!H.ok)miss.push("Rellena la FC en reposo y la FC máxima en «Zonas de FC»: sin ellas el VO₂máx se calcula con la edad y es menos preciso.");
+ if(nRunF.length)miss.push(nRunF.length+(nRunF.length===1?" entreno de running sin":" entrenos de running sin")+" distancia o FC media: al terminar cada entreno hay que apuntarlas para que cuente.");
+ if(dn.some(s=>["ciclismo","spinning"].includes(sty(s))&&rzN(s.pot)>0)&&!peso)miss.push("Falta el peso corporal (Tests › Antropometría) para pasar la potencia a VO₂máx.");
+ if(d28.length&&con<d28.length)miss.push((d28.length-con)+" de "+d28.length+" entrenos de las últimas 4 semanas no tienen FC media.");
+ M.en={H,peso,E,n:dn.length,run:rzSum(run),bike:rzSum(bike),walk:rzSum(walk),efRun:rzEf(E.filter(o=>o.efK==="run")),efBike:rzEf(E.filter(o=>o.efK==="bike")),
+  pw:pw.length?{r:mx(pwR),o:mx(pwO),all:mx(pw)}:null,
+  sw:sw.length?{best:Math.min(...sw.map(o=>o.sw.p)),a:swA.length?stzAvg(swA):0,b:swB.length?stzAvg(swB):0,n:sw.length}:null,
+  fcs:{con,n:d28.length,hi:Math.round(hi/4)},miss};
+ return M.en}
+function rzPred(vd){const f=(D,t)=>{const v=D/t,vo=-4.6+0.182258*v+0.000104*v*v,p=0.8+0.1894393*Math.exp(-0.012778*t)+0.2989558*Math.exp(-0.1932605*t);return vo/p};
+ return[[5000,"5 km"],[10000,"10 km"],[21097.5,"Media maratón"]].map(a=>{let lo=a[0]/500,hi=a[0]/60;for(let i=0;i<60;i++){const mid=(lo+hi)/2;if(f(a[0],mid)>vd)lo=mid;else hi=mid}return[a[1],(lo+hi)/2]})}
+
+/* ---------- pantalla ---------- */
+const rzT=min=>{const s=Math.round(min*60),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h?h+":"+String(m).padStart(2,"0")+":"+String(x).padStart(2,"0"):m+":"+String(x).padStart(2,"0")};
+const rzPc=sec=>Math.floor(sec/60)+":"+String(Math.round(sec%60)).padStart(2,"0");
+const rzK=(l,v,s,dl)=>`<div class="card stzk"><i>${l}</i><b>${v}</b><small>${s||""}</small>${dl||""}</div>`;
+const rzDl=(x,d,u,inv)=>x==null?"":Math.abs(x)<(d?.05:.5)?`<span class="stzd z">= estable</span>`:((x>0)!==!!inv)?`<span class="stzd u">${x>0?"▲ +":"▼ −"}${stzF(Math.abs(x),d)}${u}</span>`:`<span class="stzd d">${x>0?"▲ +":"▼ −"}${stzF(Math.abs(x),d)}${u}</span>`;
+const rzB=c=>`<span class="rzb ${c}">fiabilidad ${c}</span>`;
+const rzAg=d=>{const g=rzAgo(d);return g<=0?"hoy":g===1?"ayer":g<14?"hace "+g+" días":g<70?"hace "+Math.round(g/7)+" sem.":"hace "+Math.round(g/30)+" meses"};
+function rzVo(tit,sm,emoji,vamOk){if(!sm)return"";
+ if(!sm.cur)return`<div class="card"><b>${emoji} ${tit}</b><br><small>La última estimación es de ${rzAg(sm.last.d)} (${stzF(sm.last.v,1)} ml/kg/min); no hay datos recientes para actualizarla.</small></div>`;
+ const c=sm.cur;return`<div class="card" data-rz="vo"><div class="row"><b>${emoji} ${tit}</b>${rzB(c.c)}</div><span class="rzbig">${stzF(c.v,1)} <small>ml/kg/min</small></span>${rzDl(sm.d,1," ml","")}
+ <div class="rzs">${sm.stale?"Sin datos en las últimas 8 semanas: último cálculo. ":""}${c.n===1?"1 entreno":c.n+" entrenos"} de las últimas ${sm.stale?"26":"8"} semanas${c.n>1?" · rango "+stzF(c.lo,1)+"–"+stzF(c.hi,1):""}${vamOk?" · VAM ≈ "+stzF(c.v/3.5,1)+" km/h":""}${sm.d==null?"":" · frente a las 8 semanas anteriores"}</div>
+ ${sm.hist&&sm.hist.length>1?lc(sm.hist):""}</div>`}
+function rzH(){const RM=rzRM(),EN=rzEnd();let h="";
+ const total=EN.n;
+ h+=`<div class="card" data-rz="intro"><div class="rzs" style="margin:0">Se actualiza solo con cada entreno marcado como hecho: no hay que hacer nada más. ${total?"Ahora mismo se usan "+total+(total===1?" entreno":" entrenos")+" del historial.":"Todavía no hay entrenos hechos."}</div></div>`;
+ /* --- resistencia --- */
+ const anyEnd=EN.run||EN.bike||EN.walk;
+ h+=`<div class="sec">Resistencia</div>`;
+ h+=rzVo("VO₂máx · running",EN.run,"🏃",true)+rzVo("VO₂máx · bici y spinning",EN.bike,"🚴",true)+rzVo("VO₂máx · senderismo",EN.walk,"🥾",false);
+ if(EN.run&&EN.run.cur){const pr=rzPred(EN.run.cur.v);h+=`<div class="card" data-rz="pred"><b>⏱ Marcas estimadas hoy</b><div class="rzs">Orientativas, con una preparación específica de la prueba (tablas de Daniels).</div><div class="stzg" style="margin:10px 0 0">${pr.map(p=>rzK(p[0],rzT(p[1]),"")).join("")}</div></div>`}
+ const efs=[["Eficiencia aeróbica · running",EN.efRun,"m/min por ppm"],["Eficiencia aeróbica · bici",EN.efBike,"W por ppm"]].filter(x=>x[1]);
+ if(efs.length)h+=`<div class="card" data-rz="ef"><b>Eficiencia aeróbica</b><div class="rzs">Velocidad (o potencia) por cada pulsación en entrenos continuos. Si sube con la misma intensidad, la forma mejora. Últimas 4 semanas frente a las 4 anteriores.</div>${efs.map(x=>`<div class="qa"><span>${x[0].replace("Eficiencia aeróbica · ","")}</span><span class="stzv"><b>${stzF(x[1].a,2)} <small>${x[2]}</small></b>${rzDl(x[1].ch,1," %","")}</span></div>`).join("")}</div>`;
+ if(EN.pw){const w=EN.pw,pk=EN.peso?` · ${stzF((w.r||w.all)/EN.peso,2)} W/kg`:"";h+=`<div class="card" data-rz="pw"><b>🚴 Potencia media sostenida</b><div class="rzs">Mejor potencia media en sesiones de 20 min o más.</div><span class="rzbig">${stzF(w.r||w.all,0)} <small>W${pk}</small></span>${w.r&&w.o?rzDl(w.r-w.o,0," W",""):""}<div class="rzs">${w.r?"Últimas 8 semanas":"Récord anterior (sin sesiones recientes)"} · récord ${stzF(w.all,0)} W</div></div>`}
+ if(EN.sw){const s=EN.sw;h+=`<div class="card" data-rz="sw"><b>🏊 Natación · ritmo por 100 m</b><span class="rzbig">${rzPc(s.a||s.best)} <small>min/100 m${s.a?" (4 semanas)":""}</small></span>${s.a&&s.b?rzDl(s.a-s.b,0," s",true):""}<div class="rzs">Mejor ritmo registrado: ${rzPc(s.best)} /100 m · ${s.n} ${s.n===1?"sesión":"sesiones"} con distancia</div></div>`}
+ const F=EN.fcs;
+ h+=`<div class="card" data-rz="fc"><b>❤ Pulsaciones y estímulo aeróbico</b><div class="rzs">Sirve para todos los deportes: cuenta los minutos con la FC media por encima del 70 % de la FC máxima.</div><div class="stzg" style="margin:10px 0 0">${rzK("Minutos a ≥70 % FCmáx",F.hi?stzF(F.hi):"–","por semana, últimas 4 semanas")}${rzK("FC máxima",EN.H.max?stzF(EN.H.max):"–",EN.H.max?"ppm · "+(EN.H.src||"sin datos"):"sin datos")}</div>${EN.H.hint?`<div class="rzs" style="color:#7d4a00">⚠️ La FC máx. registrada en entrenos (${EN.H.hint.ob} ppm) es mayor que la de tus zonas (${EN.H.hint.max} ppm). Actualiza «Zonas de FC»: se usa ya la mayor para los cálculos.</div>`:""}</div>`;
+ if(!anyEnd&&!EN.pw&&!EN.sw)h+=`<div class="card"><small>Aún no hay datos para estimar el VO₂máx. En running hacen falta <b>distancia, tiempo y FC media</b> (o una carrera/test); en bici y spinning, <b>potencia media y FC</b>. Se apuntan al terminar cada entreno.</small></div>`;
+ /* --- fuerza --- */
+ h+=`<div class="sec">Fuerza · RM estimado</div>`;
+ if(!RM.length)h+=`<div class="card"><small>Aún no hay series con kilos y repeticiones. Con cada serie registrada (de 1 a 12 repeticiones) se estima el 1RM de ese ejercicio y se detectan los récords.</small></div>`;
+ else{const peso=EN.peso;h+=RM.slice(0,12).map(o=>{const q=o.cur||o.last,man=o.tid?(()=>{try{return rmRef0(o.tid)}catch(e){return null}})():null,dl=o.cur&&o.prev?o.cur.v-o.prev.v:null;
+  return`<div class="card" data-rz="rm" data-k="${esc(o.key)}"><div class="row"><b>${o.rec?"🏆 ":""}${esc(o.name)}</b><span class="rzbig" style="font-size:22px;margin:0">${stzF(q.v,1)} <small>kg</small></span></div>
+  <div class="rzs" style="margin-top:2px">Serie de ${stzF(q.w,1)} kg × ${q.r} · ${rzAg(q.d)}${o.cur?"":" (sin datos en 8 semanas)"} · ${rzB(o.conf)}</div>${dl==null?"":rzDl(dl,1," kg","")}
+  <div class="rzs">Récord estimado: <b>${stzF(o.pr.v,1)} kg</b> (${stzDt(o.pr.d)})${man?` · Test manual: <b>${stzF(man.v,1)} kg</b>`:""}${peso?` · ${stzF(q.v/peso,2)}× el peso corporal`:""} · ${o.n} ${o.n===1?"día":"días"} con datos</div>
+  ${o.P.length>1?`<details class="tmd"><summary>Ver evolución</summary>${lc(o.P.map(p=>({l:p.d.slice(2),v:p.v})))}</details>`:""}</div>`}).join("")+(RM.length>12?`<div class="rzs">Se muestran los 12 ejercicios con datos más recientes (hay ${RM.length}).</div>`:"")}
+ /* --- afinar --- */
+ if(EN.miss.length)h+=`<div class="card" data-rz="miss"><b>Para afinar las estimaciones</b><div class="stzi" style="margin-top:6px">${EN.miss.map(x=>`<div class="stzi-info"><i aria-hidden="true">ℹ</i><span>${esc(x)}</span></div>`).join("")}</div></div>`;
+ h+=`<div class="card"><details class="tmd" style="margin-top:0;border-top:0;padding-top:0"><summary>Cómo se calcula</summary>
+ <small><b>RM estimado:</b> media de seis fórmulas (Epley, Brzycki, Lombardi, O'Connor, Mayhew y Wathan) con la mejor serie de cada día, de 1 a 12 repeticiones; cuantas menos repeticiones, más fiable. Solo cuentan ejercicios de fuerza (no pliometría ni velocidad). Si un ejercicio no tiene test de 1RM, esta estimación se usa para calcular los kg de los % del 1RM (solo si la mejor serie es de 8 repeticiones o menos). Los tests manuales no se modifican.</small>
+ <small><b>VO₂máx en running:</b> con distancia, tiempo y FC media de rodajes continuos. Se calcula el gasto de oxígeno a ese ritmo (ecuación ACSM, con el desnivel si se apunta) y se divide entre el porcentaje de esfuerzo que marca la FC (reserva de FC con FC en reposo y máxima; sin FC en reposo, fórmula de Swain). En una carrera o test (o un entreno con RPE 9-10 de menos de 1 h) se usa el rendimiento (VDOT de Daniels), que es más fiable. Las sesiones de series con pausas no se usan para el cálculo continuo.</small>
+ <small><b>Bici y spinning:</b> igual, partiendo de la potencia media (ACSM: 10,8 × W ÷ kg + 7) y la FC. <b>Senderismo:</b> ecuación de caminar con el desnivel. <b>VAM</b> = VO₂máx ÷ 3,5 (km/h). El valor mostrado es la media ponderada por fiabilidad de las estimaciones de las últimas 8 semanas, descartando las que se alejan más de un 12 % de la mediana.</small>
+ <small>Son estimaciones a partir de entrenos, no pruebas de laboratorio. Para una medida directa usa Herramientas › Analizador de VAM y VO₂máx o la batería de Tests.</small></details></div>`;
+ return h}
+const rzPage=()=>rzH();
+
+/* ---------- datos que se piden al terminar el entreno ---------- */
+function rzFin(s){if(!s)return"";const t=sty(s),c=SPK(t)==="c"||t==="natacion",pw=t==="spinning"||t==="ciclismo";
+ const f=(id,l,ph,st)=>`<div><label>${l}</label><input id="${id}" type="number" inputmode="decimal"${st?` step="${st}"`:""} placeholder="${ph}"></div>`;
+ return`<small class="nlnote" style="margin:12px 2px 2px">Opcional · con estos datos la app estima tu rendimiento (VO₂máx, ritmo, potencia).</small><div class="grid">${c?f("pldist","Distancia (km)",t==="natacion"?"1,5":"8,5","any"):""}${pw?f("plpot","Potencia media (W)","180"):""}${f("plfc","FC media (ppm)","145")}${f("plfcm","FC máx. (ppm)","170")}</div>`}
+function rzFinSave(t){const g=id=>rzN(($(id)||{}).value);const d=g("pldist"),p=g("plpot"),a=g("plfc"),b=g("plfcm");
+ if(d>0&&d<400)t.dist=String(d);if(p>0&&p<2500)t.pot=String(p);if(a>=30&&a<=230)t.fc=String(a);if(b>=60&&b<=240)t.fcm=String(b)}
+let rzMg=null;
+function rzNote(t){try{rzBust();const o=[],R=rzRM().find(x=>x.rec&&x.last&&x.last.d===t.date);if(R)o.push("🏆 Nuevo récord estimado: <b>"+esc(R.name)+"</b> "+stzF(R.last.v,1)+" kg");
+ const e=rzEst(t,rzHrCfg(),rzPeso()),v=e.vdot?e.vdot.v:e.sub?e.sub.v:0,c=e.vdot?e.vdot.conf:e.sub?e.sub.conf:"";if(v)o.push("VO₂máx estimado con este entreno: <b>"+stzF(v,1)+"</b> ml/kg/min · fiabilidad "+c);
+ rzMg=o.length?{sid:t.id,t:Date.now(),o}:null}catch(x){rzMg=null}}
+const rzBan=s=>rzMg&&s&&rzMg.sid===s.id&&Date.now()-rzMg.t<180000?`<div class="card rzban" data-rz="ban"><b>📈 Rendimiento actualizado</b>${rzMg.o.map(x=>`<div class="rzs">${x}</div>`).join("")}<div class="bar" style="margin-top:8px"><button data-act="tab" data-v="per">Ver mi rendimiento</button></div></div>`:"";
+const rzDF=s=>{if(s.rec)return"";const t=sty(s);if(!(SPK(t)==="c"||t==="natacion"))return"";
+ const f=(l,k,ph)=>`<div><label>${l}</label><input type="number" step="any" inputmode="decimal" data-s="${k}" value="${esc(s[k])}" placeholder="${ph}"></div>`;
+ return f("Distancia (km)","dist",t==="natacion"?"1,5":"8")+((t==="spinning"||t==="ciclismo")?f("Potencia media (W)","pot","180"):"")};
+const rzRO=s=>roF("Distancia",rzN(s.dist)>0?stzF(rzN(s.dist),2)+" km":"")+roF("Potencia media",rzN(s.pot)>0?stzF(rzN(s.pot),0)+" W":"");
+window.rzRM=rzRM;window.rzEnd=rzEnd;window.rzEst=rzEst;window.rzPred=rzPred;window.rzVdot=rzVdot;window.rzBust=rzBust;
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
 <script>
@@ -4358,6 +4510,14 @@ html[data-theme=light] .rgsub,html[data-theme=light] .rgo{color:#5d564c}
 .lgnew i{font-style:normal;font-size:20px;line-height:1;color:#dcc7a1}
 .lgnew:hover{border-color:#dcc7a1;background:rgba(220,199,161,.08)}
 .lgnew:active{transform:scale(.99)}
+.rzb{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:3px 9px;border-radius:99px;background:#ece3d3;color:#6f685e;vertical-align:middle;white-space:nowrap}
+.rzb.alta{background:#dcebd3;color:#255a20}
+.rzb.media{background:#f4e3c2;color:#7d4a00}
+.rzbig{display:block;margin:6px 0 2px;font-size:34px;line-height:1.05;font-weight:800;color:#1a1a1c}
+.rzbig small{font-size:14px;font-weight:600;color:#6f685e}
+.card[data-rz] .row{align-items:center;gap:10px}
+.rzs{display:block;margin:4px 2px 0;font-size:12.5px;line-height:1.4;color:#6f685e}
+.rzban{border:1px solid #cfae6a}
 </style>
 <script>
 (function(){
