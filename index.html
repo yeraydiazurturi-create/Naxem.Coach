@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="app-version" content="2026-11-15.106">
+<meta name="app-version" content="2026-11-15.107">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexum</title>
@@ -825,8 +825,8 @@ const sd=sOn(selDay);
 return `<div class="card"><div class="row"><button data-act="cPrev">‹</button><b style="text-transform:capitalize">${cm.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}</b><button data-act="cNext">›</button></div><div class="cal" style="margin-top:10px">${c}</div>
 <small>Relleno = realizada · borde = planificada</small></div>
 <div class="card"><b>${new Date(selDay+"T00:00").toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"})}</b>
-${sd.map(s=>`<div class="row" style="margin-top:8px"><span>${s.done?"✅":s.virt?"🔁":"🗓️"} ${esc(s.name)} <small>(${stats(s).load} UA)</small></span><span><button data-act="openS" data-v="${s.id}">Abrir</button>${selDay===today?plBtn(s):""}${!s.virt&&canDel(s)?`<button class="x" data-act="delS" data-v="${s.id}">Eliminar</button>`:""}</span></div>`).join("")||"<div><small>Sin sesiones este día.</small></div>"}${CLI()?evcDayH(selDay):""}
-${CLP()?"":`<button class="w" style="margin-top:10px;background:var(--red);color:#fff" data-act="planS">+ Planificar sesión este día</button>`}</div>`}
+${sd.map(s=>`<div class="row" style="margin-top:8px"><span>${s.done?"✅":s.virt?"🔁":(s.pgm?pgmIc(s):"🗓️")} ${esc(s.name)} ${s.pgm?pgmSub(s):`<small>(${stats(s).load} UA)</small>`}</span><span><button data-act="openS" data-v="${s.id}">Abrir</button>${s.pgm&&!s.done&&pgmOk()&&s.date<=today?`<button data-pgm="done" data-v="${s.id}">✅ Hecho</button>`:""}${selDay===today?plBtn(s):""}${!s.virt&&canDel(s)?`<button class="x" data-act="delS" data-v="${s.id}">Eliminar</button>`:""}</span></div>`).join("")||"<div><small>Sin sesiones este día.</small></div>"}${CLI()?evcDayH(selDay):""}
+${CLP()?"":`<button class="w" style="margin-top:10px;background:var(--red);color:#fff" data-act="planS">+ Planificar sesión este día</button>`}${pgmOk()?`<button class="w pgb" data-pgm="open" data-d="${selDay}">📅 Programar entreno, partido o torneo</button>`:""}</div>`}
 
 function items(){const dn=S.sessions.filter(s=>s.done),val=s=>{const t=stats(s);return t[metric]};
 const sc=d=>{const r=S.rec[d];return r&&r.saved?r.ci.score:null};
@@ -883,7 +883,7 @@ return rcT('Evolución <span class="script">de tus hábitos</span>')+rcB("rch",L
 const LG=["spinning","running","padel","futbol"];
 const ET=[["fuerza","Fuerza","Gimnasio y rutinas"],["spinning","Spinning","Clases y series"],["running","Running","Rodajes y series"],["natacion","Natación","Series y técnica"],["athlet","Athlet Training","12 semanas · 3 sesiones"],["padel","Pádel","Entrenos y partidos"],["futbol","Fútbol","Entrenos y partidos"],["movilidad","Movilidad","Rutinas de movilidad"]];
 const sty=s=>s.type||"fuerza";
-const typeH=s=>{const t=sty(s);return SPK(t)==="m"?`<div class="head" style="margin-top:8px"><div><label>Tipo</label><select data-s="sub" ${CLI()&&!LG.includes(t)?"disabled":""}>${["Entrenamiento","Partido"].map(o=>`<option ${o===(s.sub||"Entrenamiento")?"selected":""}>${o}</option>`).join("")}</select></div>${s.sub==="Partido"?`<div><label>Rival</label><input data-s="rival" value="${esc(s.rival)}"></div><div><label>Resultado</label><input data-s="res" value="${esc(s.res)}" placeholder="6-4 · 2-1"></div>`:""}</div>`:t==="athlet"?`<small>Athlet Training · Semana ${s.wk||"–"} · Sesión ${s.ses||"–"}</small>${s.focus?`<div><b>${esc(s.focus)}</b></div>`:""}${s.esc?`<details style="margin-top:8px"><summary><b>Escalones: Foundation / Progress / Athlete</b></summary><div style="white-space:pre-wrap;font-size:13px">${esc(s.esc)}</div></details>`:""}`:""};
+const typeH=s=>{if(s.pgm)return pgmTypeH(s);const t=sty(s);return SPK(t)==="m"?`<div class="head" style="margin-top:8px"><div><label>Tipo</label><select data-s="sub" ${CLI()&&!LG.includes(t)?"disabled":""}>${["Entrenamiento","Partido"].map(o=>`<option ${o===(s.sub||"Entrenamiento")?"selected":""}>${o}</option>`).join("")}</select></div>${s.sub==="Partido"?`<div><label>Rival</label><input data-s="rival" value="${esc(s.rival)}"></div><div><label>Resultado</label><input data-s="res" value="${esc(s.res)}" placeholder="6-4 · 2-1"></div>`:""}</div>`:t==="athlet"?`<small>Athlet Training · Semana ${s.wk||"–"} · Sesión ${s.ses||"–"}</small>${s.focus?`<div><b>${esc(s.focus)}</b></div>`:""}${s.esc?`<details style="margin-top:8px"><summary><b>Escalones: Foundation / Progress / Athlete</b></summary><div style="white-space:pre-wrap;font-size:13px">${esc(s.esc)}</div></details>`:""}`:""};
 function athletH(){const A=S.sessions.filter(s=>sty(s)==="athlet"),g=(w,n)=>A.find(s=>s.wk===w&&s.ses===n);
 const h=CLI()?"":`<div class="bar"><button class="w" data-act="genA">Crear programa de 12 semanas</button></div>`;
 if(!A.length)return h+'<div class="empty">Aún no hay clases del programa Athlet Training.</div>';
@@ -891,8 +891,8 @@ return h+[...Array(12)].map((_,i)=>{const w=i+1;return `<div class="card"><div c
 const canDel=s=>!CLI()||!!(GATE&&GATE.sin_coach)||isLog(s);
 function homeT(){spReg();if(!et)return spGridH();if(et==="__sp")return'<div class="bar"><button data-act="etp" data-v="">‹ Tipos</button></div>'+spPickH();
 return '<div class="bar"><button data-act="etp" data-v="">‹ Tipos</button></div>'+(et==="athlet"?athletH():homeH())}
-function homeH(){const c=S.sessions.filter(s=>sty(s)===et&&!s.done).map(s=>{const t=stats(s);return `<div class="card"><div class="row"><b>${esc(s.name)}</b><small>${s.done?"✅ Realizada":s.rec?"🔁 Semanal":"🗓️ Plan"}</small></div><small>${s.rec?"Cada "+dowTxt(s.dow):esc(s.date)} · ${isLog(s)?(s.dist?s.dist+" km":"registro"):s.ex.length+" ejercicios"}${t.m?" · "+t.m+" min":""}</small><div class="sum"><span>sRPE <b>${t.load}</b></span><span><b>${Math.round(t.vol)}</b> kg</span></div><div class="ex">${s.ex.filter(e=>e.name).slice(0,4).map(e=>esc(e.name)).join(" · ")}</div><div class="bar" style="margin:8px 0 0"><button class="on" data-act="openS" data-v="${s.id}">Abrir</button>${rgBar(s)}${CLI()?`<button data-v21="shs" data-id="${s.id}">Compartir</button>`:""}${plBtn(s)}${CLP()?"":`<button data-act="dup" data-v="${s.id}">Duplicar</button>`}${canDel(s)?`<button data-act="delS" data-v="${s.id}">Eliminar</button>`:""}</div></div>`}).join("");
-return ((CLP()&&et==="fuerza"&&!LG.includes(et))?"":`<div class="bar">${CLP()&&et==="fuerza"?"":'<button class="w" data-act="tab" data-v="crt">+ Crear entrenamiento</button>'}${LG.includes(et)?'<button data-act="newS">+ Registro rápido</button>':""}</div>`)+rgSecH()+(c?`<div class="charts">${c}</div>`:'<div class="empty">'+(rgLoose(et).length?'No tienes entrenamientos pendientes. Los que ya hiciste están en «Registros».':'Aquí aparecerán los entrenamientos que crees.')+'</div>')}
+function homeH(){const c=S.sessions.filter(s=>sty(s)===et&&!s.done).map(s=>{if(s.pgm)return pgmCard(s);const t=stats(s);return `<div class="card"><div class="row"><b>${esc(s.name)}</b><small>${s.done?"✅ Realizada":s.rec?"🔁 Semanal":"🗓️ Plan"}</small></div><small>${s.rec?"Cada "+dowTxt(s.dow):esc(s.date)} · ${isLog(s)?(s.dist?s.dist+" km":"registro"):s.ex.length+" ejercicios"}${t.m?" · "+t.m+" min":""}</small><div class="sum"><span>sRPE <b>${t.load}</b></span><span><b>${Math.round(t.vol)}</b> kg</span></div><div class="ex">${s.ex.filter(e=>e.name).slice(0,4).map(e=>esc(e.name)).join(" · ")}</div><div class="bar" style="margin:8px 0 0"><button class="on" data-act="openS" data-v="${s.id}">Abrir</button>${rgBar(s)}${CLI()?`<button data-v21="shs" data-id="${s.id}">Compartir</button>`:""}${plBtn(s)}${CLP()?"":`<button data-act="dup" data-v="${s.id}">Duplicar</button>`}${canDel(s)?`<button data-act="delS" data-v="${s.id}">Eliminar</button>`:""}</div></div>`}).join("");
+return ((CLP()&&et==="fuerza"&&!LG.includes(et))?"":`<div class="bar">${CLP()&&et==="fuerza"?"":'<button class="w" data-act="tab" data-v="crt">+ Crear entrenamiento</button>'}${LG.includes(et)?'<button data-act="newS">+ Registro rápido</button>':""}${pgmOk()?`<button data-pgm="open" data-sp="${esc(et)}">📅 Programar</button>`:""}</div>`)+rgSecH()+(c?`<div class="charts">${c}</div>`:'<div class="empty">'+(rgLoose(et).length?'No tienes entrenamientos pendientes. Los que ya hiciste están en «Registros».':'Aquí aparecerán los entrenamientos que crees.')+'</div>')}
 const TP=["Velocidad","Fuerza","Resistencia","Soporte","Antropometría"];
 const TC=[["s10","Velocidad","Sprint 10 m","s","min"],["s40","Velocidad","Sprint 40 m","s","min"],["t5105","Velocidad","Prueba 5-10-5","s","min"],["sj","Velocidad","Squat jump","cm"],["cmj","Velocidad","CMJ","cm"],["cmja","Velocidad","CMJ con brazos","cm"],["dj","Velocidad","Drop jump","cm"],["depj","Velocidad","Depth jump","cm"],
 ["pb","Fuerza","Press banca con barra","kg","","w"],["ss","Fuerza","Sentadilla con barra alta","kg","","w"],["dom","Fuerza","Dominadas máx. reps","reps"],["doml","Fuerza","Dominadas lastradas","kg","","w"],["pmh","Fuerza","Peso muerto hexagonal","kg","","w"],["hip","Fuerza","Hip-thrust","kg","","w"],
@@ -1165,13 +1165,13 @@ if(a==="setPaid"){const {error}=await SB.rpc("coach_set_paid",{p_id:CL.id,p_paid
 /* ===== Entrenos programados: todas las disciplinas, repetición semanal y reproductor ===== */
 const DC={spinning:"Spinning",running:"Running",natacion:"Natación",futbol:"Fútbol",padel:"Pádel",movilidad:"Movilidad"};
 const cty=()=>et&&et!=="__sp"?et:"fuerza",etName=()=>(ET.find(x=>x[0]===cty())||["","Fuerza"])[1];
-const isLog=s=>LG.includes(sty(s))&&!s.prog&&!s.rec;
+const isLog=s=>(LG.includes(sty(s))||!!s.pgm)&&!s.prog&&!s.rec;
 const DOWN=["lun","mar","mié","jue","vie","sáb","dom"],dowTxt=d=>(d||[]).map(i=>DOWN[i]).join(" · ")||"–",dowOf=k=>(new Date(k+"T00:00").getDay()+6)%7;
 function virt(k){return S.sessions.filter(t=>t.rec&&(t.dow||[]).includes(dowOf(k))&&(t.start||"")<=k&&!S.sessions.some(x=>x.from===t.id&&x.date===k)).map(t=>({id:t.id,name:t.name,date:k,done:false,virt:true,prog:true,type:t.type,ex:prgOn(t)?prgEx(t,occN(t,k)):(t.ex||[]),prgN:prgOn(t)?occN(t,k):undefined,total:t.total,rpe:""}))}
-const sOn=k=>S.sessions.filter(s=>!s.rec&&s.date===k).concat(virt(k));
+const sOn=k=>S.sessions.filter(s=>!s.rec&&(s.date===k||(s.pgm&&s.pgf&&s.date<k&&k<=s.pgf))).concat(virt(k));
 const plBtn=(s,big)=>CLI()&&!s.done&&!isLog(s)&&(s.ex||[]).length?`<button class="${big?"plgo":"w"}" data-pl="start" data-v="${s.id}">▶ Comenzar entrenamiento</button>`:"";
 const dowF=s=>`<div style="grid-column:1/-1"><label>Días de la semana</label><div class="qch">${"LMXJVSD".split("").map((d,i)=>`<button class="qc${(s.dow||[]).includes(i)?" on":""}" data-dw="${i}" ${CLP()?"disabled":""}>${d}</button>`).join("")}</div></div>`;
-const todayH=()=>{if(!CLI())return"";const L=sOn(today).filter(x=>!isLog(x));if(!L.length)return"";return`<div class="card"><b>Hoy</b>${L.map(x=>`<div class="row" style="margin-top:8px"><span>${x.done?"✅":"🔁"} ${esc(x.name)}${x.total?` <small>${esc(x.total)} min</small>`:""}</span>${x.done?"":(plBtn(x)||`<button data-act="openS" data-v="${x.id}">Abrir</button>`)}</div>`).join("")}</div>`};
+const todayH=()=>{if(!CLI())return"";const L=sOn(today).filter(x=>!isLog(x));if(!L.length)return pgmSoonH();return`<div class="card"><b>Hoy</b>${L.map(x=>`<div class="row" style="margin-top:8px"><span>${x.done?"✅":"🔁"} ${esc(x.name)}${x.total?` <small>${esc(x.total)} min</small>`:""}</span>${x.done?"":(plBtn(x)||`<button data-act="openS" data-v="${x.id}">Abrir</button>`)}</div>`).join("")}</div>`+pgmSoonH()};
 const crtRec=()=>crt.rec==null?cty()!=="fuerza":!!crt.rec;
 const crtDate=()=>{const r=crtRec();return`<label style="margin-top:10px">Cuándo se hace</label><div class="qch" style="margin-bottom:4px"><button class="qc${r?"":" on"}" data-crt="md" data-v="fix">📅 Fecha fija</button><button class="qc${r?" on":""}" data-crt="md" data-v="rec">🔁 Cada semana</button></div>`+(r?`<label>Días de la semana</label><div class="qch">${"LMXJVSD".split("").map((d,i)=>`<button class="qc${(crt.dow||[]).includes(i)?" on":""}" data-crt="dw" data-v="${i}">${d}</button>`).join("")}</div><small>Se programa una sola vez y aparece cada semana en el calendario, sin fecha exacta.</small>`:`<label>Fecha</label><input type="date" data-crti="d" value="${esc(crt.d||today)}">`)};
 document.addEventListener("change",ev=>{const t=ev.target;if(!t.dataset||t.dataset.crtt!=="rec")return;crt.rec=t.checked;const d=$("crtdt");if(d)d.innerHTML=crtDate()});
@@ -1873,7 +1873,7 @@ else if(a==="saveCt"){const h=R().h;rtOpen("ct",{name:"",sau:h.sp_sau||"",frio:h
 else if(a==="pickMob"||a==="pickCt"){const t=a==="pickMob"?"mob":"ct",L=LIB.filter(x=>x.kind==="routine"&&x.data.rt===t);lbShow(`<div class="rcw"><button class="rcx" data-lb="close">✕ Cerrar</button><div class="lbc"><div class="rck">Rutinas de ${RTN[t].toLowerCase()}</div>${L.length?L.map(x=>`<div class="lbr"><div><b>${esc(x.name)}</b><br><small>${esc(rtSum(x.data))}</small></div><button class="on" data-rt="${t==="mob"?"useMob":"useCt"}" data-v="${x.id}">${t==="mob"?"Añadir":"Cargar"}</button></div>`).join(""):'<div class="empty" style="color:#6f685e">Aún no hay rutinas de este tipo en la biblioteca.</div>'}</div></div>`)}
 else if(a==="useMob"){const x=LIB.find(y=>y.id===v);if(x){(S.mob=S.mob||[]).push(...x.data.items.map(m=>Object.assign({},m,{id:uid()})));lbClose();save();render()}}
 else if(a==="useCt"){const x=LIB.find(y=>y.id===v);if(x){const h=R().h,d=x.data,has=["sp_sau","sp_frio","sp_turco","sp_nat","sp_natm","sp_rond","sp_ord","sp_nota"].some(k=>h[k]);if(has&&!confirm("Esto sustituye el circuito de este día. ¿Continuar?"))return;h.sp_sau=d.sau||"";h.sp_frio=d.frio||"";h.sp_turco=d.turco||"";h.sp_nat=d.nat||"";h.sp_natm=d.natm||"";h.sp_rond=d.rond||"";h.sp_ord=d.ord||"";h.sp_nota=d.nota||"";lbClose();save();render()}}});
-const APP_V="2026-11-15.106";
+const APP_V="2026-11-15.107";
 const prLaunch=()=>!(CFG&&CFG.cobro_premium===true);
 const nx66={lk:a=>typeof lgLinks==="function"?lgLinks(a):"",from:()=>{try{return"Desde "+pnE(pnTiers()[0].mensual)+"/mes + IVA · "+lgTrial()+" días de prueba gratis"}catch(e){return"Desde 17,90 €/mes + IVA · 7 días de prueba gratis"}}};
 const REFS=[["Foster C. Monitoring training in athletes with reference to overtraining syndrome. Med Sci Sports Exerc. 1998;30(7):1164-1168.",""],["Foster C, Florhaug JA, Franklin J, et al. A new approach to monitoring exercise training. J Strength Cond Res. 2001;15(1):109-115.",""],["Gabbett TJ. The training-injury prevention paradox: should athletes be training smarter and harder? Br J Sports Med. 2016;50(5):273-280.","10.1136/bjsports-2015-095788"],["Impellizzeri FM, Tenan MS, Kempton T, Novak A, Coutts AJ. Acute:chronic workload ratio: conceptual issues and fundamental pitfalls. Int J Sports Physiol Perform. 2020;15(6):907-913.","10.1123/ijspp.2019-0864"],["Saw AE, Main LC, Gastin PB. Monitoring the athlete training response: subjective self-reported measures trump commonly used objective measures: a systematic review. Br J Sports Med. 2016;50(5):281-291.","10.1136/bjsports-2015-094758"],["Hooper SL, Mackinnon LT. Monitoring overtraining in athletes: recommendations. Sports Med. 1995;20(5):321-327.",""],["Walsh NP, Halson SL, Sargent C, et al. Sleep and the athlete: narrative review and 2021 expert consensus recommendations. Br J Sports Med. 2021;55(7):356-368.","10.1136/bjsports-2020-102025"],["Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-1082.","10.1080/02640414.2016.1210197"],["Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104.",""],["Bull FC, Al-Ansari SS, Biddle S, et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med. 2020;54(24):1451-1462.","10.1136/bjsports-2020-102955"],["World Health Organization. Global Physical Activity Questionnaire (GPAQ): Analysis Guide. Geneva: WHO, Surveillance and Population-Based Prevention, Department of Chronic Diseases and Health Promotion.",""],["IPAQ Research Committee. Guidelines for Data Processing and Analysis of the International Physical Activity Questionnaire (IPAQ) - Short and Long Forms. 2005.",""]];
@@ -3497,7 +3497,7 @@ function rgSet(){const t=RG.t&&S.sessions.find(x=>x.id===RG.t&&x.rec);
  const ty=RG.ty||et||"fuerza",nm=(ET.find(x=>x[0]===ty)||["",ty])[1],some=S.sessions.some(x=>x.rec&&sty(x)===ty);
  return{t:null,ty:ty,L:rgLoose(ty),ttl:nm,sub:some?"Entrenos hechos que no son de ninguna rutina semanal":"Todos los entrenos hechos"}}
 function rgCard(s,nm){const t=stats(s),X=(s.ex||[]).filter(e=>e.name),
- meta=[t.m?t.m+" min":"",s.rpe?"RPE "+s.rpe:"",t.load?t.load+" UA":"",t.vol?Math.round(t.vol)+" kg":"",pf(s.dist)?s.dist+" km":"",cdSP(s),s.fc?s.fc+" ppm":""].filter(Boolean).join(" · "),
+ meta=[s.pgm&&s.res?"Resultado "+s.res:"",t.m?t.m+" min":"",s.rpe?"RPE "+s.rpe:"",t.load?t.load+" UA":"",t.vol?Math.round(t.vol)+" kg":"",pf(s.dist)?s.dist+" km":"",cdSP(s),s.fc?s.fc+" ppm":""].filter(Boolean).join(" · "),
  det=X.map(e=>`<div class="rgx"><b>${esc(e.name)}</b>${exLogRO(e,s,1)||"<small>Sin series registradas</small>"}</div>`).join(""),ob=(s.obs||"").trim();
  return `<div class="card rgc"><div class="row"><b>${esc(rgD(s.date))}</b><small>✅ ${nm?esc(s.name||"Sesión"):"Realizado"}</small></div>${meta?`<div class="rgm">${esc(meta)}</div>`:""}${X.length?`<div class="ex">${X.slice(0,4).map(e=>esc(e.name)).join(" · ")}${X.length>4?" · +"+(X.length-4):""}</div>`:""}${ob?`<div class="rgo">${esc(ob.slice(0,200))}${ob.length>200?"…":""}</div>`:""}${det?`<details class="rgd"><summary>Ver series</summary>${det}</details>`:""}<div class="bar" style="margin:8px 0 0"><button class="on" data-rg="open" data-id="${s.id}">Abrir</button>${CLI()?`<button data-v21="shs" data-id="${s.id}">Compartir</button>`:""}${canDel(s)?`<button data-rg="del" data-id="${s.id}">Eliminar</button>`:""}</div></div>`}
 function rgView(){const R=rgSet(),L=R.L;let m=0,v=0,k=0;L.forEach(s=>{const t=stats(s);m+=t.m;v+=t.vol;k+=pf(s.dist)});
@@ -3762,6 +3762,99 @@ function cdBar(s){const K=CDM[sty(s)];if(!K||CLP())return"";const T=CDTK[K];
  return `<div class="card cdbar"><b>Añadir bloque</b><div class="qch" style="margin-top:8px"><button class="qc" data-cdadd="ser">+ Series</button><button class="qc" data-cdadd="cont">+ ${esc(T.cont)}</button><button class="qc" data-cdadd="warm">+ Calentamiento</button><button class="qc" data-cdadd="cool">+ Vuelta a la calma</button><button class="qc" data-cdadd="blank">+ En blanco</button></div><div class="rzs">Cada bloque es una parte del entreno. Después cambias la distancia o el tiempo, el tiempo y el ritmo objetivo, el descanso y el esfuerzo. El atleta apunta distancia, tiempo y FC de cada serie.</div></div>`}
 document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-cdadd]");if(!b)return;ev.stopPropagation();if(CLP())return;const s=cur(),K=s&&CDM[sty(s)];if(!K)return;const w=b.dataset.cdadd,d=w==="blank"?{}:cdTpl(K,w);if(!d)return;
  const e=Object.assign(newEx(),JSON.parse(JSON.stringify(d)),{id:uid()});s.ex.push(e);openEx.add(e.id);if(ROLE==="coach")S.pu=Date.now();save();render();const el=document.querySelector('#app [data-i="'+(s.ex.length-1)+'"]');if(el)el.scrollIntoView({block:"start"})},true);
+/* ===== v107 · El atleta programa «voy a entrenar», partidos y torneos/competiciones ===== */
+/* Una entrada programada es una sesión «ligera»: s.pgm = "e" (entreno) | "p" (partido) | "t" (torneo o competición),
+   sin ejercicios. Datos: s.pgh hora, s.pgl lugar, s.pgt nombre del torneo, s.pgf último día (torneos de varios días),
+   s.rival / s.res (partido y resultado). Se registra como cualquier otro entreno con «Ya lo hice». */
+const PGMI={e:"🏋️",p:"⚔️",t:"🏆"};
+const pgmOk=()=>CLI()&&!RO;
+const pgmDate=k=>/^\d{4}-\d{2}-\d{2}$/.test(k||"");
+const pgmAdd=(k,n)=>{const d=new Date(k+"T00:00");d.setDate(d.getDate()+n);return ymd(d)};
+const pgmSp=k=>{const e=ET.find(x=>x[0]===k);return e?e[1]:spNm(k)};
+const pgmM=sp=>SPK(sp)==="m";
+const pgmKinds=sp=>pgmM(sp)?[["e","🏋️","Voy a entrenar"],["p","⚔️","Partido"],["t","🏆","Torneo"]]:[["e","🏋️","Voy a entrenar"],["t","🏁","Competición"]];
+const pgmKL=(k,sp)=>k==="e"?"Entreno":k==="p"?"Partido":pgmM(sp)?"Torneo":"Competición";
+const pgmSub0=(k,sp)=>k==="e"?"Entrenamiento":k==="p"?"Partido":pgmKL("t",sp);
+const pgmIc=s=>s.pgm==="t"&&!pgmM(sty(s))?"🏁":(PGMI[s.pgm]||"🗓️");
+const pgmNm=s=>{const sp=sty(s),n=pgmSp(sp);return s.pgm==="p"?n+" · Partido"+(s.rival?" vs "+s.rival:""):s.pgm==="t"?(s.pgt||n+" · "+pgmKL("t",sp)):n+" · Entreno"};
+const pgmD=k=>{if(!pgmDate(k))return"";try{return new Date(k+"T00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short"})}catch(e){return k}};
+const pgmEnd=s=>s.pgf&&s.pgf>s.date?s.pgf:s.date;
+const pgmWhen=s=>{const a=s.date,f=s.pgf&&s.pgf>a?s.pgf:"";let t;
+ if(f&&a<today&&f>=today)t="En curso · hasta "+pgmD(f);
+ else{t=a===today?"Hoy":a===pgmAdd(today,1)?"Mañana":pgmD(a);if(f)t+=" → "+pgmD(f)}
+ if(s.pgh)t+=" · "+s.pgh;if(s.pgl)t+=" · "+s.pgl;return t};
+const pgmSub=s=>`<small>· ${esc(pgmKL(s.pgm,sty(s)))}${s.pgh?" · "+esc(s.pgh):""}${s.pgl?" · "+esc(s.pgl):""}${s.pgf&&s.pgf>s.date?" · hasta "+esc(pgmD(s.pgf)):""}</small>`;
+function pgmMk(o){const s={id:uid(),name:"",date:o.date,total:"",rpe:"",done:false,type:o.sp,ex:[],pgm:o.pk,pgh:o.hora||"",pgl:(o.lugar||"").trim(),pgt:o.pk==="t"?(o.tnm||"").trim():"",pgf:o.pk==="t"&&pgmDate(o.fin)&&o.fin>o.date?o.fin:"",rival:o.pk==="p"?(o.rival||"").trim():"",res:"",sub:pgmSub0(o.pk,o.sp)};s.name=pgmNm(s);return s}
+
+/* ---- cuando se abre una entrada (ficha de registro) ---- */
+const pgmTypeH=s=>{const sp=sty(s),k=s.pgm,K=pgmKinds(sp),f=(l,a,ph,ty)=>`<div><label>${l}</label><input ${ty?`type="${ty}" `:""}data-pgf="${a}" value="${esc(s[a])}" placeholder="${ph||""}"></div>`;
+ return `<div class="head" style="margin-top:8px"><div><label>Tipo</label><select data-pgf="pgm">${K.map(o=>`<option value="${o[0]}"${o[0]===k?" selected":""}>${o[1]} ${o[2]}</option>`).join("")}</select></div>${f("Hora","pgh","","time")}${f("Lugar","pgl","Pabellón, club…")}${k==="p"?f("Rival","rival")+f("Resultado","res","6-4 · 2-1"):""}${k==="t"?f("Nombre","pgt",pgmM(sp)?"Torneo de…":"Carrera, prueba…")+f("Termina el","pgf","","date")+f("Resultado / puesto","res","Campeón · 3.º · 2-1"):""}</div><div class="bar" style="margin:10px 0 0">${s.done?`<button data-pgm="undo" data-v="${s.id}">↩️ Volver a pendiente</button>`:(CLI()?`<button class="w" data-pgm="done" data-v="${s.id}">✅ Ya lo hice</button>`:"")}</div>`};
+
+/* ---- tarjeta en la sección del deporte ---- */
+const pgmCard=s=>`<div class="card pgc"><div class="row"><b>${pgmIc(s)} ${esc(s.name)}</b><small>🗓️ ${esc(pgmKL(s.pgm,sty(s)))}</small></div><small>${esc(pgmWhen(s))}</small><div class="bar" style="margin:8px 0 0"><button class="on" data-act="openS" data-v="${s.id}">Abrir</button>${CLI()?`<button data-pgm="done" data-v="${s.id}">✅ Ya lo hice</button>`:""}<button data-act="delS" data-v="${s.id}">Eliminar</button></div></div>`;
+
+/* ---- «Mi agenda» en el inicio ---- */
+const pgmCmp=(a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.pgh||"")<(b.pgh||"")?-1:(a.pgh||"")>(b.pgh||"")?1:0;
+const pgmUpc=()=>S.sessions.filter(s=>s.pgm&&!s.done&&!s.rec&&pgmEnd(s)>=today).sort(pgmCmp);
+const pgmOver=()=>{const lo=pgmAdd(today,-14);return S.sessions.filter(s=>s.pgm&&!s.done&&!s.rec&&pgmEnd(s)<today&&pgmEnd(s)>=lo).sort((a,b)=>pgmCmp(b,a))};
+const pgmRow=(s,od)=>`<div class="row pgr"><span>${pgmIc(s)} <b>${esc(s.name)}</b><small style="display:block">${esc(pgmWhen(s))}</small></span><span class="pgbt">${od?`<button data-pgm="done" data-v="${s.id}">✅ Sí</button><button class="x" data-act="delS" data-v="${s.id}">No fui</button>`:`${s.date<=today?`<button data-pgm="done" data-v="${s.id}">✅ Hecho</button>`:""}<button data-act="openS" data-v="${s.id}">Abrir</button><button class="x" data-act="delS" data-v="${s.id}">✕</button>`}</span></div>`;
+const pgmSoonH=()=>{if(!pgmOk())return"";const U=pgmUpc().slice(0,4),O=pgmOver().slice(0,3);
+ return `<div class="card pgs"><div class="row"><span><b>📅 Mi agenda</b>${U.length||O.length?"":'<small style="display:block">Entreno, partido o torneo</small>'}</span><button class="w" data-pgm="open">+ Programar</button></div>${O.length?'<small class="pgq">¿Lo hiciste?</small>'+O.map(s=>pgmRow(s,1)).join(""):""}${U.map(s=>pgmRow(s,0)).join("")}</div>`};
+
+/* ---- ventana «Programar» ---- */
+let PGM=null;
+const pgmSports=()=>{spReg();return spVis().filter(k=>k!=="athlet")};
+function pgmClose(){const o=$("pgov");if(o)o.remove();document.body.style.overflow="";PGM=null}
+function pgmOpen(sp,d){if(!pgmOk())return;pgmClose();const V=pgmSports(),k=V.includes(sp)?sp:(V.find(x=>x!=="fuerza")||V[0]);
+ PGM={sp:k,pk:"e",date:pgmDate(d)?d:today,hora:"",lugar:"",rival:"",tnm:"",fin:"",rep:0,wks:4,ok:null,err:""};
+ const o=document.createElement("div");o.id="pgov";o.className="rcov";
+ o.innerHTML='<div class="rcw xw"><button class="rcx" data-pgm="x">✕ Cerrar</button><div class="lbc" id="pgb"></div></div>';
+ const f=e=>{e.stopPropagation();const t=e.target,a=t.dataset&&t.dataset.pgv;if(a&&PGM)PGM[a]=t.value};
+ o.addEventListener("input",f);o.addEventListener("change",f);
+ document.body.appendChild(o);document.body.style.overflow="hidden";pgmDraw()}
+function pgmDraw(){const P=PGM,o=$("pgb");if(!P||!o)return;
+ if(P.ok){const s=P.ok.s;o.innerHTML=`<div class="rck">✅ Programado</div><div class="pgok"><b>${pgmIc(s)} ${esc(s.name)}</b><small>${esc(pgmWhen(s))}${P.ok.n>1?" · y "+(P.ok.n-1)+" semanas más":""}</small></div><div class="bar" style="justify-content:center"><button class="w" data-pgm="again">+ Programar otro</button><button data-pgm="x">Listo</button></div>`;return}
+ const V=pgmSports(),K=pgmKinds(P.sp),k=P.pk,M=pgmM(P.sp),
+ nt=k==="e"?"Solo avisas de que vas a entrenar ese día: no hace falta decir qué vas a hacer. Después, si quieres, registras cómo fue.":k==="p"?"Apunta el partido con su fecha y hora. Después podrás guardar el resultado.":(M?"Puedes marcar varios días, del primero al último. Después podrás guardar el resultado.":"Carrera, prueba o competición: puedes marcar varios días. Después podrás guardar el resultado.");
+ o.innerHTML=`<div class="rck">Programar</div><label>Deporte</label><div class="qch">${V.map(x=>`<button class="qc${x===P.sp?" on":""}" data-pgm="sp" data-v="${esc(x)}">${esc(pgmSp(x))}</button>`).join("")}</div>${V.length<2?'<small class="nlnote">Si practicas otro deporte, añádelo antes desde Entrenar → «Añadir deporte».</small>':""}<label>¿Qué vas a hacer?</label><div class="qch">${K.map(x=>`<button class="qc${x[0]===k?" on":""}" data-pgm="pk" data-v="${x[0]}">${x[1]} ${x[2]}</button>`).join("")}</div><small class="nlnote">${nt}</small>
+<div class="head"><div><label>${k==="t"?"Empieza el":"Fecha"}</label><input type="date" data-pgv="date" value="${esc(P.date)}"></div><div><label>Hora (opcional)</label><input type="time" data-pgv="hora" value="${esc(P.hora)}"></div></div>
+${k==="t"?`<label>Nombre${M?" del torneo":""} (opcional)</label><input data-pgv="tnm" value="${esc(P.tnm)}" placeholder="${M?"Torneo de…":"Carrera, prueba…"}"><label>Termina el (si dura varios días)</label><input type="date" data-pgv="fin" value="${esc(P.fin)}">`:""}${k==="p"?`<label>Rival (opcional)</label><input data-pgv="rival" value="${esc(P.rival)}" placeholder="Contra quién juegas">`:""}
+<label>Lugar (opcional)</label><input data-pgv="lugar" value="${esc(P.lugar)}" placeholder="Pabellón, club, ciudad…">
+${k==="e"?`<label>Repetir</label><div class="qch"><button class="qc${P.rep?" on":""}" data-pgm="rep">🔁 Cada semana</button>${P.rep?[2,4,8,12].map(n=>`<button class="qc${+P.wks===n?" on":""}" data-pgm="wk" data-v="${n}">${n} sem.</button>`).join(""):""}</div>${P.rep?`<small class="nlnote">Se crean ${P.wks} entrenos, uno cada semana, el mismo día. Puedes borrar los que no vayas a hacer.</small>`:""}`:""}
+${P.err?`<small class="pge">${esc(P.err)}</small>`:""}<button class="pgg" data-pgm="go">📅 Programar</button>`}
+function pgmGo(){const P=PGM;if(!P||!pgmOk())return;
+ if(!pgmDate(P.date)){P.err="Elige la fecha.";pgmDraw();return}
+ if(!pgmKinds(P.sp).some(x=>x[0]===P.pk))P.pk="e";
+ const n=P.pk==="e"&&P.rep?Math.max(1,Math.min(12,+P.wks||4)):1,L=[];
+ for(let i=0;i<n;i++)L.push(pgmMk({sp:P.sp,pk:P.pk,date:pgmAdd(P.date,7*i),hora:P.hora,lugar:P.lugar,rival:P.rival,tnm:P.tnm,fin:P.fin}));
+ S.sessions=L.concat(S.sessions);P.ok={n:L.length,s:L[0]};P.err="";
+ try{selDay=P.date;cm=new Date(P.date+"T00:00")}catch(e){}
+ save();pgmDraw();render()}
+function pgmDone(id){const s=S.sessions.find(x=>x.id===id);if(!s||!s.pgm||!pgmOk())return;
+ s.done=true;if(s.date>today){s.date=today;if(s.pgf&&s.pgf<s.date)s.pgf=""}
+ S.cur=id;et=sty(s);tab="ent";entV="edit";save();render();window.scrollTo(0,0)}
+function pgmUndo(id){const s=S.sessions.find(x=>x.id===id);if(!s||!s.pgm)return;s.done=false;save();render()}
+
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest("[data-pgm]");if(!b)return;ev.preventDefault();
+ const a=b.dataset.pgm,v=b.dataset.v;
+ if(a==="open")pgmOpen(b.dataset.sp,b.dataset.d);
+ else if(a==="x"){pgmClose();render()}
+ else if(a==="sp"&&PGM){PGM.sp=v;if(!pgmKinds(v).some(x=>x[0]===PGM.pk))PGM.pk="e";pgmDraw()}
+ else if(a==="pk"&&PGM){PGM.pk=v;pgmDraw()}
+ else if(a==="rep"&&PGM){PGM.rep=PGM.rep?0:1;pgmDraw()}
+ else if(a==="wk"&&PGM){PGM.wks=+v||4;pgmDraw()}
+ else if(a==="go")pgmGo();
+ else if(a==="again"&&PGM){const k=PGM.sp,d=PGM.date;PGM=Object.assign(PGM,{ok:null,pk:"e",hora:"",lugar:"",rival:"",tnm:"",fin:"",rep:0,wks:4,err:"",sp:k,date:d});pgmDraw()}
+ else if(a==="done")pgmDone(v);
+ else if(a==="undo")pgmUndo(v)},true);
+document.addEventListener("input",ev=>{const t=ev.target,d=t&&t.dataset;if(!d)return;
+ if(d.s==="name"){const s=cur();if(s&&s.pgm)s.nmu=1;return}
+ if(d.pgf===undefined||d.pgf==="pgm")return;const s=cur();if(!s||!s.pgm)return;
+ s[d.pgf]=t.value;
+ if((d.pgf==="rival"||d.pgf==="pgt")&&!s.nmu){s.name=pgmNm(s);const n=document.querySelector('[data-s="name"]');if(n)n.value=s.name}
+ save()});
+document.addEventListener("change",ev=>{const t=ev.target,d=t&&t.dataset;if(!d||d.pgf!=="pgm")return;const s=cur();if(!s||!s.pgm)return;
+ s.pgm=t.value;s.sub=pgmSub0(s.pgm,sty(s));if(!s.nmu)s.name=pgmNm(s);save();render()});
 render();boot();const lp=(f,a,b)=>{const t=()=>{try{f()}catch(e){}setTimeout(t,a+Math.random()*b)};setTimeout(t,a+Math.random()*b)};lp(poll,9000,4000);lp(ntf,40000,15000);lp(()=>{if((tab==="chat"||(tab==="adm"&&adT==="ch"))&&USER&&!document.hidden)chatFetch()},4000,1500);setInterval(()=>{const e=$("rtl");if(e&&rt.on)e.textContent="⏱ "+fmtT((Date.now()-rt.t0)/1000)},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()});
 </script>
 <script>
@@ -4604,6 +4697,18 @@ html[data-theme=light] .rgsub,html[data-theme=light] .rgo{color:#5d564c}
 .cdt td,.cdt th{white-space:nowrap}
 .cdt tr.cdtot td{font-weight:700;border-top:1px solid #cfc7b8}
 .cdh{margin:6px 0 2px}
+.pgs .row,.pgr{flex-wrap:wrap}
+.pgr{margin-top:10px;padding:0}
+.pgr>span:first-child{flex:1 1 150px;min-width:0}
+.pgbt{display:flex;gap:6px;flex-wrap:wrap}
+.pgbt button{padding:7px 11px;font-size:13px}
+.pgq{display:block;margin-top:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--wine)}
+.pgok{text-align:center;margin:14px 0}
+.pgok b{display:block;font-size:17px}
+.pgok small{display:block;margin-top:4px}
+.pge{display:block;color:#b3261e;margin-top:10px;font-weight:600}
+.rcov .lbc button.pgg{display:block;width:100%;margin-top:16px;padding:13px;background:var(--wine);color:#fff!important;font-weight:700;border-radius:10px}
+.pgb{margin-top:10px}
 </style>
 <script>
 (function(){
